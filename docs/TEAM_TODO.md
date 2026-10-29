@@ -68,6 +68,13 @@ up during the build. — Claude Code
   areas, the on-screen keyboard over sheets, sleep, and dictation support
   that differs by browser.
 
+- [ ] On the presenting device, install a high-quality English voice
+  (Mac: System Settings → Accessibility → Spoken Content → System voice →
+  Manage Voices → English → "Ava (Premium)" or "Samantha (Enhanced)").
+  *By Nov 4.* Why: "Read aloud" picks the best English voice it finds
+  (D56); a downloaded voice sounds much more natural on stage than the
+  built-in one. Keep the read-aloud speed on Normal for the demo.
+
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
 - [ ] Take screenshots for the README and the deck. *Nov 4.*

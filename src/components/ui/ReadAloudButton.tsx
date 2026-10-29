@@ -1,12 +1,13 @@
 'use client';
 
 // "Read aloud" next to every AI suggestion and every strategy step. It uses
-// the browser's own voice at the speed chosen in Settings, and turns into
-// "Stop reading" while it talks. Hidden where speech isn't available.
+// the clearest English voice the device has, at the speed chosen in Settings,
+// and turns into "Stop reading" while it talks. Hidden where speech isn't
+// available.
 import { useEffect, useState } from 'react';
 import { Square, Volume2 } from 'lucide-react';
 import { copy } from '@/copy/en';
-import { isSpeechSupported, speak, stopSpeaking } from '@/lib/speech';
+import { isSpeechSupported, primeVoices, speak, stopSpeaking } from '@/lib/speech';
 import { useSettings } from '@/lib/settings';
 import { useIsClient } from '@/lib/useIsClient';
 import { Button } from './button';
@@ -17,7 +18,10 @@ export function ReadAloudButton({ text, className }: { text: string; className?:
   const { settings } = useSettings();
   const [speaking, setSpeaking] = useState(false);
 
-  useEffect(() => () => stopSpeaking(), []);
+  useEffect(() => {
+    primeVoices();
+    return () => stopSpeaking();
+  }, []);
 
   if (!isClient || !isSpeechSupported()) return null;
 
