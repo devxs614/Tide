@@ -8,6 +8,7 @@
 import type { ThemeId } from '@/lib/theme/themes';
 import type {
   AppearanceFont,
+  VoiceAccent,
   Cause,
   CommunicationMode,
   EventKind,
@@ -808,6 +809,64 @@ export const copy = {
       calm: { name: 'Calm', description: 'Short, soft movement' },
       lively: { name: 'Lively', description: 'Bouncy and playful' },
     },
+  },
+
+  voice: {
+    title: 'Voice',
+    couldntPlay: "Couldn't play the voice on this device.",
+    engine: 'How Tide reads aloud',
+    engines: {
+      auto: { name: 'Auto', description: 'The most natural voice available' },
+      natural: { name: 'Natural', description: 'Cloud voices that sound like a person' },
+      device: { name: 'Device', description: "Only this device's own voices" },
+      off: { name: 'Off', description: 'Hide the read-aloud buttons' },
+    },
+    naturalUnavailable: "Natural voices aren't set up for this copy of Tide.",
+    voiceNatural: 'Natural voices',
+    voiceDevice: 'Device voices',
+    playSample: 'Play sample',
+    useThis: 'Use this voice',
+    automatic: 'Automatic (the best voice here)',
+    voiceSample: "Hi, I'm here to help you start small. Take your time.",
+    voiceLimited:
+      "Your device's voices are limited. For a more natural voice, try Microsoft Edge, or turn on Natural voices if your team set them up.",
+    voicePrivacy:
+      'Natural voices send the text being read to {provider} to turn it into audio. Tide only sends the text on screen that you asked to hear, never your history.',
+    naturalAllowed: 'Allow natural voices',
+    rate: 'Speed',
+    rates: { slow: 'Slower', normal: 'Normal', fast: 'Faster' },
+    accent: 'Accent',
+    accents: {
+      auto: 'Any',
+      'en-US': 'US',
+      'en-GB': 'British',
+      'en-AU': 'Australian',
+      'en-CA': 'Canadian',
+      'en-IN': 'Indian',
+      'en-IE': 'Irish',
+      'en-ZA': 'South African',
+    } satisfies Record<VoiceAccent, string>,
+    autoReadAi: 'Read AI suggestions automatically',
+    readCompanion: "Read my companion's words",
+    breathingCues: 'Speak breathing cues',
+    providers: { openai: 'OpenAI', elevenlabs: 'ElevenLabs' },
+    breath: { in: 'Breathe in', hold: 'Hold', out: 'Breathe out' },
+  },
+
+  sound: {
+    title: 'Sound & haptics',
+    enabled: 'Sounds',
+    offByDefault: 'Sounds are off by default.',
+    volume: 'Volume',
+    ui: 'Taps and switches',
+    celebrations: 'Celebrations and the shore',
+    companion: 'My companion',
+    ambience: 'Background sound for focus and winding down',
+    ambiences: { none: 'None', waves: 'Waves', rain: 'Rain', brown: 'Brown noise' },
+    ambienceVolume: 'Background volume',
+    playSample: 'Play a sample',
+    haptics: 'Gentle vibration',
+    hapticsUnsupported: 'Not supported on this device',
   },
 
   shore: {

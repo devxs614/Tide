@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils';
 export interface SegmentOption<T extends string> {
   value: T;
   label: string;
+  // Shown but not choosable (say, Natural voices when none are set up).
+  disabled?: boolean;
 }
 
 export function SegmentedControl<T extends string>({
@@ -25,7 +27,12 @@ export function SegmentedControl<T extends string>({
   className?: string;
 }) {
   const index = Math.max(0, options.findIndex((o) => o.value === value));
-  const move = (delta: number) => onChange(options[(index + delta + options.length) % options.length].value);
+  const move = (delta: number) => {
+    for (let step = 1; step <= options.length; step++) {
+      const option = options[(index + delta * step + options.length * step) % options.length];
+      if (!option.disabled) return onChange(option.value);
+    }
+  };
   return (
     <div
       role="radiogroup"
@@ -55,11 +62,13 @@ export function SegmentedControl<T extends string>({
             type="button"
             role="radio"
             aria-checked={checked}
+            aria-disabled={option.disabled || undefined}
             tabIndex={checked ? 0 : -1}
-            onClick={() => onChange(option.value)}
+            onClick={() => !option.disabled && onChange(option.value)}
             className={cn(
               'relative z-10 min-h-11 rounded-full px-3 font-display text-[0.8824rem] font-bold',
               checked ? 'text-ink' : 'text-ink-soft hover:text-ink',
+              option.disabled && 'cursor-not-allowed line-through decoration-2 opacity-60 hover:text-ink-soft',
             )}
           >
             {option.label}

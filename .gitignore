@@ -54,3 +54,6 @@ next-env.d.ts
 # iCloud Drive (Desktop & Documents sync) writes "file 2.ext", "file 3.ext"… copies
 # when build output changes quickly. They are never real project files.
 * [0-9].*
+
+# Generated voice clips (npm run voice:clips). Remove this line to commit them.
+public/voice/

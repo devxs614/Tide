@@ -8,10 +8,16 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Switch as SwitchPrimitive } from 'radix-ui';
+import { useFeedback } from '@/lib/sound/useFeedback';
 
-function Switch({ className, ...props }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
+function Switch({ className, onCheckedChange, ...props }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
+  const feedback = useFeedback();
   return (
     <SwitchPrimitive.Root
+      onCheckedChange={(checked) => {
+        feedback('toggle');
+        onCheckedChange?.(checked);
+      }}
       data-slot="switch"
       className={cn(
         'peer inline-flex h-8 w-[52px] shrink-0 items-center rounded-full border-2 border-ink-soft bg-surface-2 transition-colors duration-(--dur-fast) data-checked:border-primary data-checked:bg-primary data-disabled:cursor-not-allowed data-disabled:opacity-50',

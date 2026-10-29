@@ -76,6 +76,27 @@ up during the build. — Claude Code
   built-in one. Then in Settings → Comfort, use "Try this voice" to choose
   the one that sounds gentlest to you (D57), and keep the speed on Normal.
 
+## Voices (v2)
+- [ ] Optional, for truly natural voices: pick a provider and add its key
+  to `.env.local` and Vercel: `TIDE_TTS_PROVIDER=openai` with
+  `OPENAI_API_KEY`, or `TIDE_TTS_PROVIDER=elevenlabs` with
+  `ELEVENLABS_API_KEY`. *By Nov 3.* Why: device voices vary a lot; a cloud
+  voice sounds the same on every laptop. Without a key Tide uses the best
+  device voice.
+- [ ] If you use ElevenLabs, confirm the voice ids in `src/data/voices.ts`
+  exist in your voice library (they're common premade voices, but
+  libraries differ). *By Nov 3.*
+- [ ] Then run `npm run voice:clips` once (`-- --dry-run` first shows how
+  many clips and roughly how big). It makes the demo voice work offline.
+  `public/voice/` is git-ignored; commit it only if you want the clips in
+  the repo. *By Nov 4.*
+- [ ] Test voices on the demo laptop in Microsoft Edge (its "Natural"
+  voices are very good) and in Chrome: Settings → Voice → Play sample.
+  *By Nov 4.*
+- [ ] Note for after the hackathon: OpenAI marks `gpt-4o-mini-tts` as
+  deprecated, shutting down January 6, 2027 (D68). Before then, switch
+  `TIDE_TTS_OPENAI_MODEL` to its successor.
+
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
 - [ ] Take screenshots for the README and the deck. *Nov 4.*

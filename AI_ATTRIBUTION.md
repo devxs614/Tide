@@ -101,6 +101,12 @@ what I generated and what came from elsewhere.
 | `src/components/ui/card.tsx`, `chip.tsx`, `progress-bar.tsx`, `segmented-control.tsx`, `coach-mark.tsx`, `empty-state.tsx`, `wave-mark.tsx`, `icon-tile.tsx`, `QuadrantDot.tsx` | v2 design system components | Claude Code | Spec 4.4; shapes for the color-blind palette (4.6.3) |
 | `src/components/settings/ThemeGrid.tsx`, `AppearanceSection.tsx` | Theme picker with live mini previews; font and motion choices | Claude Code | Spec 4.6.5 |
 | `src/components/shore/*`, `src/app/(app)/shore/page.tsx` | Your Shore (empty state until V7) | Claude Code | |
+| `src/lib/sound/**`, `src/lib/haptics.ts` | Synthesized sounds (Web Audio, no audio files), ambience loops, touch feedback, haptics | Claude Code | Spec 6; recipes from the spec, tuned by me (D69) |
+| `src/lib/voice/**` (ranking, speech text, browser/cloud/clip engines, engine, hooks, server route logic, tests) | The v2 voice engine | Claude Code | Spec 7; provider shapes checked in their docs (D67, D68) |
+| `src/data/voices.ts` | Cloud voice lists and companion voices | Claude Code | ElevenLabs ids to be confirmed by the team |
+| `src/app/api/tts/route.ts`, `src/app/api/tts/status/route.ts` | Natural voice route and its status | Claude Code | |
+| `scripts/generate-voice-clips.mjs` | Pre-generates voice clips with the configured provider | Claude Code | Uses Vite's module loader (D70) |
+| `src/components/settings/SoundSection.tsx`, `VoicePicker.tsx` (rewritten in v2), `src/components/ui/ReadAloudButton.test.tsx` | Sound & haptics and Voice settings; read-aloud flow test | Claude Code | |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app
@@ -144,6 +150,11 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | typescript 5.9.3 | Type checking | Apache-2.0 |
 | sharp 0.35.5 (installed by Next.js) | Rendering the icon PNGs in `scripts/make-icons.mjs` | Apache-2.0 |
 | server-only 0.0.1 | Fails the build if server AI code is imported into the browser | MIT |
+| vite (installed with Vitest) | Loads the app's TypeScript modules in `scripts/generate-voice-clips.mjs` | MIT |
+
+Optional cloud voices (v2): if the team sets `TIDE_TTS_PROVIDER`, read-aloud
+text is sent to OpenAI (text-to-speech API) or ElevenLabs under that
+provider's terms of service. No provider is used by default.
 | @types/node, @types/react, @types/react-dom | Type definitions | MIT |
 
 Fonts: Atkinson Hyperlegible (Braille Institute of America), Nunito (Vernon

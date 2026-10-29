@@ -1,3 +1,5 @@
+'use client';
+
 // Tide's card (v2 spec 4.4): surface fill, a 2px border, a big radius and a
 // solid ledge underneath. `interactive` cards press down like buttons;
 // `selectable` ones show a check badge that pops in when chosen, so the
@@ -5,6 +7,7 @@
 import * as React from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useFeedback } from '@/lib/sound/useFeedback';
 
 type CardProps = React.ComponentProps<'div'> & { flat?: boolean };
 
@@ -17,11 +20,16 @@ type SelectableCardProps = React.ComponentProps<'button'> & {
 };
 
 // A card that is also a button: pressable, with an optional selected state.
-export function CardButton({ className, selected, children, ...props }: SelectableCardProps) {
+export function CardButton({ className, selected, children, onClick, ...props }: SelectableCardProps) {
+  const feedback = useFeedback();
   return (
     <button
       type="button"
       aria-pressed={selected}
+      onClick={(e) => {
+        feedback('select');
+        onClick?.(e);
+      }}
       className={cn(
         'press-3d card relative flex w-full flex-col gap-1 p-4 text-left [--ledge-color:var(--line)] hover:bg-surface-2',
         selected && 'border-primary [--ledge-color:var(--primary-shadow)]',

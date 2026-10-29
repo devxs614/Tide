@@ -42,8 +42,23 @@ export const DEFAULT_SETTINGS: Settings = {
   'motion.companionIdle': true,
   'motion.shoreWaves': true,
   'haptics.enabled': false,
+  // Sound is off until Maya turns it on (v2 spec 6.1).
+  'sound.enabled': false,
+  'sound.volume': 0.5,
+  'sound.ui': true,
+  'sound.celebrations': true,
+  'sound.companion': true,
+  'sound.ambience': 'none',
+  'sound.ambienceVolume': 0.3,
+  'voice.engine': 'auto',
   'voice.rate': 1,
   'voice.deviceVoiceURI': null,
+  'voice.naturalVoice': '',
+  'voice.accent': 'auto',
+  'voice.autoReadAi': false,
+  'voice.readCompanion': false,
+  'voice.breathingCues': false,
+  'privacy.naturalVoiceAllowed': true,
 };
 
 export function settingsFromRows(rows: Array<{ key: string; value: unknown }>): Settings {

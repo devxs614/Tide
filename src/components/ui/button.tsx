@@ -1,3 +1,5 @@
+'use client';
+
 // Tide's button, in the v2 "3D" style (v2 spec 4.4): a solid ledge under it
 // that collapses when pressed, a rounded display font, and a label that is
 // always visible. Every v1 variant and size name still works, so no caller
@@ -8,6 +10,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import type { Quadrant } from '@/lib/types';
 import { Slot } from 'radix-ui';
+import { useFeedback } from '@/lib/sound/useFeedback';
 
 const FILLED = 'bg-primary text-on-primary [--ledge-color:var(--primary-shadow)]';
 
@@ -68,6 +71,7 @@ function Button({
   type,
   style,
   children,
+  onClick,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
@@ -77,6 +81,16 @@ function Button({
     quadrant?: Quadrant;
   }) {
   const Comp = asChild ? Slot.Root : 'button';
+  const feedback = useFeedback();
+  // Only primary buttons tick (v2 spec 6.4); everything else stays silent.
+  const primary = variant === 'default' || variant === 'primary' || variant === 'accent';
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> | undefined =
+    primary && onClick
+      ? (e) => {
+          feedback('tap');
+          onClick(e);
+        }
+      : onClick;
   const tint = quadrant
     ? ({ '--btn-tint': `var(--tint-${quadrant})`, '--btn-base': `var(--q-${quadrant})` } as React.CSSProperties)
     : undefined;
@@ -91,6 +105,7 @@ function Button({
       aria-busy={loading || undefined}
       className={cn(buttonVariants({ variant, size, className }))}
       style={tint ? { ...tint, ...style } : style}
+      onClick={handleClick}
       {...props}
     >
       {asChild ? (
