@@ -1103,3 +1103,32 @@ The three things to do next:
    Partner.
 3. Rehearse the demo on the presenting phone with Wi-Fi off, and record the
    backup video.
+
+## Fix after Phase 10 — duplicate keys in the strategy steps
+2026-10-29, 11:30
+
+**What broke.** The team opened Box breathing from the Bridge before
+Calculus, and the dev overlay showed "Encountered two children with the same
+key, `Hold for 4.`". `StrategyRunner` used each step's text as its React
+key, and box breathing has "Hold for 4." twice. Users saw both steps, but
+React warns that it may drop or duplicate one, so it was a real bug.
+
+**Why the tests missed it.** Flow 9 renders box breathing, but React only
+logs this as a console error, and a console error doesn't fail a test.
+
+**What I changed**
+- Steps are keyed by position (the list never reorders).
+- The same pattern could bite in the Bridge: prep items keyed by their text
+  (Maya or the AI can repeat one, and ticking one would tick both), and the
+  "you did …" lines keyed by strategy name (doing it twice repeats the
+  name). Repeated prep items and names now show once.
+- `src/test/setup.ts` turns any duplicate-key warning into a failed test. I
+  checked that it fails flow 9 on the old code. The full suite found no
+  other cases.
+- A new test: a repeated prep item shows once and one tick checks one box.
+- iCloud had written "file 3.ts" copies into `.next/types`, which broke
+  typecheck; the tsconfig and .gitignore patterns now cover any digit.
+
+**How I checked it.** lint, typecheck, 149 tests and the build are clean;
+the box breathing page in the browser shows all five steps with no console
+errors.

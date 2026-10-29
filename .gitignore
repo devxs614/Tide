@@ -51,6 +51,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# iCloud Drive (Desktop & Documents sync) writes "file 2.ext" conflict copies
+# iCloud Drive (Desktop & Documents sync) writes "file 2.ext", "file 3.ext"… copies
 # when build output changes quickly. They are never real project files.
-* 2.*
+* [0-9].*

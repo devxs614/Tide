@@ -1,5 +1,6 @@
 // Flow test 8 from the spec: the Bridge from card to rating, including the
-// trip to a strategy and back, and the parking note reaching the task.
+// trip to a strategy and back, and the parking note reaching the task. Also
+// a prep list with a repeated item.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, screen, waitFor } from '@testing-library/react';
 import { cleanup } from '@testing-library/react';
@@ -12,6 +13,8 @@ import { mockAi, navigation, renderApp, resetApp } from '@/test/utils';
 import { TodayScreen } from '@/components/today/TodayScreen';
 import { StrategyRunner } from '@/components/toolkit/StrategyRunner';
 import { BridgeSheet } from './BridgeSheet';
+import { BridgePrep } from './BridgePrep';
+import { draftFor } from './bridgeDrafts';
 
 function Today({ bridgeRef }: { bridgeRef?: string }) {
   return (
@@ -103,5 +106,14 @@ describe('bridge', () => {
     await renderApp(<Today />);
     expect(await screen.findByText(/^Next: Calculus · .* · in 40 min$/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Get ready' })).not.toBeInTheDocument();
+  });
+
+  it('shows a repeated prep item once, so one tick checks one box', async () => {
+    const { user } = await renderApp(<BridgePrep steps={['Calculator', 'Calculator', 'Notes']} draft={draftFor('ev-prep')} />);
+    const boxes = await screen.findAllByRole('checkbox');
+    expect(boxes).toHaveLength(2);
+    await user.click(screen.getByRole('checkbox', { name: 'Calculator' }));
+    expect(screen.getByRole('checkbox', { name: 'Calculator' })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Notes' })).not.toBeChecked();
   });
 });

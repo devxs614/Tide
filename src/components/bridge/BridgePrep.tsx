@@ -8,6 +8,9 @@ import { CheckboxRow } from '@/components/ui/checkbox';
 import { updateDraft, type BridgeDraft } from './bridgeDrafts';
 
 export function BridgePrep({ steps, draft }: { steps: string[]; draft: BridgeDraft }) {
+  // Maya or the AI can list the same item twice. Showing it once keeps the
+  // list short, and each tick only ever checks one box.
+  const items = [...new Set(steps)];
   const [checked, setChecked] = useState<string[]>(draft.checked);
   const toggle = (step: string, on: boolean) => {
     const next = on ? [...checked, step] : checked.filter((s) => s !== step);
@@ -19,7 +22,7 @@ export function BridgePrep({ steps, draft }: { steps: string[]; draft: BridgeDra
       <h3 id="bridge-start" className="text-h3 font-bold">
         3 · {copy.bridge.startStep}
       </h3>
-      {steps.map((step, i) => (
+      {items.map((step, i) => (
         <CheckboxRow key={step} id={`prep-${i}`} label={step} checked={checked.includes(step)} onCheckedChange={(on) => toggle(step, on)} />
       ))}
     </section>
