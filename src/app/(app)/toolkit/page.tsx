@@ -1,7 +1,6 @@
-// Toolkit screen. Phase 0 only gives the route its real title in the top bar;
-// the screen itself is built in a later phase of the build plan.
-import { copy } from '@/copy/en';
+// /toolkit — the regulation strategy library, sorted for how Maya feels now.
+import { ToolkitScreen } from '@/components/toolkit/ToolkitScreen';
 
 export default function ToolkitPage() {
-  return <h2 className="text-h2 font-bold">{copy.shell.titles.toolkit}</h2>;
+  return <ToolkitScreen />;
 }

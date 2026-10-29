@@ -456,5 +456,85 @@ plan must place every task once, or it falls back.
 **For the team**
 - Nothing new.
 
-**Commit:** feat(today): add Today, the Tide Line and Day Modes
-(hash recorded at the start of Phase 5)
+**Commit:** 28e20f4 feat(today): add Today, the Tide Line and Day Modes
+
+## Before Phase 5 — Toolkit and strategy runner
+2026-10-29, 00:27
+
+Regulation is step 4 of the loop. When Maya is wound up before a switch or
+flat before a task, the toolkit offers short things that actually fit how
+she feels: a breathing square, a 3-minute walk, a tiny sudoku, a message she
+can send a friend. It puts first what has worked for her before. After each
+one, Tide asks a single question, better, same or worse, and that answer is
+what lets the Patterns screen learn.
+
+Where it sits: reads the recent check-in and past StrategyUses (for the
+ranking and "Worked for you 3 of 4 times"); writes one StrategyUse per run,
+with the context (toolkit, unstick or bridge) and the task or transition it
+was for, plus a win for "better". Unstick's "Do it first" and the Bridge's
+"Start" both come through the same runner and go back where they came from.
+
+What "done" means for me: all eight tools work with a keyboard and a screen
+reader, honour reduced motion (no moving dot, no rising water, text
+instead), and the re-check saves the right result with the right context and
+reference. Every strategy in the library maps to a tool that exists. The
+sudoku puzzles are valid, and "Check" never says "wrong".
+
+What could go wrong: the breathing square announcing every second to a
+screen reader would be unbearable, so only phase changes are announced. The
+brain dump collects free text, so it needs the safety pre-check before
+anything is kept. Canvas colors have to come from the tokens, not hex.
+
+## After Phase 5 — Toolkit and strategy runner
+2026-10-29, 00:29
+
+**What I built**
+- The Toolkit tab: header with the current state (or "Pick what fits right
+  now"), "Show all", "Works for you" with "Worked for you k of n times",
+  family tabs with icons and plain descriptions, ranked cards, and "Talk to
+  a person".
+- The strategy runner: numbered steps each with read aloud, the tool, the
+  re-check, a kind reply for each answer, and the trip back to the toolkit,
+  the stuck task, or the bridge.
+- All eight tools: box breathing (moving dot, or still with reduced motion;
+  phases announced, not seconds), 5-4-3-2-1 cards, a keyboard-operable 4×4
+  sudoku with five unique-solution puzzles and a gentle "Check", a doodle
+  canvas with token colors and nothing saved, the walk timer with optional
+  vibration, the brain dump with the safety check and "Turn lines into
+  tasks", the message template with `{task}` and copy, and the steps timer.
+  Sudoku and doodle load only when opened.
+
+**How I checked it**
+- lint ok, typecheck ok, 108 tests passing (20 files), build ok.
+- Flow test 9: Box breathing, start, stop, "Better" saves a StrategyUse with
+  `better` in the toolkit context and adds "Felt better after: Box breathing".
+- Other tests: "Worse" gets the thank-you and no win; coming from Unstick
+  puts the task in the TA message, records the task id and returns to
+  `/tasks?unstick=<id>`; a crisis phrase in a brain dump opens the support
+  screen and keeps nothing; chosen lines become tasks; reduced motion keeps
+  the breathing dot still; every strategy maps to an existing tool with at
+  most five short steps; the toolkit filters to Surge, opens on Calm and
+  lifts Box breathing into "Works for you"; each sudoku has one solution.
+- In the in-app browser: the toolkit for the Ebb check-in, and the sudoku
+  grid with box borders and a 48px number pad.
+
+**What broke and how I fixed it**
+- The TA message said "this task" because the tool mounted before the task
+  loaded; the runner now waits for the task when there is one.
+- Two tests looked for the tool synchronously after that change; they wait
+  now.
+
+**Decisions**
+- D34 every run is recorded. D35 the first family tab. D36 sudoku checking.
+  D37 grounding inputs.
+
+**Known issues**
+- The doodle canvas can't be used without a pointer; keyboard and
+  screen-reader users can skip it with "I'm done", and the other seven
+  tools are fully keyboard operable.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(toolkit): add the toolkit, strategy runner and all eight tools
+(hash recorded at the start of Phase 6)

@@ -428,6 +428,7 @@ export const copy = {
     headerNone: 'Pick what fits right now',
     showAll: 'Show all',
     showForNow: 'Show for how I feel',
+    noneForNow: 'No {family} strategies are suggested for how you feel now. Use "Show all" to see every one.',
     worksForYou: 'Works for you',
     workedCount: 'Worked for you {k} of {n} times',
     families: {
@@ -504,6 +505,7 @@ export const copy = {
       toLookAt: '{n} cells to look at again',
       oneToLookAt: '1 cell to look at again',
       allGood: 'Every cell fits. Nicely done.',
+      soFarSoGood: 'So far, every number you placed fits.',
       numberPad: 'Number pad',
       put: 'Put {n}',
       keyboardHint: 'Use arrow keys to move and number keys 1 to 4 to fill a cell.',
