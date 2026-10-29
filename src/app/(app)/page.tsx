@@ -1,7 +1,7 @@
-// Today screen. Phase 0 only gives the route its real title in the top bar;
-// the screen itself is built in a later phase of the build plan.
-import { copy } from '@/copy/en';
+// Today, Tide's home screen. The screen itself is a client component because
+// everything on it comes from the on-device database.
+import { TodayScreen } from '@/components/today/TodayScreen';
 
 export default function TodayPage() {
-  return <h2 className="text-h2 font-bold">{copy.shell.titles.today}</h2>;
+  return <TodayScreen />;
 }

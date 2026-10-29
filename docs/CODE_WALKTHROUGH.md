@@ -182,7 +182,47 @@ when `safetyTriggered` is set, and navigates to `/support?crisis=1`.
   `safetyTriggered: true` and no text, and patterns ignore it.
 
 ## Check-in
-*(Phase 2)*
+
+**What it does for Maya.** She writes (or says) whatever is going on, and
+Tide offers three feeling words with plain definitions; she picks up to two
+or none, places herself on the mood map, optionally says what's behind it,
+and picks what she needs next. If words won't come, she starts from her body.
+
+**Files**
+- `src/components/checkin/CheckInSheet.tsx` — the sheet: runs the steps,
+  calls the label route, handles the crisis path, saves the check-in, and
+  hands off to Day Mode, the toolkit or Support.
+- `src/components/checkin/checkInState.ts` — the reducer for all steps, the
+  dot-position rule and the body-cue format.
+- `StepWhat.tsx`, `BodyPath.tsx`, `StepHearing.tsx`, `AllWords.tsx`,
+  `StepBehind.tsx`, `StepNeed.tsx` — one file per step.
+- `EmotionCandidateCard.tsx` — a word, its definition, a round check, read
+  aloud.
+- `MoodMap.tsx` — drag, tap, arrow keys, spoken value, slider alternative.
+- `StepHeader.tsx`, `ToggleChip.tsx`, `LeaveConfirm.tsx` — small shared parts.
+- `src/components/ui/StateChip.tsx`, `ReadAloudButton.tsx`,
+  `DictateButton.tsx`, `Dots.tsx` — UI pieces used across the app.
+- `src/lib/speech.ts` — dictation and read aloud (Web Speech API).
+- `src/components/today/StateCard.tsx` — shows today's check-in on Today.
+
+**Data flow.** Words or body cues → `useAi('label')` → three candidates →
+Maya's choices in the reducer → `createCheckIn()` (which computes the
+quadrant) → the need decides where she goes next. Nothing is saved before
+step 4, and a crisis phrase saves a check-in with no text.
+
+**Decisions worth defending**
+- The AI never preselects a word; the dot resting on the first suggestion is
+  only a starting position, and Next stays disabled until she acts (D21).
+- The mood map is fully usable without a mouse (D22), and the slider
+  alternative exists for anyone who finds dragging awkward.
+- Typed words are never lost by accident: Escape asks first.
+
+**Likely reviewer questions**
+- *What if none of the words fit?* "None of these" opens all 48 words by
+  state, and she can add her own word; the map decides its state.
+- *How is the state decided?* By the map position, through `toQuadrant()`,
+  computed when the check-in is saved.
+- *Can it be done without typing?* Yes: the body path, or "Skip to the map".
 
 ## Tasks, Unstick and Focus
 *(Phase 3)*

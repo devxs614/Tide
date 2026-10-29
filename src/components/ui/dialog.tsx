@@ -5,7 +5,7 @@
 // focus and closes on Escape; adapted to Tide's tokens, a 16px radius, and a
 // close button that says "Close" in words instead of showing only an X.
 import * as React from 'react';
-import { cn } from 'cn';
+import { cn } from '@/lib/utils';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';

@@ -22,7 +22,7 @@ what I generated and what came from elsewhere.
 |----------------|------------|--------------|-------|
 | `package.json`, `tsconfig.json`, `eslint.config.mjs`, `next-env.d.ts` | Project setup | create-next-app, then Claude Code | I added the scripts from spec 4.2 and the test tooling |
 | `next.config.ts` | Next.js settings | Claude Code | Cache Components off (D1), prompt files traced into the server build |
-| `vitest.config.ts`, `src/test/setup.ts` | Test runner setup | Claude Code | jsdom, fake-indexeddb, Radix polyfills, next/navigation mock |
+| `vitest.config.mts`, `src/test/setup.ts` | Test runner setup | Claude Code | jsdom, fake-indexeddb, Radix polyfills, next/navigation mock |
 | `.env.example`, `.gitignore`, `.prettierrc.json`, `.prettierignore`, `LICENSE` | Repo hygiene | Claude Code | MIT license, copyright "the Tide team" |
 | `components.json` | shadcn/ui config | shadcn CLI | Unchanged |
 | `AGENTS.md` | Next.js agent notes | Written by `next dev` | Kept as the tool generates it |
@@ -52,6 +52,12 @@ what I generated and what came from elsewhere.
 | `src/lib/safety/keywords.ts`, `detect.ts` | Crisis phrase list and detector | Claude Code | Phrases from the team's spec plus a few I added (D17); team to review. Covered by `detect.test.ts` |
 | `src/components/safety/*` | Crisis screen, Support screen, contact list, crisis lines, Talk to a person button | Claude Code | Covered by `CrisisScreen.test.tsx` |
 | `src/app/(app)/support/page.tsx` | `/support` route | Claude Code | |
+| `src/components/checkin/*` | Check-in sheet, its steps, mood map, emotion card, reducer | Claude Code | Covered by `CheckInSheet.test.tsx` (flow tests 1–4 and a keyboard-only run) |
+| `src/components/ui/StateChip.tsx`, `ReadAloudButton.tsx`, `DictateButton.tsx`, `Dots.tsx` | Shared UI pieces | Claude Code | |
+| `src/components/ui/slider.tsx` | Slider | shadcn CLI, adapted by Claude Code | Bigger thumb, spoken values |
+| `src/lib/speech.ts`, `src/lib/useIsClient.ts`, `src/lib/quadrantStyles.ts` | Web Speech helpers, hydration-safe client check, state class names | Claude Code | |
+| `src/components/today/StateCard.tsx`, `TodayScreen.tsx`, `src/app/(app)/page.tsx` | Today (first version) | Claude Code | Completed in Phase 4 |
+| `src/test/utils.tsx` | Flow-test helpers | Claude Code | |
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |
