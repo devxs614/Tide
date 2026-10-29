@@ -61,7 +61,9 @@ what I generated and what came from elsewhere.
 | `src/test/utils.tsx` | Flow-test helpers | Claude Code | |
 | `src/components/tasks/*` | Board, columns, task card, Move to menu, task form, Unstick sheet | Claude Code | Drag and drop follows the dnd-kit documentation's sortable and keyboard-sensor examples. Covered by `TasksFlow.test.tsx` |
 | `src/components/focus/*`, `src/app/focus/[taskId]/page.tsx` | Focus block, timer hook, water fill, outcome sheet | Claude Code | Covered by `FocusScreen.test.tsx` |
-| `src/lib/patterns/types.ts`, `confidence.ts`, `data.ts`, `rules/strategyBeforeTask.ts` | First part of the pattern engine | Claude Code | Completed in Phase 7 |
+| `src/lib/patterns/*` (engine, confidence, data, types, four rules) | Deterministic pattern engine | Claude Code | Covered by `__tests__/engine.test.ts` (every case in spec 12.6) |
+| `src/components/patterns/*`, `src/app/(app)/patterns/page.tsx` | Patterns screen, cards, evidence, dismissal, calendar | Claude Code | Covered by `PatternsFlow.test.tsx` (flow test 10) |
+| `src/components/proof/*`, `src/app/(app)/proof/page.tsx` | Proof log and rewards | Claude Code | Covered by `PatternsFlow.test.tsx` |
 | `src/lib/latestState.ts`, `src/lib/random.ts` | Recent check-in lookup, random pick | Claude Code | |
 | `src/components/ui/checkbox.tsx`, `switch.tsx`, `dropdown-menu.tsx`, `tabs.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | Larger targets, visible borders, row wrappers |
 | `src/components/toolkit/*`, `src/components/toolkit/tools/*` | Toolkit list, strategy runner, re-check, all eight tools | Claude Code | Covered by `Toolkit.test.tsx` (flow test 9) |

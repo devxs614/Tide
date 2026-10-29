@@ -273,3 +273,27 @@ only says a strategy made the switch easier when the numbers show that.
 The fallback (and the cached demo answer) lists the event's prep items and
 then "Go to {place}", so the demo's checklist reads Calculator, Notes from
 Tuesday, Go to Room 4-203, as 14.3 expects.
+
+**D42 — 2026-10-29 — Pattern results carry readable evidence rows.**
+12.2 lists `evidenceIds`; the Why panel also needs dates, labels and
+outcomes, so each rule also returns `evidence` rows already in words ("Tue,
+Oct 27, 3:12 pm · 3-minute walk → writing · Got going"). The ids stay for
+anyone who wants to trace the raw records.
+
+**D43 — 2026-10-29 — Sorting and baselines where the spec is silent.**
+Patterns without a baseline (hard transitions, strategy effect) sort as "no
+difference from usual" on the second key. For the state-before-task rule,
+the baseline is that task type's rate across all focus blocks that had a
+check-in in the three hours before (the same population as the groups).
+
+**D44 — 2026-10-29 — The card's numbers never come from the AI.**
+The meta line ("4 of 5 times · Last 4 weeks") and the confidence dots read
+the engine result directly. The AI writes only the title, body and the
+"why" sentence, and the server swaps any card whose text contains a number
+not in its facts. While the words load, the card shows the numbers and a
+"Putting this into words…" line.
+
+**D45 — 2026-10-29 — "Hardest switch" uses rated switches of any rate.**
+13.10 shows the hardest switch "if any rated transitions"; it uses the pair
+with the highest hard rate (ties: more ratings first), even when that pair
+isn't hard often enough to be a pattern card.

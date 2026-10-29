@@ -1,7 +1,6 @@
-// ProofLog screen. Phase 0 only gives the route its real title in the top bar;
-// the screen itself is built in a later phase of the build plan.
-import { copy } from '@/copy/en';
+// /proof — "Proof I can", the wins Maya has collected.
+import { ProofScreen } from '@/components/proof/ProofScreen';
 
-export default function ProofLogPage() {
-  return <h2 className="text-h2 font-bold">{copy.shell.titles.proof}</h2>;
+export default function ProofPage() {
+  return <ProofScreen />;
 }

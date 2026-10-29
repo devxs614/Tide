@@ -622,5 +622,85 @@ text, so it gets the safety check before it is saved.
 **For the team**
 - Nothing new.
 
-**Commit:** feat(bridge): add the transition coach with rating and the hard-switch rule
-(hash recorded at the start of Phase 7)
+**Commit:** 8342df1 feat(bridge): add the transition coach with rating and the hard-switch rule
+
+## Before Phase 7 — Pattern engine, Patterns screen and Proof log
+2026-10-29, 00:37
+
+This is step 6 of the loop and the part that makes Tide personal. After a
+few weeks, Maya can see things like "a 3-minute walk before writing tasks
+got you going 4 of 5 times", with exactly which moments that came from, and
+she can say "not true for me". The proof log is the other side: a plain list
+of things she did, kept for the days that feel heavy, with no counts.
+
+Where it sits: reads everything (check-ins, tasks, events, focus blocks,
+strategy uses, transitions, dismissed keys) and computes patterns in plain
+code. Only the computed facts go to the narrate route; the AI words them and
+never sees the history. It writes dismissed pattern keys, manual wins and
+rewards.
+
+What "done" means for me: the four rules and the engine pass every test in
+12.6 (thresholds, baselines, the with-strategy comparison, dismissals,
+window, safety check-ins ignored, confidence at 3/5/8/12, order and the cap
+of six); the numbers on the cards always equal the engine's; "Why am I
+seeing this?" lists the real evidence; "Not true for me" survives a reload;
+and with AI off the template wording appears.
+
+What could go wrong: the AI narration adding numbers that aren't in the
+facts. The server swaps such a card for its template; I'll keep the numbers
+in the card's meta line coming from the engine, never from the narration.
+The other risk is Phase 8: the seed must plant exactly three patterns, and
+the state-before-task rule could catch accidental ones, so I'll make the
+engine easy to run against the seed in a test.
+
+## After Phase 7 — Pattern engine, Patterns screen and Proof log
+2026-10-29, 00:48
+
+**What I built**
+- The rest of the pattern engine: state before task, strategy effect,
+  confidence, the engine (dismissals, sort, cap of six), and readable
+  evidence rows on every result.
+- Narration through the narrate route with an in-memory cache by key, k, n
+  and mode; the template answers with AI off.
+- The Patterns screen: "This week" / "Last 4 weeks", the check-in calendar
+  with a sentence per day and a legend, pattern cards with the engine's own
+  numbers and confidence, read aloud, "Why am I seeing this?" with the real
+  moments, "Not true for me" with optional reasons and a gentle exit, Top
+  strategies, the hardest switch, the not-enough-data state, and the footer.
+- The Proof log: wins by day with source icons, "Add a win" with dictation
+  and the safety check, and "My rewards".
+
+**How I checked it**
+- lint ok, typecheck ok, 129 tests passing (24 files), build ok.
+- Engine tests for every case in 12.6: 4 of 5 vs a 1 of 4 baseline shown
+  with confidence 2; 2 observations hidden; 60% vs 50% hidden; lab → class 3
+  of 4 shown; the with/without box-breathing comparison in the facts;
+  dismissed keys; the window (28 and 7 days); safety check-ins ignored;
+  confidence at 3, 5, 8 and 12; order and the cap of six.
+- Flow test 10 on a small fixture: the walk card and the box-breathing card
+  both read "4 of 5 times · Last 4 weeks", Why lists five dated moments,
+  "Not true for me" hides the card, saves the reason, and it stays hidden
+  after a re-render. Also: valid AI wording appears next to engine numbers,
+  the not-enough-data state, the proof log without counts, and the safety
+  check on a typed win.
+- In the in-app browser (dark mode): the calendar, legend and the Bridge
+  banner on the Patterns tab.
+
+**What broke and how I fixed it**
+- The React hooks lint read my fixture helper `use()` as React's `use` hook;
+  renamed it `strategyUse()`.
+- The narration cache leaked between tests; `resetApp()` now clears it.
+
+**Decisions**
+- D42 evidence rows. D43 sorting and baselines. D44 numbers never from the
+  AI. D45 hardest switch.
+
+**Known issues**
+- None that I know of. The full demo seed and its exact-keys test come in
+  Phase 8.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(patterns): add the pattern engine, Patterns screen and Proof log
+(hash recorded at the start of Phase 8)
