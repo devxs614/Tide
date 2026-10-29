@@ -1,7 +1,9 @@
-// Tasks screen. Phase 0 only gives the route its real title in the top bar;
-// the screen itself is built in a later phase of the build plan.
-import { copy } from '@/copy/en';
+// /tasks — the four-state board. `?unstick=<taskId>` reopens Unstick on the
+// step Maya was given, after she comes back from "Do it first".
+import { TasksScreen } from '@/components/tasks/TasksScreen';
 
-export default function TasksPage() {
-  return <h2 className="text-h2 font-bold">{copy.shell.titles.tasks}</h2>;
+export default async function TasksPage({ searchParams }: PageProps<'/tasks'>) {
+  const params = await searchParams;
+  const resume = typeof params.unstick === 'string' ? params.unstick : undefined;
+  return <TasksScreen resumeUnstickId={resume} />;
 }

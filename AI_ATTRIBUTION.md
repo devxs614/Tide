@@ -58,6 +58,11 @@ what I generated and what came from elsewhere.
 | `src/lib/speech.ts`, `src/lib/useIsClient.ts`, `src/lib/quadrantStyles.ts` | Web Speech helpers, hydration-safe client check, state class names | Claude Code | |
 | `src/components/today/StateCard.tsx`, `TodayScreen.tsx`, `src/app/(app)/page.tsx` | Today (first version) | Claude Code | Completed in Phase 4 |
 | `src/test/utils.tsx` | Flow-test helpers | Claude Code | |
+| `src/components/tasks/*` | Board, columns, task card, Move to menu, task form, Unstick sheet | Claude Code | Drag and drop follows the dnd-kit documentation's sortable and keyboard-sensor examples. Covered by `TasksFlow.test.tsx` |
+| `src/components/focus/*`, `src/app/focus/[taskId]/page.tsx` | Focus block, timer hook, water fill, outcome sheet | Claude Code | Covered by `FocusScreen.test.tsx` |
+| `src/lib/patterns/types.ts`, `confidence.ts`, `data.ts`, `rules/strategyBeforeTask.ts` | First part of the pattern engine | Claude Code | Completed in Phase 7 |
+| `src/lib/latestState.ts`, `src/lib/random.ts` | Recent check-in lookup, random pick | Claude Code | |
+| `src/components/ui/checkbox.tsx`, `switch.tsx`, `dropdown-menu.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | Larger targets, visible borders, row wrappers |
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |
@@ -112,6 +117,7 @@ License 1.1, loaded and self-hosted by `next/font/google`.
 | Source | Where it's used | License or terms |
 |--------|-----------------|------------------|
 | shadcn/ui component sources (via the CLI) | `src/components/ui/*` | MIT |
+| dnd-kit documentation: sortable lists and the keyboard sensor | `src/components/tasks/TaskBoard.tsx`, `StateColumn.tsx` | MIT |
 | Next.js docs, "How to prevent flash before hydration" (bundled in `node_modules/next/dist/docs`) | Inline prefs script in `src/app/layout.tsx` | MIT (Next.js) |
 
 ## Inspiration and credits
