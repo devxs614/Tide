@@ -5,7 +5,7 @@
 // the button that opened the sheet; adapted to Tide's phone column, the soft
 // sheet shadow from the spec, and a close button labeled in words.
 import * as React from 'react';
-import { cn } from 'cn';
+import { cn } from '@/lib/utils';
 import { Dialog as SheetPrimitive } from 'radix-ui';
 import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -69,7 +69,7 @@ function SheetContent({
         {children}
         {showCloseButton && (
           <SheetPrimitive.Close data-slot="sheet-close" asChild>
-            <Button variant="quiet" size="sm" className="absolute top-3 right-3">
+            <Button variant="quiet" size="sm" className="absolute top-3 right-3 z-10 bg-surface">
               <XIcon aria-hidden />
               {closeLabel}
             </Button>

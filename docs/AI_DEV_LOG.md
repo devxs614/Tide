@@ -214,5 +214,87 @@ them.
 **For the team**
 - Added: try one real AI call after adding the key.
 
-**Commit:** feat(ai): add the AI routes, fallbacks and the safety layer
-(hash recorded at the start of Phase 2)
+**Commit:** a6ad0cb feat(ai): add the AI routes, fallbacks and the safety layer
+
+## Before Phase 2 — Check-in "Name it"
+2026-10-28, 23:52
+
+This is the heart of Tide and the first thing in the demo. Maya opens the
+sheet, types whatever comes out ("Heavy. Annoyed at myself."), and Tide
+offers three words she can pick from, with plain definitions she can have
+read aloud. If she has no words, she can start from her body instead. She
+places herself on the map, says what might be behind it, and picks what she
+needs next. Tide never picks a feeling for her.
+
+Where it sits: step 1 of the loop. It reads the label route (through
+`useAi`) and writes one CheckIn through `createCheckIn`. Its "need" answer
+hands off to the rest of the loop: back to the day, a lighter plan (Phase 4
+fills that sheet), the toolkit filtered to her state, or Support.
+
+What "done" means for me: a check-in can be finished with the keyboard alone
+in under a minute; the AI never preselects a word; a third pick shows a
+neutral "You can pick up to two."; "None of these" opens all 48 words by
+state and lets her add her own; AI off gives fallback words instantly with
+no network call; a crisis phrase saves the check-in without text and opens
+`/support?crisis=1`; and the saved quadrant matches the map.
+
+What could go wrong: the mood map is the riskiest control. A drag-only map
+would lock out keyboard and screen-reader users, so it gets arrow keys, a
+spoken value ("Energy 2, pleasantness minus 3, Surge") and a "Use sliders
+instead" switch. Escape must not throw away typed words without asking. And
+dictation and read-aloud must vanish quietly where the browser lacks them.
+
+## After Phase 2 — Check-in "Name it"
+2026-10-29, 00:04
+
+**What I built**
+- The check-in sheet with its four steps, the body path, "None of these"
+  with all 48 words and a custom word, the leave confirmation, and focus that
+  moves to each step's title (`src/components/checkin/*`).
+- The mood map with drag, tap, arrow keys, a spoken value and a slider
+  alternative; emotion cards with the two-pick limit.
+- Read aloud and dictation (`src/lib/speech.ts`), the state chip, the dot
+  meters, and a first Today state card.
+- The `useDayModeSheet()` entry point that "Adjust my plan" opens; Phase 4
+  attaches the sheet to it.
+
+**How I checked it**
+- lint ok, typecheck ok, 81 tests passing (14 files), build ok.
+- Flow tests 1–4 from 16.2: words path saves an Ebb check-in with Drained and
+  Frustrated; wordless path sends and saves `chest:tight`; a crisis phrase
+  makes no AI call, saves no text and opens `/support?crisis=1`; AI off shows
+  fallback words with no network call at all. Extra tests for the two-pick
+  toast, "None of these" plus a custom word, Escape asking before discarding
+  words, and a keyboard-only run using only Tab, Enter and Space.
+- In the in-app browser at 390×844 (no API key, so the fallback answered):
+  typed the demo sentence, got Drained, Frustrated and Exhausted with nothing
+  preselected, picked two, the dot landed in Ebb, saved, and Today showed
+  "Ebb · Drained, Frustrated" with the toast. Checked dark mode too.
+
+**What broke and how I fixed it**
+- Sheet titles rendered at body size: shadcn's `cn` treated `text-h2` and
+  `text-ink` as two colors and dropped the size. I configured `cn` with
+  Tide's type scale (D19) and pointed every component at it.
+- The sheet reset to step 1 while it was still fading out. The reset now
+  waits for the close animation.
+- The floating Close button showed content scrolling underneath it; it has a
+  solid background now.
+- A flow test looked for the crisis heading synchronously right after a
+  render that waits for settings; it now waits.
+- Renamed `vitest.config.ts` to `.mts` to stop Vite's CommonJS warning.
+
+**Decisions**
+- D19 configured `cn`. D20 body cue format. D21 dot follows picks until
+  moved. D22 mood map as one slider. D23 "Regulate first" opens the toolkit.
+
+**Known issues**
+- The optional body outline drawing from 13.4.1 is not there; the list of
+  places is the control (the spec marks the drawing optional).
+- Dictation uses `en-US`; Spanish speakers dictating in Spanish would need a
+  language switch later.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(checkin): add the check-in flow with mood map and body path
+(hash recorded at the start of Phase 3)

@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(import.meta.dirname, "src"),
       // `server-only` throws outside a React Server Components build; in
       // tests we import server modules directly, so use its empty variant.
-      "server-only": path.resolve(__dirname, "node_modules/server-only/empty.js"),
+      "server-only": path.resolve(import.meta.dirname, "node_modules/server-only/empty.js"),
     },
   },
   test: {

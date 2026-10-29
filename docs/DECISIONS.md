@@ -130,3 +130,36 @@ reviews the list with their partner.
 The spec defines the envelope but only the 429 status. I use 400 for invalid
 input, 503 for a missing key, 504 for a timeout and 502 for invalid output or
 a provider error. The browser treats every `ok: false` the same way.
+
+**D19 — 2026-10-29 — A configured `cn`, so Tide's type scale survives class merging.**
+shadcn 4 ships its own `cn` (a tailwind-merge replacement). It didn't know
+`text-h2` is a font size and dropped it whenever a text color followed,
+which shrank every sheet title to body text. `src/lib/utils.ts` now builds
+`cn` with `createCn` and lists Tide's sizes and radii; every component
+imports it from there.
+
+**D20 — 2026-10-29 — Body cues are place × feeling pairs plus one energy cue.**
+Spec 9.2 stores cues like `chest:tight`. When Maya picks places and feelings
+I send each pair (`chest:tight`, `stomach:tight`…), up to seven, plus one
+`energy:low|medium|high` cue from the slider, so the label route always gets
+at least one cue even if she only moved the sliders. The comfort slider is
+sent as `pleasantnessHint`.
+
+**D21 — 2026-10-29 — The mood-map dot follows picks until Maya moves it.**
+13.4 says the dot sits at the average of the selected words and that moving
+it doesn't change the words. I also stop picks from moving the dot once she
+has moved it herself, so her own placement is never overwritten. Before any
+pick, the dot rests on the first suggestion; that is a position, not a choice,
+and "Next" stays disabled until she picks a word or moves the dot.
+
+**D22 — 2026-10-29 — The mood map is one focusable slider with arrow keys.**
+A 2-D control has no native role. The dot is `role="slider"` with arrow keys
+(up/down energy, left/right pleasantness) and an `aria-valuetext` like
+"Energy 2, pleasantness minus 3, Surge". A polite live region speaks only
+after a drag or tap, so keyboard changes aren't announced twice. "Use sliders
+instead" swaps in two standard sliders.
+
+**D23 — 2026-10-29 — "Regulate first" opens the toolkit as it is.**
+The spec says to open `/toolkit` "filtered to the current quadrant". The
+toolkit already filters by the latest check-in within six hours, and the
+check-in was just saved, so no query parameter is needed.
