@@ -190,8 +190,25 @@ export interface Settings {
   'motion.companionIdle': boolean;
   'motion.shoreWaves': boolean;
   'haptics.enabled': boolean;
+  'sound.enabled': boolean;
+  'sound.volume': number;
+  'sound.ui': boolean;
+  'sound.celebrations': boolean;
+  'sound.companion': boolean;
+  'sound.ambience': 'none' | 'waves' | 'rain' | 'brown';
+  'sound.ambienceVolume': number;
+  'voice.engine': 'auto' | 'natural' | 'device' | 'off';
   'voice.rate': number;
   'voice.deviceVoiceURI': string | null;
+  // A cloud voice id from src/data/voices.ts; '' means the provider's default.
+  'voice.naturalVoice': string;
+  'voice.accent': VoiceAccent;
+  'voice.autoReadAi': boolean;
+  'voice.readCompanion': boolean;
+  'voice.breathingCues': boolean;
+  'privacy.naturalVoiceAllowed': boolean;
 }
+
+export type VoiceAccent = 'auto' | 'en-US' | 'en-GB' | 'en-AU' | 'en-CA' | 'en-IN' | 'en-IE' | 'en-ZA';
 
 export type AppearanceFont = 'playful' | 'hyperlegible' | 'lexend' | 'system';

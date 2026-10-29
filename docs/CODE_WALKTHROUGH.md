@@ -612,3 +612,44 @@ layout.tsx replays them on the next visit before any bundle loads.
 - *Where did the reduced-motion media query go?* The device setting feeds
   the motion level instead (D64).
 
+## Sound, haptics and voice (V2)
+
+**What it does for Maya.** If she turns sound on, taps tick softly and
+celebrations chime; she can add waves, rain or brown noise behind a focus
+block. "Read aloud" uses the most natural voice available, reads text
+rewritten for the ear (numbers as English words, symbols as words), never
+gets cut off, and can speak breathing cues.
+
+**Files**
+- `src/lib/sound/` — `names.ts` (sound names), `useSound.ts` (the hook,
+  quiet hold), `engine.ts` (AudioContext, categories, ambience),
+  `sounds/*.ts` (each sound's recipe), `ambience.ts`, `gesture.ts`,
+  `useFeedback.ts` (sound + haptic in one call). `src/lib/haptics.ts`.
+- `src/lib/voice/` — `voiceRanking.ts`, `speechText.ts`,
+  `browserEngine.ts`, `cloudEngine.ts`, `clipsEngine.ts`,
+  `audioPlayer.ts`, `engine.ts`, `useVoice.ts`, `useDeviceVoices.ts`,
+  `hash.ts`, `ttsProviders.ts`, `tts.server.ts`.
+- `src/app/api/tts/` — the natural voice route and its status.
+- `src/data/voices.ts` — cloud voices; `scripts/generate-voice-clips.mjs`.
+- `src/components/settings/VoicePicker.tsx`, `SoundSection.tsx`.
+
+**Data flow.** ReadAloudButton → `useVoice().speak(text)` → `engine.speak`
+turns the text into speech text, then tries a pre-generated clip
+(`/voice/manifest.json`), a cloud voice (`/api/tts`, cached in Cache
+Storage) and the device voice, in that order for Auto.
+
+**Decisions worth defending**
+- Dictation in `speech.ts` was never touched; the old `speak()` there still
+  exists but nothing new uses it.
+- The engine loads sound code only when sound is on (D69).
+- The text is never logged on the server, only provider, status, time and
+  length.
+
+**Likely reviewer questions**
+- *Why do numbers become words?* A device set to Spanish read "4" as
+  "cuatro" even in an English voice (D57, D67).
+- *What happens with no key?* `/api/tts` answers 503 `{ available: false }`
+  and Tide uses the device's voice; Natural shows as unavailable.
+- *How do I make the demo voice work offline?* Add a key and run
+  `npm run voice:clips`.
+

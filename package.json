@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:v1": "vitest run --config vitest.v1.config.mts",
     "test:watch": "vitest",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "voice:clips": "node scripts/generate-voice-clips.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

@@ -5,6 +5,19 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V2: Sound, haptics and voice
+- Soft synthesized sounds (off by default): taps, switches, chimes, shore
+  sounds and companion chirps, plus waves, rain or brown noise for focus.
+  Settings → Sound & haptics, with a sample.
+- Gentle vibration where the phone supports it.
+- A new read-aloud engine: the most natural voice on the device, text
+  rewritten for speech, long text that never gets cut off, and optional
+  natural cloud voices (OpenAI or ElevenLabs) if the team adds a key.
+- Settings → Voice: hear each voice before choosing, speed, accent, and
+  switches for reading AI suggestions, companion lines and breathing cues.
+- Box breathing can speak "Breathe in… Hold… Breathe out".
+- The crisis screen and support page never play sounds.
+
 ### V1: Design system 2.0 and themes
 - A new look: chunky cards with a solid ledge, buttons that press down,
   rounded Nunito headings, a five-tab bar with a Shore tab, and a 3D

@@ -4,17 +4,24 @@
 // the middle says "Breathe in · 4", "Hold · 4", "Breathe out · 4", "Hold · 4".
 // Two minutes by default, Stop at any time. With reduced motion the dot
 // stays still and only the words and count change. Screen readers hear each
-// new phase, not every second, which would be exhausting.
-import { useEffect, useState } from 'react';
+// new phase, not every second, which would be exhausting. With "Speak
+// breathing cues" on (v2), a voice says each phase as it begins.
+import { useEffect, useRef, useState } from 'react';
 import { copy, fill } from '@/copy/en';
 import { now } from '@/lib/clock';
-import { useReducedMotionPref } from '@/lib/settings';
+import { useReducedMotionPref, useSettings } from '@/lib/settings';
+import { useSound } from '@/lib/sound/useSound';
+import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
 import type { ToolProps } from './types';
 
 const SIDE_MS = 4000;
 const TOTAL_MS = 120_000;
 const PHASES = [copy.tools.breathe.in, copy.tools.breathe.holdIn, copy.tools.breathe.out, copy.tools.breathe.holdOut];
+const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
+// Device voices take a moment to start; speaking a little early keeps the
+// word on the beat (v2 spec 7.9).
+const CUE_LEAD_MS = 150;
 
 // Where the dot is on the square's edge, as percentages: up the left side
 // while breathing in, across the top while holding, and so on.
@@ -27,8 +34,12 @@ function dotPosition(phase: number, t: number): { left: number; top: number } {
 
 export function BoxBreathing({ onDone }: ToolProps) {
   const reduce = useReducedMotionPref();
+  const { settings } = useSettings();
+  const voice = useVoice();
+  const play = useSound();
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [, redraw] = useState(0);
+  const cuedPhase = useRef(-1);
 
   const elapsed = startedAt === null ? 0 : now() - startedAt;
   const finished = elapsed >= TOTAL_MS;
@@ -38,6 +49,16 @@ export function BoxBreathing({ onDone }: ToolProps) {
     const id = setInterval(() => redraw((n) => n + 1), reduce ? 250 : 50);
     return () => clearInterval(id);
   }, [startedAt, reduce, finished]);
+  // Speak each phase's cue (and its soft breath sound) once, just before it starts.
+  useEffect(() => {
+    if (!settings['voice.breathingCues'] || startedAt === null || finished) return;
+    const upcoming = Math.floor((elapsed + CUE_LEAD_MS) / SIDE_MS);
+    if (upcoming === cuedPhase.current || upcoming * SIDE_MS >= TOTAL_MS) return;
+    cuedPhase.current = upcoming;
+    void voice.speak(CUES[upcoming % 4]);
+    if (upcoming % 4 === 0) play('breath-in');
+    if (upcoming % 4 === 2) play('breath-out');
+  });
   const inSide = elapsed % SIDE_MS;
   const phase = Math.floor(elapsed / SIDE_MS) % 4;
   const count = 4 - Math.floor(inSide / 1000);

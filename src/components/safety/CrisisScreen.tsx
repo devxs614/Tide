@@ -3,7 +3,9 @@
 // What Maya sees if her words sound like a crisis. It is deliberately still:
 // no animation, no AI, no coaching. Just a kind sentence, crisis lines she
 // can call, the people she trusts, her campus support, and a quiet way back.
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { holdQuiet } from '@/lib/sound/useSound';
 import { copy } from '@/copy/en';
 import { Button } from '@/components/ui/button';
 import { CrisisLines } from './CrisisLines';
@@ -13,6 +15,8 @@ import { useSettings } from '@/lib/settings';
 export function CrisisScreen() {
   const router = useRouter();
   const { settings } = useSettings();
+  // No sound here, ever: not a tap, not a chime (v2 spec 6.4).
+  useEffect(() => holdQuiet(), []);
   return (
     <section aria-labelledby="crisis-heading" className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">

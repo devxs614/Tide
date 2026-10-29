@@ -437,6 +437,19 @@ html[data-motion="calm"] .tab-bounce {
   animation: none;
 }
 
+/* The read-aloud button's sound bars: they bob at Lively and stand still
+   (at full height) otherwise, so "speaking" never depends on motion. */
+.sound-bar {
+  height: 100%;
+}
+html[data-motion="lively"] .sound-bar {
+  animation: tide-sound-bar 700ms ease-in-out infinite alternate;
+}
+@keyframes tide-sound-bar {
+  from { transform: scaleY(0.35); }
+  to { transform: scaleY(1); }
+}
+
 /* Shape markers instead of dots (color-blind palette, high contrast). */
 html[data-shapes="true"] .q-dot {
   display: none;

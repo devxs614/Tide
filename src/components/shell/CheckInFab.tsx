@@ -8,15 +8,20 @@ import { useState } from 'react';
 import { WavesHorizontal } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { useCheckInSheet } from '@/lib/ui';
+import { useFeedback } from '@/lib/sound/useFeedback';
 
 export function CheckInFab() {
   const { openCheckIn } = useCheckInSheet();
   const [ripple, setRipple] = useState(0);
+  const feedback = useFeedback();
   return (
     <div className="pointer-events-none flex justify-center pb-1">
       <button
         type="button"
-        onClick={openCheckIn}
+        onClick={() => {
+          feedback('tap');
+          openCheckIn();
+        }}
         onPointerDown={() => setRipple((n) => n + 1)}
         className="group pointer-events-auto flex flex-col items-center gap-1 rounded-full"
       >

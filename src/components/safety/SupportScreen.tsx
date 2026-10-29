@@ -2,11 +2,15 @@
 
 // The everyday "Talk to a person" screen: people Maya trusts, support at her
 // school, and the crisis lines further down in case she needs them.
+import { useEffect } from 'react';
 import { copy } from '@/copy/en';
+import { holdQuiet } from '@/lib/sound/useSound';
 import { CrisisLines } from './CrisisLines';
 import { CampusSupport, TrustedContacts } from './ContactList';
 
 export function SupportScreen() {
+  // Playful sounds don't belong on the page where people look for help.
+  useEffect(() => holdQuiet(), []);
   return (
     <div className="flex flex-col gap-8">
       <section aria-labelledby="trusted-heading" className="flex flex-col gap-3">

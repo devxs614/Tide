@@ -6,6 +6,7 @@
 // never depends on color alone.
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useFeedback } from '@/lib/sound/useFeedback';
 
 export function Chip({
   label,
@@ -18,11 +19,15 @@ export function Chip({
   onToggle: () => void;
   className?: string;
 }) {
+  const feedback = useFeedback();
   return (
     <button
       type="button"
       aria-pressed={pressed}
-      onClick={onToggle}
+      onClick={() => {
+        feedback('select');
+        onToggle();
+      }}
       className={cn(
         'inline-flex min-h-12 items-center gap-2 rounded-full border-2 px-4 py-2 font-display text-[0.8824rem] font-bold transition-colors duration-(--dur-fast)',
         pressed

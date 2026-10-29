@@ -14,6 +14,8 @@ import { DemoSection } from './DemoSection';
 import { PeopleSection } from './PeopleSection';
 import { ModePicker } from './PreferencePickers';
 import { Section } from './Section';
+import { SoundSection } from './SoundSection';
+import { VoicePicker } from './VoicePicker';
 
 export function SettingsScreen() {
   const { settings, update } = useSettings();
@@ -33,6 +35,10 @@ export function SettingsScreen() {
       </Section>
       <ComfortSection />
       <AppearanceSection />
+      <Section id="voice" title={copy.voice.title}>
+        <VoicePicker />
+      </Section>
+      <SoundSection />
       <Section id="talk" title={copy.settings.howTideTalks}>
         <ModePicker legend={copy.settings.howTideTalks} />
       </Section>

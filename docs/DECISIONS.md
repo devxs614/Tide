@@ -497,3 +497,58 @@ The v2 spec draws `sm` buttons at 40px with a 48px hit area. Tide's v1 rule
 is 48px targets, and a pseudo-element hit area doesn't count for
 automated target-size checks, so `sm` stays 48px tall with smaller text.
 
+**D67 — 2026-10-29 — The voice engine keeps today's read-aloud fixes.**
+Earlier today the team asked for a clearer, gentler voice and for numbers
+in English (D56, D57). The v2 engine keeps all of it: Spanish "mejorada"
+counts as Enhanced, the Mac's robotic Eloquence voices (Eddy, Grandpa…) are
+treated like the novelty voices, gentle voices get a small nudge among
+equals, and with no accent chosen US English gets a small preference. Every
+number becomes English words, including clock times, where the spec says
+"3:40 pm stays": on a Spanish-set device "3:40" was read in Spanish, which
+is exactly what the team reported. The device voice runs at 0.9 of the
+chosen rate (the calm pace from D57); pitch is always 1, as the spec says.
+
+**D68 — 2026-10-29 — Cloud voice APIs, checked in the providers' docs.**
+OpenAI: `POST /v1/audio/speech` with `model`, `voice`, `input`,
+`instructions`, `response_format` and `speed`, as the spec describes. Two
+differences: the docs list two more voices, `marin` and `cedar`, which they
+recommend for quality, so I offer them (Marin is the default), and they
+mark `gpt-4o-mini-tts` as deprecated, shutting down on January 6, 2027
+(after the hackathon; TEAM_TODO notes it). ElevenLabs:
+`POST /v1/text-to-speech/{voice_id}` with `xi-api-key`, `text`, `model_id`
+and `voice_settings.speed` (0.7–1.2), as described. The premade voice ids
+are well known but libraries vary, so the team should confirm them.
+
+**D69 — 2026-10-29 — The sound engine only loads, and only plays, when asked.**
+Sound is off by default. Components call `useSound()`, a few lines that
+load the engine with a dynamic import the first time a sound plays, so
+first load doesn't carry the synthesis code. The AudioContext is created
+only after a real touch or key press, at most three sounds play at once,
+each is capped in loudness, and the crisis screen and support page hold
+"quiet" while they're open.
+
+**D70 — 2026-10-29 — The clip generator runs on Vite's module loader.**
+`npm run voice:clips` has to use the app's own `speechText` and hashing
+(with the `@/` alias) so clip file names match what the browser looks for.
+Node can't load those TypeScript files directly, and there's no tsx in the
+project, so the script starts Vite (already installed with Vitest) in
+middleware mode and loads the modules through it. `--dry-run` counts the
+clips without calling a provider. `public/voice/` is git-ignored, so audio
+is only committed if the team decides to.
+
+**D71 — 2026-10-29 — The D57 voice picker became Settings → Voice.**
+The v2 spec moves read-aloud onto the new engine (Section 3.5's
+intentional change), so the picker now lists the top device voices with a
+sample button each and saves `voice.deviceVoiceURI`. Its test was
+rewritten for the new behavior. The v1 read-aloud speed buttons moved from
+Comfort into the Voice section (writing `voice.rate`), and the vibration
+switch into Sound & haptics, because the old keys no longer drive anything
+after the migration.
+
+**D72 — 2026-10-29 — The voice engine tracks who is speaking.**
+The new flow test caught a bug: "Stop reading" never appeared, because the
+engine's "stop whatever is speaking" step cleared the button's ownership
+before its own voice started. The engine now records which caller owns the
+current speech and tells listeners, so exactly one button shows "Stop
+reading".
+

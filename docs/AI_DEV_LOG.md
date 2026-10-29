@@ -1330,3 +1330,69 @@ on screen keep working, and `test:v1` runs after every step.
 
 **Known gaps (on purpose):** Settings is still one page with v1 sections
 plus Appearance until V9; onboarding is still v1's until V6.
+
+## Before Phase V2 — Sound, haptics and voice
+2026-10-29, 16:03
+
+For Maya: Tide can make soft sounds if she wants them (off by default), give
+a tiny vibration where her phone supports it, and read things aloud in a
+voice that sounds like a person: the best voice her device has, text
+rewritten for speech, long text split so Chrome doesn't cut it off, and,
+if the team adds a key, cloud neural voices. Box breathing can speak its
+cues.
+
+What it touches in v1: ReadAloudButton (switches to the new voice engine),
+the read-aloud voice picker from D57 (becomes Settings' voice picker), the
+box-breathing tool, the toolkit's message tool, and the settings keys.
+How I avoid breaking it: dictation and `src/lib/speech.ts` stay untouched
+(the old `speak()` there remains as the last fallback), the new engine
+lives in `src/lib/voice/`, sound is lazy-loaded and silent unless enabled,
+and the read-aloud improvements the team asked for today (numbers said in
+English, a calm pace, gentle voices first) carry over into the new engine.
+
+## After Phase V2 — Sound, haptics and voice
+2026-10-29, 16:33
+
+**What I built**
+- The sound engine: every sound synthesized with Web Audio (taps, toggles,
+  chimes, shore sounds, six companion chirps, breath cues, a focus bell),
+  three seamless ambiences, categories and volume, nothing before a real
+  gesture, at most three at once, loaded only when sound is on (D69).
+  Primary buttons, switches, chips, cards and the Check in button give
+  feedback; the crisis screen and support page stay silent.
+- Haptics where supported, with "Not supported on this device" elsewhere.
+- The voice engine in `src/lib/voice/`: the spec's ranking (with today's
+  additions, D67), speech-ready text with every 7.4 rule, chunking at 180
+  characters, the browser engine with Chrome's keep-alive and a 2-second
+  no-start fallback, the cloud engine with Cache Storage and a 200-clip
+  limit, the clips engine, and one-voice-at-a-time coordination.
+- `/api/tts` and `/api/tts/status` for OpenAI or ElevenLabs, with request
+  shapes checked in their docs (D68), validation, rate limiting and a log
+  line without the text. `.env.example` lists the new variables.
+- Settings → Voice (engine, device voices with samples, cloud voices when
+  configured, speed, accent, three switches) and Settings → Sound &
+  haptics. Box breathing speaks its cues when asked.
+- `npm run voice:clips` (with `--dry-run`): 60 texts today, about 1.4 MB.
+
+**How I checked it**
+- lint, typecheck, 43 files / 274 tests and the v1 suite (33 / 164) green;
+  clean build; the freeze test still passes (dictation untouched).
+- New tests: speech text (19 rules), chunking, ranking with voice lists
+  from six platforms, the engine's fallback order and one-voice rule, cache
+  keys, the sound engine's gesture and category rules, the TTS route
+  (validation, both providers, no key, no text in logs), flow test 15
+  (Read aloud), and Settings → Voice.
+- In the browser pane: the voice list shows this Mac's real voices
+  (Samantha, Moira, Daniel, Karen, Tessa, Rishi; no novelty voices), and
+  "Play sample" on Moira sends the sample sentence to Moira at 0.9 with
+  pitch 1. I intercepted the call so nothing played out loud, and reloaded
+  the tab straight away this time.
+- I couldn't test a real cloud voice: there's no provider key here. The
+  route is tested against faked provider responses.
+
+**What broke and how I fixed it**
+- Flow test 15 caught "Stop reading" never appearing (D72).
+- The old D57 picker's test failed once read-aloud moved to the new
+  engine; replaced with a test of Settings → Voice (D71).
+
+**Decisions:** D67–D72.

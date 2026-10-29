@@ -1,35 +1,37 @@
 'use client';
 
-// The English voices this device offers, best first, kept up to date because
-// browsers often load their voice list a moment after the page opens.
+// The English voices this device offers, ranked best first and kept up to
+// date, because browsers often load their voice list a moment after the page
+// opens. Used by the voice picker in Settings.
 import { useSyncExternalStore } from 'react';
-import { isSpeechSupported } from './speech';
-import { readableEnglishVoices } from './voices';
+import { browserVoicesSupported } from './browserEngine';
+import { rankVoices } from './voiceRanking';
 
 const NONE: SpeechSynthesisVoice[] = [];
 let cachedKey = '';
 let cached: SpeechSynthesisVoice[] = NONE;
 
 // getVoices() returns a new array every call; React needs the same array
-// back until the list really changes, or it would render forever.
+// back until the list really changes.
 function snapshot(): SpeechSynthesisVoice[] {
-  if (!isSpeechSupported()) return NONE;
+  if (!browserVoicesSupported()) return NONE;
   const all = window.speechSynthesis.getVoices();
   const key = all.map((v) => v.voiceURI).join('|');
   if (key !== cachedKey) {
     cachedKey = key;
-    cached = readableEnglishVoices(all);
+    cached = all;
   }
   return cached;
 }
 
 function subscribe(onChange: () => void): () => void {
-  if (!isSpeechSupported()) return () => {};
+  if (!browserVoicesSupported()) return () => {};
   const synth = window.speechSynthesis;
   synth.addEventListener('voiceschanged', onChange);
   return () => synth.removeEventListener('voiceschanged', onChange);
 }
 
-export function useEnglishVoices(): SpeechSynthesisVoice[] {
-  return useSyncExternalStore(subscribe, snapshot, () => NONE);
+export function useDeviceVoices(accent: string, limit = 8): SpeechSynthesisVoice[] {
+  const all = useSyncExternalStore(subscribe, snapshot, () => NONE);
+  return rankVoices(all, { accent }).slice(0, limit);
 }
