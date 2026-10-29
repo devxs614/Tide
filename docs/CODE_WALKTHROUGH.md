@@ -436,10 +436,80 @@ then on.
   with an optional reason kept on the device.
 
 ## Settings, Onboarding and Support
-*(Phase 8)*
+
+**What it does for Maya.** The first visit is three short screens: what Tide
+does and doesn't do, making it comfortable (text size, theme, motion, how
+Tide talks), and privacy in plain words. Settings holds all of that later,
+plus her people, export and "Delete everything", demo mode and About.
+Support lists people she trusts, campus support and crisis lines.
+
+**Files**
+- `src/components/onboarding/OnboardingScreen.tsx`, `WaveArt.tsx` and
+  `src/app/onboarding/page.tsx` — the three steps; the shell redirects there
+  until `onboarded` is true.
+- `src/components/settings/SettingsScreen.tsx` and one file per section:
+  `ComfortSection`, `AiSection`, `PeopleSection`, `DataSection`,
+  `DemoSection`, `AboutSection`, plus `PreferencePickers` (shared with
+  onboarding) and `Section`.
+- `src/components/safety/*` — Support and crisis screens (see Safety).
+- `src/lib/settings.tsx`, `src/lib/repo/settings.ts`, `src/lib/repo/data.ts`
+  — the provider, defaults, export and delete.
+
+**Data flow.** Every control calls `update()` from `useSettings()`, which
+writes one row to the settings table; the provider re-reads it live and
+applies it to `<html>` (and the localStorage mirror for the next first
+paint). Export reads every table into one JSON file; delete removes the
+database and reloads.
+
+**Decisions worth defending**
+- No "Save" buttons: every preference applies the moment it's chosen, so the
+  effect is visible while choosing.
+- Contacts are left out of the export unless Maya ticks the box, because they
+  are other people's details.
+
+**Likely reviewer questions**
+- *Where are contacts stored?* Only in the settings table on the device. They
+  are never sent to the AI or anywhere else.
+- *Can the user undo "Delete everything"?* No, which is why it asks first with
+  two clear buttons, "Keep my data" being the default.
+- *What does Literal mode change?* AI wording (the prompts receive the mode)
+  and the static copy that has variants, like the check-in's step 2 title.
 
 ## Demo mode
-*(Phase 8)*
+
+**What it does.** For the stage and rehearsals: it replaces the device's
+data with three weeks of a fictional student's life, sets the clock to
+Thursday 3:40 pm, shows a "Demo data" badge, and answers the scripted inputs
+from saved responses so the demo works without a network.
+
+**Files**
+- `src/data/demo/seed.ts`, `seedTasks.ts` — the deterministic data
+  (mulberry32 with seed 42, fixed ids), with exactly three planted patterns.
+- `src/data/demo/cachedResponses.ts` — saved answers for the five routes,
+  shaped from the live input.
+- `src/lib/repo/demo.ts` — load the seed, leave demo mode, move the clock.
+- `src/lib/clock.ts` — `now()` follows `demoClock` in settings.
+- `src/components/settings/DemoSection.tsx` — the switch and restart buttons.
+- `docs/demo-script.md` — the script for presenters.
+
+**Data flow.** Turning demo on calls `loadDemoData()`, which clears every
+table, bulk-adds the seed in one transaction and sets the persona settings
+and `demoClock`. `useAi` checks `findCachedResponse()` in demo mode and races
+it (at 900 ms) against the live call.
+
+**Decisions worth defending**
+- Determinism: the same data on every laptop, so a rehearsal on one machine
+  matches the stage on another.
+- `seed.test.ts` fails if the seed ever produces a fourth pattern, or loses
+  one of the three, or if the win card would pick a different win.
+- The saved answers pass the same validation as live answers (D50).
+
+**Likely reviewer questions**
+- *Isn't the demo fake?* The data is synthetic and labeled; the code paths
+  are the real ones. Anything off-script goes to the live AI.
+- *Why a fixed date?* So "Next: Calculus in 70 min" and the Bridge happen at
+  the same moments in every run.
+- *How do you restart?* Settings → Demo → Restart demo resets data and clock.
 
 ## How to answer "how does the AI work?" in 60 seconds
 

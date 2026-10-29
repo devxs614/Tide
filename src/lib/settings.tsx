@@ -8,9 +8,9 @@
 // script in layout.tsx paint the right theme and size before React loads.
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useReducedMotion } from 'framer-motion';
 import { db } from './db';
 import { setDemoClock } from './clock';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 import { DEFAULT_SETTINGS, setSetting, setSettings, settingsFromRows } from './repo/settings';
 import type { Settings } from './types';
 
@@ -90,7 +90,7 @@ export function useSettings(): SettingsContextValue {
 // One answer to "should this move?": true if the OS asks for reduced motion
 // or Maya turned it on in Settings. Every animation in Tide checks this.
 export function useReducedMotionPref(): boolean {
-  const os = useReducedMotion();
+  const os = usePrefersReducedMotion();
   const { settings } = useSettings();
   return Boolean(os) || settings.reduceMotion;
 }

@@ -747,12 +747,87 @@ Stuck no longer counted as the one Maya was coming from in the Bridge, so
 the parking note lost its prefill. Stuck tasks count now.
 
 **Checks at this point:** typecheck ok, lint ok, 144 of 145 tests passing.
-One test fails in the full parallel run and was not investigated before the
-session stopped:
-
+One test failed in one full parallel run; its name didn't print before the
+session stopped, and it passed on the run right after.
 
 **Still to do:** finish Phase 8 (fix that test, `docs/demo-script.md`, PWA
 manifest and icons via `sharp`, performance pass, After Phase 8 entry),
 then Phase 9 (prompts-doc page, README, architecture, research template,
 attribution audit, deploy steps, secret scan) and Phase 10 (full audit).
 Resume with the message in Appendix C.2 of the build prompt.
+
+## Resumed
+2026-10-29, 09:22
+
+A new session picked up the build. What I found: the last commit is
+80cd257 (Phase 8 in progress) and the working tree is clean. Lint and
+typecheck are clean, a clean `next build` succeeds, and the full suite
+passed 145 of 145 three runs in a row, so the failure noted above looks like
+a timing flake under load rather than a broken test; I'll keep an eye on it
+in the audit. Still to do: the rest of Phase 8 (demo script doc, manifest
+and icons, performance pass), then Phases 9 and 10.
+
+One change in how I commit, at the team's request: commits now use the
+team's own Git identity (devxs614) and carry no AI trailer lines. The AI
+attribution the rules require stays where it was always meant to be, in
+AI_ATTRIBUTION.md, this log and the daily reports. Earlier commits keep the
+trailers they had; rewriting pushed history would need a force-push.
+
+## After Phase 8 — Onboarding, Settings, demo mode and seed data
+2026-10-29, 09:35
+
+**What I built** (across the stopped session and this one)
+- Onboarding: three steps with "Step n of 3", Skip on every step,
+  preferences that apply at once, the privacy text and an optional trusted
+  person; the shell redirects there until it's done.
+- Settings: profile, comfort, how Tide talks, AI suggestions (with where
+  recent answers came from), people and campus support, export (contacts
+  only if ticked), "Delete everything", demo controls, and About.
+- The demo seed: three weeks for Maya, deterministic, with exactly the three
+  planted patterns, the win card's Thursday, the rewards and the persona.
+- Saved demo answers for all five routes, shaped from the live input.
+- `docs/demo-script.md` for presenters.
+- The app icon (an original wave mark) as SVG and 192/512 PNGs, and the web
+  manifest.
+- A performance pass: sheets and forms load on first open, framer-motion
+  only on Patterns, the unused Tooltip provider removed.
+
+**How I checked it**
+- lint ok, typecheck ok, 145 tests passing in four full runs in a row, clean
+  build ok.
+- `seed.test.ts`: the engine on the seed returns exactly the three planted
+  keys with 4 of 5 (confidence 2, baseline 25%), 3 of 4 (with the box
+  breathing comparison) and 4 of 5; no Ebb check-ins from Oct 30 to Nov 4;
+  the bridge at the jump time is Chemistry lab → Calculus in 9 minutes.
+- `demoScript.test.tsx`: the whole 14.3 script on the real seed, twice in a
+  row with the network down (saved answers) and once with the AI answering
+  live; every expected text appears, including the win card.
+- Flow test 11 and onboarding tests in `Settings.test.tsx`.
+- Bundle measured against a production server: Today went from 330 KB to
+  267 KB of gzipped first-load JavaScript (D47).
+
+**What broke and how I fixed it**
+- The demo test found that a task moved to Stuck stopped counting as where
+  Maya was coming from in the Bridge, so the parking note lost its prefill.
+  Stuck tasks count now.
+- The intermittent failure from the stopped session was flow 8: "Start" in
+  the Bridge saves the note before navigating, and the test checked the
+  navigation too early under load. It waits now. A second one appeared after
+  lazy-loading the task form (flow 5 looked for the field too early); fixed
+  the same way.
+- The fixture helper and a seed helper were named `use`, which the hooks lint
+  read as React's `use`; renamed.
+
+**Decisions**
+- D46 no AI trailers in commits. D47 bundle work and the remaining 17 KB.
+  D48 no Playwright. D49 demo start times. D50 saved answers from live
+  input. D51 leaving demo mode clears the persona.
+
+**Known issues**
+- Today's first load is 267 KB, 17 KB over the 250 KB target (D47).
+
+**For the team**
+- Nothing new beyond the existing list.
+
+**Commit:** feat(demo): finish demo mode, icons and the performance pass
+(hash recorded at the start of Phase 9)

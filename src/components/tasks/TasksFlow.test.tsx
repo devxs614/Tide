@@ -35,7 +35,7 @@ describe('tasks flow', () => {
     const { user } = await renderApp(<TasksScreen />);
 
     await user.click(await screen.findByRole('button', { name: 'Add task' }));
-    await user.type(screen.getByLabelText('Task'), 'Write the lab intro');
+    await user.type(await screen.findByLabelText('Task'), 'Write the lab intro');
     await user.click(screen.getByRole('button', { name: 'Writing' }));
     await user.click(screen.getByRole('button', { name: 'Heavy' }));
     await user.click(screen.getByRole('button', { name: 'Tomorrow' }));

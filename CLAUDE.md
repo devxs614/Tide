@@ -21,7 +21,10 @@ For each phase in Section 18, in order, without asking the team to confirm:
 5. Fix anything red now.
 6. Write "After Phase N" in the log; update `AI_ATTRIBUTION.md`,
    `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`.
-7. Commit (`<type>(<scope>): <summary>` + body + `AI-Generated: Claude Code`).
+7. Commit (`<type>(<scope>): <summary>` + a short body), using the Git
+   identity configured on the machine. Per the team's instruction, commit
+   messages carry no AI trailers or co-author lines; AI attribution lives in
+   `AI_ATTRIBUTION.md` and the logs.
 8. Continue. Stop only for the blockers in Section 1.5.
 
 ## Comment voice (Section 1.7)

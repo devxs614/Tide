@@ -12,10 +12,44 @@ import { PhoneFrame } from './PhoneFrame';
 import { TopBar } from './TopBar';
 import { TabBar } from './TabBar';
 import { CheckInFab } from './CheckInFab';
-import { CheckInSheet } from '@/components/checkin/CheckInSheet';
-import { DayModeSheet } from '@/components/today/DayModeSheet';
+import dynamic from 'next/dynamic';
+import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
-import { BridgeSheet } from '@/components/bridge/BridgeSheet';
+import { WhenOpened } from './WhenOpened';
+
+// The sheets load the first time they open, so a screen's first load
+// doesn't carry the check-in steps, the AI validation and the Bridge.
+const CheckInSheet = dynamic(
+  () => import('@/components/checkin/CheckInSheet').then((m) => m.CheckInSheet),
+  { ssr: false },
+);
+const DayModeSheet = dynamic(
+  () => import('@/components/today/DayModeSheet').then((m) => m.DayModeSheet),
+  { ssr: false },
+);
+const BridgeSheet = dynamic(
+  () => import('@/components/bridge/BridgeSheet').then((m) => m.BridgeSheet),
+  { ssr: false },
+);
+
+function Sheets() {
+  const checkIn = useCheckInSheet();
+  const dayMode = useDayModeSheet();
+  const bridge = useBridgeSheet();
+  return (
+    <>
+      <WhenOpened open={checkIn.open}>
+        <CheckInSheet />
+      </WhenOpened>
+      <WhenOpened open={dayMode.open}>
+        <DayModeSheet />
+      </WhenOpened>
+      <WhenOpened open={!!bridge.eventId}>
+        <BridgeSheet />
+      </WhenOpened>
+    </>
+  );
+}
 
 function titleFor(pathname: string): string {
   const t = copy.shell.titles;
@@ -64,9 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <CheckInFab />
         <TabBar />
       </div>
-      <CheckInSheet />
-      <DayModeSheet />
-      <BridgeSheet />
+      <Sheets />
     </PhoneFrame>
   );
 }

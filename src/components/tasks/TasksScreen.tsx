@@ -10,7 +10,10 @@ import { copy } from '@/copy/en';
 import { useUnstickSheet } from '@/lib/ui';
 import { Button } from '@/components/ui/button';
 import { TaskBoard } from './TaskBoard';
-import { TaskForm } from './TaskForm';
+import dynamic from 'next/dynamic';
+import { WhenOpened } from '@/components/shell/WhenOpened';
+
+const TaskForm = dynamic(() => import('./TaskForm').then((m) => m.TaskForm), { ssr: false });
 
 export function TasksScreen({ resumeUnstickId }: { resumeUnstickId?: string }) {
   const router = useRouter();
@@ -32,7 +35,9 @@ export function TasksScreen({ resumeUnstickId }: { resumeUnstickId?: string }) {
         </Button>
       </div>
       <TaskBoard />
-      <TaskForm open={formOpen} onOpenChange={setFormOpen} />
+      <WhenOpened open={formOpen}>
+        <TaskForm open={formOpen} onOpenChange={setFormOpen} />
+      </WhenOpened>
     </div>
   );
 }
