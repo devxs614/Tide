@@ -57,10 +57,12 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
             void save();
           }}
         >
-          <label className="flex flex-col gap-1">
-            <span className="font-bold">{copy.eventForm.nameLabel}</span>
-            <input value={title} maxLength={80} onChange={(e) => setTitle(e.target.value)} className={field} />
-          </label>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="event-title" className="font-bold">
+              {copy.eventForm.nameLabel}
+            </label>
+            <input id="event-title" value={title} maxLength={80} onChange={(e) => setTitle(e.target.value)} className={field} />
+          </div>
           <fieldset className="flex flex-col gap-2">
             <legend className="mb-2 font-bold">{copy.eventForm.kindLabel}</legend>
             <div className="flex flex-wrap gap-2">
@@ -70,19 +72,25 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
             </div>
           </fieldset>
           <div className="grid grid-cols-2 gap-3">
-            <label className="flex flex-col gap-1">
-              <span className="font-bold">{copy.eventForm.startLabel}</span>
-              <input type="time" value={start} onChange={(e) => setStart(e.target.value)} className={field} />
-            </label>
-            <label className="flex flex-col gap-1">
-              <span className="font-bold">{copy.eventForm.endLabel}</span>
-              <input type="time" value={end} onChange={(e) => setEnd(e.target.value)} className={field} />
-            </label>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="event-start" className="font-bold">
+                {copy.eventForm.startLabel}
+              </label>
+              <input id="event-start" type="time" value={start} onChange={(e) => setStart(e.target.value)} className={field} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="event-end" className="font-bold">
+                {copy.eventForm.endLabel}
+              </label>
+              <input id="event-end" type="time" value={end} onChange={(e) => setEnd(e.target.value)} className={field} />
+            </div>
           </div>
-          <label className="flex flex-col gap-1">
-            <span className="font-bold">{copy.eventForm.placeLabel}</span>
-            <input value={place} maxLength={60} onChange={(e) => setPlace(e.target.value)} className={field} />
-          </label>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="event-place" className="font-bold">
+              {copy.eventForm.placeLabel}
+            </label>
+            <input id="event-place" value={place} maxLength={60} onChange={(e) => setPlace(e.target.value)} className={field} />
+          </div>
           <fieldset className="flex flex-col gap-2">
             <legend className="mb-2 font-bold">{copy.eventForm.prepLabel}</legend>
             {prep.map((item, i) => (

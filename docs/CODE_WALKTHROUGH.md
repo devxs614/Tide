@@ -349,7 +349,48 @@ then returns to `/toolkit`, `/tasks?unstick=<task>` or `/?bridge=<id>`.
   herself.
 
 ## Bridge
-*(Phase 6)*
+
+**What it does for Maya.** About 15 minutes before the next event, a card
+appears: "Chemistry lab → Calculus · leave in 9 min", with "has felt hard 3 of
+the last 4 times" when her data shows it. "Get ready" opens three steps:
+write where she's leaving off, do one short strategy, check what to bring.
+Ten minutes into the next event, Today asks how the switch went.
+
+**Files**
+- `src/lib/bridge.ts` — when a Bridge appears, what it's "from", which switch
+  waits for a rating.
+- `src/lib/patterns/rules/hardTransition.ts` — the hard-switch rule, shared
+  with Patterns.
+- `src/components/bridge/BridgeCard.tsx`, `BridgeBanner.tsx` — the card on
+  Today and the banner on other tabs.
+- `BridgeSheet.tsx`, `BridgeSteps.tsx`, `BridgeClose.tsx`, `BridgeShift.tsx`,
+  `BridgePrep.tsx` — the sheet and its three steps.
+- `TransitionRating.tsx` — "How was the switch?"
+- `useUpcomingBridge.ts`, `bridgeDrafts.ts` — the live lookup and the
+  in-memory draft.
+
+**Data flow.** The card reads events, in-progress tasks and transitions every
+30 seconds. The sheet asks `useAi('bridge')` for the parking question, one
+strategy among the top three short ones, and prep steps. "Save note" writes
+`task.parkingNote` (after the safety check). "Start" opens the runner with
+`context=bridge&ref=<draft id>`. "Done, I'm going" writes the Transition with
+the note and the strategy use. The rating writes `rating` and maybe a win.
+
+**Decisions worth defending**
+- The pattern line uses the same rule and threshold as the Patterns card, so
+  the numbers can't differ (D40).
+- "From" includes an event that just ended, which is how switches actually
+  happen (D38).
+- The parking note shows up first the next time she opens that task, in
+  Unstick and in Focus.
+
+**Likely reviewer questions**
+- *Does Tide send notifications?* No; that's out of scope for the MVP. The
+  card and banner appear inside the app.
+- *What if she ignores the Bridge?* Nothing happens; there is no rating
+  prompt for a switch she didn't bridge.
+- *Can the AI pick any strategy?* Only one of the candidates the app sent,
+  all three minutes or less.
 
 ## Patterns and Proof log
 *(Phase 7)*

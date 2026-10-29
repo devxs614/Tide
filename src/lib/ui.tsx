@@ -2,8 +2,9 @@
 
 // Which sheet is open, shared across the app. The check-in sheet opens from
 // the button above the tab bar on every screen, its last step can hand off
-// to the Day Mode sheet, and Unstick opens from the board, Today and the
-// focus page, so none of them can live inside one page.
+// to the Day Mode sheet, Unstick opens from the board, Today and the focus
+// page, and the Bridge opens from Today or a banner on any tab, so none of
+// them can live inside one page.
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import type { StuckReason } from './types';
 
@@ -24,6 +25,8 @@ interface UiContextValue {
   setDayModeOpen: (open: boolean) => void;
   unstick: UnstickRequest | null;
   setUnstick: (request: UnstickRequest | null) => void;
+  bridgeEventId: string | null;
+  setBridgeEventId: (id: string | null) => void;
 }
 
 const UiContext = createContext<UiContextValue | null>(null);
@@ -32,9 +35,10 @@ export function UiProvider({ children }: { children: ReactNode }) {
   const [checkInOpen, setCheckInOpen] = useState(false);
   const [dayModeOpen, setDayModeOpen] = useState(false);
   const [unstick, setUnstick] = useState<UnstickRequest | null>(null);
+  const [bridgeEventId, setBridgeEventId] = useState<string | null>(null);
   const value = useMemo(
-    () => ({ checkInOpen, setCheckInOpen, dayModeOpen, setDayModeOpen, unstick, setUnstick }),
-    [checkInOpen, dayModeOpen, unstick],
+    () => ({ checkInOpen, setCheckInOpen, dayModeOpen, setDayModeOpen, unstick, setUnstick, bridgeEventId, setBridgeEventId }),
+    [checkInOpen, dayModeOpen, unstick, bridgeEventId],
   );
   return <UiContext.Provider value={value}>{children}</UiContext.Provider>;
 }
@@ -66,4 +70,12 @@ export function useUnstickSheet() {
   const openUnstick = useCallback((request: UnstickRequest) => setUnstick(request), [setUnstick]);
   const closeUnstick = useCallback(() => setUnstick(null), [setUnstick]);
   return { request: unstick, openUnstick, closeUnstick };
+}
+
+// The Bridge sheet for the switch to one event.
+export function useBridgeSheet() {
+  const { bridgeEventId, setBridgeEventId } = useUi();
+  const openBridge = useCallback((eventId: string) => setBridgeEventId(eventId), [setBridgeEventId]);
+  const closeBridge = useCallback(() => setBridgeEventId(null), [setBridgeEventId]);
+  return { eventId: bridgeEventId, openBridge, closeBridge };
 }

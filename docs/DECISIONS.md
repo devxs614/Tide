@@ -246,3 +246,30 @@ says "So far, every number you placed fits." Puzzles rotate per opening.
 "Name 5 things you can see" shows five small optional inputs, "Name 1 thing
 you can taste" shows one. Nothing typed is saved; "Next" works with every
 box empty.
+
+**D38 — 2026-10-29 — "From" includes an event that ended in the last 15 minutes.**
+13.8 says "from" is the current event if one is ongoing. At 4:41 pm the lab
+(2:00–4:40) has just ended, but Maya is still walking out of it; a strict
+rule would show "Chemistry lab report → Calculus" instead of the switch the
+demo is about. An event that ended up to 15 minutes ago (the same window as
+the Bridge itself) still counts as where she's coming from.
+
+**D39 — 2026-10-29 — A Bridge draft lives in memory until "Done, I'm going".**
+The Transition record is only written when Maya leaves, so the card stays
+visible until then. While the sheet is open, a draft (id, typed note, ticked
+prep items) is kept per event in `bridgeDrafts.ts`; the strategy runner
+records the use against the draft id and returns to `/?bridge=<id>`, which
+reopens the same switch. If the page is reloaded mid-bridge, the draft is
+lost but the card is still there and starts a fresh one.
+
+**D40 — 2026-10-29 — The hard-transition rule is written once, in Phase 6.**
+Like D24: the Bridge's "has felt hard 3 of the last 4 times" line reads
+`hardSwitchFor()` from `src/lib/patterns/rules/hardTransition.ts`, the same
+rule the Patterns card uses, with the same bar (n ≥ 3, rate ≥ 0.5). The
+"with strategy" comparison includes both sides' counts, and the template
+only says a strategy made the switch easier when the numbers show that.
+
+**D41 — 2026-10-29 — Prep steps include the place.**
+The fallback (and the cached demo answer) lists the event's prep items and
+then "Go to {place}", so the demo's checklist reads Calculator, Notes from
+Tuesday, Go to Room 4-203, as 14.3 expects.

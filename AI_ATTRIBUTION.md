@@ -68,6 +68,8 @@ what I generated and what came from elsewhere.
 | `src/app/(app)/toolkit/page.tsx`, `toolkit/[id]/page.tsx` | Toolkit routes | Claude Code | |
 | `src/data/sudoku.ts` | Five 4×4 puzzles with solutions | Claude Code | Generated with a small brute-force search; uniqueness checked by `sudoku.test.ts` |
 | `src/lib/useCountdown.ts` | Timestamp-based countdown for tools | Claude Code | |
+| `src/components/bridge/*` | Bridge card, banner, sheet and steps, rating prompt, drafts | Claude Code | Covered by `BridgeFlow.test.tsx` (flow test 8) |
+| `src/lib/bridge.ts`, `src/lib/patterns/rules/hardTransition.ts` | When a Bridge appears, and the hard-switch rule | Claude Code | Covered by `bridge.test.ts`; rule tests in Phase 7 |
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |

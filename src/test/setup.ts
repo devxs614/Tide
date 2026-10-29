@@ -4,9 +4,14 @@
 import '@testing-library/jest-dom/vitest';
 import 'fake-indexeddb/auto';
 import { afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
+import { cleanup, configure } from '@testing-library/react';
 
 process.env.TZ = 'America/Monterrey';
+
+// Flow tests wait on IndexedDB, live queries and the AI fallback. With every
+// test file running in parallel, one second (the default) is sometimes not
+// enough on a busy laptop, which made the Bridge flow fail now and then.
+configure({ asyncUtilTimeout: 5000 });
 
 afterEach(() => {
   cleanup();
