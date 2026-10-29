@@ -25,7 +25,7 @@ export function StepNeed({ onChoose, saving }: { onChoose: (need: Need) => void;
                 type="button"
                 disabled={saving}
                 onClick={() => onChoose(need)}
-                className="flex w-full items-center gap-4 rounded-card border border-line bg-surface p-4 text-left hover:bg-surface-2 disabled:opacity-60"
+                className="flex w-full items-center gap-4 press-3d card [--ledge-color:var(--line)] p-4 text-left hover:bg-surface-2 disabled:opacity-60"
               >
                 <Icon className="size-6 shrink-0 text-primary" aria-hidden />
                 <span className="flex flex-col">

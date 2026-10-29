@@ -7,6 +7,7 @@ import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import { AboutSection } from './AboutSection';
 import { AiSection } from './AiSection';
+import { AppearanceSection } from './AppearanceSection';
 import { ComfortSection } from './ComfortSection';
 import { DataSection } from './DataSection';
 import { DemoSection } from './DemoSection';
@@ -31,6 +32,7 @@ export function SettingsScreen() {
         />
       </Section>
       <ComfortSection />
+      <AppearanceSection />
       <Section id="talk" title={copy.settings.howTideTalks}>
         <ModePicker legend={copy.settings.howTideTalks} />
       </Section>

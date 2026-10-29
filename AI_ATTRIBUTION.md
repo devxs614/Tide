@@ -95,6 +95,12 @@ what I generated and what came from elsewhere.
 | `src/test/frozen-dictation.test.ts`, `src/test/frozenSource.ts` | The dictation freeze (hashes recorded in V0) | Claude Code | v2 spec Section 3.2 |
 | `vitest.v1.config.mts` | `npm run test:v1`, the v1 regression suite | Claude Code | V0 |
 | `scripts/measure-first-load.mjs` | First-load JS per page, gzipped | Claude Code | Budget check for v2 |
+| `src/lib/theme/*` (themes, contrast, applyTheme, useThemeScheme, contrast test) | The 15 themes, WCAG contrast math, painting tokens onto the page | Claude Code | Colors from the v2 spec 4.6.2; two accents darkened for AA (D61) |
+| `src/lib/motion/*` (tokens, resolve, useMotionLevel, motion test) | Motion levels and shared timings | Claude Code | Spec 5.2–5.3; CSS springs (D62) |
+| `src/lib/settings/migrate.ts`, `src/lib/settings/__tests__/*` | v1 → v2 settings migration | Claude Code | Spec 18.4 (D63) |
+| `src/components/ui/card.tsx`, `chip.tsx`, `progress-bar.tsx`, `segmented-control.tsx`, `coach-mark.tsx`, `empty-state.tsx`, `wave-mark.tsx`, `icon-tile.tsx`, `QuadrantDot.tsx` | v2 design system components | Claude Code | Spec 4.4; shapes for the color-blind palette (4.6.3) |
+| `src/components/settings/ThemeGrid.tsx`, `AppearanceSection.tsx` | Theme picker with live mini previews; font and motion choices | Claude Code | Spec 4.6.5 |
+| `src/components/shore/*`, `src/app/(app)/shore/page.tsx` | Your Shore (empty state until V7) | Claude Code | |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app
@@ -140,8 +146,10 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | server-only 0.0.1 | Fails the build if server AI code is imported into the browser | MIT |
 | @types/node, @types/react, @types/react-dom | Type definitions | MIT |
 
-Fonts: Atkinson Hyperlegible (Braille Institute of America), SIL Open Font
-License 1.1, loaded and self-hosted by `next/font/google`.
+Fonts: Atkinson Hyperlegible (Braille Institute of America), Nunito (Vernon
+Adams, Cyreal, Jacques Le Bailly) and Lexend (Bonnie Shaver-Troup, Thomas
+Jockin and others), all SIL Open Font License 1.1, loaded and self-hosted by
+`next/font/google`. Nunito and Lexend were added in v2 (V1).
 
 ## External code and references
 | Source | Where it's used | License or terms |

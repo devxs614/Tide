@@ -78,7 +78,7 @@ export function DoodleCanvas({ onDone }: ToolProps) {
         onPointerMove={onMove}
         onPointerUp={() => (drawing.current = false)}
         onPointerCancel={() => (drawing.current = false)}
-        className="h-72 w-full touch-none rounded-card border border-line bg-surface"
+        className="h-72 w-full touch-none card"
       />
       <div role="group" aria-label={copy.tools.doodle.colors} className="flex flex-wrap gap-2">
         {PENS.map((p) => (

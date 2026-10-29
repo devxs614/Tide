@@ -106,7 +106,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
               <button
                 type="button"
                 onClick={() => void choose(m)}
-                className="flex w-full flex-col gap-1 rounded-card border border-line bg-surface p-4 text-left hover:bg-surface-2"
+                className="flex w-full flex-col gap-1 press-3d card [--ledge-color:var(--line)] p-4 text-left hover:bg-surface-2"
               >
                 <span className="text-lead font-bold">{copy.dayMode[m].name}</span>
                 <span>{copy.dayMode[m].body}</span>

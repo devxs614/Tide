@@ -1263,3 +1263,70 @@ freeze work), D60 (measuring first-load JS; 33 KB of headroom).
 
 **For the team:** nothing new to do. If v2 ever needs undoing, `v1-baseline`
 is the last v1 state.
+
+## Before Phase V1 — Design system 2.0 and themes
+2026-10-29, 15:59 (logged late: I started building at 15:40 and only wrote
+this entry once the phase was nearly done. The plan below is the one I
+followed.)
+
+For Maya this is the phase where Tide starts to feel like a finished,
+friendly app: rounded headings, chunky cards, buttons that press down, and
+colors she picks from 15 themes, including low-stimulation and high
+contrast. What it touches in v1: every screen's look, the settings
+provider, the first-paint script, the tab bar and the shared UI components.
+How I avoid breaking it: no behavior or v1 API changes (Button keeps every
+v1 variant and size; ToggleChip, Switch and Sheet keep their props), v1
+users keep exactly the v1 look through a migration, the v1 controls still
+on screen keep working, and `test:v1` runs after every step.
+
+## After Phase V1 — Design system 2.0 and themes
+2026-10-29, 16:01
+
+**What I built**
+- The 15 themes and 4 quadrant palettes (`src/lib/theme/`), painted onto
+  `<html>` as CSS variables with a 250ms crossfade between themes, "follow my
+  device" with separate light and dark picks, and a first-paint script that
+  replays the exact colors before any bundle loads.
+- Nunito and Lexend fonts with the four pairings, bold text, roundness and
+  density hooks.
+- Motion: tokens, the off/calm/lively resolution, CSS springs (D62), and
+  motion Off in one CSS block.
+- The v1 → v2 settings migration (D63): existing users keep Classic, Classic
+  Dark and Hyperlegible; new users get Lagoon and Playful.
+- Components: 3D Button (all v1 variants kept, plus primary, accent,
+  quadrant and loading), Card/CardButton, Chip, ProgressBar,
+  SegmentedControl, CoachMark, EmptyState, IconTile, QuadrantDot (shapes
+  for the color-blind palette), restyled Switch, Sheet (drag handle), Dialog
+  and toasts.
+- The shell: five tabs with a sliding pill, the 3D Check in button that
+  breathes only at Lively, and the Shore tab with its real empty state.
+- Settings → Appearance with the theme grid (live mini previews), fonts and
+  motion level. Every v1 screen restyled through the shared components and
+  a card-pattern pass, without behavior changes.
+
+**How I checked it**
+- lint, typecheck, 37 files / 227 tests and the v1 suite (33 / 164) green;
+  clean build. New tests: contrast for all 15 themes (46 checks), the
+  migration, motion resolution.
+- First-load JS for `/`: 272 KB gzipped (+5 KB over the baseline, under 300).
+- In the browser pane at 390px: Today, check-in sheet, Tasks, Toolkit,
+  Patterns, Proof log, Support, Focus and onboarding in Lagoon + Playful;
+  Today and Patterns in Midnight Tide (device dark); Patterns in Ink, where
+  47 shape markers replaced the dots; the board at 1280px. The pane holds
+  the team's own test data, which loaded as Classic + Hyperlegible through
+  the migration. I switched it to Lagoon to review and switched it back
+  afterwards.
+
+**What broke and how I fixed it**
+- Two theme accents failed contrast with white text; darkened (D61).
+- My first pass made `settings.tsx` and `useMotionLevel.ts` import each
+  other; the pure resolver moved to `motion/resolve.ts`.
+- The card-pattern pass turned `bg-surface-2` into a nonsense `card-2`
+  class in one place; fixed by hand.
+- The v1 Light/Dark buttons would have stopped doing anything once the
+  migration was saved; they now write the v2 keys too.
+
+**Decisions:** D61–D66.
+
+**Known gaps (on purpose):** Settings is still one page with v1 sections
+plus Appearance until V9; onboarding is still v1's until V6.

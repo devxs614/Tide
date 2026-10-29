@@ -5,7 +5,9 @@
 
 // Rules for anything added here: short sentences, no guilt, no emojis, no
 // clinical labels, and literal-friendly wording.
+import type { ThemeId } from '@/lib/theme/themes';
 import type {
+  AppearanceFont,
   Cause,
   CommunicationMode,
   EventKind,
@@ -75,7 +77,7 @@ export const copy = {
   } satisfies Record<Quadrant, { name: string; subtitle: string }>,
 
   shell: {
-    tabs: { today: 'Today', tasks: 'Tasks', toolkit: 'Toolkit', patterns: 'Patterns' },
+    tabs: { today: 'Today', tasks: 'Tasks', toolkit: 'Toolkit', patterns: 'Patterns', shore: 'Shore' },
     tabNavLabel: 'Main',
     checkIn: 'Check in',
     profileMenu: 'Menu',
@@ -91,6 +93,7 @@ export const copy = {
       settings: 'Settings',
       support: 'Talk to a person',
       strategy: 'Toolkit',
+      shore: 'Your Shore',
     },
   },
 
@@ -740,6 +743,78 @@ export const copy = {
 
   readAloud: {
     label: 'Read aloud: {text}',
+  },
+
+  // ——— v2 (docs/TIDE_V2_UPGRADE_PROMPT.md, Appendix A). New groups only;
+  // every v1 key above keeps its name and meaning. ———
+
+  themes: {
+    names: {
+      lagoon: 'Lagoon',
+      oceanBlue: 'Ocean Blue',
+      coralReef: 'Coral Reef',
+      bubblegum: 'Bubblegum',
+      kelpForest: 'Kelp Forest',
+      sunsetShore: 'Sunset Shore',
+      lavenderMist: 'Lavender Mist',
+      sandbar: 'Sandbar',
+      classic: 'Classic',
+      midnightTide: 'Midnight Tide',
+      deepSea: 'Deep Sea',
+      aurora: 'Aurora',
+      classicDark: 'Classic Dark',
+      pearl: 'Pearl',
+      ink: 'Ink',
+    } satisfies Record<ThemeId, string>,
+    descriptions: {
+      lagoon: 'Soft teal water and warm sand.',
+      oceanBlue: 'Crisp blue, clear and focused.',
+      coralReef: 'Warm coral pink with turquoise.',
+      bubblegum: 'Playful pink with periwinkle.',
+      kelpForest: 'Leafy green and golden light.',
+      sunsetShore: 'Peach and burnt orange with dusk blue.',
+      lavenderMist: 'Soft lilac and rose.',
+      sandbar: 'Low stimulation: muted sage, paper and sand.',
+      classic: 'The original Tide look.',
+      midnightTide: 'A deep navy night sea.',
+      deepSea: 'Indigo depths with glowing mint.',
+      aurora: 'Charcoal with green and violet light.',
+      classicDark: 'The original Tide dark look.',
+      pearl: 'High contrast, light.',
+      ink: 'High contrast, dark.',
+    } satisfies Record<ThemeId, string>,
+    groups: { light: 'Light', dark: 'Dark', contrast: 'High contrast' },
+    pickerTitle: 'Colors',
+    followSystem: 'Follow my device',
+    whenLight: 'When my device is light',
+    whenDark: 'When my device is dark',
+    previewButton: 'Button',
+    previewText: 'A calm place for your day.',
+  },
+
+  appearance: {
+    title: 'Appearance',
+    font: 'Font',
+    fonts: {
+      playful: { name: 'Playful', description: 'Rounded headings, easy-to-read text' },
+      hyperlegible: { name: 'Hyperlegible', description: 'One very readable font everywhere' },
+      lexend: { name: 'Lexend', description: 'A font some dyslexic readers prefer' },
+      system: { name: 'System', description: "Your device's own font" },
+    } satisfies Record<AppearanceFont, { name: string; description: string }>,
+    motionLevel: 'Motion',
+    motionLevels: {
+      auto: { name: 'Match my device', description: 'Off if your device asks for less motion, otherwise Calm' },
+      off: { name: 'Off', description: 'No movement at all' },
+      calm: { name: 'Calm', description: 'Short, soft movement' },
+      lively: { name: 'Lively', description: 'Bouncy and playful' },
+    },
+  },
+
+  shore: {
+    shoreTitle: 'Your Shore',
+    shoreEmpty:
+      'Your shore is quiet for now. Finish a task, get through a switch, or try a strategy, and something will wash up.',
+    shoreHint: 'Every win leaves something here. Tap anything to remember it.',
   },
 } as const;
 

@@ -10,6 +10,7 @@ import { useSettings } from '@/lib/settings';
 import { formatTime } from '@/lib/time';
 import type { CheckIn } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 export function StateChip({ checkIn, showTime = true, className }: { checkIn: CheckIn; showTime?: boolean; className?: string }) {
   const { settings } = useSettings();
@@ -27,7 +28,7 @@ export function StateChip({ checkIn, showTime = true, className }: { checkIn: Ch
       {/* The dot rides inside the text, so at large text sizes it stays next
           to the state name instead of sitting alone on its own line. */}
       <span aria-hidden className="font-bold text-ink">
-        <span className={cn('mr-2 inline-block size-2.5 rounded-full align-middle', style.dot)} />
+        <QuadrantDot quadrant={checkIn.quadrant} className="mr-2 size-2.5" />
         {name}
         {words.length > 0 && ` · ${words.join(', ')}`}
       </span>

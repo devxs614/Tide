@@ -1,8 +1,9 @@
 /*
-  Tide's design tokens and global styles.
-  Calm water: warm off-white instead of glaring white, soft state colors, no
-  red anywhere. Components only ever use these tokens (bg-surface, text-ink,
-  border-line...), never raw hex, so light and dark mode stay in one place.
+  Tide's design tokens and global styles (v2: "Design system 2.0").
+  Colors come from the 15 themes in src/lib/theme/themes.ts, written onto
+  <html> as CSS variables by applyTheme.ts; the values below are only the
+  first-paint defaults (Classic and Classic Dark, the v1 look). Components
+  only ever use tokens (bg-surface, text-ink, border-line…), never raw hex.
   Tailwind 4 reads the @theme block below; there is no tailwind.config file.
 */
 @import "tailwindcss";
@@ -18,10 +19,21 @@
   --ink: #1f2a33;
   --ink-soft: #5b6770;
   --primary: #1f5c63;
+  --primary-shadow: #143e43;
   --on-primary: #ffffff;
   --line: #e2ded6;
   --focus: #1f5c63;
   --notice: #80651c; /* darkened from #8a6d1f to pass AA on --bg (D52) */
+  --accent: #e8836a;
+  --accent-shadow: #b9614b;
+  --on-accent: #2b140d;
+  --sky-top: #c9e4ea;
+  --sky-bottom: #f7f5f0;
+  --sea: #6fa8b0;
+  --sea-deep: #3f7a83;
+  --foam: #ffffff;
+  --sand: #ebddc3;
+  --sand-shadow: #d6c5a5;
 
   /* Tide's four states. The base colors are only ever used as dots, borders
      and tints, always next to a word, never behind white text. */
@@ -41,7 +53,36 @@
   /* Set from Settings; multiplies the 17px base size. */
   --text-scale: 1;
 
-  /* shadcn/ui expects these names; they point at Tide's tokens. */
+  /* Shape (v2 spec 4.3). Depth is a solid "ledge" under the element, not a
+     blurry shadow; roundness scales every radius except pills. */
+  --roundness: 1;
+  --ledge: 4px;
+  --density: 1;
+
+  /* Fonts (v2 spec 4.2): Nunito for headings and buttons, Atkinson
+     Hyperlegible for reading. data-font on <html> picks another pairing. */
+  --font-display: var(--font-nunito), var(--font-atkinson), system-ui, sans-serif;
+  --font-body: var(--font-atkinson), system-ui, sans-serif;
+
+  /* Motion (v2 spec 5.3), mirrored from src/lib/motion/tokens.ts. The
+     springs are sampled into CSS linear() curves (D62), so buttons and
+     toggles get spring motion without loading an animation library. */
+  --dur-instant: 80ms;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring-snappy: linear(0.001, 0.087, 0.261, 0.448, 0.615, 0.748, 0.846, 0.913, 0.957, 0.983, 0.998, 1.005, 1.007, 1.007, 1.006, 1.005, 1.003, 1.002, 1.002, 1.001, 1, 1, 1, 1, 1);
+  --dur-spring-snappy: 432ms;
+  --spring-bouncy: linear(0, 0.158, 0.479, 0.809, 1.036, 1.15, 1.17, 1.132, 1.075, 1.023, 0.988, 0.972, 0.972, 0.979, 0.989, 0.998, 1.003, 1.005, 1.005, 1.003, 1.001, 1, 0.999, 0.999, 1);
+  --dur-spring-bouncy: 726ms;
+  --spring-gentle: linear(0, 0.077, 0.227, 0.388, 0.531, 0.65, 0.743, 0.813, 0.866, 0.904, 0.932, 0.952, 0.966, 0.976, 0.983, 0.988, 0.992, 0.994, 0.996, 0.997, 0.998, 0.999, 0.999, 0.999, 1);
+  --dur-spring-gentle: 719ms;
+  --spring-floaty: linear(0, 0.084, 0.271, 0.481, 0.673, 0.826, 0.937, 1.005, 1.042, 1.055, 1.054, 1.045, 1.034, 1.022, 1.013, 1.006, 1.001, 0.998, 0.997, 0.997, 0.997, 0.998, 0.999, 0.999, 1);
+  --dur-spring-floaty: 1255ms;
+
+  /* shadcn/ui expects these names; they point at Tide's tokens. --accent is
+     Tide's own accent color now, so menus use surface-2 for hover instead. */
   --background: var(--bg);
   --foreground: var(--ink);
   --card: var(--surface);
@@ -53,8 +94,7 @@
   --secondary-foreground: var(--ink);
   --muted: var(--surface-2);
   --muted-foreground: var(--ink-soft);
-  --accent: var(--surface-2);
-  --accent-foreground: var(--ink);
+  --accent-foreground: var(--on-accent);
   --destructive: var(--notice);
   --border: var(--line);
   --input: var(--line);
@@ -69,16 +109,59 @@
   --ink: #e8ecef;
   --ink-soft: #a3aeb6;
   --primary: #6fb8bf;
+  --primary-shadow: #4a8a90;
   --on-primary: #12181c;
   --line: #2a343a;
   --focus: #9ad6dc;
   --notice: #e5c46b;
+  --sky-top: #0f1a20;
+  --sky-bottom: #1b2a33;
+  --sea: #2d5560;
+  --sea-deep: #1c3a42;
+  --foam: #a8d8de;
+  --sand: #7d735f;
+  --sand-shadow: #605847;
+  --q-surge: #f09a82;
+  --q-swell: #f5c66a;
+  --q-ebb: #8faacb;
+  --q-still: #95c9b3;
   --tint-surge: color-mix(in srgb, var(--q-surge) 24%, transparent);
   --tint-swell: color-mix(in srgb, var(--q-swell) 24%, transparent);
   --tint-ebb: color-mix(in srgb, var(--q-ebb) 24%, transparent);
   --tint-still: color-mix(in srgb, var(--q-still) 24%, transparent);
   --scrim: rgb(0 0 0 / 0.5);
   --sheet-shadow: 0 -4px 24px rgb(0 0 0 / 0.3);
+}
+
+html[data-roundness="soft"] { --roundness: 0.7; }
+html[data-roundness="square"] { --roundness: 0.35; }
+html[data-density="compact"] { --density: 0.75; }
+
+html[data-font="hyperlegible"] { --font-display: var(--font-atkinson), system-ui, sans-serif; }
+html[data-font="lexend"] {
+  --font-display: var(--font-lexend), system-ui, sans-serif;
+  --font-body: var(--font-lexend), system-ui, sans-serif;
+}
+html[data-font="system"] {
+  --font-display: system-ui, sans-serif;
+  --font-body: system-ui, sans-serif;
+}
+
+/* Calm swaps the bouncy spring for the gentle one; Off makes every timing
+   zero (and the block further down stops CSS animations). */
+html[data-motion="calm"] {
+  --spring-bouncy: var(--spring-gentle);
+  --dur-spring-bouncy: var(--dur-spring-gentle);
+}
+html[data-motion="off"] {
+  --dur-instant: 0ms;
+  --dur-fast: 0ms;
+  --dur-base: 0ms;
+  --dur-slow: 0ms;
+  --dur-spring-snappy: 0ms;
+  --dur-spring-bouncy: 0ms;
+  --dur-spring-gentle: 0ms;
+  --dur-spring-floaty: 0ms;
 }
 
 @theme inline {
@@ -88,10 +171,21 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-primary: var(--primary);
+  --color-primary-shadow: var(--primary-shadow);
   --color-on-primary: var(--on-primary);
   --color-line: var(--line);
   --color-focus: var(--focus);
   --color-notice: var(--notice);
+  --color-accent: var(--accent);
+  --color-accent-shadow: var(--accent-shadow);
+  --color-on-accent: var(--on-accent);
+  --color-sky-top: var(--sky-top);
+  --color-sky-bottom: var(--sky-bottom);
+  --color-sea: var(--sea);
+  --color-sea-deep: var(--sea-deep);
+  --color-foam: var(--foam);
+  --color-sand: var(--sand);
+  --color-sand-shadow: var(--sand-shadow);
   --color-water: var(--water);
   --color-scrim: var(--scrim);
 
@@ -115,41 +209,44 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-sans: var(--font-atkinson), system-ui, sans-serif;
-  --font-heading: var(--font-atkinson), system-ui, sans-serif;
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
 
-  /* Type scale from the spec, in rem of the 17px root so text size settings
-     scale everything together. */
-  --text-caption: 0.8235rem;
-  --text-caption--line-height: 1.5;
+  /* Type scale for v2 (spec 4.2), in rem of the 17px root so the text size
+     setting scales everything together. */
+  --text-caption: 0.7647rem;
+  --text-caption--line-height: 1.4;
+  --text-small: 0.8824rem;
+  --text-small--line-height: 1.5;
   --text-body: 1rem;
   --text-body--line-height: 1.6;
   --text-lead: 1.1176rem;
   --text-lead--line-height: 1.5;
   --text-h3: 1.1765rem;
-  --text-h3--line-height: 1.4;
-  --text-h2: 1.2941rem;
-  --text-h2--line-height: 1.35;
-  --text-h1: 1.6471rem;
-  --text-h1--line-height: 1.25;
-  --text-display: 2rem;
+  --text-h3--line-height: 1.3;
+  --text-h2: 1.4118rem;
+  --text-h2--line-height: 1.25;
+  --text-h1: 1.7647rem;
+  --text-h1--line-height: 1.2;
+  --text-display: 2.3529rem;
   --text-display--line-height: 1.1;
 
-  --radius-card: 16px;
-  --radius-input: 12px;
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-sm: calc(12px * var(--roundness));
+  --radius-md: calc(16px * var(--roundness));
+  --radius-lg: calc(20px * var(--roundness));
+  --radius-xl: calc(28px * var(--roundness));
+  --radius-card: var(--radius-lg);
+  --radius-input: var(--radius-sm);
 
   --shadow-sheet: var(--sheet-shadow);
+  --shadow-ledge: 0 var(--ledge) 0 var(--line);
 }
 
 @layer base {
@@ -169,10 +266,68 @@
   p {
     max-width: 60ch;
   }
+  /* Headings, buttons, tabs and chips speak in the rounded display font;
+     paragraphs and fields stay in the reading font. Sentence case always:
+     uppercase is harder to read for many dyslexic readers. */
   h1,
   h2,
-  h3 {
-    font-weight: 700;
+  h3,
+  h4,
+  button,
+  [role="tab"],
+  .font-display {
+    font-family: var(--font-display);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 800;
+  }
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body);
+  }
+}
+
+/* Bold text (spec 4.2): body to 700, display one step heavier. */
+html[data-bold="true"] body {
+  font-weight: 700;
+}
+html[data-bold="true"] :is(h1, h2, h3, h4) {
+  font-weight: 900;
+}
+
+/* A raised card with a solid ledge (spec 4.4). `card-flat` is the same
+   without the ledge, for cards inside cards. */
+@utility card {
+  background-color: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 var(--ledge) 0 var(--line);
+}
+@utility card-flat {
+  background-color: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+/* The 3D press: the ledge collapses as the button moves down into it. The
+   ledge color comes from the variant through --ledge-color. */
+@utility press-3d {
+  box-shadow: 0 var(--press-depth, var(--ledge)) 0 var(--ledge-color, transparent);
+  transition:
+    transform var(--dur-instant) ease-out,
+    box-shadow var(--dur-instant) ease-out,
+    filter var(--dur-fast) ease-out,
+    background-color var(--dur-fast) ease-out;
+  &:hover:not(:disabled, [aria-disabled="true"]) {
+    filter: brightness(1.05);
+  }
+  &:active:not(:disabled, [aria-disabled="true"]) {
+    transform: translateY(var(--press-depth, var(--ledge)));
+    box-shadow: 0 0 0 var(--ledge-color, transparent);
   }
 }
 
@@ -180,7 +335,13 @@
    focus ring. Keyboard users always see where they are. */
 :focus-visible {
   outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
+}
+/* High-contrast themes: a heavier ring with an inner ring in the background
+   color, so it shows on any fill (spec 4.6.2). */
+html[data-theme-group="contrast"] :focus-visible {
+  outline-width: 4px;
+  box-shadow: 0 0 0 2px var(--bg);
 }
 
 html[data-spacing="extra"] body {
@@ -188,9 +349,13 @@ html[data-spacing="extra"] body {
   word-spacing: 0.08em;
 }
 
-/* Reduce motion: from the OS or from Settings. Transitions become instant.
-   Components that animate on purpose (water fill, breathing square) switch
-   to static versions through useReducedMotionPref(). */
+/* Motion Off (spec 5.2): from Maya's choice, v1's Reduce motion, or the
+   device setting when she hasn't chosen. Transitions become instant and
+   animations stop. Components that animate on purpose (water fill, breathing
+   square, companions) switch to static versions through useMotionLevel(). */
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after,
 html[data-reduce-motion="true"] *,
 html[data-reduce-motion="true"] *::before,
 html[data-reduce-motion="true"] *::after {
@@ -200,15 +365,84 @@ html[data-reduce-motion="true"] *::after {
   scroll-behavior: auto !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+/* Small, named animations used by the v2 components. Each one has a calmer
+   version at Calm (opacity instead of movement) and stops at Off (the motion
+   block above). None of them loops in someone's peripheral vision except the
+   FAB breath, which only runs at Lively. */
+@keyframes tide-dot-wave {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.55; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+@keyframes tide-dot-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+@keyframes tide-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes tide-fade-scale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes tide-slide-in-left {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes tide-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+@keyframes tide-ripple {
+  from { opacity: 0.35; transform: scale(0.6); }
+  to { opacity: 0; transform: scale(1.6); }
+}
+@keyframes tide-tab-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes tide-enter {
+  from { opacity: 0; transform: translateY(var(--enter-y, 12px)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading-dot {
+  animation: tide-dot-wave 900ms var(--ease-out) infinite;
+}
+html[data-motion="calm"] .loading-dot {
+  animation-name: tide-dot-pulse;
+}
+.anim-pop {
+  animation: tide-pop var(--dur-spring-bouncy) var(--spring-bouncy) both;
+}
+html[data-motion="calm"] .anim-pop {
+  animation: tide-fade-scale var(--dur-base) var(--ease-out) both;
+}
+.anim-slide-in {
+  animation: tide-slide-in-left var(--dur-base) var(--ease-out) both;
+}
+html[data-motion="calm"] .anim-slide-in {
+  animation-name: tide-dot-pulse;
+  animation-iteration-count: 1;
+}
+html[data-motion="lively"] .fab-breath {
+  animation: tide-breath 4s ease-in-out infinite;
+}
+.tab-bounce {
+  animation: tide-tab-bounce 300ms var(--ease-out);
+}
+html[data-motion="calm"] .tab-bounce {
+  animation: none;
+}
+
+/* Shape markers instead of dots (color-blind palette, high contrast). */
+html[data-shapes="true"] .q-dot {
+  display: none;
+}
+html[data-shapes="true"] .q-shape {
+  display: block;
 }
 
 .sr-only-focusable:not(:focus) {

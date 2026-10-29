@@ -15,7 +15,7 @@ export function Grounding54321({ onDone }: ToolProps) {
   const last = card === prompts.length - 1;
 
   return (
-    <section aria-live="polite" className="flex flex-col gap-4 rounded-card border border-line bg-surface p-4">
+    <section aria-live="polite" className="flex flex-col gap-4 card p-4">
       <p className="text-caption text-ink-soft">{fill(copy.tools.grounding.progress, { n: card + 1 })}</p>
       <h3 className="text-h3 font-bold">{prompts[card]}</h3>
       <div key={card} className="grid grid-cols-1 gap-2 sm:grid-cols-2">

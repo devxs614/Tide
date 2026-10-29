@@ -27,7 +27,7 @@ export function UnstickReasons({ task, loading, onChoose }: { task: Task; loadin
               <button
                 type="button"
                 onClick={() => onChoose(reason)}
-                className="flex min-h-14 w-full items-center rounded-card border border-line bg-surface px-4 py-3 text-left hover:bg-surface-2"
+                className="flex min-h-14 w-full items-center press-3d card [--ledge-color:var(--line)] px-4 py-3 text-left hover:bg-surface-2"
               >
                 {label}
               </button>

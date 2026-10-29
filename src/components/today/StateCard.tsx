@@ -14,7 +14,7 @@ import { WinCard } from './WinCard';
 export function StateCard({ latest }: { latest: CheckIn | null }) {
   const { openCheckIn } = useCheckInSheet();
   return (
-    <section aria-labelledby="state-heading" className="flex flex-col gap-3 rounded-card border border-line bg-surface p-4">
+    <section aria-labelledby="state-heading" className="flex flex-col gap-3 card p-4">
       <h2 id="state-heading" className={latest ? 'sr-only' : 'text-h3 font-bold'}>
         {latest ? copy.today.yourState : copy.today.arriving}
       </h2>

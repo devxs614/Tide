@@ -23,7 +23,7 @@ export function TaskCard({ task, handle, compact = false }: { task: Task; handle
   const Icon = type.icon;
 
   return (
-    <article className={cn('flex flex-col gap-2 rounded-card border border-line bg-surface p-4', compact && 'p-3')}>
+    <article className={cn('flex flex-col gap-2 card p-4', compact && 'p-3')}>
       <div className="flex items-start gap-2">
         {handle}
         <h3 className="min-w-0 flex-1 text-body font-bold break-words text-ink">{task.title}</h3>

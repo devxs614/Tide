@@ -35,7 +35,7 @@ export function TransitionRating({ nowTs }: { nowTs: number }) {
     toast(copy.bridge.rated);
   };
   return (
-    <section aria-labelledby="rate-heading" className="flex flex-col gap-3 rounded-card border border-line bg-surface p-4">
+    <section aria-labelledby="rate-heading" className="flex flex-col gap-3 card p-4">
       <h2 id="rate-heading" className="text-h3 font-bold">
         {fill(copy.bridge.rate, { from: labels.from, to: labels.to })}
       </h2>

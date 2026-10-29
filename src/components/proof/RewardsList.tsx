@@ -32,7 +32,7 @@ export function RewardsList() {
       ) : (
         <ul className="flex flex-col gap-2">
           {rewards.map((r) => (
-            <li key={r.id} className="flex items-center gap-2 rounded-card border border-line bg-surface py-1 pr-1 pl-3">
+            <li key={r.id} className="flex items-center gap-2 card-flat py-1 pr-1 pl-3">
               <span className="flex-1 break-words">{r.text}</span>
               <Button variant="quiet" size="sm" aria-label={fill(copy.proof.removeReward, { reward: r.text })} onClick={() => void removeReward(r.id)}>
                 <X aria-hidden />

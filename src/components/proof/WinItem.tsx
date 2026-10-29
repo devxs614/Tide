@@ -9,7 +9,7 @@ const ICONS = { task: CircleCheck, transition: ArrowRightLeft, strategy: Leaf, m
 export function WinItem({ win }: { win: Win }) {
   const Icon = ICONS[win.source];
   return (
-    <li className="flex items-start gap-3 rounded-card border border-line bg-surface p-3">
+    <li className="flex items-start gap-3 card p-3">
       <Icon className="mt-1 size-5 shrink-0 text-primary" aria-hidden />
       <span className="flex-1 break-words">
         <span className="sr-only">{copy.proof.sources[win.source]}: </span>

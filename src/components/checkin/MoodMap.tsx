@@ -14,6 +14,7 @@ import type { Quadrant } from '@/lib/types';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 export interface MapPoint {
   energy: number;
@@ -80,7 +81,7 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
   return (
     <div className="flex flex-col gap-3">
       {useSliders ? (
-        <div className="flex flex-col gap-4 rounded-card border border-line bg-surface p-4">
+        <div className="flex flex-col gap-4 card p-4">
           <SliderRow label={copy.moodMap.energy} value={value.energy} onChange={(energy) => onChange({ ...value, energy })} />
           <SliderRow
             label={copy.moodMap.pleasantness}
@@ -88,7 +89,7 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
             onChange={(pleasantness) => onChange({ ...value, pleasantness })}
           />
           <p className="flex items-center gap-2 font-bold">
-            <span aria-hidden className={cn('size-3 rounded-full', QUADRANT_STYLES[quadrant].dot)} />
+            <QuadrantDot quadrant={quadrant} />
             {name}
           </p>
         </div>
@@ -106,7 +107,7 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
                 setPointerAnnouncement(valueText);
               }}
               onPointerCancel={() => setDragging(false)}
-              className="relative grid aspect-square w-full touch-none grid-cols-2 grid-rows-2 overflow-hidden rounded-card border border-line"
+              className="relative grid aspect-square w-full touch-none grid-cols-2 grid-rows-2 overflow-hidden rounded-card border-2 border-line"
             >
               {CORNERS.map(({ q, place }) => (
                 <div key={q} className={cn('relative', QUADRANT_STYLES[q].tint)}>

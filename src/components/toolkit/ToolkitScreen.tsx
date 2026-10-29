@@ -11,15 +11,14 @@ import { STRATEGY_FAMILIES } from '@/data/strategies';
 import { now } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { recentCheckIn } from '@/lib/latestState';
-import { QUADRANT_STYLES } from '@/lib/quadrantStyles';
 import { useSettings } from '@/lib/settings';
 import { rankStrategies } from '@/lib/strategyRank';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TalkToAPersonButton } from '@/components/safety/TalkToAPersonButton';
-import { cn } from '@/lib/utils';
 import { FAMILY_ICONS } from './familyIcons';
 import { StrategyCard } from './StrategyCard';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 const href = (id: string) => `/toolkit/${id}?context=toolkit`;
 
@@ -45,7 +44,7 @@ export function ToolkitScreen() {
             <>
               {copy.toolkit.headerNow}:
               <span className="inline-flex items-center gap-2">
-                <span aria-hidden className={cn('size-3 rounded-full', QUADRANT_STYLES[quadrant].dot)} />
+                <QuadrantDot quadrant={quadrant} />
                 {quadrantLabel(quadrant, settings.communicationMode)}
               </span>
             </>

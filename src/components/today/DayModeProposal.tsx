@@ -29,7 +29,7 @@ function Side({ title, tasks, kept, onToggle }: { title: string; tasks: Task[]; 
       {tasks.length === 0 && <p className="text-ink-soft">{copy.dayMode.emptySide}</p>}
       <ul className="flex flex-col gap-2">
         {tasks.map((t) => (
-          <li key={t.id} className="flex items-center gap-3 rounded-card border border-line bg-surface p-3">
+          <li key={t.id} className="flex items-center gap-3 card p-3">
             <span className="flex min-w-0 flex-1 flex-col">
               <span className="break-words">{t.title}</span>
               <EnergyDots cost={t.energyCost} />
