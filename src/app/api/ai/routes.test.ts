@@ -1,3 +1,5 @@
+// The five /api/ai routes with the Anthropic SDK faked: the reply envelope,
+// schema and meaning checks, the missing-key answer and the rate limit.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EMOTION_IDS } from '@/data/emotions';
 

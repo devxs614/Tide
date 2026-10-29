@@ -1,4 +1,5 @@
-// /onboarding — the three first-visit steps, outside the tab layout.
+// /onboarding — the three first-visit steps, outside the tab layout so the
+// tabs and the Check in button stay out of the way until she is done.
 import { PhoneFrame } from '@/components/shell/PhoneFrame';
 import { OnboardingScreen } from '@/components/onboarding/OnboardingScreen';
 

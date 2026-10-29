@@ -32,8 +32,7 @@ what I generated and what came from elsewhere.
 | `src/app/(app)/**` | Tab routes and their layout | Claude Code | Screens are filled in Phases 2–8 |
 | `src/components/shell/*` | PhoneFrame, TopBar, TabBar, CheckInFab, AppShell | Claude Code | |
 | `src/components/checkin/CheckInSheet.tsx` | Check-in sheet | Claude Code | Empty in Phase 0; built in Phase 2 |
-| `src/components/ui/button.tsx`, `dialog.tsx`, `sheet.tsx`, `sonner.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | 48px targets, no red style, "Close" label, Tide's theme (D6, D7) |
-| `src/components/ui/radio-group.tsx` | UI primitive | shadcn CLI | Unchanged |
+| `src/components/ui/button.tsx`, `dialog.tsx`, `sheet.tsx`, `sonner.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | 48px targets, no red style, "Close" label, Tide's theme, buttons may shrink and wrap (D6, D7, D53) |
 | `src/copy/en.ts` | Every user-facing string, with mode variants | Claude Code | Strings from spec Appendix A plus the ones each screen needed |
 | `src/data/emotions.ts` | 48-word emotion vocabulary | Claude Code | Content from the team's spec |
 | `src/data/strategies.ts` | 20 regulation strategies | Claude Code | Content from the team's spec; summaries written by me |

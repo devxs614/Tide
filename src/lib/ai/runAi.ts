@@ -1,3 +1,6 @@
+// Every AI suggestion in the browser goes through runAi, so the safety check
+// and the fallback can never be skipped by a screen.
+
 // What happens when a screen asks for a suggestion, in order:
 // 1. Safety pre-check on any free text: if it fires, no AI call is made.
 // 2. AI switched off in Settings: answer from the built-in fallback.

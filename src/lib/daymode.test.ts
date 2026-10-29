@@ -1,3 +1,5 @@
+// When Today offers a lighter plan, and which tasks count as "today", so the
+// banner never nags and a moved task never shows up twice.
 import { describe, expect, it } from 'vitest';
 import { bannerReason, shouldShowBanner, todaysTasks } from './daymode';
 import type { CheckIn, Task } from './types';

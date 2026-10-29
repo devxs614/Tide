@@ -1,4 +1,5 @@
-// The tests Section 12.6 asks for, one per rule of thumb the engine follows.
+// The tests Section 12.6 asks for, one per rule of thumb the engine follows,
+// plus the double-count guard. Each test reads like the situation it covers.
 import { describe, expect, it } from 'vitest';
 import { DAY, MINUTE } from '@/lib/time';
 import type { FocusOutcome } from '@/lib/types';
@@ -26,6 +27,15 @@ describe('pattern engine', () => {
     expect(patterns[0]).toMatchObject({ key: 'strategyBeforeTask:m-walk-3:writing', k: 4, n: 5, confidence: 2 });
     expect(patterns[0].facts).toEqual({ strategyName: '3-minute walk', taskType: 'writing', k: 4, n: 5, baselinePct: 25 });
     expect(patterns[0].evidence).toHaveLength(5);
+  });
+
+  it('counts one focus block once, even after two walks before it', () => {
+    const scenario = walkScenario(['got_going', 'got_going', 'got_going', 'got_going', 'a_little'], ['got_going', 'didnt_start', 'a_little', 'didnt_start']);
+    const lastBlock = scenario.focusBlocks[0];
+    const secondWalk = strategyUse('m-walk-3', lastBlock.ts - 2 * MINUTE);
+    const patterns = computePatterns({ ...scenario, strategyUses: [...scenario.strategyUses, secondWalk] });
+    expect(patterns[0]).toMatchObject({ k: 4, n: 5 });
+    expect(patterns[0].evidenceIds).toContain(secondWalk.id);
   });
 
   it('keeps a pattern hidden until it has been seen at least three times', () => {

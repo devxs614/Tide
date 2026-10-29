@@ -1,3 +1,5 @@
+// The crisis phrase check: every listed phrase is caught, everyday stress
+// idioms are not, and spelling differences don't let a phrase slip by.
 import { describe, expect, it } from 'vitest';
 import { detectCrisis, normalizeForSafety } from './detect';
 import { SAFETY_PHRASES } from './keywords';

@@ -1,6 +1,7 @@
 // Tide's button. Started from the shadcn/ui CLI output and adapted to the
 // spec: every size is at least 48px tall (touch targets), labels wrap instead
-// of overflowing at 150% text, shapes are pills, and there is no red
+// of overflowing at 150% text (so buttons may shrink in a row; shadcn's
+// shrink-0 is gone on purpose), shapes are pills, and there is no red
 // "destructive" style; a careful action uses the neutral notice color.
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -8,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Slot } from 'radix-ui';
 
 const buttonVariants = cva(
-  'inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-transparent text-center text-body font-bold whitespace-normal transition-colors select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-5',
+  'inline-flex items-center justify-center gap-2 rounded-full border border-transparent text-center text-body font-bold whitespace-normal transition-colors select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-5',
   {
     variants: {
       variant: {

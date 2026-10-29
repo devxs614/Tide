@@ -2,7 +2,7 @@
 // They live in one file so the team can review them with the Challenge
 // Partner. Matching is by whole phrase, ignoring case, accents and
 // apostrophes ("cant go on" matches "can't go on").
-//
+
 // Deliberately NOT on the list: everyday idioms like "this deadline is
 // killing me", "I'm dying to see it" or "dead tired". Catching those would
 // send someone to a crisis screen for venting about homework, which teaches

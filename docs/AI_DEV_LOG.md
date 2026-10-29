@@ -774,7 +774,7 @@ AI_ATTRIBUTION.md, this log and the daily reports. Earlier commits keep the
 trailers they had; rewriting pushed history would need a force-push.
 
 ## After Phase 8 — Onboarding, Settings, demo mode and seed data
-2026-10-29, 09:35
+2026-10-29, 09:33
 
 **What I built** (across the stopped session and this one)
 - Onboarding: three steps with "Step n of 3", Skip on every step,
@@ -833,7 +833,7 @@ trailers they had; rewriting pushed history would need a force-push.
 (the earlier part of Phase 8 is in 80cd257)
 
 ## Before Phase 9 — Submission documents and deployment readiness
-2026-10-29, 09:37
+2026-10-29, 09:33
 
 This phase is for the judges and reviewers more than for Maya: the
 repository, the AI Prompts PDF and the docs are graded too. The team has to
@@ -856,7 +856,7 @@ can from the source (the prompts come from the files, the schemas from zod)
 instead of retyping them.
 
 ## After Phase 9 — Submission documents and deployment readiness
-2026-10-29, 09:52
+2026-10-29, 09:38
 
 **What I built**
 - `/prompts-doc`: the AI Prompts document, printable to PDF, with the
@@ -905,5 +905,199 @@ instead of retyping them.
 - Added: Vercel deploy steps, PDF printing steps, keep the repo out of
   iCloud.
 
-**Commit:** docs(docs): add the prompts page, README, architecture and deploy steps
-(hash recorded at the start of Phase 10)
+**Commit:** 2b0a6c5 docs(docs): add the prompts page, README, architecture and deploy steps
+
+## Before Phase 10 — Full audit and fixes
+2026-10-29, 09:39
+
+I built a lot in one run; this phase is where I check that nothing is
+missing or broken before the team takes over. For Maya it means every
+screen does what the spec promises, with a keyboard, a screen reader, large
+text, dark mode, reduced motion and no network.
+
+How I'll work: go through every acceptance block in 13.1–13.14 and write a
+criterion → where → how verified → status table; walk the whole loop in the
+in-app browser with demo data (check-in → Gentle plan → Stuck → Unstick →
+Focus → Bridge → strategy → re-check → patterns with evidence) at 390px and
+1280px, light and dark; run the QA list from 16.4 as far as a machine can,
+including Lighthouse accessibility if it runs here; re-read every string in
+`en.ts` for tone; re-read every file header for the comment rules; and tick
+the Definition of Done.
+
+What could go wrong: finding gaps late. Anything I find I fix now; anything
+only a person can check goes in TEAM_TODO.
+
+## After Phase 10 — Full audit and fixes
+2026-10-29, 10:09
+
+**What I did**
+- Walked the whole loop in the in-app browser with demo data at 390px:
+  check-in with the scripted sentence → Drained and Frustrated → Adjust my
+  plan → Gentle → Use this plan → Tasks → Move to… → Stuck → "I don't know
+  where to start" → Do it first (3-minute walk) → I'm back → Better →
+  Continue → Start 5 min → focus → Got going → Jump to bridge moment →
+  Get ready → Patterns → Why am I seeing this? Then Today and Patterns at
+  1280px in dark mode, every screen at 320px, and every screen and the
+  check-in sheet at 150% text.
+- Re-read every string in `en.ts` for tone, and every file header.
+- Wrote the audit table, the 16.4 results and the Definition of Done below.
+
+**What broke and how I fixed it**
+- *A walk done twice counted one focus block twice.* After my own run the
+  card read "6 of 7" instead of "5 of 6". Rule A now lets each focus block
+  count once per strategy (D54). New engine test; I checked it fails on the
+  old rule.
+- *Back from "Do it first", the sheet offered the same walk again.* It now
+  reopens on the same step without the offer, and after a reload it reuses
+  the saved reason instead of asking "What's making it hard?" twice (D55).
+  The Tasks flow test covers both; I checked it fails without the fix.
+- *At 150% text the page was wider than the screen* on every tab (the top
+  bar pushed "Menu" and the tab labels off the edge), on Proof log ("Add
+  reward") and on Settings ("Remove campus support"). The badge now wraps
+  under the title, buttons can shrink and wrap, and the reward row wraps
+  (D53). All screens measure exactly the window width at 320px and at 390px
+  with 150% text.
+- *Sheet titles ran under the Close button* at 390px ("What might be behind
+  it?" lost its question mark). `StepHeader` now reserves the same room
+  `SheetHeader` already did.
+- *The state chip's color dot sat alone on its own line* at 150% text. It now
+  rides inside the text next to the state name.
+- Lighthouse findings from earlier in this phase: notice color and
+  label-in-name (D52).
+- Headers: 15 test files had none, seven small files had one line, and
+  eleven had six or more. All now have a 2–5 line header; the longer
+  explanations became a separate block below it. Tone pass on `en.ts`: no
+  emojis, no guilt or pressure words, no clinical labels; nothing to change.
+- Housekeeping: a stale radio-group row in AI_ATTRIBUTION and a stale line in
+  the walkthrough (providers no longer hold tooltips or motion config).
+
+**Not a bug, but worth knowing**
+- In `next dev` with the browser pane hidden, the Day Mode sheet took a few
+  seconds to appear the first time (compiling the lazy chunk, throttled
+  timers). On the production build the first check-in sheet opens in about
+  330 ms, on localhost and with a slow-4G profile.
+- Without an API key, the AI routes answer 503 `missing_key` and the app
+  uses its fallbacks, as the spec says. The browser logs that 503, so
+  Lighthouse best practices on /patterns is 96 on this machine; with the key
+  set it goes away.
+
+**Audit (13.1–13.14)**
+
+| Criterion (section) | Where it lives | How I verified it | Status |
+|---|---|---|---|
+| Tab order TopBar → content → FAB → TabBar (13.1) | `shell/AppShell.tsx` | Read the focus order in the browser: skip link, top bar, content, Check in, tabs | Pass |
+| FAB and tabs reachable and labeled (13.1) | `shell/CheckInFab.tsx`, `TabBar.tsx` | axe 0 violations; Lighthouse accessibility 100 | Pass |
+| No layout shift between tabs (13.1) | `(app)/layout.tsx` keeps the shell mounted | Switched tabs in the browser | Pass |
+| 320px, no horizontal scroll (13.1) | all screens | scrollWidth = 320 on all 9 routes; 390px at 150% text after D53 | Pass (fixed) |
+| Onboarding redirect, "Demo data" badge (13.1) | `AppShell.tsx`, `TopBar.tsx` | Browser; Settings tests | Pass |
+| Onboarding keyboard and screen-reader operable, prefs apply at once, skip from any step (13.2) | `onboarding/*` | Settings tests "walks three steps…", "can be skipped…"; Skip is in the header of every step; axe 0, Lighthouse 100 | Pass (screen reader by a person: TEAM_TODO) |
+| Today with zero data, demo data, long titles (13.3) | `today/*` | TodayFlow "renders calmly with no data"; browser with demo data and a 120-character title at 320px | Pass |
+| Time marker updates every minute from `now()` (13.3) | `lib/useNow.ts`, `TodayScreen.tsx` | Code: redraws every 30 s from the clock | Pass |
+| BridgeCard appears at ≤ 15 minutes (13.3) | `lib/bridge.ts`, `BridgeBanner.tsx` | bridge.test; BridgeFlow "next event card, not a bridge, when > 15 min"; browser at 4:41 pm | Pass |
+| Check-in with keyboard only (13.4) | `checkin/*` | CheckInSheet "can be completed with the keyboard alone" | Pass (the 60-second timing by a person: TEAM_TODO) |
+| AI never auto-selects an emotion (13.4) | `StepHearing.tsx` | Flow 1; browser: three cards, none selected | Pass |
+| "None of these" and own word (13.4) | `AllWords.tsx` | CheckInSheet "None of these…" | Pass |
+| AI off → fallback words at once (13.4) | `lib/ai/fallbacks.ts`, `runAi.ts` | Flow 4; runAi "no network call when AI is off" | Pass |
+| Safety path with a test phrase (13.4) | `lib/safety/*`, `CrisisScreen.tsx` | Flow 3; detect tests in English and Spanish | Pass |
+| Saved check-in has the right quadrant (13.4) | `repo/checkins.ts`, `lib/quadrant.ts` | Flow 1; repo "computes the quadrant itself" | Pass |
+| All task moves without drag; counts live (13.5) | `MoveToMenu.tsx`, `useTaskMoves.ts` | Flow 5; browser | Pass |
+| Done tasks move back; long titles wrap (13.5) | `repo/tasks.ts`, `TaskCard.tsx` | TasksFlow "moves a finished task back"; browser at 320px | Pass |
+| Unstick step changes with state; "Different step" is smaller; AI off works (13.6) | `UnstickSheet.tsx`, `fallbacks.ts` | TasksFlow "Different step…"; fallbacks "Ebb and Swell"; browser | Pass (D55 fix) |
+| Focus timer right after backgrounding; outcome saved; reduced motion (13.7) | `focus/useFocusTimer.ts` | Flow 6; timer is start + pauses + `now()`; reduced-motion CSS checked | Pass (phone sleep by a person: TEAM_TODO) |
+| Bridge at the scripted time; parking note saved and shown on return; rating; real numbers (13.8) | `bridge/*`, `rules/hardTransition.ts` | Flow 8; demo script test; browser ("3 of the last 4 times") | Pass |
+| Every tool works with keyboard; reduced motion; re-check saved with context (13.9) | `toolkit/*` | Flow 9; Toolkit tests (from Unstick, reduced-motion dot, every strategy has a tool); axe on every tool | Pass (screen reader by a person: TEAM_TODO) |
+| Card numbers equal engine output; dismiss persists; AI off (13.10) | `patterns/*`, `lib/patterns/*` | Flow 10; engine tests; cachedResponses "only their own numbers" | Pass (D54 fix) |
+| Proof log by day, no counts, safety on typed wins, rewards (13.11) | `proof/*` | PatternsFlow proof tests; browser at 150% | Pass (D53 fix) |
+| Settings sections, demo warning (13.12) | `settings/*` | Flow 11; "demo mode only after the warning"; browser | Pass (D53 fix) |
+| Support: people, campus, crisis lines, "never contacts anyone" (13.13) | `safety/SupportScreen.tsx` | CrisisScreen tests | Pass |
+| Day Mode: nothing deleted, toggles override, Undo exact, fallback (13.14) | `today/DayMode*`, `lib/daymode.ts` | Flow 7 (6 tasks before and after, Undo restores); schemas "rejects a dropped task"; fallbacks tests | Pass |
+
+**QA checklist (16.4)**
+- Keyboard-only: the check-in, task moves and Unstick are covered by flow
+  tests; the tab order checked in the browser. A full run on a real keyboard
+  is in TEAM_TODO.
+- Screen reader: human-only, in TEAM_TODO.
+- Reduced motion: with the setting on, computed animation and transition
+  times are 0.001 ms; the OS setting uses the same rule; the breathing dot
+  stays still (test). Pass.
+- Text size 150%: three overflows and two cramped spots found and fixed;
+  all screens and sheets fit at 390px. Pass.
+- Dark mode: axe (contrast included) found 0 violations on all eight screens
+  and the check-in sheet with dark mode emulated; walked Today and Patterns.
+  Pass.
+- AI off: flow 4 and the runAi tests. Pass.
+- Offline: the demo script test runs twice with the network down; runAi
+  "falls back on a network failure". This machine has no key, so every
+  browser run today used fallbacks or saved answers. Pass.
+- Safety: flow 3, detect tests in both languages, no text saved. Pass.
+- Demo twice after Restart: the demo script test; once by hand in the
+  browser today. Pass.
+- Lighthouse accessibility (production build, mobile): 100 on Today, Tasks,
+  Patterns, Settings and Proof log after today's fixes, and 100 on
+  Onboarding, Toolkit, Support and /prompts-doc earlier in the phase. The
+  Check-in sheet can't be reached by URL, so axe ran on it instead (0
+  violations); Lighthouse on it is in TEAM_TODO.
+
+**Definition of done (19)**
+- [x] Every module and screen implemented; no stubs or "coming soon" (grep
+  clean; team-name placeholders are only where the spec asks for them).
+- [x] Core loop end to end (browser walk above, demo script test).
+- [x] Every AI feature has a fallback; works with AI off and with no key
+  (this machine has none).
+- [x] Safety tested in English and Spanish; crisis screen; no text stored.
+- [x] No keys in the repo or history (Phase 9 scan); no SDK code or API
+  host in `.next/static`.
+- [x] Accessibility as above; the person-only checks are in TEAM_TODO.
+- [x] All copy in `en.ts` with mode variants; no hard-coded JSX text found.
+- [x] Guard tests pass (clock, colors); no database write outside
+  `src/lib/repo` (grep).
+- [x] lint, typecheck, 148 tests and build clean.
+- [x] Demo reproduces the script online and offline.
+- [x] Every file has a 2–5 line header in the Section 1.7 voice.
+- [x] README, CLAUDE.md, AI_ATTRIBUTION (every file covered), the log,
+  DECISIONS, CODE_WALKTHROUGH, TEAM_TODO, architecture, demo script,
+  research template, progress drafts, `/prompts` and `/prompts-doc`.
+- [x] "Tide" everywhere.
+
+**Decisions**
+- D52 notice color and accessible names, D53 shrinking buttons and the
+  wrapping badge, D54 one focus block per strategy, D55 Unstick after "Do it
+  first".
+
+**For the team**
+- TEAM_TODO now lists the keyboard run (with the 60-second timing),
+  Lighthouse on the check-in sheet, and a real-phone check at 150% text,
+  dark mode, dictation and phone sleep during a focus block.
+
+## Where Tide stands
+2026-10-29, 10:09
+
+Everything in the spec is built and works end to end on one device: the
+check-in with words or body cues, Day Modes, the task board with Unstick and
+focus blocks, the Bridge between activities, the toolkit and its eight tools,
+the pattern engine with evidence, the proof log, onboarding, settings,
+support and the crisis screen, and demo mode with Maya's three planted
+patterns. Every AI feature has a written fallback, so the whole app runs with
+AI off or with no key, which is how it ran on this machine: I have never
+seen a real model answer here. The routes are tested against a faked SDK.
+
+The demo is reliable in the ways I can test: the 100-second script runs
+twice in a row in tests with the network down, and I walked it by hand in the
+browser today. Saved answers cover the scripted inputs if the venue Wi-Fi
+fails.
+
+What I would test first on a real phone: the check-in sheet with the
+on-screen keyboard open, Dictate, the focus timer after locking the phone,
+and 150% text with dark mode.
+
+What didn't make it: the Today bundle is 267 KB against the 250 KB target
+(D47); there is no deploy yet (no signed-in Vercel CLI here); and the
+screen-reader pass needs a person.
+
+The three things to do next:
+1. Add the API key, try one real call per route, and deploy to Vercel
+   (TEAM_TODO has the exact steps).
+2. Verify the crisis numbers and the safety phrase list with the Challenge
+   Partner.
+3. Rehearse the demo on the presenting phone with Wi-Fi off, and record the
+   backup video.

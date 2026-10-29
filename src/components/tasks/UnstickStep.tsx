@@ -22,10 +22,13 @@ interface Props {
   onDifferent: () => void;
   onNotNow: () => void;
   onDoFirst: (strategyId: string) => void;
+  // True when Maya is back from the strategy she was offered. Asking her to
+  // do it first again would read as if Tide forgot she just did it.
+  backFromStrategy?: boolean;
 }
 
-export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, onNotNow, onDoFirst }: Props) {
-  const [skipStrategy, setSkipStrategy] = useState(false);
+export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, onNotNow, onDoFirst, backFromStrategy }: Props) {
+  const [skipStrategy, setSkipStrategy] = useState(!!backFromStrategy);
   const { output, helpful } = suggestion;
   const strategy = output.strategyId ? helpful.find((h) => h.id === output.strategyId) : undefined;
   const n = output.focusMinutes;

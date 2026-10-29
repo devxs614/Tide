@@ -1,3 +1,5 @@
+// Every mini sudoku in the toolkit must have exactly one solution that fits
+// its givens, or the "Mini sudoku" strategy could leave someone stuck.
 import { describe, expect, it } from 'vitest';
 import { SUDOKU_PUZZLES } from './sudoku';
 

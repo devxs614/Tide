@@ -1,3 +1,5 @@
+// When the Bridge appears and when it asks how the switch went, using the
+// demo afternoon (lab ends, calculus starts in nine minutes).
 import { describe, expect, it } from 'vitest';
 import { getPendingRating, getUpcomingTransition } from './bridge';
 import { HOUR, MINUTE } from './time';

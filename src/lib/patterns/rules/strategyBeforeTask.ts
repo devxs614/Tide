@@ -2,6 +2,7 @@
 // going 4 of 5 times". A strategy counts as "before" a task when a focus
 // block on that task starts within 20 minutes after it. The comparison is
 // how often that task type gets going without any strategy first.
+
 // The same groups feed Unstick's "helped you k of n times" line, so the two
 // screens can never disagree.
 import { strategyName } from '@/data/strategies';
@@ -31,11 +32,17 @@ export function strategyTaskGroups(data: Data): StrategyTaskGroup[] {
   const taskById = new Map(data.tasks.map((t) => [t.id, t]));
   const blocks = data.focusBlocks.filter((b) => inWindow(b.ts, data.now, data.windowDays)).sort((a, b) => a.ts - b.ts);
   const groups = new Map<string, StrategyTaskGroup>();
+  // Two walks before the same focus block are one occasion, not two, or
+  // "k of n" would grow every time Maya repeats a strategy. Going newest
+  // first lets the walk closest to the block be the one that counts.
+  const claimed = new Set<string>();
+  const uses = data.strategyUses.filter((u) => inWindow(u.ts, data.now, data.windowDays)).sort((a, b) => b.ts - a.ts);
 
-  for (const use of data.strategyUses.filter((u) => inWindow(u.ts, data.now, data.windowDays))) {
+  for (const use of uses) {
     const block = firstBlockAfter(use, blocks);
     const task = block && taskById.get(block.taskId);
-    if (!block || !task) continue;
+    if (!block || !task || claimed.has(`${use.strategyId}:${block.id}`)) continue;
+    claimed.add(`${use.strategyId}:${block.id}`);
     const key = `${use.strategyId}:${task.type}`;
     const group = groups.get(key) ?? { strategyId: use.strategyId, taskType: task.type, k: 0, n: 0, pairs: [] };
     group.n += 1;
@@ -43,6 +50,8 @@ export function strategyTaskGroups(data: Data): StrategyTaskGroup[] {
     group.pairs.push({ use, block });
     groups.set(key, group);
   }
+  // Evidence reads oldest first, like every other "Why am I seeing this?".
+  for (const group of groups.values()) group.pairs.reverse();
   return [...groups.values()];
 }
 

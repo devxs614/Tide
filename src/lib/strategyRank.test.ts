@@ -1,3 +1,5 @@
+// How the toolkit orders strategies: state first, then what worked for this
+// person, with old "worse" results fading after four weeks.
 import { describe, expect, it } from 'vitest';
 import { rankStrategies } from './strategyRank';
 import { DAY } from './time';

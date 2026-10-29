@@ -1,3 +1,5 @@
+// The crisis and support screens: kind wording, real tel: links for every
+// line, and the promise that Tide never contacts anyone by itself.
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CrisisScreen } from './CrisisScreen';

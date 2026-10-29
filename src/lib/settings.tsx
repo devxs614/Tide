@@ -4,6 +4,7 @@
 // applies theme, text size, spacing and reduced motion to <html> right away,
 // so a change in onboarding or Settings shows up instantly. It also points
 // the clock at the demo time when demo mode is on.
+
 // Dexie is the source of truth; a tiny localStorage mirror lets the inline
 // script in layout.tsx paint the right theme and size before React loads.
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';

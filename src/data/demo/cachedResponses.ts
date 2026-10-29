@@ -2,6 +2,7 @@
 // so the demo looks the same every time and still works if the venue network
 // dies. useAi races the live call against these in demo mode only, and only
 // for these inputs; anything off-script goes to the live AI as usual.
+
 // Each answer is shaped from the actual input (task ids, candidate
 // strategies), so it always passes the same checks as a live answer.
 import type { AiOutputs, AiRouteName } from '@/lib/ai/types';

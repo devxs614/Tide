@@ -1,3 +1,5 @@
+// Date and time wording across the app. The due-date test exists because
+// Tide never calls anything overdue.
 import { describe, expect, it } from 'vitest';
 import {
   addDays,

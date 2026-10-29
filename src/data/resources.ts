@@ -2,6 +2,7 @@
 // IMPORTANT for the team: verify every number below before submission, and
 // review them with the Challenge Partner. Tide makes no claims about what
 // these services do or about confidentiality; it only links to them.
+
 // The buttons use tel: links so the phone's own dialer opens; Tide never
 // places a call or sends a message itself.
 

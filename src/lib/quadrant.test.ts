@@ -1,3 +1,5 @@
+// Placing a check-in on the mood map: the four corners, the neutral middle,
+// and the average of two picked words.
 import { describe, expect, it } from 'vitest';
 import { averagePoint, toQuadrant } from './quadrant';
 

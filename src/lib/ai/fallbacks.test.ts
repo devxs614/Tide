@@ -1,3 +1,5 @@
+// The built-in answers used when the AI is off, slow or wrong. They have to
+// be good enough on their own, so they are tested like features.
 import { describe, expect, it } from 'vitest';
 import { EMOTION_IDS } from '@/data/emotions';
 import { TASK_TYPE_IDS } from '@/data/taskTypes';

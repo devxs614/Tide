@@ -21,7 +21,7 @@
   --on-primary: #ffffff;
   --line: #e2ded6;
   --focus: #1f5c63;
-  --notice: #8a6d1f;
+  --notice: #80651c; /* darkened from #8a6d1f to pass AA on --bg (D52) */
 
   /* Tide's four states. The base colors are only ever used as dots, borders
      and tints, always next to a word, never behind white text. */

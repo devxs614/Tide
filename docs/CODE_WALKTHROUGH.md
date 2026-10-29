@@ -15,8 +15,8 @@ four tabs. Checking in is always one tap away, from anywhere.
 **Files**
 - `src/app/layout.tsx` — root HTML: font, `lang="en"`, and a tiny inline
   script that applies saved theme and text size before the first paint.
-- `src/app/providers.tsx` — settings, motion preference, sheet state,
-  tooltips and toasts, wrapped around every page.
+- `src/app/providers.tsx` — settings, sheet state, the Unstick sheet (loaded
+  the first time it opens) and toasts, wrapped around every page.
 - `src/app/(app)/layout.tsx` — wraps the tab routes in `AppShell`.
 - `src/components/shell/AppShell.tsx` — top bar, content, Check in, tabs, in
   the keyboard order the spec asks for.
@@ -34,6 +34,9 @@ through `useCheckInSheet()` from `src/lib/ui.tsx`.
   reach the content first and the navigation last, exactly like the spec.
 - The theme script runs before React loads. Without it, someone who chose
   dark mode and 150% text would see a white page at normal size flash first.
+- At 130% and 150% text the "Demo data" badge drops under the title, and
+  buttons may shrink and wrap their labels, so nothing pushes the page wider
+  than a 320px screen (D53).
 
 **Likely reviewer questions**
 - *Why is the app phone-width on a laptop?* It's designed mobile-first; on a
@@ -260,6 +263,10 @@ adds "Got unstuck" when it applies.
   sleeps (D29).
 - The "helped you k of n times" line comes from the same rule as the
   Patterns card, so the two can't disagree (D24).
+- After "Do it first", the strategy page sends her back to `/tasks?unstick=`
+  and the sheet reopens on the same step (from `unstickCache.ts`) without
+  offering the strategy again. After a reload it reuses the reason saved on
+  the task instead of asking twice (D55).
 
 **Likely reviewer questions**
 - *What if the AI suggests a strategy that never helped?* The server and the
@@ -424,6 +431,9 @@ then on.
   own, and both Unstick and the Bridge read the same rule code as this screen.
 - A pattern needs at least 3 observations, always shows "k of n", and the
   wording says "tends to" and "in your data", never "causes".
+- In rule A a focus block counts once per strategy, credited to the use
+  closest before it, so doing the same walk twice can't inflate "k of n"
+  (D54).
 - The proof log never counts or compares; wins are only ever added.
 
 **Likely reviewer questions**
