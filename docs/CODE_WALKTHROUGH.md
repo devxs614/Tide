@@ -89,10 +89,97 @@ finished task adds a win) inside one Dexie transaction.
 ---
 
 ## AI layer
-*(Phase 1)*
+
+**What it does for Maya.** It turns her messy words into three emotion words
+to choose from, suggests one small first step for a stuck task, proposes a
+lighter day, prepares a switch between activities, and puts her patterns
+into plain sentences. If anything goes wrong, a built-in answer appears
+instead, so she is never blocked.
+
+**Files**
+- `prompts/*.md` — the five system prompts plus the shared preamble. One copy
+  each; the server reads them and the AI Prompts PDF prints them.
+- `src/lib/ai/schemas.ts` — zod schemas for every route's input and output,
+  plus `check*` functions for what zod can't see (made-up ids, a task left
+  out of a plan, numbers that aren't in the facts).
+- `src/lib/ai/prompts.ts` — reads the prompt files on the server.
+- `src/lib/ai/client.ts` — `callJson()`: one request, parse, validate, one
+  retry with the error, typed `AiError`s. Server only.
+- `src/lib/ai/route.ts` — the shared route body: rate limit → validate →
+  call → check → envelope, and the metadata-only log line.
+- `src/app/api/ai/{label,unstick,daymode,bridge,narrate}/route.ts` — each
+  route is ~20 lines of configuration.
+- `src/app/api/config/route.ts` — timeouts and "is a key configured?" for the
+  browser (never the key).
+- `src/lib/ai/rateLimit.ts` — per-IP sliding window.
+- `src/lib/ai/fallbacks.ts`, `unstickTable.ts` — the deterministic answers,
+  including all 36 Unstick steps.
+- `src/lib/ai/runAi.ts`, `useAi.ts`, `types.ts` — the browser side: safety
+  pre-check, AI-off, demo cache race, timeout, validation, fallback.
+- `src/data/demo/cachedResponses.ts` — saved answers for the scripted demo.
+
+**Data flow.** A screen calls `run(input)` from `useAi('route')`. The input
+holds only what the schema allows (no names, no contacts). The server adds
+the system prompt, calls Claude, validates, and returns
+`{ ok, data, source }`. The browser validates again and falls back on any
+problem. Nothing is stored on the server.
+
+**Decisions worth defending**
+- *The code calculates; the AI words things.* Patterns, budgets and rankings
+  are computed by code; the AI only phrases them, and a regex check swaps any
+  card that mentions a number not in its facts.
+- *Validation on both sides.* The browser runs the same zod schemas and
+  checks, so even a stale deployment can't push a malformed answer to Maya.
+- *Thinking off, low effort, no temperature* (D11): these are short JSON
+  answers with an 8-second budget; current models reject sampling settings.
+
+**Likely reviewer questions**
+- *What if the model invents an emotion that isn't in the list?* The check
+  catches it, the model gets one retry with the reason, and if it does it
+  again the built-in lexicon answers instead.
+- *What does the server log?* One line per call: route, status, latency and
+  whether the browser will fall back. Never the request or the answer.
+- *Does the app work without an API key?* Yes. Every route returns
+  `missing_key`, and every screen uses its fallback.
 
 ## Safety
-*(Phase 1)*
+
+**What it does for Maya.** If her words sound like a crisis, Tide stops
+coaching, saves the check-in without her words, and shows crisis lines,
+the people she trusts and her campus support, with a quiet way back.
+
+**Files**
+- `src/lib/safety/keywords.ts` — English and Spanish phrases, in one file
+  for the team and their partner to review.
+- `src/lib/safety/detect.ts` — normalizes text (case, accents, apostrophes,
+  punctuation) and matches whole phrases.
+- `src/components/safety/CrisisScreen.tsx` — the still crisis version.
+- `src/components/safety/SupportScreen.tsx` — the everyday "Talk to a
+  person" screen.
+- `src/components/safety/CrisisLines.tsx`, `ContactList.tsx`,
+  `TalkToAPersonButton.tsx` — the pieces they share.
+- `src/data/resources.ts` — crisis numbers (to be verified by the team).
+- `src/app/(app)/support/page.tsx` — `/support` and `/support?crisis=1`.
+
+**Data flow.** `runAi` checks free text with `detectCrisis()` before any
+network call; the label route's `safetyFlag` is treated the same way. The
+caller then saves the check-in through `createCheckIn`, which drops the text
+when `safetyTriggered` is set, and navigates to `/support?crisis=1`.
+
+**Decisions worth defending**
+- Whole-phrase matching with idioms excluded (D17): "this deadline is killing
+  me" doesn't trigger it; "kill myself" does.
+- The detector runs in the browser, so it works offline and with AI off.
+- The crisis screen has no animation and no AI: calm and predictable.
+
+**Likely reviewer questions**
+- *Isn't keyword matching crude?* It's the first of two layers; the model's
+  `safetyFlag` is the second. A false alarm shows a kind screen with a "take
+  me back" button, which is the safer mistake.
+- *Does Tide call anyone?* Never. Buttons open the phone's own dialer or
+  messages app; the person decides.
+- *Is the crisis text stored?* No. The check-in is saved with
+  `safetyTriggered: true` and no text, and patterns ignore it.
 
 ## Check-in
 *(Phase 2)*
@@ -119,4 +206,17 @@ finished task adds a win) inside one Dexie transaction.
 *(Phase 8)*
 
 ## How to answer "how does the AI work?" in 60 seconds
-*(Written once the AI layer exists, Phase 1, and finalized in Phase 9.)*
+
+Tide uses Claude in five small, server-side routes, and only where a fixed
+rule can't do the job: reading free language into emotion words, adapting a
+first step to a specific task and feeling, reshaping a day, preparing a
+switch, and wording patterns. Each route gets the minimum input (no names),
+a system prompt we publish in the AI Prompts PDF, and must answer with JSON
+that we validate twice, once on the server and once in the browser. If the
+answer is invalid, the model gets one retry; if it fails again, or the
+network is down, or AI is switched off, a deterministic fallback answers
+instantly. The AI never computes statistics: the pattern engine is plain
+code, and the AI only puts its numbers into words, with a check that blocks
+any number that isn't in the data. Before any call, a safety check runs in
+the browser; crisis language stops the AI completely and shows human help.
+(Finalized in Phase 9.)

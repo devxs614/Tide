@@ -1,7 +1,9 @@
-// Support screen. Phase 0 only gives the route its real title in the top bar;
-// the screen itself is built in a later phase of the build plan.
-import { copy } from '@/copy/en';
+// /support — "Talk to a person". With ?crisis=1 (set by the safety layer) it
+// shows the still, crisis version instead of the everyday one.
+import { CrisisScreen } from '@/components/safety/CrisisScreen';
+import { SupportScreen } from '@/components/safety/SupportScreen';
 
-export default function SupportPage() {
-  return <h2 className="text-h2 font-bold">{copy.shell.titles.support}</h2>;
+export default async function SupportPage({ searchParams }: PageProps<'/support'>) {
+  const params = await searchParams;
+  return params.crisis === '1' ? <CrisisScreen /> : <SupportScreen />;
 }

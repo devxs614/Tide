@@ -118,5 +118,101 @@ an older API in DECISIONS.md.
 - Added the initial TEAM_TODO list from Section 17.7, plus a note that I kept
   your README line at the top of the new README.
 
-**Commit:** chore(base): set up the Tide foundation (hash recorded at the
-start of Phase 1)
+**Commit:** a4df74e chore(base): set up the Tide foundation (pushed to origin)
+
+## Before Phase 1 — AI plumbing and safety layer
+2026-10-28, 23:41
+
+Maya never sees this layer directly, but she feels it every time Tide offers
+words for a feeling, a first step, a lighter plan, a bridge or a pattern
+sentence. It has to answer fast, stay inside what she typed, and never leave
+her waiting: if the model is slow, wrong or switched off, a built-in answer
+appears instead. The safety layer is the other half: if she writes something
+that sounds like a crisis, Tide stops coaching and shows people she can reach.
+
+Where it sits: between every screen that suggests something and the five
+`/api/ai/*` routes. It reads only the minimal input each schema allows and
+writes nothing; the screens save what Maya chooses.
+
+What "done" means for me: the five routes validate input and output with
+zod, run the extra semantic checks (no invented emotion ids, every task
+placed once in a Day Mode plan, numbers in pattern text that really exist),
+retry once, and return an envelope; with no key they return `missing_key`
+and the client falls back; the 36-entry Unstick table is complete; the
+safety detector catches the English and Spanish phrases without firing on
+"this deadline is killing me"; the crisis screen has working `tel:` links;
+and neither the SDK nor the key ends up in the browser bundle.
+
+What could go wrong: the spec's `temperature: 0.3` can't be sent anymore
+(the API now rejects sampling parameters), and the default models think
+before answering, which would eat the small `max_tokens` budgets and cut the
+JSON short. I'll turn thinking off for Haiku 5.5 and Sonnet 5.5 with low
+effort, record it, and test the retry path with a mocked SDK. Also, `fs`
+must stay on the server: fallbacks have to be pure so the browser can use
+them.
+
+## After Phase 1 — AI plumbing and safety layer
+2026-10-28, 23:49
+
+**What I built**
+- zod schemas for all five routes plus the semantic checks
+  (`src/lib/ai/schemas.ts`).
+- `callJson()` against the installed SDK 1.3.0, with a shared deadline,
+  one retry that shows the model its own answer and the problem, refusal
+  handling, and typed `AiError`s (`src/lib/ai/client.ts`).
+- A shared route body (`src/lib/ai/route.ts`) and the five routes, each a
+  short configuration file, plus `/api/config`. The server log line holds
+  only route, status, latency and the fallback flag.
+- Deterministic fallbacks for every route, including the complete 36-entry
+  Unstick table and a label lexicon (`src/lib/ai/fallbacks.ts`,
+  `unstickTable.ts`).
+- The browser runner and `useAi` hook: safety pre-check, AI-off, the demo
+  cache race (empty cache until Phase 8), timeout from `/api/config`,
+  validation on the browser side too, and fallback on anything else.
+- The safety layer: English and Spanish phrases, a normalizing whole-phrase
+  detector, the crisis screen, the Support screen and the Talk to a person
+  button.
+
+**How I checked it**
+- lint ok, typecheck ok, 73 tests passing (13 files), build ok.
+- `callJson` with a mocked SDK: valid answer; invalid then valid; invalid
+  twice; semantic failure then fixed; timeout through the abort signal;
+  refusal; missing key (no API call made). I also assert that no
+  `temperature` is sent and that thinking is off for Haiku.
+- Route tests: envelope on success, made-up emotion id → `invalid_output`,
+  oversized input → 400 without a model call, missing key → 503, rate
+  limit → 429, Day Mode plan with a dropped task → rejected, narrated card
+  with "90%" → swapped for the template card, `/api/config` never exposes
+  the key.
+- Safety tests: every listed phrase in context, casing, accents, curly
+  apostrophes, Spanish, and the idioms that must not trigger.
+- Build output: `grep` finds no "anthropic", no `ANTHROPIC_API_KEY` and no
+  `sk-ant` anywhere in `.next/static`. The label route's trace file lists all
+  six prompt files, so they ship to Vercel.
+- On the dev server with no key: `/api/ai/label` answers 503 `missing_key`,
+  a bad body answers 400 `invalid_input`, `/api/config` says
+  `hasKey: false`. In the in-app browser, `/support?crisis=1` shows the still
+  crisis screen with the three `tel:` buttons and "I'm safe, take me back."
+
+**What broke and how I fixed it**
+- A test looked up the 911 button by `/911/` and also matched
+  "800 911 2000"; I made it use the exact button name.
+- A test fixture needed an explicit `NarrateInputT` type because TypeScript
+  widened the facts objects.
+
+**Decisions**
+- D11 no temperature, thinking off and low effort. D12 refusal → fallback.
+  D13 semantic checks get the retry. D14 the demo cache race. D15 Day Mode
+  fallback ordering. D16 the Unstick fallback changes with state. D17 the
+  safety phrase rules. D18 HTTP status codes.
+
+**Known issues**
+- I haven't been able to try a real model call: there is no API key in this
+  environment. Everything AI-side is tested with a mocked SDK. The team
+  should run the label example once with their key (added to TEAM_TODO).
+
+**For the team**
+- Added: try one real AI call after adding the key.
+
+**Commit:** feat(ai): add the AI routes, fallbacks and the safety layer
+(hash recorded at the start of Phase 2)

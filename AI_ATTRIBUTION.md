@@ -43,6 +43,15 @@ what I generated and what came from elsewhere.
 | `src/lib/strategyRank.ts` | Strategy ranking (spec 9.4) | Claude Code | Covered by `strategyRank.test.ts` |
 | `src/lib/wins.ts`, `src/lib/repo/*` | Win wording and every database write | Claude Code | Covered by `repo.test.ts` |
 | `src/test/guards.test.ts` | Guard tests for the clock and color rules | Claude Code | |
+| `src/lib/ai/schemas.ts`, `types.ts` | zod schemas and semantic checks for the five routes | Claude Code | Schemas from spec 10.4; checks from 10.4's last paragraph. Covered by `schemas.test.ts` |
+| `src/lib/ai/client.ts`, `prompts.ts`, `route.ts`, `rateLimit.ts` | Server-side AI call, prompt loading, shared route body, rate limit | Claude Code | Written against the installed `@anthropic-ai/sdk` 1.3.0 types. Covered by `client.test.ts` and `routes.test.ts` |
+| `src/lib/ai/fallbacks.ts`, `unstickTable.ts` | Deterministic answers, including all 36 Unstick steps | Claude Code | The table entries the spec gave are used as written; I wrote the other entries. Covered by `fallbacks.test.ts` |
+| `src/lib/ai/runAi.ts`, `useAi.ts` | Browser-side AI runner and hook | Claude Code | Covered by `runAi.test.ts` |
+| `src/app/api/ai/*/route.ts`, `src/app/api/config/route.ts` | The five AI routes and the client config route | Claude Code | |
+| `src/data/demo/cachedResponses.ts` | Saved demo answers | Claude Code | Filled in Phase 8 |
+| `src/lib/safety/keywords.ts`, `detect.ts` | Crisis phrase list and detector | Claude Code | Phrases from the team's spec plus a few I added (D17); team to review. Covered by `detect.test.ts` |
+| `src/components/safety/*` | Crisis screen, Support screen, contact list, crisis lines, Talk to a person button | Claude Code | Covered by `CrisisScreen.test.tsx` |
+| `src/app/(app)/support/page.tsx` | `/support` route | Claude Code | |
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |
@@ -50,8 +59,12 @@ what I generated and what came from elsewhere.
 
 ## AI prompts used inside the app
 The five system prompts in /prompts started as drafts in the team's
-specification. I implemented them as written, with these changes: none so
-far. The AI Prompts PDF is generated from /prompts-doc.
+specification. I implemented them as written, with these changes: none to
+the prompt text. How they are sent differs from the spec in one way: the
+spec's `temperature: 0.3` is not sent because the API no longer accepts
+sampling parameters, and thinking is turned off with low effort for these
+short JSON answers (docs/DECISIONS.md, D11). The AI Prompts PDF is generated
+from /prompts-doc.
 
 ## Product content
 The emotion vocabulary, strategy library, safety keyword list and crisis
@@ -83,6 +96,7 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | eslint 9, eslint-config-next 16.4.3 | Linting | MIT |
 | prettier 3.9.10 | Formatting | MIT |
 | typescript 5.9.3 | Type checking | Apache-2.0 |
+| server-only 0.0.1 | Fails the build if server AI code is imported into the browser | MIT |
 | @types/node, @types/react, @types/react-dom | Type definitions | MIT |
 
 Fonts: Atkinson Hyperlegible (Braille Institute of America), SIL Open Font
