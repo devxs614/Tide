@@ -1132,3 +1132,26 @@ logs this as a console error, and a console error doesn't fail a test.
 **How I checked it.** lint, typecheck, 149 tests and the build are clean;
 the box breathing page in the browser shows all five steps with no console
 errors.
+
+## Fix after Phase 10 — a clearer "Read aloud" voice
+2026-10-29, 11:40
+
+**What the team saw.** "Read aloud" was hard to understand. In the browser
+they test with, the system default voice is Paulina (Mexican Spanish), and
+Tide only set the language, never the voice, so English steps were read in
+a Spanish accent.
+
+**What I changed.** `speech.ts` now picks the clearest English voice the
+device has (D56): a downloaded Premium or Enhanced voice if there is one,
+then voices that read clearly (Samantha, Ava, Daniel…), preferring US
+English and on-device voices, and never the Mac's novelty or robotic voices.
+The buttons ask for the voice list on mount, since some browsers load it
+late.
+
+**How I checked it.** New `speech.test.ts` with the voice list from that
+Mac: it picks Samantha, prefers "Ava (Premium)" or "Samantha (mejorada)"
+when present, and picks nothing when only unclear voices exist. In the
+browser pane, tapping "Read aloud" on Box breathing now uses Samantha in
+en-US. lint, typecheck, 153 tests and the build are clean. I noticed the
+read-aloud speed in that browser is set to Faster (1.2); I left the
+setting alone.

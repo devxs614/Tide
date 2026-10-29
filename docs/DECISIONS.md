@@ -383,3 +383,16 @@ After the walk, the Unstick sheet reopens on the same first step without
 offering the walk again. If the page was reloaded in between (so the
 in-memory step is gone), it asks the AI or fallback again with the reason
 saved on the task instead of asking "What's making it hard?" twice.
+
+**D56 — 2026-10-29 — "Read aloud" picks the clearest English voice itself.**
+Tide set the language to English but left the voice to the browser, which
+uses the system default. On a Mac set to Spanish that is Paulina, so English
+steps came out in a Spanish accent and were hard to follow. `speech.ts` now
+scores the English voices: downloaded high-quality ones first ("Premium",
+"Enhanced", "mejorada", "Natural"), then voices known to read clearly
+(Samantha, Ava, Daniel…), US English, then on-device voices. The Mac's
+novelty and robotic voices (Bubbles, Zarvox, Fred, Eddy…) are never chosen.
+If no English voice qualifies, the browser decides as before.
+Rejected: a voice picker in Settings for now. It would add a choice most
+people never need; the automatic pick fixes the actual problem, and a
+better voice installed on the device is picked up automatically.
