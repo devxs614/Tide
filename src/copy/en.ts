@@ -231,6 +231,7 @@ export const copy = {
     addEvent: 'Add an event',
     noTasks: 'Nothing on your list for today.',
     addTask: 'Add a task',
+    tideLine: 'Tide Line',
     tideLineLabel: 'Tide Line: the rest of your day',
     tideLineLiteral: 'Tide Line (your schedule for the rest of today)',
     eventTime: '{start} – {end}',

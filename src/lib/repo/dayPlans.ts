@@ -63,3 +63,18 @@ export async function undoDayPlan(snapshot: DayPlanSnapshot): Promise<void> {
 export async function getDayPlan(date: string): Promise<DayPlan | undefined> {
   return db.dayPlans.get(date);
 }
+
+// "Bring back" on Today: the task returns to today's list, and if a plan
+// moved it, the plan now counts it as kept, so it shows up under today's
+// tasks even when it isn't due today.
+export async function bringBackToday(taskId: string, date: string): Promise<void> {
+  await db.transaction('rw', db.dayPlans, db.tasks, async () => {
+    await db.tasks.update(taskId, { movedFrom: undefined, movedTo: undefined });
+    const plan = await db.dayPlans.get(date);
+    if (!plan) return;
+    await db.dayPlans.update(date, {
+      movedTaskIds: plan.movedTaskIds.filter((id) => id !== taskId),
+      keptTaskIds: plan.keptTaskIds.includes(taskId) ? plan.keptTaskIds : [...plan.keptTaskIds, taskId],
+    });
+  });
+}
