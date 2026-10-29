@@ -223,3 +223,26 @@ A query for "check-ins from midnight until now" therefore missed a check-in
 saved a minute later. Queries that end at "now" read an open-ended range and
 filter by time in code (`useTodayData`, `recentCheckIn`). A flow test caught
 this.
+
+**D34 — 2026-10-29 — Every strategy run is recorded, even when Maya skips the re-check.**
+A use with no result still matters: the strategy-before-task rule links any
+strategy to a focus block that starts within 20 minutes, re-checked or not
+(the demo's walks are not re-checked on purpose, spec 14.2). Skipping the
+re-check saves the use without a result and goes straight back.
+
+**D35 — 2026-10-29 — The toolkit opens on the family of the best match.**
+13.9 lists family tabs without saying which one opens first. The tab that
+opens is the family of the top-ranked strategy for Maya's current state, so
+the first thing she sees is the best suggestion. With a state, the list is
+filtered to strategies that suit it; "Show all" lifts the filter.
+
+**D36 — 2026-10-29 — Sudoku "Check" compares to a unique solution.**
+Each of the five puzzles has exactly one solution (a brute-force test
+proves it), so comparing against the stored solution can never call a
+correct alternative "off". When nothing is off but the grid isn't full, it
+says "So far, every number you placed fits." Puzzles rotate per opening.
+
+**D37 — 2026-10-29 — Grounding cards have one optional box per item.**
+"Name 5 things you can see" shows five small optional inputs, "Name 1 thing
+you can taste" shows one. Nothing typed is saved; "Next" works with every
+box empty.

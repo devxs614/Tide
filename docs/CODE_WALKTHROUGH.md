@@ -308,7 +308,45 @@ the plan and the moved dates in one transaction and returns a snapshot that
   `now()`, which follows the demo clock.
 
 ## Toolkit
-*(Phase 5)*
+
+**What it does for Maya.** Short strategies for the moments before a task
+or a switch, sorted by what has worked for her and what suits how she feels
+now. Each one runs with an interactive tool and ends with one question:
+better, same or worse.
+
+**Files**
+- `src/components/toolkit/ToolkitScreen.tsx` — header with the current state,
+  "Show all", "Works for you", family tabs.
+- `StrategyCard.tsx`, `StrategyMeta.tsx`, `familyIcons.ts` — the list items.
+- `StrategyRunner.tsx`, `ReCheck.tsx`, `ToolArea.tsx` — the runner, the
+  question, and the tool picker (sudoku and doodle are lazy-loaded).
+- `tools/*` — BoxBreathing, Grounding54321, Sudoku4x4, DoodleCanvas,
+  WalkTimer, BrainDump, MessageTemplate, StepsTimer, plus TimerControls and
+  SoftTimer.
+- `src/data/strategies.ts`, `src/data/sudoku.ts` — the library and puzzles.
+- `src/lib/strategyRank.ts`, `src/lib/useCountdown.ts` — ranking and timers.
+- `src/app/(app)/toolkit/page.tsx`, `toolkit/[id]/page.tsx` — routes.
+
+**Data flow.** The list reads the recent check-in and all StrategyUses to
+rank. The runner writes one StrategyUse through `recordStrategyUse()` (with
+the context and the task or transition id), which adds a win for "better",
+then returns to `/toolkit`, `/tasks?unstick=<task>` or `/?bridge=<id>`.
+
+**Decisions worth defending**
+- Ranking uses Laplace smoothing, so one lucky try doesn't jump to the top,
+  and anything that made her feel worse twice in four weeks sinks (9.4).
+- Timers measure from timestamps and never move on by themselves.
+- The breathing square announces phases, not seconds; with reduced motion
+  the dot is still and only the words change.
+
+**Likely reviewer questions**
+- *Why does a skipped re-check still count?* The "walk before writing"
+  pattern only needs to know the walk happened (D34).
+- *Is anything typed in a tool saved?* Only brain-dump lines Maya chooses to
+  turn into tasks, after the safety check. Doodles and grounding notes are
+  never saved.
+- *Does Tide send the message for her?* No; she copies it and sends it
+  herself.
 
 ## Bridge
 *(Phase 6)*

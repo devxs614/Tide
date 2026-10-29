@@ -63,7 +63,11 @@ what I generated and what came from elsewhere.
 | `src/components/focus/*`, `src/app/focus/[taskId]/page.tsx` | Focus block, timer hook, water fill, outcome sheet | Claude Code | Covered by `FocusScreen.test.tsx` |
 | `src/lib/patterns/types.ts`, `confidence.ts`, `data.ts`, `rules/strategyBeforeTask.ts` | First part of the pattern engine | Claude Code | Completed in Phase 7 |
 | `src/lib/latestState.ts`, `src/lib/random.ts` | Recent check-in lookup, random pick | Claude Code | |
-| `src/components/ui/checkbox.tsx`, `switch.tsx`, `dropdown-menu.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | Larger targets, visible borders, row wrappers |
+| `src/components/ui/checkbox.tsx`, `switch.tsx`, `dropdown-menu.tsx`, `tabs.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | Larger targets, visible borders, row wrappers |
+| `src/components/toolkit/*`, `src/components/toolkit/tools/*` | Toolkit list, strategy runner, re-check, all eight tools | Claude Code | Covered by `Toolkit.test.tsx` (flow test 9) |
+| `src/app/(app)/toolkit/page.tsx`, `toolkit/[id]/page.tsx` | Toolkit routes | Claude Code | |
+| `src/data/sudoku.ts` | Five 4×4 puzzles with solutions | Claude Code | Generated with a small brute-force search; uniqueness checked by `sudoku.test.ts` |
+| `src/lib/useCountdown.ts` | Timestamp-based countdown for tools | Claude Code | |
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |
