@@ -1069,6 +1069,8 @@ only a person can check goes in TEAM_TODO.
   Lighthouse on the check-in sheet, and a real-phone check at 150% text,
   dark mode, dictation and phone sleep during a focus block.
 
+**Commit:** fe8587f fix(audit): fix what the Phase 10 audit found and write it up
+
 ## Where Tide stands
 2026-10-29, 10:09
 
