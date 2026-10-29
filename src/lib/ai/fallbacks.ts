@@ -199,7 +199,11 @@ export function narrateTemplate(p: NarrateInputT['patterns'][number]): NarrateCa
         whyText: `From ${s('n')} times you used ${s('strategyName').toLowerCase()} before a ${s('taskType')} task; you got going ${s('k')} times.`,
       };
     case 'hard_transition': {
-      const withName = f.withStrategyName ? s('withStrategyName') : '';
+      // Only say a strategy made the switch easier when the numbers show it.
+      const helped =
+        f.withStrategyName !== undefined &&
+        Number(f.withStrategyHardK) / Number(f.withStrategyN) < Number(f.withoutStrategyHardK) / Number(f.withoutStrategyN);
+      const withName = helped ? s('withStrategyName') : '';
       return {
         key: p.key,
         title: `Switching from ${s('fromLabel')} to ${s('toLabel')} is often hard`,

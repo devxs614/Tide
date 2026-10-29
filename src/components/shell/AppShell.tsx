@@ -13,6 +13,8 @@ import { TabBar } from './TabBar';
 import { CheckInFab } from './CheckInFab';
 import { CheckInSheet } from '@/components/checkin/CheckInSheet';
 import { DayModeSheet } from '@/components/today/DayModeSheet';
+import { BridgeBanner } from '@/components/bridge/BridgeBanner';
+import { BridgeSheet } from '@/components/bridge/BridgeSheet';
 
 function titleFor(pathname: string): string {
   const t = copy.shell.titles;
@@ -39,6 +41,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {copy.global.skipToContent}
       </a>
       <TopBar title={titleFor(pathname)} />
+      <BridgeBanner />
       <main id="main" tabIndex={-1} className="flex-1 px-5 pb-48 pt-5 outline-none">
         {children}
       </main>
@@ -53,6 +56,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
       <CheckInSheet />
       <DayModeSheet />
+      <BridgeSheet />
     </PhoneFrame>
   );
 }

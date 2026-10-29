@@ -421,6 +421,7 @@ export const copy = {
     ratings: { easy: 'Easy', okay: 'Okay', hard: 'Hard' } satisfies Record<TransitionRating, string>,
     rated: 'Thanks. Tide will remember how this switch went.',
     banner: '{from} → {to} in {m} min',
+    didStrategy: 'Done: {name}',
   },
 
   toolkit: {

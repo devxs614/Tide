@@ -536,5 +536,91 @@ anything is kept. Canvas colors have to come from the tokens, not hex.
 **For the team**
 - Nothing new.
 
-**Commit:** feat(toolkit): add the toolkit, strategy runner and all eight tools
-(hash recorded at the start of Phase 6)
+**Commit:** 97a61f2 feat(toolkit): add the toolkit, strategy runner and all eight tools
+
+## Before Phase 6 — Bridge
+2026-10-29, 00:30
+
+Transitions are where Maya's days fall apart: chemistry lab ends at 4:40,
+calculus starts at 4:50, and the switch often goes badly. The Bridge shows
+up on its own about 15 minutes before the next event and walks her through
+three small things: close (write down where she's leaving off), shift (one
+short strategy that has helped before), start (what to bring and where to
+go). Later it asks how the switch went, and that answer feeds the patterns.
+
+Where it sits: step 3 of the loop. It reads events, the in-progress task,
+the recent check-in, strategy history and past transitions (for "has felt
+hard 3 of the last 4 times"); it writes the parking note to the task, one
+Transition when she leaves, and the rating (plus a win for easy or okay).
+
+What "done" means for me: in demo mode at the scripted time the card
+appears; the parking note is saved and shown first when she returns to the
+task; "Start" runs the strategy in the bridge context and comes back; the
+rating prompt appears 10 minutes after the event starts and saves the
+rating; and the pattern line uses real computed numbers from the same rule
+the Patterns screen will use.
+
+What could go wrong: "from" is subtle. At 4:41 the lab has just ended, so a
+strict "ongoing event" check would say "from the lab report" instead of
+"Chemistry lab → Calculus". I'll treat an event that ended in the last 15
+minutes as the one she's coming from, and log it. The parking note is free
+text, so it gets the safety check before it is saved.
+
+## After Phase 6 — Bridge
+2026-10-29, 00:36
+
+**What I built**
+- `src/lib/bridge.ts`: the next event within 15 minutes that hasn't been
+  bridged, the "from" resolution (event she's in or just left, else her
+  in-progress task, else "what you're doing"), and the pending rating.
+- The hard-transition rule, with the with/without-strategy comparison,
+  shared with Patterns.
+- The Bridge card on Today (it replaces the next-event card inside 15
+  minutes), a banner on the other tabs, and the sheet: live countdown, the
+  "has felt hard" line, 1 Close with a prefilled parking note, dictation and
+  the safety check, 2 Shift with the AI's pick among the top three short
+  strategies and "Something else", 3 Start with a prep checklist, and "Done,
+  I'm going". The rating prompt sits on Today after the next event starts.
+- The strategy round trip: the runner records against the draft and comes
+  back to `/?bridge=<id>`, which reopens the same switch and shows "Done:
+  {strategy}".
+
+**How I checked it**
+- lint ok, typecheck ok, 114 tests passing (22 files), build ok; the full
+  suite passed four times in a row after the timeout fix below.
+- Flow test 8: a lab that just ended and Calculus in 9 minutes show
+  "Chemistry lab → Calculus · leave in 9 min"; the parking note is prefilled
+  and saved to the task; the prep list shows Calculator, Notes from Tuesday
+  and Go to Room 4-203; Start goes to the runner with the bridge context;
+  "Better" comes back to `/?bridge=<id>`; "Done, I'm going" saves the
+  Transition with the note and the strategy use; at Calculus + 11 minutes
+  Today asks how the switch went, and "Okay" saves the rating and the win.
+- Unit tests for the "from" rule, "already bridged", "too early", and when
+  the rating is asked.
+- In the in-app browser: added a Calculus event 11 minutes ahead; the card
+  appeared on its own, and the sheet showed the prefilled note, dictation,
+  and a one-minute strategy suited to the earlier Ebb check-in.
+
+**What broke and how I fixed it**
+- Writing to the `draft` prop tripped the compiler lint; drafts now change
+  through `updateDraft()`.
+- Flow test 8 failed once in about five full runs: Testing Library waits one
+  second by default, and with every file running in parallel the Bridge
+  flow sometimes needed longer. The shared setup now waits up to five
+  seconds.
+- The Add event fields used wrapping labels that one accessibility tree
+  didn't name; they use explicit `htmlFor`/`id` pairs now.
+
+**Decisions**
+- D38 "from" includes a just-ended event. D39 drafts in memory. D40 the rule
+  written once. D41 prep steps include the place.
+
+**Known issues**
+- A reload in the middle of a Bridge forgets the draft (the card stays and a
+  new draft starts). Acceptable for the MVP.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(bridge): add the transition coach with rating and the hard-switch rule
+(hash recorded at the start of Phase 7)

@@ -121,9 +121,10 @@ export function TaskForm({ open, onOpenChange }: { open: boolean; onOpenChange: 
               <ToggleChip label={copy.taskForm.pickDate} pressed={due === 'pick'} onToggle={() => setDue('pick')} />
             </div>
             {due === 'pick' && (
-              <label className="flex flex-col gap-1">
+              <label htmlFor="task-date" className="flex flex-col gap-1">
                 <span>{copy.taskForm.dateLabel}</span>
                 <input
+                  id="task-date"
                   type="date"
                   value={picked}
                   onChange={(e) => setPicked(e.target.value)}
