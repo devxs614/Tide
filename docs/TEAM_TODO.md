@@ -13,6 +13,11 @@ up during the build. — Claude Code
   `TIDE_AI_TIMEOUT_MS`, `TIDE_AI_DEMO_TIMEOUT_MS`, `TIDE_RATE_LIMIT_MAX`,
   `TIDE_RATE_LIMIT_WINDOW_MS`. *Before the first deploy.* (Exact deploy steps
   are added in Phase 9.)
+- [ ] **Try one real AI call** after adding the key: run `npm run dev`, open
+  the app, check in with "Lab report due tomorrow. I keep opening it and
+  closing it. Heavy. Annoyed at myself." and confirm three words appear. I
+  could only test the AI routes with a mocked SDK because there was no key
+  in my environment. *By Oct 30.*
 
 ## Safety and content review (with the Challenge Partner)
 - [ ] **Verify the crisis numbers** in `src/data/resources.ts` (Línea de la

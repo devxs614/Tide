@@ -7,7 +7,12 @@ import path from "node:path";
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { "@": path.resolve(__dirname, "src") },
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      // `server-only` throws outside a React Server Components build; in
+      // tests we import server modules directly, so use its empty variant.
+      "server-only": path.resolve(__dirname, "node_modules/server-only/empty.js"),
+    },
   },
   test: {
     environment: "jsdom",
