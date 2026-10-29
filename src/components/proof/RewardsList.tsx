@@ -42,8 +42,10 @@ export function RewardsList() {
           ))}
         </ul>
       )}
+      {/* At large text sizes the button drops under the field instead of
+          pushing the page sideways. */}
       <form
-        className="flex gap-2"
+        className="flex flex-wrap gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           void add();
@@ -57,7 +59,7 @@ export function RewardsList() {
           value={text}
           maxLength={80}
           onChange={(e) => setText(e.target.value)}
-          className="min-h-12 flex-1 rounded-input border border-line bg-surface-2 px-3 text-body"
+          className="min-h-12 min-w-0 grow basis-40 rounded-input border border-line bg-surface-2 px-3 text-body"
         />
         <Button type="submit" variant="secondary" disabled={!text.trim()}>
           {copy.proof.addReward}

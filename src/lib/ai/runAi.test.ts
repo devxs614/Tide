@@ -1,3 +1,5 @@
+// The browser side of every AI request: safety first, then the AI or the
+// fallback. Whatever goes wrong, the screen still gets an answer.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EMOTION_IDS } from '@/data/emotions';
 import { resetAiClientStateForTests, runAi } from './runAi';

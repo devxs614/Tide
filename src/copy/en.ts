@@ -2,6 +2,7 @@
 // tone in one place and a Spanish version can be added later without
 // touching components. Entries that change with the communication mode are
 // written as { gentle, direct, literal } and read with byMode().
+
 // Rules for anything added here: short sentences, no guilt, no emojis, no
 // clinical labels, and literal-friendly wording.
 import type {
@@ -280,8 +281,8 @@ export const copy = {
     loading: 'Looking at your day…',
     keepToday: 'Keep today',
     moveTomorrow: 'Move to tomorrow',
-    moveThis: 'Move {title} to tomorrow',
-    keepThis: 'Keep {title} today',
+    moveThis: 'Move to tomorrow: {title}',
+    keepThis: 'Keep today: {title}',
     keptEnergy: 'Kept energy: {kept} of about {budget}',
     useThisPlan: 'Use this plan',
     keepAsIs: 'Keep my day as it is',
@@ -308,7 +309,8 @@ export const copy = {
     imStuck: "I'm stuck",
     focus: 'Focus',
     moveTo: 'Move to…',
-    moveToLabel: 'Move {title} to another column',
+    // The visible words come first so voice-control users can say what they see.
+    moveToLabel: 'Move to… {title}',
     movedLabel: 'Moved to tomorrow',
     doneToast: 'Done. Added to your proof log.',
     movedToast: 'Moved to {status}.',

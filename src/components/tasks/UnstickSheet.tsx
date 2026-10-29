@@ -4,6 +4,7 @@
 // asks why the task feels hard, then offers one small first step that fits
 // how she feels right now. If the AI is slow or off, the built-in step table
 // in lib/ai/fallbacks.ts answers instead, so this never blocks.
+
 // Each opening mounts a fresh UnstickBody (keyed by the request), so a new
 // task never shows the previous task's step.
 import { useCallback, useEffect, useState } from 'react';
@@ -46,10 +47,13 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
   const { settings } = useSettings();
   const { run } = useAi('unstick');
   const resumed = request.resume ? recallSuggestion(task.id) : undefined;
+  // If the page was reloaded while she was away, the remembered step is gone,
+  // but the reason she gave is saved on the task, so she isn't asked twice.
+  const knownReason = request.reason ?? (request.resume ? task.stuckReason : undefined);
   const [suggestion, setSuggestion] = useState<UnstickSuggestion | null>(resumed ?? null);
   // Loading from the start when the reason is already known, so the first
   // paint shows "Finding a small first step…" instead of the reason list.
-  const [loading, setLoading] = useState(!resumed && !!request.reason);
+  const [loading, setLoading] = useState(!resumed && !!knownReason);
 
   const suggest = useCallback(
     async (reason: StuckReason, previousStep?: string) => {
@@ -86,7 +90,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
   // can't see past the function call, hence the disable below.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!resumed && request.reason) void suggest(request.reason, request.previousStep);
+    if (!resumed && knownReason) void suggest(knownReason, request.previousStep);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -120,6 +124,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
           onDifferent={() => ask(suggestion.reason, suggestion.output.firstStep)}
           onNotNow={onClose}
           onDoFirst={doFirst}
+          backFromStrategy={!!request.resume}
         />
       )}
       <p aria-live="polite" className="sr-only">

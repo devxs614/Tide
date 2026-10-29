@@ -3,6 +3,7 @@
 // The hook screens use to ask for a suggestion:
 //   const { run, data, status, source } = useAi('label');
 //   const result = await run(input);
+
 // It wires runAi() to the current settings (AI on or off, demo mode) and
 // keeps a status the screen can show as a calm loading line. If Maya asks
 // again before the first answer lands, only the newest answer is kept.

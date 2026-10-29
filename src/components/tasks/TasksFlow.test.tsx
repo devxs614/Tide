@@ -1,8 +1,9 @@
 // Flow test 5 from the spec (Section 16.2), plus Unstick details: the
-// "helped you k of n times" line from Maya's own history, "Different step",
+// "helped you k of n times" line from Maya's own history (not offered again
+// once she is back from it), "Different step",
 // and the "Move to…" menu as the non-drag way to change columns.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { screen, waitFor, within } from '@testing-library/react';
+import { cleanup, screen, waitFor, within } from '@testing-library/react';
 import { db } from '@/lib/db';
 import { now } from '@/lib/clock';
 import { MINUTE } from '@/lib/time';
@@ -11,6 +12,7 @@ import { createCheckIn } from '@/lib/repo/checkins';
 import { mockAi, navigation, renderApp, resetApp } from '@/test/utils';
 import { TasksScreen } from './TasksScreen';
 import { TaskCard } from './TaskCard';
+import { clearSuggestions } from './unstickCache';
 import { useLiveQuery } from 'dexie-react-hooks';
 
 // The board always hands cards live data; this mirrors that for one card.
@@ -25,7 +27,7 @@ beforeEach(async () => {
 afterEach(() => vi.unstubAllGlobals());
 
 async function moveVia(user: Awaited<ReturnType<typeof renderApp>>['user'], title: string, target: string) {
-  await user.click(await screen.findByRole('button', { name: `Move ${title} to another column` }));
+  await user.click(await screen.findByRole('button', { name: `Move to… ${title}` }));
   await user.click(await screen.findByRole('menuitem', { name: target }));
 }
 
@@ -82,6 +84,21 @@ describe('tasks flow', () => {
     await user.click(screen.getByRole('button', { name: 'Do it first' }));
     const lab = (await db.tasks.toArray()).find((t) => t.title === 'Chemistry lab report')!;
     expect(navigation.push).toHaveBeenCalledWith(`/toolkit/m-walk-3?context=unstick&ref=${lab.id}`);
+
+    // Back from the walk: the same first step, without offering the walk again.
+    cleanup();
+    await renderApp(<TasksScreen resumeUnstickId={lab.id} />);
+    expect(await screen.findByRole('heading', { name: 'Your first step' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Do it first' })).not.toBeInTheDocument();
+
+    // After a reload the remembered step is gone; the saved reason still
+    // skips the "What's making it hard?" question.
+    cleanup();
+    clearSuggestions();
+    await renderApp(<TasksScreen resumeUnstickId={lab.id} />);
+    expect(await screen.findByRole('heading', { name: 'Your first step' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: "I don't know where to start" })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Do it first' })).not.toBeInTheDocument();
   });
 
   it('"Different step" gives a smaller step, and the state changes the step', async () => {
@@ -106,7 +123,7 @@ describe('tasks flow', () => {
     await moveVia(user, 'Pay phone bill', 'Done');
     await waitFor(async () => expect((await db.tasks.get(task.id))?.status).toBe('done'));
     expect(await screen.findByText('Done. Added to your proof log.')).toBeInTheDocument();
-    const menu = await screen.findByRole('button', { name: 'Move Pay phone bill to another column' });
+    const menu = await screen.findByRole('button', { name: 'Move to… Pay phone bill' });
     await user.click(menu);
     expect(within(await screen.findByRole('menu')).getAllByRole('menuitem').map((m) => m.textContent)).toEqual(['Not started', 'In progress', 'Stuck']);
     expect(await db.wins.count()).toBe(1);

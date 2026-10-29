@@ -61,7 +61,7 @@ async function runDemo(expect_: { label: string; step: string; plan: RegExp; pat
   // 0:40 Tasks: lab report → Stuck → "I don't know where to start"
   user = await screenIn('/tasks', <TasksScreen />);
   await user.click(await screen.findByRole('button', { name: 'In progress (1)' }));
-  await user.click(screen.getByRole('button', { name: 'Move Chemistry lab report to another column' }));
+  await user.click(screen.getByRole('button', { name: 'Move to… Chemistry lab report' }));
   await user.click(await screen.findByRole('menuitem', { name: 'Stuck' }));
   await user.click(await screen.findByRole('button', { name: "I don't know where to start" }));
   expect(await screen.findByText(expect_.step)).toBeInTheDocument();

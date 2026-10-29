@@ -1,3 +1,5 @@
+// The clock every screen reads: real time normally, and in demo mode a
+// Thursday afternoon that moves forward at normal speed.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DEMO_START, demoClockAt, now, setDemoClock } from './clock';
 import { formatLongDate, formatTime } from './time';

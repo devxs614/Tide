@@ -347,3 +347,39 @@ when the numbers are exactly the planted ones.
 13.12 says turning demo off "clears demo data". The name, the fake contact
 and the campus placeholder were part of the persona, so they go too; text
 size, theme and other comfort settings stay.
+
+**D52 — 2026-10-29 — Darker notice color, and accessible names that start with the visible words.**
+Lighthouse measured the light-theme notice color (#8a6d1f, used by "Delete
+everything") at 4.49:1 on the page background, just under AA. It is now
+#80651c, which passes and still reads as the same amber. The "Move to…"
+buttons were named "Move {title} to another column", and the Day Mode
+toggles "Move {title} to tomorrow" and "Keep {title} today", so the visible
+words were not at the start of the name and voice-control users could not
+say what they saw. The names are now "Move to… {title}", "Move to tomorrow:
+{title}" and "Keep today: {title}".
+Rejected: hiding the visible text from the accessibility tree and keeping the
+old names (that fixes the audit, not the problem).
+
+**D53 — 2026-10-29 — Buttons may shrink, and the demo badge wraps under the title.**
+At 150% text on a 390px screen, the top bar (title, "Demo data" badge and
+Menu) and two long buttons ("Remove campus support", "Add reward") pushed the
+page wider than the screen. The shadcn button had `shrink-0`; it is gone, so
+a button in a tight row wraps its label instead of overflowing (labels
+already wrapped). In the top bar, the title and badge share a wrapping
+group, so the badge drops under the title and Menu stays on screen.
+Rejected: hiding the badge or the word "Menu" at large sizes (the badge is a
+promise to judges, and icons always keep their labels).
+
+**D54 — 2026-10-29 — A focus block counts once per strategy in "k of n".**
+Rule A linked each strategy use to the first focus block within 20 minutes.
+Doing the same walk twice before one block counted that block twice, so
+"4 of 5" became "6 of 7" after one real session. Now each block is claimed
+once per strategy, by the use closest before it. The planted demo numbers
+are unchanged. Rejected: dropping repeated uses entirely (a walk on a
+different day before a different block is a real second occasion).
+
+**D55 — 2026-10-29 — Coming back from "Do it first" skips questions already answered.**
+After the walk, the Unstick sheet reopens on the same first step without
+offering the walk again. If the page was reloaded in between (so the
+in-memory step is gone), it asks the AI or fallback again with the reason
+saved on the task instead of asking "What's making it hard?" twice.

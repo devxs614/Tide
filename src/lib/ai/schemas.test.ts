@@ -1,3 +1,5 @@
+// The zod schemas for each AI route, checked against the spec examples and
+// against the mistakes the model tends to make.
 import { describe, expect, it } from 'vitest';
 import { EMOTION_IDS } from '@/data/emotions';
 import {

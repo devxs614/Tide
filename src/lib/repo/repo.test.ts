@@ -1,3 +1,5 @@
+// The repo functions every write goes through, and the side effects that
+// ride along: wins, stamps, and never storing text when safety fired.
 import { beforeEach, describe, expect, it } from 'vitest';
 import { db } from '../db';
 import { clearData } from './data';

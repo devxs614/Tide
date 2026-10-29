@@ -24,8 +24,10 @@ export function StateChip({ checkIn, showTime = true, className }: { checkIn: Ch
   return (
     <p className={cn('inline-flex min-h-8 max-w-full flex-wrap items-center gap-x-2 rounded-2xl px-3 py-1', style.tint, className)}>
       <span className="sr-only">{label}</span>
-      <span aria-hidden className={cn('size-2.5 shrink-0 rounded-full', style.dot)} />
+      {/* The dot rides inside the text, so at large text sizes it stays next
+          to the state name instead of sitting alone on its own line. */}
       <span aria-hidden className="font-bold text-ink">
+        <span className={cn('mr-2 inline-block size-2.5 rounded-full align-middle', style.dot)} />
         {name}
         {words.length > 0 && ` · ${words.join(', ')}`}
       </span>

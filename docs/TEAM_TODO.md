@@ -49,7 +49,24 @@ up during the build. — Claude Code
 
 ## Checks only a person can do
 - [ ] Screen reader smoke test (VoiceOver on iPhone or Mac, or NVDA) of
-  Today and the check-in. *By Nov 4.*
+  Today and the check-in. *By Nov 4.* Why: tests and axe check names and
+  roles, but only a person can tell whether it makes sense when heard.
+- [ ] Keyboard-only run on a laptop with the deployed URL: check in, add a
+  task, move it to Stuck, get a first step, start a focus block, open the
+  Bridge, run a toolkit strategy, dismiss a pattern. Time the check-in: the
+  spec's target is under 60 seconds. *By Nov 4.* Why: my tests press the
+  keys in a simulated browser; a person should confirm the focus ring is
+  always visible and nothing traps focus on a real screen.
+- [ ] Lighthouse on the open Check-in sheet: Chrome DevTools → open the
+  sheet → Lighthouse → Accessibility, "Snapshot" mode. *By Nov 4.* Why:
+  Lighthouse can't open a sheet from a URL. I ran axe-core on every sheet
+  instead (0 violations), and Lighthouse scored 100 on the pages.
+- [ ] Try it on the presenting phone at 150% text and in dark mode, try
+  "Dictate", and lock the phone for 2 minutes during a focus block (the
+  timer should still be right to the second). *By Nov 4.* Why: I checked
+  320px, 390px and 1280px in a desktop browser; a real phone adds safe
+  areas, the on-screen keyboard over sheets, sleep, and dictation support
+  that differs by browser.
 
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*

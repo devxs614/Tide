@@ -1,3 +1,5 @@
+// The server-side model call: one retry with the validation error, the
+// timeout, refusals and the missing key, all without a real network call.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 

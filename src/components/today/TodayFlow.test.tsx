@@ -63,7 +63,7 @@ describe('Today', () => {
     expect(screen.getByText('Kept energy: 4 of about 4')).toBeInTheDocument();
 
     // Maya overrides the suggestion: she keeps the laundry today too.
-    await user.click(screen.getByRole('button', { name: 'Keep Laundry today' }));
+    await user.click(screen.getByRole('button', { name: 'Keep today: Laundry' }));
     expect(screen.getByText('Kept energy: 6 of about 4')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Use this plan' }));
 

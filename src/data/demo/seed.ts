@@ -1,6 +1,9 @@
 // Three weeks in the life of Maya, a fictional first-year student, for demo
 // mode. Everything is synthetic and built the same way on every machine (a
-// seeded random generator, fixed ids), and it plants exactly three patterns:
+// seeded random generator, fixed ids), and it plants exactly the three
+// patterns listed below, no more.
+
+// The planted patterns:
 //   1. a 3-minute walk before writing tasks: got going 4 of 5 times
 //      (writing without a strategy first: 1 of 4),
 //   2. lab → class switches felt hard 3 of 4 times (box breathing in 2),
