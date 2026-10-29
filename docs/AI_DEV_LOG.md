@@ -1204,3 +1204,62 @@ Breathe out for four." in Samantha's voice; I reloaded the page straight
 after that check so the tab kept its normal speech. lint, typecheck, 164
 tests and the build are clean. I can't hear voices from here, so which one
 sounds gentlest is for the team to judge with "Try this voice".
+
+---
+
+# Tide v2 — the Experience Upgrade
+
+## Before Phase V0 — Baseline and safety net
+2026-10-29, 15:32
+
+The team asked me (Claude Code; all of this code is AI-generated) to turn
+Tide into version 2 from `docs/TIDE_V2_UPGRADE_PROMPT.md`: companions,
+themes, motion, sound, natural voices, a shore of wins, Close the day, a
+much bigger Settings and a Demo button. The prime directive is to add all of
+it without breaking what works today, and voice dictation is frozen.
+
+For Maya, V0 changes nothing she can see. It's the net under everything
+else: a green baseline I can compare against, a `v1-baseline` tag to go
+back to, a `v2-experience` branch to work on, an inventory of what exists
+so nothing quietly disappears, a test that fails if anyone touches
+dictation, and `npm run test:v1` to run the v1 tests on their own.
+
+Two places where I won't follow the v2 spec to the letter, and why:
+- The spec's commit convention adds an `AI-Generated: Claude Code`
+  trailer. The team told me never to put AI marks in commit messages and
+  to commit as the configured Git user (DDG29), so commits carry no
+  trailer. AI attribution stays in this log and AI_ATTRIBUTION.md.
+- Read-aloud already got a better voice choice today (D56, D57) inside
+  `src/lib/speech.ts`, next to dictation. In V2 I'll move that work into
+  the new `src/lib/voice/` engine instead of growing `speech.ts`, which I'll
+  treat as frozen from now on.
+
+## After Phase V0 — Baseline and safety net
+2026-10-29, 15:37
+
+**What I did**
+- Recorded the baseline: lint, typecheck and the build are clean; 33 test
+  files with 164 tests pass; first-load JS for `/` is 267 KB gzipped
+  (`/tasks` 277, `/toolkit` 262, `/settings` 310, `/patterns` 351). The
+  tree was clean, so there were no team changes to save first.
+- Tagged `v1-baseline` on `main` (e781f49) and created `v2-experience`.
+- Copied the v2 spec into `docs/TIDE_V2_UPGRADE_PROMPT.md` and wrote
+  `docs/V1_INVENTORY.md`.
+- Froze dictation: `src/test/frozen-dictation.test.ts` hashes the five
+  dictation declarations in `speech.ts`, the whole DictateButton and the two
+  labels. I checked it fails on a one-space change, then restored the file.
+- Added `npm run test:v1` (33 files, 164 tests, green),
+  `scripts/measure-first-load.mjs`, `CHANGELOG.md` and the v2 rules in
+  CLAUDE.md.
+
+**What broke and how I fixed it**
+- My first `test:v1` config ran 34 files: Vitest's `mergeConfig` appends
+  include lists. The list now replaces the base glob.
+- Typecheck refused to import `vitest.config.mts`; I enabled
+  `allowImportingTsExtensions` (the project never emits, so it's safe).
+
+**Decisions:** D58 (no AI trailer in commits), D59 (how the v1 suite and the
+freeze work), D60 (measuring first-load JS; 33 KB of headroom).
+
+**For the team:** nothing new to do. If v2 ever needs undoing, `v1-baseline`
+is the last v1 state.

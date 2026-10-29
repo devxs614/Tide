@@ -1,9 +1,32 @@
 # Tide — rules for Claude Code in this repo
 
 Tide is a local-first web app for neurodivergent college students that
-connects how they feel with what they can do next. The full specification is
-`docs/TIDE_BUILD_PROMPT.md`; it is the authority. This page is the short
-version so a resumed session behaves the same way.
+connects how they feel with what they can do next. The base specification is
+`docs/TIDE_BUILD_PROMPT.md` (v1). Version 2 is specified in
+`docs/TIDE_V2_UPGRADE_PROMPT.md`, which wins for v2 features; where the code
+and the v1 spec disagree, trust the code and log it in DECISIONS. This page
+is the short version so a resumed session behaves the same way.
+
+## Tide v2 (branch `v2-experience`, Phases V0–V12)
+- **Prime directive: add without breaking.** Every v1 behavior, route,
+  setting key, copy key, table and test keeps working. Only the changes in
+  v2 spec Section 3.5 may alter a v1 test, and each one is logged.
+- **Dictation is frozen.** Don't touch `startDictation`,
+  `isDictationSupported`, `recognitionCtor` or the recognition types in
+  `src/lib/speech.ts`, `src/components/ui/DictateButton.tsx`, or the
+  "Dictate"/"Listening" copy. `src/test/frozen-dictation.test.ts` enforces it.
+  Treat `speech.ts` as untouchable; new read-aloud work goes in
+  `src/lib/voice/`.
+- Each phase also runs `npm run test:v1` (the v1 suite, listed in
+  `docs/V1_INVENTORY.md`) and updates `CHANGELOG.md`.
+- Motion has three levels (off, calm, lively); timings come from
+  `src/lib/motion/tokens.ts`; animate only transform and opacity.
+- Companions support and never judge: no sadness, guilt, "missed you" or
+  streaks; never on the crisis screen; "none" is a first-class choice.
+  Companion lines live in `src/copy/companions.ts`.
+- First-load JS for `/` stays ≤ 300 KB gzipped
+  (`node scripts/measure-first-load.mjs /` against `next start -p 3100`).
+- Resume message: Appendix D.2 of the v2 spec.
 
 ## Where things stand
 - Progress and the current phase: the end of `docs/AI_DEV_LOG.md` and
@@ -12,15 +35,18 @@ version so a resumed session behaves the same way.
 - Things only humans can do: `docs/TEAM_TODO.md`.
 
 ## How to work (the phase cycle, Section 1.3)
-For each phase in Section 18, in order, without asking the team to confirm:
+For each phase (v1: Section 18; v2: Section 22), in order, without asking
+the team to confirm:
 1. Re-read the sections the phase lists. Write "Before Phase N" in the log.
 2. Plan the steps.
 3. Build them in order, with natural comments as you go.
-4. Run `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`,
-   then exercise the flow (flow tests, plus the browser when available).
+4. Run `npm run lint`, `npm run typecheck`, `npm run test`, `npm run test:v1`,
+   `npm run build`, then exercise the flow (flow tests, plus the browser when
+   available).
 5. Fix anything red now.
 6. Write "After Phase N" in the log; update `AI_ATTRIBUTION.md`,
-   `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`.
+   `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`
+   (and `CHANGELOG.md` in v2).
 7. Commit (`<type>(<scope>): <summary>` + a short body), using the Git
    identity configured on the machine. Per the team's instruction, commit
    messages carry no AI trailers or co-author lines; AI attribution lives in

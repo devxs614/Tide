@@ -546,3 +546,23 @@ code, and the AI only puts its numbers into words, with a check that blocks
 any number that isn't in the data. Before any call, a safety check runs in
 the browser; crisis language stops the AI completely and shows human help.
 (Finalized in Phase 9.)
+
+---
+
+# Tide v2
+
+## The v2 safety net (V0)
+
+**What it does.** Nothing a user sees. It makes sure v2 can't quietly break
+v1: `npm run test:v1` runs the 33 v1 test files on their own
+(`vitest.v1.config.mts`), `src/test/frozen-dictation.test.ts` fails if the
+dictation code changes by even one character, and `docs/V1_INVENTORY.md`
+lists everything v1 had. The `v1-baseline` git tag marks the last v1 state.
+
+**Likely reviewer questions**
+- *Why freeze dictation?* The team says it works very well, and it is the
+  most fragile browser API we use. Freezing it means v2's voice work can't
+  break it by accident.
+- *How do I roll back to v1?* `git checkout v1-baseline` (read only), or
+  compare with `git diff v1-baseline`.
+
