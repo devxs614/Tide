@@ -11,6 +11,7 @@ import { clearData } from '@/lib/repo/data';
 import { setSettings } from '@/lib/repo/settings';
 import { resetAiClientStateForTests } from '@/lib/ai/runAi';
 import { setDemoClock } from '@/lib/clock';
+import { resetNarrationCacheForTests } from '@/components/patterns/useNarration';
 import { useSettings } from '@/lib/settings';
 import type { Settings } from '@/lib/types';
 
@@ -23,6 +24,7 @@ export async function resetApp(settings: Partial<Settings> = {}): Promise<void> 
   await db.settings.clear();
   await setSettings({ onboarded: true, ...settings });
   resetAiClientStateForTests();
+  resetNarrationCacheForTests();
   setDemoClock(null);
   navigation.push.mockReset();
   navigation.replace.mockReset();

@@ -393,7 +393,47 @@ the note and the strategy use. The rating writes `rating` and maybe a win.
   all three minutes or less.
 
 ## Patterns and Proof log
-*(Phase 7)*
+
+**What it does for Maya.** "What works for you" shows a calendar of her
+check-ins, a few plain sentences about what tends to help her ("a 3-minute
+walk before writing tasks", 4 of 5 times), the moments each one comes from,
+and a way to say "not true for me". The proof log keeps the things she did,
+by day, with no counts.
+
+**Files**
+- `src/lib/patterns/engine.ts` — runs the rules, drops dismissed keys, sorts,
+  caps at six.
+- `src/lib/patterns/rules/strategyBeforeTask.ts`, `hardTransition.ts`,
+  `stateTaskStart.ts`, `strategyEffect.ts` — one file per rule (12.4 A–D).
+- `src/lib/patterns/confidence.ts`, `data.ts`, `types.ts` — confidence from
+  n, the window, loading records.
+- `src/lib/patterns/__tests__/*` — the 12.6 tests and their fixtures.
+- `src/components/patterns/PatternsScreen.tsx`, `PeriodDots.tsx`,
+  `PatternCard.tsx`, `WhyPanel.tsx`, `NotTrueDialog.tsx`, `TopStrategies.tsx`,
+  `TransitionsSummary.tsx`, `useNarration.ts` — the screen.
+- `src/components/proof/*` — the proof log, adding a win, rewards.
+
+**Data flow.** `loadPatternInput()` reads all tables (dropping safety
+check-ins) → `computePatterns()` → each result's `facts` go to
+`useAi('narrate')` → cards show the AI's words next to the engine's numbers.
+"Not true for me" writes a DismissedPattern; the engine skips that key from
+then on.
+
+**Decisions worth defending**
+- I split the engine into one file per rule so each rule can be tested on its
+  own, and both Unstick and the Bridge read the same rule code as this screen.
+- A pattern needs at least 3 observations, always shows "k of n", and the
+  wording says "tends to" and "in your data", never "causes".
+- The proof log never counts or compares; wins are only ever added.
+
+**Likely reviewer questions**
+- *Does the AI see Maya's history?* No. It sees only computed facts like
+  `{ strategyName, taskType, k: 4, n: 5, baselinePct: 25 }`.
+- *What stops the AI from inventing a statistic?* Any number in its text must
+  appear in the facts, or the card is replaced by the template (and the
+  numbers shown come from the engine anyway).
+- *What if a pattern is a coincidence?* "Not true for me" hides it for good,
+  with an optional reason kept on the device.
 
 ## Settings, Onboarding and Support
 *(Phase 8)*
