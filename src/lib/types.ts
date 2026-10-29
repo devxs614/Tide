@@ -156,6 +156,8 @@ export interface Settings {
   communicationMode: CommunicationMode;
   aiEnabled: boolean;
   readAloudRate: 0.8 | 1 | 1.2;
+  // The name of a voice on this device, or '' to let Tide pick (D57).
+  readAloudVoice: string;
   demoMode: boolean;
   onboarded: boolean;
   trustedContacts: TrustedContact[];

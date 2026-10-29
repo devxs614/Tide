@@ -73,7 +73,8 @@ up during the build. — Claude Code
   Manage Voices → English → "Ava (Premium)" or "Samantha (Enhanced)").
   *By Nov 4.* Why: "Read aloud" picks the best English voice it finds
   (D56); a downloaded voice sounds much more natural on stage than the
-  built-in one. Keep the read-aloud speed on Normal for the demo.
+  built-in one. Then in Settings → Comfort, use "Try this voice" to choose
+  the one that sounds gentlest to you (D57), and keep the speed on Normal.
 
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*

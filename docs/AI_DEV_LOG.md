@@ -1174,3 +1174,33 @@ starts, the button waits forever. `speak()` now gives the button back after
 to the utterance being read (Chrome can otherwise drop it and never say it
 ended). Two new tests cover both cases. lint, typecheck, 155 tests and the
 build are clean.
+
+## Fix after Phase 10 — a gentler voice that says numbers in English
+2026-10-29, 11:52
+
+**What the team asked.** A gentler voice, and to stop "Breathe in for
+cuatro": the words were English but the number was read in Spanish.
+
+**Why the number was Spanish.** The browser runs in Spanish (es-MX), and
+the Mac's speech engine reads digits in the system language even with an
+English voice. Choosing a better voice couldn't fix that.
+
+**What I built (D57)**
+- `spokenNumbers.ts` writes numbers out in English before anything is read:
+  "four", "three-minute", "five, four, three, two, one" for a countdown,
+  "four fifty pm", "twenty-five percent".
+- A calmer pace (0.9 of the chosen speed) and a ranking that puts soft
+  voices (Ava, Zoe, Samantha, Moira…) above brisker ones. The voice choice
+  moved to its own file, `voices.ts`.
+- Settings → Comfort → "Read-aloud voice": Automatic or any readable
+  English voice on the device, with "Try this voice". A saved voice the
+  device lacks falls back to Automatic.
+
+**How I checked it.** New tests for the number wording, the ranking, the
+chosen voice and pace, and the picker (it lists the voices, saves the
+choice, and shows Automatic for a missing voice). In the browser pane,
+"Try this voice" handed the engine "Breathe in for four. Hold for four.
+Breathe out for four." in Samantha's voice; I reloaded the page straight
+after that check so the tab kept its normal speech. lint, typecheck, 164
+tests and the build are clean. I can't hear voices from here, so which one
+sounds gentlest is for the team to judge with "Try this voice".
