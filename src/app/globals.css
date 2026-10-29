@@ -1,0 +1,221 @@
+/*
+  Tide's design tokens and global styles.
+  Calm water: warm off-white instead of glaring white, soft state colors, no
+  red anywhere. Components only ever use these tokens (bg-surface, text-ink,
+  border-line...), never raw hex, so light and dark mode stay in one place.
+  Tailwind 4 reads the @theme block below; there is no tailwind.config file.
+*/
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-2: #f0ede6;
+  --ink: #1f2a33;
+  --ink-soft: #5b6770;
+  --primary: #1f5c63;
+  --on-primary: #ffffff;
+  --line: #e2ded6;
+  --focus: #1f5c63;
+  --notice: #8a6d1f;
+
+  /* Tide's four states. The base colors are only ever used as dots, borders
+     and tints, always next to a word, never behind white text. */
+  --q-surge: #e8836a;
+  --q-swell: #f0b64c;
+  --q-ebb: #6e8daf;
+  --q-still: #7db59f;
+  --tint-surge: color-mix(in srgb, var(--q-surge) 16%, transparent);
+  --tint-swell: color-mix(in srgb, var(--q-swell) 18%, transparent);
+  --tint-ebb: color-mix(in srgb, var(--q-ebb) 16%, transparent);
+  --tint-still: color-mix(in srgb, var(--q-still) 18%, transparent);
+
+  --water: color-mix(in srgb, var(--primary) 25%, transparent);
+  --sheet-shadow: 0 -4px 24px rgb(0 0 0 / 0.06);
+  --scrim: rgb(31 42 51 / 0.28);
+
+  /* Set from Settings; multiplies the 17px base size. */
+  --text-scale: 1;
+
+  /* shadcn/ui expects these names; they point at Tide's tokens. */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary-foreground: var(--on-primary);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--ink);
+  --destructive: var(--notice);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--focus);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --bg: #12181c;
+  --surface: #1b2328;
+  --surface-2: #222b31;
+  --ink: #e8ecef;
+  --ink-soft: #a3aeb6;
+  --primary: #6fb8bf;
+  --on-primary: #12181c;
+  --line: #2a343a;
+  --focus: #9ad6dc;
+  --notice: #e5c46b;
+  --tint-surge: color-mix(in srgb, var(--q-surge) 24%, transparent);
+  --tint-swell: color-mix(in srgb, var(--q-swell) 24%, transparent);
+  --tint-ebb: color-mix(in srgb, var(--q-ebb) 24%, transparent);
+  --tint-still: color-mix(in srgb, var(--q-still) 24%, transparent);
+  --scrim: rgb(0 0 0 / 0.5);
+  --sheet-shadow: 0 -4px 24px rgb(0 0 0 / 0.3);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-line: var(--line);
+  --color-focus: var(--focus);
+  --color-notice: var(--notice);
+  --color-water: var(--water);
+  --color-scrim: var(--scrim);
+
+  --color-surge: var(--q-surge);
+  --color-swell: var(--q-swell);
+  --color-ebb: var(--q-ebb);
+  --color-still: var(--q-still);
+  --color-surge-tint: var(--tint-surge);
+  --color-swell-tint: var(--tint-swell);
+  --color-ebb-tint: var(--tint-ebb);
+  --color-still-tint: var(--tint-still);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-atkinson), system-ui, sans-serif;
+  --font-heading: var(--font-atkinson), system-ui, sans-serif;
+
+  /* Type scale from the spec, in rem of the 17px root so text size settings
+     scale everything together. */
+  --text-caption: 0.8235rem;
+  --text-caption--line-height: 1.5;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lead: 1.1176rem;
+  --text-lead--line-height: 1.5;
+  --text-h3: 1.1765rem;
+  --text-h3--line-height: 1.4;
+  --text-h2: 1.2941rem;
+  --text-h2--line-height: 1.35;
+  --text-h1: 1.6471rem;
+  --text-h1--line-height: 1.25;
+  --text-display: 2rem;
+  --text-display--line-height: 1.1;
+
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+
+  --shadow-sheet: var(--sheet-shadow);
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+  html {
+    font-size: calc(17px * var(--text-scale, 1));
+    line-height: 1.6;
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-surface-2 text-ink;
+    text-align: left;
+  }
+  p {
+    max-width: 60ch;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+  }
+}
+
+/* Unlayered on purpose so no utility (outline-none included) can hide the
+   focus ring. Keyboard users always see where they are. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+html[data-spacing="extra"] body {
+  letter-spacing: 0.04em;
+  word-spacing: 0.08em;
+}
+
+/* Reduce motion: from the OS or from Settings. Transitions become instant.
+   Components that animate on purpose (water fill, breathing square) switch
+   to static versions through useReducedMotionPref(). */
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
