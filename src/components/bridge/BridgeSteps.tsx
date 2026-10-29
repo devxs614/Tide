@@ -133,7 +133,8 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
         />
         <BridgeShift
           plan={plan}
-          doneNames={data.usedHere.map((u) => strategyName(u.strategyId))}
+          // Doing box breathing twice in one Bridge still reads as one line.
+          doneNames={[...new Set(data.usedHere.map((u) => strategyName(u.strategyId)))]}
           onStart={(id) => void startStrategy(id)}
         />
         <BridgePrep steps={plan?.ai.prepSteps ?? []} draft={draft} />

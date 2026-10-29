@@ -13,8 +13,20 @@ process.env.TZ = 'America/Monterrey';
 // enough on a busy laptop, which made the Bridge flow fail now and then.
 configure({ asyncUtilTimeout: 5000 });
 
+// React reports duplicate keys only as a console error, so a test could pass
+// while the dev overlay showed a red error (box breathing's two "Hold for 4."
+// steps did exactly that). Any such warning now fails the test that caused it.
+const keyWarnings: string[] = [];
+const originalError = console.error;
+console.error = (...args: unknown[]) => {
+  const text = args.map(String).join(' ');
+  if (text.includes('Encountered two children with the same key')) keyWarnings.push(text);
+  originalError(...args);
+};
+
 afterEach(() => {
   cleanup();
+  if (keyWarnings.length) throw new Error(`Duplicate React keys:\n${keyWarnings.splice(0).join('\n')}`);
 });
 
 // Radix measures elements and listens for pointer capture; jsdom has neither.

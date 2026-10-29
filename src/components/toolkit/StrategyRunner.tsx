@@ -79,8 +79,10 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
           {copy.toolkit.steps}
         </h3>
         <ol className="flex flex-col gap-1">
+          {/* Steps can repeat ("Hold for 4." comes twice in box breathing), so
+              the position is the key; this list never reorders. */}
           {strategy.steps.map((step, i) => (
-            <li key={step} className="flex flex-wrap items-center gap-x-2">
+            <li key={i} className="flex flex-wrap items-center gap-x-2">
               <span className="font-bold">{i + 1}.</span>
               <span className="flex-1">{step}</span>
               <ReadAloudButton text={step} />
