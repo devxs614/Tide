@@ -15,10 +15,6 @@ export async function saveTransition(input: NewTransition): Promise<Transition> 
   return transition;
 }
 
-export async function getTransition(id: string): Promise<Transition | undefined> {
-  return db.transitions.get(id);
-}
-
 // The labels the bridge showed ("Chemistry lab", "Calculus") so the win reads
 // the same way Maya saw the switch.
 export async function transitionLabels(t: Transition): Promise<{ from: string; to: string }> {

@@ -829,5 +829,81 @@ trailers they had; rewriting pushed history would need a force-push.
 **For the team**
 - Nothing new beyond the existing list.
 
-**Commit:** feat(demo): finish demo mode, icons and the performance pass
-(hash recorded at the start of Phase 9)
+**Commit:** c1a339e feat(demo): finish demo mode, icons and the performance pass
+(the earlier part of Phase 8 is in 80cd257)
+
+## Before Phase 9 — Submission documents and deployment readiness
+2026-10-29, 09:37
+
+This phase is for the judges and reviewers more than for Maya: the
+repository, the AI Prompts PDF and the docs are graded too. The team has to
+be able to print the prompts, point a reviewer at a README that explains
+Tide in a few minutes, and deploy without guessing.
+
+What I'll produce: the `/prompts-doc` print page (every route's purpose,
+model tier, schemas, the exact system prompt read from /prompts, a real
+example, validation, fallback and safety), the final README, an architecture
+page with a diagram, the research-to-design template, the finished code
+walkthrough, a complete attribution table, exact Vercel steps, a secret scan
+of the tree and the history, and a sweep for dead code.
+
+What "done" means for me: every document exists and matches the code as it
+is now; the prompt page prints cleanly; the build is clean; nothing
+key-like is in the repo or its history.
+
+What could go wrong: documents drifting from the code. I'll generate what I
+can from the source (the prompts come from the files, the schemas from zod)
+instead of retyping them.
+
+## After Phase 9 — Submission documents and deployment readiness
+2026-10-29, 09:52
+
+**What I built**
+- `/prompts-doc`: the AI Prompts document, printable to PDF, with the
+  architecture paragraph, the shared preamble, and for each of the five
+  routes its purpose, model tier and token limit, the exact system prompt
+  (read from /prompts), the input and output schemas (printed from zod),
+  a real example input and output, validation, fallback and safety, plus a
+  closing section of safety and formatting guidelines. Print styles put one
+  route per page.
+- The final README (all 14 parts of 17.8, keeping the team's first line),
+  `docs/architecture.md` with a Mermaid diagram, the
+  `docs/research-to-design.md` template (placeholders only), and the
+  finished 60-second "how does the AI work?" answer in the walkthrough.
+- Exact Vercel steps and PDF-printing steps in TEAM_TODO.
+- A dead-code sweep: removed 16 unused repo and helper functions and the
+  unused RadioGroup component.
+
+**How I checked it**
+- lint ok, typecheck ok, 147 tests passing, clean build with no warnings.
+- `page.test.tsx`: all five routes and the preamble are on the page, and
+  every example output passes its route's schema.
+- Looked at `/prompts-doc` in the in-app browser.
+- Secret scan: `git grep` over the tree and `git log -p --all` over the
+  history for `sk-ant`, `ANTHROPIC_API_KEY=` with a value, and long
+  base64-looking strings. Nothing found except the docs that describe the
+  scan itself; there is no `.env.local` in the repo.
+- Attribution audit: a script lists every tracked file not covered by a row
+  in AI_ATTRIBUTION.md; I added rows for the eleven it found.
+
+**What broke and how I fixed it**
+- Type checking failed on `.next/types/routes.d 2.ts`. This repo lives in
+  `~/Documents`, which iCloud Drive syncs, and iCloud writes "file 2"
+  conflict copies when build output is rewritten quickly. tsconfig now
+  excludes `**/* 2.*`, .gitignore ignores them, and TEAM_TODO suggests moving
+  the repo out of iCloud.
+
+**Decisions**
+- None new.
+
+**Known issues**
+- Team names and university are placeholders in the README, the About
+  section and `/prompts-doc` (listed in TEAM_TODO).
+- No deploy yet: the Vercel CLI isn't installed and signed in here.
+
+**For the team**
+- Added: Vercel deploy steps, PDF printing steps, keep the repo out of
+  iCloud.
+
+**Commit:** docs(docs): add the prompts page, README, architecture and deploy steps
+(hash recorded at the start of Phase 10)

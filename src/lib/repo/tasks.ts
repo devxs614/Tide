@@ -80,21 +80,3 @@ export async function setFirstStep(id: string, step: string): Promise<void> {
 export async function setParkingNote(id: string, note: string): Promise<void> {
   await db.tasks.update(id, { parkingNote: note.trim() || undefined });
 }
-
-export async function updateTask(id: string, changes: Partial<Omit<Task, 'id'>>): Promise<void> {
-  await db.tasks.update(id, changes);
-}
-
-// Day Mode never deletes: a moved task keeps its place on the board and just
-// carries the two dates so Today can list it under "Moved to tomorrow".
-export async function markMoved(ids: string[], from: string, to: string): Promise<void> {
-  await Promise.all(ids.map((id) => db.tasks.update(id, { movedFrom: from, movedTo: to })));
-}
-
-export async function bringBack(id: string): Promise<void> {
-  await db.tasks.update(id, { movedFrom: undefined, movedTo: undefined });
-}
-
-export async function listTasks(): Promise<Task[]> {
-  return db.tasks.toArray();
-}

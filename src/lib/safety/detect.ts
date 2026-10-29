@@ -26,8 +26,3 @@ export function detectCrisis(text: string | undefined | null): boolean {
   const haystack = ` ${normalizeForSafety(text)} `;
   return NORMALIZED_PHRASES.some((phrase) => haystack.includes(` ${phrase} `));
 }
-
-// True if any of several free-text fields trips the detector.
-export function anyCrisis(...texts: Array<string | undefined | null>): boolean {
-  return texts.some((t) => detectCrisis(t));
-}

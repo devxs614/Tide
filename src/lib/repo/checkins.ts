@@ -33,7 +33,3 @@ export async function latestCheckIn(): Promise<CheckIn | undefined> {
     .filter((c) => !c.safetyTriggered)
     .first();
 }
-
-export async function checkInsBetween(from: number, to: number): Promise<CheckIn[]> {
-  return db.checkins.where('ts').between(from, to, true, true).toArray();
-}

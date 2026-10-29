@@ -17,11 +17,3 @@ export async function addEvent(input: NewEvent): Promise<CalendarEvent> {
   await db.events.add(event);
   return event;
 }
-
-export async function getEvent(id: string): Promise<CalendarEvent | undefined> {
-  return db.events.get(id);
-}
-
-export async function eventsBetween(from: number, to: number): Promise<CalendarEvent[]> {
-  return db.events.where('start').between(from, to, true, true).sortBy('start');
-}

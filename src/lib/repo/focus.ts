@@ -23,8 +23,3 @@ export async function saveFocusBlock(input: NewFocusBlock): Promise<FocusBlock> 
     return block;
   });
 }
-
-export async function lastFocusMinutes(taskId: string): Promise<FocusBlock['minutes'] | undefined> {
-  const blocks = await db.focusBlocks.where('taskId').equals(taskId).sortBy('ts');
-  return blocks.at(-1)?.minutes;
-}
