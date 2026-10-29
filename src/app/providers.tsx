@@ -9,6 +9,7 @@ import { SettingsProvider, useReducedMotionPref } from '@/lib/settings';
 import { UiProvider } from '@/lib/ui';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/sonner';
+import { UnstickSheet } from '@/components/tasks/UnstickSheet';
 
 function MotionPreference({ children }: { children: ReactNode }) {
   const reduce = useReducedMotionPref();
@@ -20,7 +21,12 @@ export function Providers({ children }: { children: ReactNode }) {
     <SettingsProvider>
       <MotionPreference>
         <TooltipProvider>
-          <UiProvider>{children}</UiProvider>
+          <UiProvider>
+            {children}
+            {/* Unstick opens from the board, Today and the focus page, which
+                sits outside the tab layout, so it lives up here. */}
+            <UnstickSheet />
+          </UiProvider>
           <Toaster />
         </TooltipProvider>
       </MotionPreference>

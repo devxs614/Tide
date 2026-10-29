@@ -296,5 +296,92 @@ dictation and read-aloud must vanish quietly where the browser lacks them.
 **For the team**
 - Nothing new.
 
-**Commit:** feat(checkin): add the check-in flow with mood map and body path
-(hash recorded at the start of Phase 3)
+**Commit:** 878b5f5 feat(checkin): add the check-in flow with mood map and body path
+
+## Before Phase 3 — Tasks, Unstick and Focus
+2026-10-29, 00:06
+
+This is where a feeling turns into a first step. Maya's tasks live on a
+four-column board, and "Stuck" is a column, not a failure. When she moves
+the lab report to Stuck, Tide asks why it feels hard and offers one tiny,
+physical step that fits how she feels right now, and, if her own history
+says so, a strategy that helped before this kind of task. Then a short focus
+block with a timer she can trust, and one question at the end: how did it go?
+
+Where it sits: steps 2 and 4 of the loop. It reads tasks, the latest
+check-in and past strategy uses and focus blocks (for "a walk helped you 4
+of 5 times"); it writes task status changes, the first step, the stuck
+reason and FocusBlocks, and the wins those create.
+
+What "done" means for me: every move works without dragging (a "Move to…"
+menu on every card), counts update live, done tasks can come back, long
+titles wrap; Unstick gives a different step for Ebb and Swell and a smaller
+one on "Different step", even with AI off; the focus timer is computed from
+timestamps, so it stays right after the tab sleeps; the outcome is saved;
+the reduced-motion timer is a plain bar.
+
+What could go wrong: drag and drop is the classic accessibility trap, so it
+gets dnd-kit's keyboard sensor and spoken announcements on top of the menu.
+The timer must use `now()` (the demo clock) and never count ticks. And the
+"helped you k of n times" line must come from the same code the Patterns
+screen will use, so I'm writing the strategy-before-task rule now in
+`src/lib/patterns/rules/` instead of a one-off query.
+
+## After Phase 3 — Tasks, Unstick and Focus
+2026-10-29, 00:15
+
+**What I built**
+- The board: segmented control with live counts on phones, four columns at
+  1024px and up, dnd-kit drag handles with the keyboard sensor and spoken
+  announcements, and a "Move to…" menu on every card.
+- The task form with quick picks and "Break it down for me".
+- Unstick: six reasons, then one first step with read aloud, the focus
+  length, the "helped you k of n times" offer from Maya's own history, "Do it
+  first", "Different step", "Not now", and "You left off at…" first.
+- The focus block: length picker preselected from Unstick or the state rule,
+  a timestamp-based timer with pause and resume, the water fill and its
+  reduced-motion bar, the outcome sheet with a reward suggestion, and the
+  "Smaller step" path back into Unstick.
+- The strategy-before-task rule, shared with Patterns later.
+
+**How I checked it**
+- lint ok, typecheck ok, 87 tests passing (16 files), build ok.
+- Flow test 5: add a task, In progress and Stuck through the menu, Unstick
+  opens, choose a reason, the step appears, "Start 10 min" goes to
+  `/focus/<id>?minutes=10` with the status, reason and step saved.
+- Flow test 6: a 5-minute block where only `Date` is faked and jumped five
+  minutes; the outcome sheet appears on its own and "Got going" saves a
+  completed FocusBlock and shows "You could take: Tea break."
+- Extra tests: the "Before writing tasks, 3-minute walk helped you 4 of 5
+  times" line from fabricated history; Ebb changes the step and "Different
+  step" gives a smaller one; pause, resume and "I'm done early" save an
+  incomplete block; a done task can move back and keeps its win.
+- In the in-app browser: added a task with an 80-character title (it wraps),
+  saw four columns at 1280px, moved the task to Stuck through the menu, got
+  an Ebb-sized step from the fallback, and started a 5-minute focus block
+  that counted down from the clock.
+
+**What broke and how I fixed it**
+- React's compiler lint flagged `Math.random()` in an event handler and a
+  `setState` inside an effect in Unstick. I moved the random pick to
+  `src/lib/random.ts`, and rebuilt Unstick so each opening mounts a keyed body
+  that initializes its own state; one line keeps a commented disable where
+  the compiler can't see that state is set after awaiting.
+- The guard test caught a `Date.now()` I wrote in a test; it uses `now()` now.
+- Dropdown items were about 30px tall; they are 48px now.
+- A test rendered a card with a stale task object; it reads live now, like
+  the board does.
+
+**Decisions**
+- D24 rule written once. D25 six-hour state. D26 stuck reason storage.
+  D27 Unstick mounted globally. D28 drag commits on drop. D29 timer.
+
+**Known issues**
+- Dragging between columns only works where both columns are visible (wide
+  screens); on a phone the menu is the way across, which the spec allows.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(tasks): add the board, Unstick and the focus block
+(hash recorded at the start of Phase 4)

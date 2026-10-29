@@ -225,7 +225,49 @@ step 4, and a crisis phrase saves a check-in with no text.
 - *Can it be done without typing?* Yes: the body path, or "Skip to the map".
 
 ## Tasks, Unstick and Focus
-*(Phase 3)*
+
+**What it does for Maya.** Her tasks sit on a four-column board where
+"Stuck" is a normal column. Moving a task to Stuck asks what makes it hard
+and offers one small, physical first step that fits how she feels, plus a
+strategy that helped her before this kind of task, when her data says so.
+Then a short focus block with a timer, and "How did it go?" at the end.
+
+**Files**
+- `src/components/tasks/TasksScreen.tsx`, `TaskBoard.tsx`, `StateColumn.tsx`
+  — the board: segmented control on phones, four columns on wide screens,
+  dnd-kit with keyboard support.
+- `TaskCard.tsx`, `MoveToMenu.tsx`, `useTaskMoves.ts` — a card, the non-drag
+  way to move it, and the side effects of a move (toast, open Unstick).
+- `TaskForm.tsx` — add a task; "Break it down for me".
+- `UnstickSheet.tsx`, `UnstickReasons.tsx`, `UnstickStep.tsx`,
+  `LeftOffNote.tsx`, `unstickCache.ts` — the two Unstick steps.
+- `src/components/focus/FocusScreen.tsx`, `useFocusTimer.ts`,
+  `WaterFill.tsx`, `FocusOutcome.tsx` — the focus block.
+- `src/app/focus/[taskId]/page.tsx` — the full-screen route.
+- `src/lib/patterns/rules/strategyBeforeTask.ts` — "walk before writing"
+  groups, shared with Patterns.
+- `src/lib/latestState.ts` — the check-in from the last six hours.
+
+**Data flow.** The board reads `db.tasks` live and writes through
+`moveTask()`. Unstick reads the task, the recent check-in and the pattern
+input, calls `useAi('unstick')`, then writes `firstStep`, `stuckReason` and
+the status. Focus writes one FocusBlock through `saveFocusBlock()`, which also
+adds "Got unstuck" when it applies.
+
+**Decisions worth defending**
+- Every move has a non-drag path (the menu), and drag has keyboard support.
+- The timer computes from timestamps, so it stays right after the phone
+  sleeps (D29).
+- The "helped you k of n times" line comes from the same rule as the
+  Patterns card, so the two can't disagree (D24).
+
+**Likely reviewer questions**
+- *What if the AI suggests a strategy that never helped?* The server and the
+  browser both reject any strategy id not in `helpfulStrategies`, which only
+  includes strategies seen at least 3 times before that task type.
+- *Does the step really change with the state?* Yes, the prompt is told to,
+  and the fallback adds a state-specific line and focus length (D16).
+- *Is a task ever deleted?* No. Done tasks can be moved back; wins stay.
 
 ## Today and Day Mode
 *(Phase 4)*

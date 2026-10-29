@@ -163,3 +163,38 @@ instead" swaps in two standard sliders.
 The spec says to open `/toolkit` "filtered to the current quadrant". The
 toolkit already filters by the latest check-in within six hours, and the
 check-in was just saved, so no query parameter is needed.
+
+**D24 — 2026-10-29 — The strategy-before-task rule is written once, in Phase 3.**
+Unstick's "helped you 4 of 5 times" line and the Patterns card must agree, so
+I wrote `src/lib/patterns/rules/strategyBeforeTask.ts` now (spec 12.4 A,
+including the 20-minute link and the no-strategy baseline). Unstick reads
+`helpfulStrategiesFor()`; Phase 7 reuses the same groups for the card.
+
+**D25 — 2026-10-29 — "State" for suggestions means a check-in from the last six hours.**
+Unstick, Focus and (later) Bridge send Maya's state only if she checked in
+within six hours (`src/lib/latestState.ts`), the same window the toolkit
+header uses (13.9). Without a recent check-in they behave as "no state".
+
+**D26 — 2026-10-29 — Moving to Stuck opens Unstick; the reason is stored only for stuck tasks.**
+"Break it down for me" opens Unstick with `too_big` for a task that isn't
+stuck; its reason is sent to the AI but not saved as `stuckReason`, because
+that field is what earns the "Got unstuck" win and shows "Stuck because…".
+
+**D27 — 2026-10-29 — Unstick is mounted once, above the tab layout.**
+It opens from the board, Today and the focus page (which has no tab bar), so
+the sheet lives in `src/app/providers.tsx`. Each opening mounts a fresh body
+keyed by the request, so one task's step can never flash on another task.
+Returning from "Do it first" goes to `/tasks?unstick=<id>`, which reopens the
+sheet on the step Maya was given (kept in memory for the visit).
+
+**D28 — 2026-10-29 — Drag and drop commits on drop.**
+dnd-kit with a pointer sensor (6px threshold so taps on buttons still work)
+and the keyboard sensor, a drag handle per card, and spoken announcements.
+A card moves to its new column when dropped rather than previewing the move
+while dragging; it keeps the code small, and "Move to…" is the main path.
+
+**D29 — 2026-10-29 — The focus timer only redraws on an interval.**
+Remaining time is `minutes − (now − start − paused)`, computed from `now()`
+on every draw; the 250 ms interval only asks React to redraw. A test jumps
+the system clock five minutes ahead (as if the phone slept) and the block
+ends on the next draw. Ending a block that never started saves nothing.
