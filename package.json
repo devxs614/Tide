@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:v1": "vitest run --config vitest.v1.config.mts",
     "test:watch": "vitest",
     "format": "prettier --write ."
   },

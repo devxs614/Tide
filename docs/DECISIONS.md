@@ -412,3 +412,38 @@ itself back after 3 seconds if speech never starts.
 Rejected: changing the pitch for a softer sound (the built-in voices get
 muffled), and asking the AI to avoid digits (the strategy steps aren't
 AI-written, and any voice still needs the fix).
+
+---
+
+## Tide v2
+
+**D58 — 2026-10-29 — No AI trailer in commits, even though the v2 spec asks for one.**
+The v2 spec's convention ends each commit with `AI-Generated: Claude Code`.
+The team told me directly never to put AI marks or co-author lines in commit
+messages and to commit as the configured Git user (DDG29). A direct
+instruction from the team beats the template. AI attribution is still
+complete: this log, AI_DEV_LOG and AI_ATTRIBUTION say plainly that the code
+is AI-generated.
+Rejected: adding the trailer anyway (it contradicts the team's explicit
+rule).
+
+**D59 — 2026-10-29 — How `test:v1` and the dictation freeze are built.**
+`npm run test:v1` uses its own Vitest config (`vitest.v1.config.mts`) that
+replaces the include glob with the 33 files listed in V1_INVENTORY; it needs
+`allowImportingTsExtensions` in tsconfig to import the base `.mts` config
+(safe, because the project never emits). The freeze test hashes the source
+text of each frozen declaration (not the whole `speech.ts`), plus the whole
+DictateButton file and the two dictation labels, so the frozen parts can't
+change while the read-aloud code next to them stays readable. I confirmed
+with `git diff` that no dictation line changed since Phase 2.
+Rejected: hashing all of `speech.ts` (it also holds read-aloud code, which
+the v2 spec lets stay in place) and listing files on the command line (a
+33-file command is easy to get wrong).
+
+**D60 — 2026-10-29 — Measuring first-load JS ourselves.**
+Next 16's build output no longer prints page sizes, so
+`scripts/measure-first-load.mjs` fetches a page from `next start`, sums the
+module scripts it loads, and gzips them. Baseline for `/`: 267 KB, which
+leaves 33 KB under the 300 KB budget. That shapes v2: CSS for most motion,
+and framer-motion only inside lazy-loaded pieces.
+

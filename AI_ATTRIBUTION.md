@@ -90,6 +90,11 @@ what I generated and what came from elsewhere.
 | `prompts/*.md` | The five AI system prompts | The team (spec 10.5), copied by Claude Code | Unchanged from the spec |
 | `docs/AI_DEV_LOG.md`, `docs/DECISIONS.md`, `docs/CODE_WALKTHROUGH.md`, `docs/TEAM_TODO.md`, `docs/progress/*` | Logs and guides | Claude Code | First person, kept current every phase |
 | `docs/TIDE_BUILD_PROMPT.md` | The build specification | The team, with Claude (claude.ai) | Not written by Claude Code |
+| `docs/TIDE_V2_UPGRADE_PROMPT.md` | The v2 upgrade specification | The team, with Claude (claude.ai) | Not written by Claude Code; copied into the repo in V0 |
+| `docs/V1_INVENTORY.md`, `CHANGELOG.md` | Map of everything v1 contained; plain-language change history | Claude Code | V0 |
+| `src/test/frozen-dictation.test.ts`, `src/test/frozenSource.ts` | The dictation freeze (hashes recorded in V0) | Claude Code | v2 spec Section 3.2 |
+| `vitest.v1.config.mts` | `npm run test:v1`, the v1 regression suite | Claude Code | V0 |
+| `scripts/measure-first-load.mjs` | First-load JS per page, gzipped | Claude Code | Budget check for v2 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app
