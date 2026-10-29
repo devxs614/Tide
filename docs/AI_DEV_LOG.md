@@ -1155,3 +1155,22 @@ browser pane, tapping "Read aloud" on Box breathing now uses Samantha in
 en-US. lint, typecheck, 153 tests and the build are clean. I noticed the
 read-aloud speed in that browser is set to Faster (1.2); I left the
 setting alone.
+
+## Fix after Phase 10 — "Read aloud" went silent and stuck
+2026-10-29, 11:45
+
+**What happened.** Right after the voice change, the team tapped "Read
+aloud" and heard nothing, and the button stayed on "Stop reading". The
+cause was my own check: to confirm the chosen voice without playing sound,
+I had replaced `speechSynthesis.speak` in that browser tab with a silent
+recorder and didn't reload the page afterwards. Their seven taps went to the
+recorder. Reloading the page fixed it; a muted test utterance with Samantha
+then started and ended normally. The app code was not at fault, and next
+time I reload the tab right after a check like that.
+
+**What I changed anyway.** It showed a real weak spot: if speech never
+starts, the button waits forever. `speak()` now gives the button back after
+3 seconds without a start, reports the end only once, and keeps a reference
+to the utterance being read (Chrome can otherwise drop it and never say it
+ended). Two new tests cover both cases. lint, typecheck, 155 tests and the
+build are clean.

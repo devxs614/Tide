@@ -1,5 +1,5 @@
-// Which voice "Read aloud" uses. The lists below mirror a real Mac set to
-// Spanish, where the browser's default was Paulina reading English.
+// Which voice "Read aloud" uses, and that its button never gets stuck. The
+// voice list mirrors a real Mac set to Spanish (default voice: Paulina).
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { clearestEnglishVoice, speak } from './speech';
 
@@ -36,23 +36,57 @@ describe('clearestEnglishVoice', () => {
   });
 });
 
-describe('speak', () => {
-  it('reads in English with the chosen voice and the chosen speed', () => {
-    const spoken: Array<{ text: string; voice?: SpeechSynthesisVoice; lang: string; rate: number }> = [];
-    class Utterance {
-      voice?: SpeechSynthesisVoice;
-      lang = '';
-      rate = 1;
-      onend: (() => void) | null = null;
-      onerror: (() => void) | null = null;
-      constructor(public text: string) {}
-    }
-    vi.stubGlobal('SpeechSynthesisUtterance', Utterance);
-    vi.stubGlobal('speechSynthesis', { cancel: () => {}, getVoices: () => SPANISH_MAC, speak: (u: Utterance) => spoken.push(u) });
+class Utterance {
+  voice?: SpeechSynthesisVoice;
+  lang = '';
+  rate = 1;
+  onstart: (() => void) | null = null;
+  onend: (() => void) | null = null;
+  onerror: (() => void) | null = null;
+  constructor(public text: string) {}
+}
 
+// A fake speech engine that records what it was asked to read and never
+// talks on its own; each test decides which events fire.
+function fakeEngine() {
+  const spoken: Utterance[] = [];
+  vi.stubGlobal('SpeechSynthesisUtterance', Utterance);
+  vi.stubGlobal('speechSynthesis', { cancel: () => {}, getVoices: () => SPANISH_MAC, speak: (u: Utterance) => spoken.push(u) });
+  return spoken;
+}
+
+describe('speak', () => {
+  afterEach(() => vi.useRealTimers());
+
+  it('reads in English with the chosen voice and the chosen speed', () => {
+    const spoken = fakeEngine();
     speak('Hold for 4.', 0.8);
     expect(spoken).toHaveLength(1);
     expect(spoken[0]).toMatchObject({ text: 'Hold for 4.', lang: 'en-US', rate: 0.8 });
     expect(spoken[0].voice?.name).toBe('Samantha');
+  });
+
+  it('gives the button back if the device never starts talking', () => {
+    vi.useFakeTimers();
+    fakeEngine();
+    const onEnd = vi.fn();
+    speak('Hold for 4.', 1, onEnd);
+    vi.advanceTimersByTime(2999);
+    expect(onEnd).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(onEnd).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports the end once when speech starts and finishes normally', () => {
+    vi.useFakeTimers();
+    const spoken = fakeEngine();
+    const onEnd = vi.fn();
+    speak('Hold for 4.', 1, onEnd);
+    spoken[0].onstart?.();
+    vi.advanceTimersByTime(10_000);
+    expect(onEnd).not.toHaveBeenCalled();
+    spoken[0].onend?.();
+    spoken[0].onerror?.();
+    expect(onEnd).toHaveBeenCalledTimes(1);
   });
 });

@@ -96,6 +96,11 @@ export function primeVoices(): void {
   if (isSpeechSupported()) window.speechSynthesis.getVoices();
 }
 
+// Chrome can garbage-collect an utterance nothing else points to and then
+// never report that it ended, so the one being read is kept here.
+let current: SpeechSynthesisUtterance | null = null;
+const START_TIMEOUT_MS = 3000;
+
 export function speak(text: string, rate: number, onEnd?: () => void): void {
   if (!isSpeechSupported()) return;
   window.speechSynthesis.cancel();
@@ -104,8 +109,22 @@ export function speak(text: string, rate: number, onEnd?: () => void): void {
   utterance.lang = 'en-US';
   const voice = clearestEnglishVoice(window.speechSynthesis.getVoices());
   if (voice) utterance.voice = voice;
-  utterance.onend = () => onEnd?.();
-  utterance.onerror = () => onEnd?.();
+
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    window.clearTimeout(noStart);
+    if (current === utterance) current = null;
+    onEnd?.();
+  };
+  // If the device never starts talking (a stalled voice engine, a muted
+  // tab), the button goes back to "Read aloud" instead of waiting forever.
+  const noStart = window.setTimeout(finish, START_TIMEOUT_MS);
+  utterance.onstart = () => window.clearTimeout(noStart);
+  utterance.onend = finish;
+  utterance.onerror = finish;
+  current = utterance;
   window.speechSynthesis.speak(utterance);
 }
 
