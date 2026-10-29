@@ -10,7 +10,3 @@ export async function addWin(text: string, source: Win['source'], refId?: string
   await db.wins.add(win);
   return win;
 }
-
-export async function listWins(): Promise<Win[]> {
-  return db.wins.orderBy('ts').reverse().toArray();
-}

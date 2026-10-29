@@ -14,7 +14,3 @@ export async function addReward(text: string): Promise<Reward | undefined> {
 export async function removeReward(id: string): Promise<void> {
   await db.rewards.delete(id);
 }
-
-export async function listRewards(): Promise<Reward[]> {
-  return db.rewards.toArray();
-}

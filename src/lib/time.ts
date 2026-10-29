@@ -92,10 +92,6 @@ export function addDays(ts: number, days: number): number {
   return d.getTime();
 }
 
-export function isSameDay(a: number, b: number): boolean {
-  return toISODate(a) === toISODate(b);
-}
-
 export function daysBetween(fromIso: string, toIso: string): number {
   return Math.round((fromISODate(toIso) - fromISODate(fromIso)) / DAY);
 }

@@ -219,3 +219,74 @@ html[data-reduce-motion="true"] *::after {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* The AI Prompts page (/prompts-doc): a plain document on screen, and
+   clean A4/Letter pages when printed to PDF, one route per page. */
+.prompts-doc {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.prompts-doc h1 {
+  font-size: var(--text-h1);
+  margin-bottom: 8px;
+}
+.prompts-doc h2 {
+  font-size: var(--text-h2);
+  margin: 28px 0 8px;
+}
+.prompts-doc h3 {
+  font-size: var(--text-body);
+  margin: 16px 0 4px;
+}
+.prompts-doc p,
+.prompts-doc li {
+  max-width: none;
+  margin: 4px 0;
+}
+.prompts-doc ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prompts-path {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: var(--text-caption);
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+.prompts-code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+@media print {
+  @page {
+    margin: 16mm;
+  }
+  body {
+    background: #fff;
+  }
+  .prompts-doc {
+    max-width: none;
+    padding: 0;
+    background: #fff;
+    color: #000;
+  }
+  .prompts-route {
+    break-before: page;
+  }
+  .prompts-code {
+    background: #fff;
+    border-color: #999;
+    break-inside: auto;
+  }
+}

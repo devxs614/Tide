@@ -38,7 +38,3 @@ export async function recordStrategyUse(input: NewStrategyUse): Promise<Strategy
   });
   return use;
 }
-
-export async function listStrategyUses(): Promise<StrategyUse[]> {
-  return db.strategyUses.toArray();
-}

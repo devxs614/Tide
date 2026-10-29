@@ -15,10 +15,6 @@ export function setDemoClock(clock: DemoClock | null): void {
   demoClock = clock;
 }
 
-export function getDemoClock(): DemoClock | null {
-  return demoClock;
-}
-
 export function realNow(): number {
   return Date.now();
 }
