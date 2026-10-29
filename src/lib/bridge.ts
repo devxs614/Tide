@@ -29,8 +29,9 @@ export function resolveFrom(nowTs: number, events: CalendarEvent[], tasks: Task[
   const fromEvent = events
     .filter((e) => e.id !== to.id && e.start <= nowTs && e.end > nowTs - BRIDGE_LEAD && e.start < to.start)
     .sort((a, b) => b.start - a.start)[0];
+  // A task she moved to Stuck is still the one she was working on.
   const fromTask = tasks
-    .filter((t) => t.status === 'in_progress')
+    .filter((t) => t.status === 'in_progress' || t.status === 'stuck')
     .sort((a, b) => (b.startedAt ?? 0) - (a.startedAt ?? 0))[0];
   return { fromEvent, fromTask };
 }

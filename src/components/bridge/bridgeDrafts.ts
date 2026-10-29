@@ -28,3 +28,8 @@ export function eventForTransition(transitionId: string): string | undefined {
 export function updateDraft(eventId: string, changes: Partial<Pick<BridgeDraft, 'note' | 'checked'>>): void {
   byEvent.set(eventId, { ...draftFor(eventId), ...changes });
 }
+
+// Restarting the demo forgets any switch in progress from the last run.
+export function clearDrafts(): void {
+  byEvent.clear();
+}

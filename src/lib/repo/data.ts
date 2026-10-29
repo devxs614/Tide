@@ -32,9 +32,8 @@ export async function clearData(): Promise<void> {
   });
 }
 
-// Removes the whole database. The caller reloads the page afterwards so
-// Dexie opens a fresh, empty one.
+// Removes the whole database. The caller reloads the page afterwards; the
+// next read opens a fresh, empty one.
 export async function deleteEverything(): Promise<void> {
-  db.close();
-  await db.delete();
+  await db.delete({ disableAutoOpen: false });
 }

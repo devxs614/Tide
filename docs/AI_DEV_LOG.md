@@ -654,7 +654,7 @@ the state-before-task rule could catch accidental ones, so I'll make the
 engine easy to run against the seed in a test.
 
 ## After Phase 7 — Pattern engine, Patterns screen and Proof log
-2026-10-29, 00:48
+2026-10-29, 00:44
 
 **What I built**
 - The rest of the pattern engine: state before task, strategy effect,
@@ -702,5 +702,57 @@ engine easy to run against the seed in a test.
 **For the team**
 - Nothing new.
 
-**Commit:** feat(patterns): add the pattern engine, Patterns screen and Proof log
-(hash recorded at the start of Phase 8)
+**Commit:** 60d4a66 feat(patterns): add the pattern engine, Patterns screen and Proof log
+
+## Before Phase 8 — Onboarding, Settings, demo mode and seed data
+2026-10-29, 00:46
+
+This phase finishes the product and makes the stage demo reliable. For
+Maya, onboarding is three short screens that say what Tide does and
+doesn't do, let her make it comfortable (text size, theme, motion, how Tide
+talks), and explain privacy plainly. Settings holds all of that later, plus
+her people, her data (export, delete everything) and the About text. For the
+team, demo mode loads three weeks of a fictional student's life, sets the
+clock to Thursday 3:40 pm, and answers the scripted inputs from saved
+responses so a dead venue network changes nothing.
+
+Where it sits: settings are read everywhere; this phase writes them, and the
+seed writes every table at once (through a repo function, not around it).
+
+What "done" means for me: onboarding works by keyboard and can be skipped
+from any step; preferences apply instantly; export downloads JSON without
+contacts unless asked; "Delete everything" leaves an empty database; demo
+mode shows the "Demo data" badge; the seed plants exactly the three patterns
+in 14.2 with the exact numbers, and a test proves no others appear; the
+scripted demo works twice in a row with the network off (cache) and on.
+
+What could go wrong: accidental patterns. The state-before-task rule links
+focus blocks to check-ins in the three hours before, so if the seeded
+writing blocks follow Ebb check-ins, an extra "Ebb before writing" card
+appears. I'll keep seeded focus blocks far from check-ins. The win card is
+the other trap: it shows the most recent win from an Ebb day, so no Ebb
+check-ins between Oct 30 and Nov 4, or "lab outline" won't be the one shown.
+
+## Phase 8 — progress note (session stopped by a usage limit)
+2026-10-29, 01:00
+
+**Done so far in Phase 8:** onboarding (three steps, skip, live preferences)
+and the shell redirect; the full Settings screen (profile, comfort, how Tide
+talks, AI suggestions, people, export, delete everything, demo controls,
+about); the deterministic demo seed with exactly the three planted patterns
+(`seed.test.ts` proves it); cached demo answers that pass the live checks;
+and a scripted-demo test that runs the 14.3 script twice with the network
+down and once with live AI. The demo test found a real bug: a task moved to
+Stuck no longer counted as the one Maya was coming from in the Bridge, so
+the parking note lost its prefill. Stuck tasks count now.
+
+**Checks at this point:** typecheck ok, lint ok, 144 of 145 tests passing.
+One test fails in the full parallel run and was not investigated before the
+session stopped:
+
+
+**Still to do:** finish Phase 8 (fix that test, `docs/demo-script.md`, PWA
+manifest and icons via `sharp`, performance pass, After Phase 8 entry),
+then Phase 9 (prompts-doc page, README, architecture, research template,
+attribution audit, deploy steps, secret scan) and Phase 10 (full audit).
+Resume with the message in Appendix C.2 of the build prompt.

@@ -24,7 +24,7 @@ export function useUpcomingBridge(nowTs: number): UpcomingBridge | null | undefi
     const [events, transitions, tasks] = await Promise.all([
       db.events.where('start').between(at - DAY, at + DAY, true, true).toArray(),
       db.transitions.toArray(),
-      db.tasks.where('status').equals('in_progress').toArray(),
+      db.tasks.where('status').anyOf(['in_progress', 'stuck']).toArray(),
     ]);
     const upcoming = getUpcomingTransition(at, events, transitions, tasks);
     if (!upcoming) return null;

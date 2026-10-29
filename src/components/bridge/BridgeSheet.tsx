@@ -34,7 +34,7 @@ function BridgeBody({ eventId, onClose }: { eventId: string; onClose: () => void
     if (!to) return null;
     const [events, tasks, uses] = await Promise.all([
       db.events.where('start').between(at - DAY, at + DAY, true, true).toArray(),
-      db.tasks.where('status').equals('in_progress').toArray(),
+      db.tasks.where('status').anyOf(['in_progress', 'stuck']).toArray(),
       db.strategyUses.toArray(),
     ]);
     const { fromEvent, fromTask } = resolveFrom(at, events, tasks, to);
