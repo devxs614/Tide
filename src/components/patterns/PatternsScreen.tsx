@@ -6,14 +6,14 @@
 // records for the chosen period; nothing here is a guess about who she is.
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { copy } from '@/copy/en';
 import { now } from '@/lib/clock';
 import { computePatterns } from '@/lib/patterns/engine';
 import { loadPatternInput } from '@/lib/patterns/data';
 import { transitionGroups } from '@/lib/patterns/rules/hardTransition';
 import { strategyTallies } from '@/lib/patterns/rules/strategyEffect';
-import { useSettings } from '@/lib/settings';
+import { useReducedMotionPref, useSettings } from '@/lib/settings';
 import { TalkToAPersonButton } from '@/components/safety/TalkToAPersonButton';
 import { PatternCard } from './PatternCard';
 import { PeriodDots } from './PeriodDots';
@@ -25,6 +25,7 @@ type Period = 'week' | 'month';
 
 export function PatternsScreen() {
   const { settings } = useSettings();
+  const reduce = useReducedMotionPref();
   const [period, setPeriod] = useState<Period>('month');
   const windowDays = period === 'week' ? 7 : 28;
   const data = useLiveQuery(() => loadPatternInput(now(), windowDays), [windowDays]);
@@ -65,18 +66,22 @@ export function PatternsScreen() {
           </div>
         ) : (
           <ul className="flex flex-col gap-3">
-            <AnimatePresence initial={false}>
-              {patterns.map((p, i) => (
-                <motion.li
-                  key={p.key}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="overflow-hidden"
-                >
-                  <PatternCard pattern={p} card={cards[i]} periodLabel={periodLabel} />
-                </motion.li>
-              ))}
-            </AnimatePresence>
+            {/* framer-motion is only used here (the card fading out after "Not
+                true for me"), so its reduced-motion switch lives here too. */}
+            <MotionConfig reducedMotion={reduce ? 'always' : 'never'}>
+              <AnimatePresence initial={false}>
+                {patterns.map((p, i) => (
+                  <motion.li
+                    key={p.key}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className="overflow-hidden"
+                  >
+                    <PatternCard pattern={p} card={cards[i]} periodLabel={periodLabel} />
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </MotionConfig>
           </ul>
         )}
       </section>

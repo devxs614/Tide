@@ -43,6 +43,7 @@ if (typeof window !== 'undefined') {
   Element.prototype.releasePointerCapture ??= () => {};
   Element.prototype.setPointerCapture ??= () => {};
   window.HTMLElement.prototype.scrollTo ??= () => {};
+  window.scrollTo = () => {};
 }
 
 // next/navigation only works inside the Next runtime. Tests read the pushed

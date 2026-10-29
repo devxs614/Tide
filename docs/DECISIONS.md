@@ -297,3 +297,53 @@ not in its facts. While the words load, the card shows the numbers and a
 13.10 shows the hardest switch "if any rated transitions"; it uses the pair
 with the highest hard rate (ties: more ratings first), even when that pair
 isn't hard often enough to be a pattern card.
+
+**D46 — 2026-10-29 — Commit messages carry no AI trailers.**
+The spec's convention (1.6) ends each commit with `AI-Generated: Claude
+Code`. The team asked that commits use only their own Git identity with no
+AI markers. The competition's attribution requirement is met by
+`AI_ATTRIBUTION.md`, `docs/AI_DEV_LOG.md` and the progress reports, which
+say plainly that the code is AI-generated. CLAUDE.md now says the same.
+
+**D47 — 2026-10-29 — Sheets and forms load when first opened; Today is 267 KB, not under 250.**
+15 asks for under 250 KB of gzipped first-load JavaScript on Today. The
+first production measure was 330 KB (not counting Next's legacy polyfills,
+which modern browsers skip). Three changes brought it to 267 KB: the check-in,
+Day Mode, Bridge and Unstick sheets and the add-task/add-event forms load on
+first open (`WhenOpened` + `next/dynamic`), which also keeps zod and the AI
+runner off the first load; framer-motion is only loaded on Patterns (a small
+`matchMedia` hook replaces its reduced-motion hook); and the unused Tooltip
+provider is gone. About 125 KB of what remains is React and the Next runtime,
+32 KB is Dexie (the on-device database), and 16 KB is Radix's dropdown menu
+(top bar menu and "Move to…"). Replacing those menus with a lighter custom
+disclosure would close most of the gap; I didn't, because the Radix menu's
+keyboard and screen-reader behavior is worth more to Tide's users than 17 KB.
+Rejected: `optimizePackageImports` for `radix-ui` (measured, no effect;
+Radix was already tree-shaken).
+
+**D48 — 2026-10-29 — No Playwright; the scripted demo is tested in jsdom and walked in the browser.**
+16.3 makes Playwright optional. `src/test/demoScript.test.tsx` runs the whole
+14.3 script against the real seed (twice with the network down, once with
+live AI mocked), and Phase 10 walks it in the in-app browser. Installing a
+second browser just for this would add setup the team has to maintain.
+
+**D49 — 2026-10-29 — Two demo start times.**
+"Restart demo" starts at 3:40 pm as the spec says. "Restart demo at bridge
+time" starts at 4:36 pm rather than the spec's 4:31 pm: at 4:31 the Bridge
+card would only appear four minutes later (it shows 15 minutes before
+Calculus at 4:50), long after the demo has moved on. At 4:36 it is on Today
+from the start, and the lab (until 4:40) is still where Maya is. "Jump to
+bridge moment" sets 4:41 pm, nine minutes before Calculus, as in 14.3.
+
+**D50 — 2026-10-29 — Saved demo answers are built from the live input.**
+The cached Day Mode plan keeps whichever task ids are titled "Chemistry lab
+report" and "Email TA about lab data" and moves the rest, so it still passes
+the "every task placed once" check if someone adds a task on stage. The
+bridge answer picks Box breathing only if it is among the candidates sent.
+Saved narration is written for Gentle mode (the persona's) and only used
+when the numbers are exactly the planted ones.
+
+**D51 — 2026-10-29 — Turning demo mode off clears the persona too.**
+13.12 says turning demo off "clears demo data". The name, the fake contact
+and the campus placeholder were part of the persona, so they go too; text
+size, theme and other comfort settings stay.

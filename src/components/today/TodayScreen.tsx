@@ -14,8 +14,12 @@ import { BridgeCard } from '@/components/bridge/BridgeCard';
 import { TransitionRating } from '@/components/bridge/TransitionRating';
 import { eventForTransition } from '@/components/bridge/bridgeDrafts';
 import { useUpcomingBridge } from '@/components/bridge/useUpcomingBridge';
-import { TaskForm } from '@/components/tasks/TaskForm';
-import { AddEventSheet } from './AddEventSheet';
+import dynamic from 'next/dynamic';
+import { WhenOpened } from '@/components/shell/WhenOpened';
+
+// The two forms load when first opened; most visits to Today never open them.
+const TaskForm = dynamic(() => import('@/components/tasks/TaskForm').then((m) => m.TaskForm), { ssr: false });
+const AddEventSheet = dynamic(() => import('./AddEventSheet').then((m) => m.AddEventSheet), { ssr: false });
 import { DayModeBanner } from './DayModeBanner';
 import { NextTransitionCard } from './NextTransitionCard';
 import { StateCard } from './StateCard';
@@ -69,8 +73,12 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
         onAddEvent={() => setAddingEvent(true)}
         onAddTask={() => setAddingTask(true)}
       />
-      <AddEventSheet open={addingEvent} onOpenChange={setAddingEvent} dayStart={dayStart} />
-      <TaskForm open={addingTask} onOpenChange={setAddingTask} />
+      <WhenOpened open={addingEvent}>
+        <AddEventSheet open={addingEvent} onOpenChange={setAddingEvent} dayStart={dayStart} />
+      </WhenOpened>
+      <WhenOpened open={addingTask}>
+        <TaskForm open={addingTask} onOpenChange={setAddingTask} />
+      </WhenOpened>
     </div>
   );
 }

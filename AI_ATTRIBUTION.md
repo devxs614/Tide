@@ -33,7 +33,7 @@ what I generated and what came from elsewhere.
 | `src/components/shell/*` | PhoneFrame, TopBar, TabBar, CheckInFab, AppShell | Claude Code | |
 | `src/components/checkin/CheckInSheet.tsx` | Check-in sheet | Claude Code | Empty in Phase 0; built in Phase 2 |
 | `src/components/ui/button.tsx`, `dialog.tsx`, `sheet.tsx`, `sonner.tsx` | UI primitives | shadcn CLI, adapted by Claude Code | 48px targets, no red style, "Close" label, Tide's theme (D6, D7) |
-| `src/components/ui/checkbox.tsx`, `dropdown-menu.tsx`, `radio-group.tsx`, `slider.tsx`, `switch.tsx`, `tabs.tsx`, `tooltip.tsx` | UI primitives | shadcn CLI | Adapted in later phases where noted |
+| `src/components/ui/radio-group.tsx` | UI primitive | shadcn CLI | Unchanged |
 | `src/copy/en.ts` | Every user-facing string, with mode variants | Claude Code | Strings from spec Appendix A plus the ones each screen needed |
 | `src/data/emotions.ts` | 48-word emotion vocabulary | Claude Code | Content from the team's spec |
 | `src/data/strategies.ts` | 20 regulation strategies | Claude Code | Content from the team's spec; summaries written by me |
@@ -54,6 +54,15 @@ what I generated and what came from elsewhere.
 | `src/app/(app)/support/page.tsx` | `/support` route | Claude Code | |
 | `src/components/checkin/*` | Check-in sheet, its steps, mood map, emotion card, reducer | Claude Code | Covered by `CheckInSheet.test.tsx` (flow tests 1–4 and a keyboard-only run) |
 | `src/components/ui/StateChip.tsx`, `ReadAloudButton.tsx`, `DictateButton.tsx`, `Dots.tsx` | Shared UI pieces | Claude Code | |
+| `src/components/onboarding/*`, `src/app/onboarding/page.tsx` | Onboarding | Claude Code | Covered by `Settings.test.tsx` |
+| `src/components/settings/*`, `src/app/(app)/settings/page.tsx` | Settings screen and sections | Claude Code | Covered by `Settings.test.tsx` (flow test 11) |
+| `src/data/demo/seed.ts`, `seedTasks.ts` | Deterministic demo data (fictional persona) | Claude Code | mulberry32 is a public-domain PRNG by Tommy Ettinger; written from the well-known algorithm. Covered by `seed.test.ts` |
+| `src/data/demo/cachedResponses.ts` | Saved demo answers | Claude Code | Covered by `cachedResponses.test.ts` |
+| `src/lib/repo/demo.ts`, `src/lib/repo/data.ts` | Demo load/leave, export, delete | Claude Code | |
+| `src/components/shell/WhenOpened.tsx`, `src/lib/usePrefersReducedMotion.ts` | Load-on-first-open wrapper, OS reduced-motion hook | Claude Code | |
+| `src/test/demoScript.test.tsx` | The 100-second demo as a test | Claude Code | |
+| `public/icons/icon.svg`, `icon-192.png`, `icon-512.png`, `public/manifest.webmanifest`, `scripts/make-icons.mjs` | App icon and web manifest | Claude Code | Original wave mark drawn for Tide; PNGs rendered with sharp |
+| `docs/demo-script.md` | Presenter script for the stage demo | Claude Code | |
 | `src/components/ui/slider.tsx` | Slider | shadcn CLI, adapted by Claude Code | Bigger thumb, spoken values |
 | `src/lib/speech.ts`, `src/lib/useIsClient.ts`, `src/lib/quadrantStyles.ts` | Web Speech helpers, hydration-safe client check, state class names | Claude Code | |
 | `src/components/today/*`, `src/app/(app)/page.tsx` | Today: header, state card, win card, Day Mode banner and sheet, next-event card, Tide Line, add event | Claude Code | Covered by `TodayFlow.test.tsx` (flow test 7) |
@@ -116,6 +125,7 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | eslint 9, eslint-config-next 16.4.3 | Linting | MIT |
 | prettier 3.9.10 | Formatting | MIT |
 | typescript 5.9.3 | Type checking | Apache-2.0 |
+| sharp 0.35.5 (installed by Next.js) | Rendering the icon PNGs in `scripts/make-icons.mjs` | Apache-2.0 |
 | server-only 0.0.1 | Fails the build if server AI code is imported into the browser | MIT |
 | @types/node, @types/react, @types/react-dom | Type definitions | MIT |
 

@@ -60,6 +60,8 @@ describe('bridge', () => {
 
     // Shift: start the suggested strategy, which records against this switch.
     await user.click(screen.getAllByRole('button', { name: 'Start' })[0]);
+    // "Start" saves the note first (a database write), then navigates.
+    await waitFor(() => expect(navigation.push).toHaveBeenCalledWith(expect.stringMatching(/^\/toolkit\//)));
     const pushed = navigation.push.mock.calls.at(-1)![0] as string;
     const match = pushed.match(/^\/toolkit\/([^?]+)\?context=bridge&ref=(.+)$/);
     expect(match).not.toBeNull();
