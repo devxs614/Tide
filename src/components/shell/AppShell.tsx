@@ -3,8 +3,9 @@
 // The frame around every tab screen: top bar, the scrolling content, then the
 // Check in button and the tab bar pinned to the bottom. The DOM order is the
 // keyboard order the spec asks for: top bar, content, Check in, tabs.
-import type { ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect, type ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useSettings } from '@/lib/settings';
 import { copy } from '@/copy/en';
 import { cn } from '@/lib/utils';
 import { PhoneFrame } from './PhoneFrame';
@@ -30,7 +31,16 @@ function titleFor(pathname: string): string {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { settings, loaded } = useSettings();
   const wide = pathname.startsWith('/tasks');
+
+  // First visit goes to onboarding. Nothing renders until settings have
+  // loaded, so the demo clock and preferences are right on the first paint.
+  useEffect(() => {
+    if (loaded && !settings.onboarded) router.replace('/onboarding');
+  }, [loaded, settings.onboarded, router]);
+  if (!loaded || !settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
 
   return (
     <PhoneFrame wide={wide}>

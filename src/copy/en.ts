@@ -688,7 +688,7 @@ export const copy = {
     credits:
       "Inspired by the circumplex model of emotion and Yale's RULER framework. Not affiliated with Yale.",
     version: 'Version {v}',
-    team: 'Built by the Tide team: <team names>',
+    team: 'Built by the Tide team: <team names — to be filled in by the team>.',
     repo: 'Source code on GitHub',
     privacyTitle: 'Your privacy',
   },

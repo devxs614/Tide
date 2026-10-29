@@ -19,3 +19,7 @@ export function rememberSuggestion(taskId: string, suggestion: UnstickSuggestion
 export function recallSuggestion(taskId: string): UnstickSuggestion | undefined {
   return cache.get(taskId);
 }
+
+export function clearSuggestions(): void {
+  cache.clear();
+}
