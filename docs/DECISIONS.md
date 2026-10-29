@@ -395,4 +395,20 @@ novelty and robotic voices (Bubbles, Zarvox, Fred, Eddy…) are never chosen.
 If no English voice qualifies, the browser decides as before.
 Rejected: a voice picker in Settings for now. It would add a choice most
 people never need; the automatic pick fixes the actual problem, and a
-better voice installed on the device is picked up automatically.
+better voice installed on the device is picked up automatically. (Revisited
+the same day in D57, once the team asked for a gentler voice.)
+
+**D57 — 2026-10-29 — A gentler read-aloud: calm pace, soft voices first, a voice picker, and numbers in words.**
+The team asked for a gentler voice, and heard "Breathe in for cuatro": on a
+device set to Spanish the speech engine reads digits in Spanish even with an
+English voice. Now every read-aloud text has its numbers written out in
+English first ("four", "five, four, three, two, one", "four fifty pm");
+speech runs at 0.9 of the chosen speed; soft voices (Ava, Zoe, Samantha,
+Moira…) rank above brisker ones (Daniel, Karen…); and Settings → Comfort
+has "Read-aloud voice" with "Try this voice", because which voice sounds
+gentle is personal and differs by device. A saved voice that isn't on the
+current device falls back to the automatic pick. The button also gives
+itself back after 3 seconds if speech never starts.
+Rejected: changing the pitch for a softer sound (the built-in voices get
+muffled), and asking the AI to avoid digits (the strategy steps aren't
+AI-written, and any voice still needs the fix).

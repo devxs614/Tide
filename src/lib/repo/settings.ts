@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS: Settings = {
   communicationMode: 'gentle',
   aiEnabled: true,
   readAloudRate: 1,
+  readAloudVoice: '',
   demoMode: false,
   onboarded: false,
   trustedContacts: [],

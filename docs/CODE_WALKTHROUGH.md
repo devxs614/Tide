@@ -460,7 +460,10 @@ Support lists people she trusts, campus support and crisis lines.
 - `src/components/settings/SettingsScreen.tsx` and one file per section:
   `ComfortSection`, `AiSection`, `PeopleSection`, `DataSection`,
   `DemoSection`, `AboutSection`, plus `PreferencePickers` (shared with
-  onboarding) and `Section`.
+  onboarding), `VoicePicker` (read-aloud voice) and `Section`.
+- `src/lib/voices.ts`, `useVoices.ts`, `spokenNumbers.ts` and `speech.ts`
+  — which voice reads aloud, the live voice list, numbers in words, and
+  the speaking itself.
 - `src/components/safety/*` — Support and crisis screens (see Safety).
 - `src/lib/settings.tsx`, `src/lib/repo/settings.ts`, `src/lib/repo/data.ts`
   — the provider, defaults, export and delete.
@@ -476,6 +479,10 @@ database and reloads.
   effect is visible while choosing.
 - Contacts are left out of the export unless Maya ticks the box, because they
   are other people's details.
+- "Read aloud" never trusts the system default voice: on a Spanish-language
+  device that voice read English with an accent and digits in Spanish. Tide
+  ranks the English voices (soft ones first), writes numbers out in words,
+  and lets Maya pick and try a voice (D56, D57).
 
 **Likely reviewer questions**
 - *Where are contacts stored?* Only in the settings table on the device. They
@@ -484,6 +491,9 @@ database and reloads.
   two clear buttons, "Keep my data" being the default.
 - *What does Literal mode change?* AI wording (the prompts receive the mode)
   and the static copy that has variants, like the check-in's step 2 title.
+- *Why are the voices different on my phone?* They come from the device.
+  A voice chosen on the laptop that the phone doesn't have falls back to the
+  automatic pick there.
 
 ## Demo mode
 

@@ -1,14 +1,15 @@
 'use client';
 
-// Comfort: text size, extra spacing, theme, reduced motion, timer vibration
-// and read-aloud speed. These are the settings that make Tide readable and
-// calm for each person; all apply instantly.
+// Comfort: text size, extra spacing, theme, reduced motion, timer vibration,
+// and the read-aloud speed and voice. These are the settings that make Tide
+// readable and calm for each person; all apply instantly.
 import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import type { Settings } from '@/lib/types';
 import { SwitchRow } from '@/components/ui/switch';
 import { TextSizePicker, ThemePicker } from './PreferencePickers';
 import { Section } from './Section';
+import { VoicePicker } from './VoicePicker';
 import { cn } from '@/lib/utils';
 
 const SPEEDS: Array<[Settings['readAloudRate'], string]> = [
@@ -45,6 +46,7 @@ export function ComfortSection() {
           ))}
         </div>
       </fieldset>
+      <VoicePicker />
     </Section>
   );
 }
