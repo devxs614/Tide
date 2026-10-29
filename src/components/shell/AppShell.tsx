@@ -12,6 +12,7 @@ import { TopBar } from './TopBar';
 import { TabBar } from './TabBar';
 import { CheckInFab } from './CheckInFab';
 import { CheckInSheet } from '@/components/checkin/CheckInSheet';
+import { DayModeSheet } from '@/components/today/DayModeSheet';
 
 function titleFor(pathname: string): string {
   const t = copy.shell.titles;
@@ -51,6 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <TabBar />
       </div>
       <CheckInSheet />
+      <DayModeSheet />
     </PhoneFrame>
   );
 }

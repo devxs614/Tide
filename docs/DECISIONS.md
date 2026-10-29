@@ -198,3 +198,28 @@ Remaining time is `minutes − (now − start − paused)`, computed from `now()
 on every draw; the 250 ms interval only asks React to redraw. A test jumps
 the system clock five minutes ahead (as if the phone slept) and the block
 ends on the next draw. Ending a block that never started saves nothing.
+
+**D30 — 2026-10-29 — The win card only claims "felt like this too" when it's true.**
+13.3 says to pick the most recent win from a day with an Ebb check-in, else
+the most recent win. For the second case the sentence "Last Tuesday felt like
+this too" would be invented, so it reads "You have done hard things before.
+Recently you {win}." Only wins from earlier days are used.
+
+**D31 — 2026-10-29 — What counts as "today's tasks".**
+Due today, kept in today's plan, carried over to today (`movedTo` = today),
+or in progress; never tasks moved off today or done ones. "Bring back" clears
+the move and adds the task to the plan's kept list, so it really returns to
+today even when it isn't due today.
+
+**D32 — 2026-10-29 — Day Mode plans every open task, up to 25.**
+Every task that isn't done is offered to the plan (soonest due first, capped
+at the schema's 25). Moving a task due next week "to tomorrow" is harmless:
+it keeps its due date and just leaves today's list. Maya's toggles can push
+the kept total over budget; the total is shown, but she's in charge.
+
+**D33 — 2026-10-29 — Live queries read open-ended ranges.**
+Dexie re-runs a live query only for changes inside the key range it read.
+A query for "check-ins from midnight until now" therefore missed a check-in
+saved a minute later. Queries that end at "now" read an open-ended range and
+filter by time in code (`useTodayData`, `recentCheckIn`). A flow test caught
+this.

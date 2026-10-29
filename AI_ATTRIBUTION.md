@@ -56,7 +56,8 @@ what I generated and what came from elsewhere.
 | `src/components/ui/StateChip.tsx`, `ReadAloudButton.tsx`, `DictateButton.tsx`, `Dots.tsx` | Shared UI pieces | Claude Code | |
 | `src/components/ui/slider.tsx` | Slider | shadcn CLI, adapted by Claude Code | Bigger thumb, spoken values |
 | `src/lib/speech.ts`, `src/lib/useIsClient.ts`, `src/lib/quadrantStyles.ts` | Web Speech helpers, hydration-safe client check, state class names | Claude Code | |
-| `src/components/today/StateCard.tsx`, `TodayScreen.tsx`, `src/app/(app)/page.tsx` | Today (first version) | Claude Code | Completed in Phase 4 |
+| `src/components/today/*`, `src/app/(app)/page.tsx` | Today: header, state card, win card, Day Mode banner and sheet, next-event card, Tide Line, add event | Claude Code | Covered by `TodayFlow.test.tsx` (flow test 7) |
+| `src/lib/daymode.ts`, `src/lib/useNow.ts` | Day Mode rules, minute-by-minute redraw | Claude Code | Covered by `daymode.test.ts` |
 | `src/test/utils.tsx` | Flow-test helpers | Claude Code | |
 | `src/components/tasks/*` | Board, columns, task card, Move to menu, task form, Unstick sheet | Claude Code | Drag and drop follows the dnd-kit documentation's sortable and keyboard-sensor examples. Covered by `TasksFlow.test.tsx` |
 | `src/components/focus/*`, `src/app/focus/[taskId]/page.tsx` | Focus block, timer hook, water fill, outcome sheet | Claude Code | Covered by `FocusScreen.test.tsx` |

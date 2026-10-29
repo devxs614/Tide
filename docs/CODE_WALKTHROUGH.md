@@ -270,7 +270,42 @@ adds "Got unstuck" when it applies.
 - *Is a task ever deleted?* No. Done tasks can be moved back; wins stay.
 
 ## Today and Day Mode
-*(Phase 4)*
+
+**What it does for Maya.** Today greets her, shows how she checked in, and on
+a low day reminds her of something she managed on a day that felt the same.
+If she's low, it offers a lighter plan; she picks Gentle or Minimum, sees
+which tasks stay and which move to tomorrow, flips any of them, and can undo.
+Below that, what's next and the rest of her day as a simple line.
+
+**Files**
+- `src/components/today/TodayScreen.tsx`, `useTodayData.ts` — the screen and
+  its one live query.
+- `TodayHeader.tsx`, `StateCard.tsx`, `WinCard.tsx`, `DayModeBanner.tsx`,
+  `NextTransitionCard.tsx`, `TideLine.tsx`, `AddEventSheet.tsx` — its parts.
+- `DayModeSheet.tsx`, `DayModeProposal.tsx` — the lighter-day sheet.
+- `src/lib/daymode.ts` — banner rules, budgets, today's tasks, the route input.
+- `src/lib/repo/dayPlans.ts` — apply, undo, bring back.
+- `src/lib/useNow.ts` — redraws on a schedule, reads `now()` every render.
+
+**Data flow.** Today reads tasks, today's events, today's DayPlan and the
+latest check-in live. The banner is pure logic (`shouldShowBanner`). The sheet
+sends minimal task data to `useAi('daymode')`, then `applyDayPlan()` writes
+the plan and the moved dates in one transaction and returns a snapshot that
+`undoDayPlan()` restores.
+
+**Decisions worth defending**
+- A plan never deletes: moved tasks keep their place on the board and just
+  carry "Moved to tomorrow".
+- The server rejects any plan that leaves a task out or puts one in twice,
+  and keeps the budget honest (budget + 1 at most).
+- Undo restores the exact previous fields and the previous plan, not a guess.
+
+**Likely reviewer questions**
+- *Who decides what moves?* The AI proposes, the fallback rule proposes the
+  same way with AI off, and Maya decides with the toggles.
+- *What if she says "Not now"?* The banner hides until her next check-in.
+- *How does the screen know what time it is in the demo?* Everything reads
+  `now()`, which follows the demo clock.
 
 ## Toolkit
 *(Phase 5)*

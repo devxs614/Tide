@@ -383,5 +383,78 @@ screen will use, so I'm writing the strategy-before-task rule now in
 **For the team**
 - Nothing new.
 
-**Commit:** feat(tasks): add the board, Unstick and the focus block
-(hash recorded at the start of Phase 4)
+**Commit:** e16a176 feat(tasks): add the board, Unstick and the focus block
+
+## Before Phase 4 — Today and Day Modes
+2026-10-29, 00:17
+
+This is the part of Tide where the check-in actually changes Maya's day.
+Today is her home screen: a greeting, how she checked in, a reminder of
+something she managed on a day that felt like this one, the next thing on
+her schedule, and the rest of her day as a simple line with a "Now" marker.
+When she's running low, it offers a lighter plan instead of the full one.
+
+Where it sits: step 2 of the loop (adapt). It reads check-ins, tasks,
+events, wins and today's DayPlan; it writes DayPlans and the moved-task
+dates through `applyDayPlan()`, and events through `addEvent()`.
+
+What "done" means for me: the banner appears only under the three rules in
+13.3 and "Not now" hides it until the next check-in; a plan never deletes a
+task; Maya's toggles override the suggestion; Undo puts every task and the
+plan back exactly as they were; the "Now" marker moves on its own every
+minute using `now()`; Today renders with no data, with demo data and with
+long titles.
+
+What could go wrong: time. The marker, the banner and the next-event card
+all depend on the clock, and if any of them reads the real time instead of
+`now()`, demo mode shows the wrong afternoon on stage. The guard test
+catches `Date.now(`; I'll also keep "today" consistently computed from
+`now()` in one hook. The other risk is the Day Mode budget check: the AI's
+plan must place every task once, or it falls back.
+
+## After Phase 4 — Today and Day Modes
+2026-10-29, 00:25
+
+**What I built**
+- Today: greeting with the optional name, the state card with the win card,
+  the Day Mode banner with its three rules and "Not now", the next-event card
+  for anything in the next three hours, and the Tide Line with "Earlier
+  today", a "Now" marker in the state color, today's tasks, upcoming events,
+  empty states, and the "Moved to tomorrow" group with "Bring back".
+- The Add event sheet with kind, times, place and up to three prep items.
+- The Day Mode sheet: Gentle or Minimum, the AI or fallback proposal, toggles
+  per task, the kept-energy total, "Use this plan", and a 10-second Undo.
+- `src/lib/daymode.ts` with the banner rules, budgets, today's tasks and the
+  route input, and `bringBackToday()` in the day plan repo.
+
+**How I checked it**
+- lint ok, typecheck ok, 95 tests passing (18 files), build ok.
+- Flow test 7: an Ebb check-in shows the banner, Gentle proposes keeping the
+  TA email and the lab report (4 of 4), Maya keeps Laundry too (6 of about
+  4), the plan saves with the right kept and moved tasks, no task is
+  deleted, "Moved to tomorrow (3)" appears, the banner goes away, and Undo
+  removes the plan and clears every moved date.
+- Other tests: Today with no data; "Not now" until the next check-in; the
+  next-event card text; "Bring back"; the banner rules and today's-tasks
+  rules as unit tests.
+- In the in-app browser: Today at 390px with the earlier Ebb check-in shows
+  the banner, the Tide Line and the in-progress task.
+
+**What broke and how I fixed it**
+- A new check-in didn't refresh Today. Dexie live queries only watch the key
+  range they read, and mine ended at "now". Open-ended ranges with a time
+  filter fixed it there and in `recentCheckIn` (D33).
+
+**Decisions**
+- D30 honest win card. D31 today's tasks. D32 what Day Mode plans. D33 live
+  query ranges.
+
+**Known issues**
+- None that I know of. The Bridge card replaces the next-event card within
+  15 minutes in Phase 6.
+
+**For the team**
+- Nothing new.
+
+**Commit:** feat(today): add Today, the Tide Line and Day Modes
+(hash recorded at the start of Phase 5)
