@@ -59,7 +59,7 @@ export function TrustedContacts({ showAddLink = true }: { showAddLink?: boolean 
   return (
     <ul className="flex flex-col gap-3">
       {settings.trustedContacts.map((c) => (
-        <li key={c.id} className="flex flex-col gap-2 rounded-card border border-line bg-surface p-4">
+        <li key={c.id} className="flex flex-col gap-2 card p-4">
           <span className="text-lead font-bold">{c.name}</span>
           <ContactActions contact={c} />
         </li>
@@ -79,7 +79,7 @@ export function CampusSupport({ showAddLink = true }: { showAddLink?: boolean })
     ) : null;
   }
   return (
-    <div className="flex flex-col gap-2 rounded-card border border-line bg-surface p-4">
+    <div className="flex flex-col gap-2 card p-4">
       <span className="text-lead font-bold">{campus.name}</span>
       <div className="flex flex-wrap gap-2">
         {campus.phone && (

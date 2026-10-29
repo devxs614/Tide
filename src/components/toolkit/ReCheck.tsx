@@ -12,7 +12,7 @@ const OPTIONS: RecheckResult[] = ['better', 'same', 'worse'];
 
 export function ReCheck({ onAnswer, saving }: { onAnswer: (result: RecheckResult | undefined) => void; saving: boolean }) {
   return (
-    <section aria-labelledby="recheck-heading" className="flex flex-col gap-3 rounded-card border border-line bg-surface p-4">
+    <section aria-labelledby="recheck-heading" className="flex flex-col gap-3 card p-4">
       <h3 id="recheck-heading" className="text-h3 font-bold">
         {copy.toolkit.recheck}
       </h3>

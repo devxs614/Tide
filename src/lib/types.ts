@@ -1,6 +1,7 @@
 // The shapes of everything Tide stores on the device.
 // These mirror Section 8.1 of the build spec; the Dexie tables in db.ts and
 // the repo functions in lib/repo/ are typed against them.
+import type { ThemeId } from './theme/themes';
 
 export type Quadrant = 'surge' | 'swell' | 'ebb' | 'still';
 export type CommunicationMode = 'gentle' | 'direct' | 'literal';
@@ -166,4 +167,31 @@ export interface Settings {
   demoClock: DemoClock | null;
   // "Not now" on the Day Mode banner hides it until the next check-in.
   dayModeBannerDismissedFor: string | null;
+
+  // v2 (v2 spec Section 15.2). The dotted names keep each area together and
+  // never clash with the v1 keys above, which keep their v1 meaning.
+  // 2 once the v1 → v2 settings migration has run for this database.
+  schemaVersion: number;
+  'appearance.theme': ThemeId;
+  'appearance.followSystem': boolean;
+  'appearance.lightTheme': ThemeId;
+  'appearance.darkTheme': ThemeId;
+  'appearance.font': AppearanceFont;
+  'appearance.boldText': boolean;
+  'appearance.density': 'comfortable' | 'compact';
+  'appearance.roundness': 'round' | 'soft' | 'square';
+  'appearance.quadrantPalette': 'theme' | 'colorblind';
+  'appearance.showQuadrantShapes': boolean;
+  // 'auto' means "not chosen": the device setting, then Calm (spec 5.2).
+  'motion.level': 'auto' | 'off' | 'calm' | 'lively';
+  'motion.celebrations': 'full' | 'gentle' | 'off';
+  'motion.confetti': boolean;
+  'motion.pageTransitions': boolean;
+  'motion.companionIdle': boolean;
+  'motion.shoreWaves': boolean;
+  'haptics.enabled': boolean;
+  'voice.rate': number;
+  'voice.deviceVoiceURI': string | null;
 }
+
+export type AppearanceFont = 'playful' | 'hyperlegible' | 'lexend' | 'system';

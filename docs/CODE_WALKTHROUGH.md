@@ -566,3 +566,49 @@ lists everything v1 had. The `v1-baseline` git tag marks the last v1 state.
 - *How do I roll back to v1?* `git checkout v1-baseline` (read only), or
   compare with `git diff v1-baseline`.
 
+## Design system 2.0 and themes (V1)
+
+**What it does for Maya.** Tide looks and feels like a friendly, finished
+app: chunky rounded cards with a solid ledge, buttons that press down,
+rounded headings in Nunito, and 15 themes, from bright to low-stimulation
+and high contrast. Existing users keep the v1 look (Classic) until they
+choose otherwise.
+
+**Files**
+- `src/lib/theme/themes.ts` — the 15 themes and 4 quadrant palettes.
+- `src/lib/theme/applyTheme.ts` — paints a theme onto `<html>` (CSS
+  variables and data attributes) and crossfades between themes.
+- `src/lib/theme/contrast.ts` and `__tests__/contrast.test.ts` — WCAG
+  checks for every theme.
+- `src/lib/motion/tokens.ts`, `resolve.ts`, `useMotionLevel.ts` — motion
+  levels and timings.
+- `src/lib/settings/migrate.ts` — the v1 → v2 settings mapping.
+- `src/app/globals.css` — token defaults, the `card` and `press-3d`
+  utilities, CSS springs, keyframes, motion Off.
+- `src/app/layout.tsx` — fonts and the first-paint script.
+- `src/components/ui/*` — Button (3D), Card/CardButton, Chip,
+  ProgressBar, SegmentedControl, CoachMark, EmptyState, IconTile,
+  QuadrantDot, restyled Sheet, Switch, Dialog, toasts.
+- `src/components/settings/ThemeGrid.tsx`, `AppearanceSection.tsx`.
+
+**Data flow.** Settings rows → `settingsFromRows` (with the migration) →
+`applyToDocument` → `paintFor` builds the CSS variables and attributes →
+written to `<html>` and mirrored to localStorage → the inline script in
+layout.tsx replays them on the next visit before any bundle loads.
+
+**Decisions worth defending**
+- Springs are CSS `linear()` curves, so the always-visible pieces (buttons,
+  tabs, toggles) cost no JavaScript (D62).
+- Existing users keep Classic + Hyperlegible; nobody's app changes under
+  them without a choice (D63).
+- High-contrast themes and the color-blind palette swap dots for shapes, so
+  states never depend on color.
+
+**Likely reviewer questions**
+- *How do I add a theme?* Add it to `THEMES` and its name and description
+  to `copy.themes`; the contrast test tells you if it's readable.
+- *Why is `--accent` not shadcn's accent?* It's Tide's own accent color
+  now; menus use `surface-2` for hover.
+- *Where did the reduced-motion media query go?* The device setting feeds
+  the motion level instead (D64).
+

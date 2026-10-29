@@ -6,13 +6,12 @@
 // and anything Day Mode moved waits at the end with a "Bring back" button.
 import { copy, fill } from '@/copy/en';
 import { bringBackToday } from '@/lib/repo/dayPlans';
-import { QUADRANT_STYLES } from '@/lib/quadrantStyles';
 import { useSettings } from '@/lib/settings';
 import { formatTime } from '@/lib/time';
 import type { CalendarEvent, Quadrant, Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { TaskCard } from '@/components/tasks/TaskCard';
-import { cn } from '@/lib/utils';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 interface Props {
   events: CalendarEvent[];
@@ -51,7 +50,7 @@ export function TideLine({ events, tasks, moved, nowTs, today, quadrant, onAddEv
       </h2>
 
       {earlier.length > 0 && (
-        <details className="rounded-card border border-line bg-surface">
+        <details className="card">
           <summary className="flex min-h-12 cursor-pointer items-center px-4 text-ink-soft">
             {fill(copy.today.earlierToday, { count: earlier.length })}
           </summary>
@@ -72,7 +71,7 @@ export function TideLine({ events, tasks, moved, nowTs, today, quadrant, onAddEv
       )}
 
       <p className="flex items-center gap-2 font-bold">
-        <span aria-hidden className={cn('size-3 rounded-full', quadrant ? QUADRANT_STYLES[quadrant].dot : 'bg-ink-soft')} />
+        {quadrant ? <QuadrantDot quadrant={quadrant} /> : <span aria-hidden className="size-3 rounded-full bg-ink-soft" />}
         <span aria-hidden className="h-px flex-1 bg-ink-soft" />
         <span>{fill(copy.today.now, { time: formatTime(nowTs) })}</span>
       </p>
@@ -119,7 +118,7 @@ export function TideLine({ events, tasks, moved, nowTs, today, quadrant, onAddEv
       )}
 
       {moved.length > 0 && (
-        <details className="rounded-card border border-line bg-surface">
+        <details className="card">
           <summary className="flex min-h-12 cursor-pointer items-center px-4">{fill(copy.today.movedGroup, { count: moved.length })}</summary>
           <ul className="flex flex-col gap-2 p-3">
             {moved.map((t) => (

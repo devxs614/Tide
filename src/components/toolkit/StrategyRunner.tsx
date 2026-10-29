@@ -98,7 +98,7 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
       )}
       {phase === 'recheck' && <ReCheck onAnswer={(r) => void answer(r)} saving={saving} />}
       {phase === 'after' && result && (
-        <section aria-live="polite" className="flex flex-col gap-3 rounded-card border border-line bg-surface p-4">
+        <section aria-live="polite" className="flex flex-col gap-3 card p-4">
           <p className="text-lead">{AFTER[result]}</p>
           <Button onClick={() => router.push(returnPath(context, refId))}>{copy.toolkit.continue}</Button>
         </section>

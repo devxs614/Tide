@@ -19,14 +19,14 @@ const SPEEDS: Array<[Settings['readAloudRate'], string]> = [
 ];
 
 export function ComfortSection() {
-  const { settings, update } = useSettings();
+  const { settings, update, updateMany } = useSettings();
   return (
     <Section id="comfort" title={copy.settings.comfort}>
       <TextSizePicker />
       <SwitchRow id="set-spacing" label={copy.settings.extraSpacing} checked={settings.extraSpacing} onCheckedChange={(v) => void update('extraSpacing', v)} />
       <ThemePicker />
-      <SwitchRow id="set-motion" label={copy.settings.reduceMotion} checked={settings.reduceMotion} onCheckedChange={(v) => void update('reduceMotion', v)} />
-      <SwitchRow id="set-vibration" label={copy.settings.vibration} checked={settings.vibration} onCheckedChange={(v) => void update('vibration', v)} />
+      <SwitchRow id="set-motion" label={copy.settings.reduceMotion} checked={settings.reduceMotion || settings['motion.level'] === 'off'} onCheckedChange={(v) => void updateMany({ reduceMotion: v, 'motion.level': v ? 'off' : 'auto' })} />
+      <SwitchRow id="set-vibration" label={copy.settings.vibration} checked={settings['haptics.enabled']} onCheckedChange={(v) => void updateMany({ vibration: v, 'haptics.enabled': v })} />
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 font-bold">{copy.settings.readAloudSpeed}</legend>
         <div className="flex flex-wrap gap-2">

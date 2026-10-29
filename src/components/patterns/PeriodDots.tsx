@@ -5,10 +5,9 @@
 // spells out what each color means.
 import { copy, fill } from '@/copy/en';
 import { QUADRANTS } from '@/lib/quadrant';
-import { QUADRANT_STYLES } from '@/lib/quadrantStyles';
 import { addDays, formatShortDay, startOfDay, toISODate, weekdayName } from '@/lib/time';
 import type { CheckIn } from '@/lib/types';
-import { cn } from '@/lib/utils';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 function daySentence(ts: number, list: CheckIn[]): string {
   const date = `${weekdayName(ts)}, ${formatShortDay(ts).split(', ')[1]}`;
@@ -42,7 +41,7 @@ export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; now
               </span>
               <span aria-hidden className="flex flex-wrap justify-center gap-0.5">
                 {list.slice(0, 4).map((c) => (
-                  <span key={c.id} className={cn('size-2 rounded-full', QUADRANT_STYLES[c.quadrant].dot)} />
+                  <QuadrantDot key={c.id} quadrant={c.quadrant} className="size-2.5" />
                 ))}
               </span>
             </li>
@@ -53,7 +52,7 @@ export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; now
         {QUADRANTS.map((q) => (
           <div key={q} className="flex items-center gap-2">
             <dt className="flex items-center gap-2 font-bold">
-              <span aria-hidden className={cn('size-3 rounded-full', QUADRANT_STYLES[q].dot)} />
+              <QuadrantDot quadrant={q} />
               {copy.quadrants[q].name}
             </dt>
             <dd className="text-ink-soft">{copy.quadrants[q].subtitle}</dd>

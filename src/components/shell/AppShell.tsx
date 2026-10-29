@@ -60,6 +60,7 @@ function titleFor(pathname: string): string {
   if (pathname.startsWith('/proof')) return t.proof;
   if (pathname.startsWith('/settings')) return t.settings;
   if (pathname.startsWith('/support')) return t.support;
+  if (pathname.startsWith('/shore')) return t.shore;
   return t.today;
 }
 

@@ -5,6 +5,18 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V1: Design system 2.0 and themes
+- A new look: chunky cards with a solid ledge, buttons that press down,
+  rounded Nunito headings, a five-tab bar with a Shore tab, and a 3D
+  Check in button.
+- 15 themes (Settings → Appearance), all tested for readable contrast, plus
+  "follow my device" with separate light and dark picks.
+- Fonts: Playful (Nunito + Atkinson), Hyperlegible, Lexend or System.
+- Motion levels: Off, Calm, Lively, or match the device.
+- High-contrast themes and the color-blind palette show shapes instead of
+  colored dots.
+- Existing users keep exactly their v1 look until they choose something new.
+
 ### V0: Baseline and safety net
 - Tagged the last v1 state as `v1-baseline`.
 - `npm run test:v1` runs the v1 tests on their own, so a v2 change that

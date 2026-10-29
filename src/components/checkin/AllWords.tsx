@@ -8,11 +8,10 @@ import { useState } from 'react';
 import { copy } from '@/copy/en';
 import { emotionsInQuadrant } from '@/data/emotions';
 import { QUADRANTS } from '@/lib/quadrant';
-import { QUADRANT_STYLES } from '@/lib/quadrantStyles';
 import { Button } from '@/components/ui/button';
 import { StepHeader } from './StepHeader';
 import { ToggleChip } from './ToggleChip';
-import { cn } from '@/lib/utils';
+import { QuadrantDot } from '@/components/ui/QuadrantDot';
 
 interface Props {
   selected: string[];
@@ -36,7 +35,7 @@ export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
         {QUADRANTS.map((q) => (
           <section key={q} aria-labelledby={`words-${q}`} className="flex flex-col gap-2">
             <h3 id={`words-${q}`} className="flex items-center gap-2 font-bold">
-              <span aria-hidden className={cn('size-3 rounded-full', QUADRANT_STYLES[q].dot)} />
+              <QuadrantDot quadrant={q} />
               {copy.quadrants[q].name}
               <span className="font-normal text-ink-soft">· {copy.quadrants[q].subtitle}</span>
             </h3>

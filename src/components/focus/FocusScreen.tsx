@@ -81,7 +81,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
       </header>
       <LeftOffNote task={task} />
       {task.firstStep && (
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="card p-4">
           <h2 className="text-caption text-ink-soft">{copy.focus.firstStep}</h2>
           <p className="text-lead font-bold">{task.firstStep}</p>
         </section>

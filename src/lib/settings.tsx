@@ -1,9 +1,9 @@
 'use client';
 
 // Settings for the whole app: one provider reads the settings table live and
-// applies theme, text size, spacing and reduced motion to <html> right away,
-// so a change in onboarding or Settings shows up instantly. It also points
-// the clock at the demo time when demo mode is on.
+// applies the theme, text size, spacing, font and motion level to <html>
+// right away, so a change in onboarding or Settings shows up instantly. It
+// also points the clock at the demo time when demo mode is on.
 
 // Dexie is the source of truth; a tiny localStorage mirror lets the inline
 // script in layout.tsx paint the right theme and size before React loads.
@@ -13,6 +13,9 @@ import { db } from './db';
 import { setDemoClock } from './clock';
 import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 import { DEFAULT_SETTINGS, setSetting, setSettings, settingsFromRows } from './repo/settings';
+import { shouldSaveMigration, v2MigrationPatch } from './settings/migrate';
+import { crossfadeFrom, paintFor, writePaint } from './theme/applyTheme';
+import { resolveMotionLevel } from './motion/resolve';
 import type { Settings } from './types';
 
 interface SettingsContextValue {
@@ -35,21 +38,36 @@ function prefersDark(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 export function applyToDocument(s: Settings): void {
   const root = document.documentElement;
-  const dark = s.theme === 'dark' || (s.theme === 'system' && prefersDark());
-  root.classList.toggle('dark', dark);
-  root.style.setProperty('--text-scale', String(s.textScale));
-  root.dataset.spacing = s.extraSpacing ? 'extra' : 'normal';
-  root.dataset.reduceMotion = s.reduceMotion ? 'true' : 'false';
+  const motion = resolveMotionLevel(s, prefersReducedMotion());
+  const paint = paintFor(s, prefersDark(), motion);
+  const previous = root.dataset.theme;
+  if (previous && previous !== paint.attrs.theme && motion !== 'off') {
+    crossfadeFrom(getComputedStyle(root).getPropertyValue('--bg').trim());
+  }
+  writePaint(root, paint);
   try {
+    // With "follow my device", keep the other scheme's colors too, so the
+    // first paint is right even if the device switched while Tide was shut.
+    const other = s['appearance.followSystem'] ? paintFor(s, !prefersDark(), motion) : null;
     localStorage.setItem(
       PREFS_STORAGE_KEY,
       JSON.stringify({
+        v: 2,
+        vars: paint.vars,
+        attrs: paint.attrs,
+        dark: paint.dark,
+        alt: other && { vars: other.vars, dark: other.dark },
+        // v1 fields, so an older tab still paints something sensible.
         theme: s.theme,
         textScale: s.textScale,
         extraSpacing: s.extraSpacing,
-        reduceMotion: s.reduceMotion,
+        reduceMotion: motion === 'off',
       }),
     );
   } catch {
@@ -69,12 +87,24 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!loaded) return;
     applyToDocument(settings);
-    if (settings.theme !== 'system') return;
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    // Follow the device when Maya asked to, and notice the device's
+    // reduced-motion switch when she hasn't picked a motion level herself.
+    const scheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onChange = () => applyToDocument(settings);
-    media.addEventListener('change', onChange);
-    return () => media.removeEventListener('change', onChange);
+    scheme.addEventListener('change', onChange);
+    motion.addEventListener('change', onChange);
+    return () => {
+      scheme.removeEventListener('change', onChange);
+      motion.removeEventListener('change', onChange);
+    };
   }, [settings, loaded]);
+
+  // Write the v1 → v2 migration down once, for people already onboarded.
+  useEffect(() => {
+    if (!rows || !shouldSaveMigration(rows)) return;
+    void setSettings({ ...v2MigrationPatch(rows), schemaVersion: 2 });
+  }, [rows]);
 
   const value = useMemo<SettingsContextValue>(
     () => ({ settings, loaded, update: setSetting, updateMany: setSettings }),
@@ -88,10 +118,11 @@ export function useSettings(): SettingsContextValue {
   return useContext(SettingsContext);
 }
 
-// One answer to "should this move?": true if the OS asks for reduced motion
-// or Maya turned it on in Settings. Every animation in Tide checks this.
+// One answer to "should this move?", kept from v1 so its callers don't
+// change: true when the motion level resolves to Off (her choice, v1's
+// Reduce motion switch, or the device setting when she hasn't chosen).
 export function useReducedMotionPref(): boolean {
   const os = usePrefersReducedMotion();
   const { settings } = useSettings();
-  return Boolean(os) || settings.reduceMotion;
+  return resolveMotionLevel(settings, Boolean(os)) === 'off';
 }

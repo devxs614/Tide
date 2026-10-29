@@ -10,7 +10,7 @@ import type { CalendarEvent } from '@/lib/types';
 
 export function NextTransitionCard({ event, nowTs }: { event: CalendarEvent; nowTs: number }) {
   return (
-    <section aria-label={copy.today.nextEventLabel} className="flex items-center gap-3 rounded-card border border-line bg-surface p-4">
+    <section aria-label={copy.today.nextEventLabel} className="flex items-center gap-3 card p-4">
       <CalendarClock className="size-6 shrink-0 text-primary" aria-hidden />
       <p className="font-bold">
         {fill(copy.today.nextEvent, { title: event.title, time: formatTime(event.start), minutes: minutesUntil(event.start, nowTs) })}

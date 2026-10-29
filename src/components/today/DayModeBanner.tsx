@@ -19,7 +19,7 @@ export function DayModeBanner({ reason, checkInId }: { reason: BannerReason; che
   const { settings, update } = useSettings();
   const { openDayMode } = useDayModeSheet();
   return (
-    <section aria-label={copy.dayMode.title} className="flex flex-col gap-3 rounded-card border border-line bg-surface p-4">
+    <section aria-label={copy.dayMode.title} className="flex flex-col gap-3 card p-4">
       <p className="text-lead">{byMode(TEXT[reason], settings.communicationMode)}</p>
       <div className="flex flex-wrap gap-2">
         <Button onClick={openDayMode}>{copy.today.showMe}</Button>

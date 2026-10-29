@@ -39,7 +39,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
         <p className="pr-24 text-caption text-ink-soft">{task.title}</p>
         <LeftOffNote task={task} />
         <StepHeader title={copy.unstick.firstStepTitle} />
-        <section aria-label={copy.global.suggestion} className="flex flex-col gap-2 rounded-card border border-line bg-surface p-4">
+        <section aria-label={copy.global.suggestion} className="flex flex-col gap-2 card p-4">
           <p className="text-caption text-ink-soft">{copy.global.suggestion}</p>
           <p className="text-[1.294rem] leading-snug font-bold" aria-live="polite">
             {loading ? copy.unstick.loading : output.firstStep}
@@ -48,7 +48,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
           <ReadAloudButton text={`${output.firstStep} ${fill(copy.unstick.tryBlock, { n })}`} />
         </section>
         {strategy && !skipStrategy && (
-          <section className="flex flex-col gap-3 rounded-card border border-line bg-surface-2 p-4">
+          <section className="flex flex-col gap-3 rounded-card border-2 border-line bg-surface-2 p-4">
             <p>
               {fill(copy.unstick.strategyFirst, {
                 taskType: getTaskType(task.type).label.toLowerCase(),

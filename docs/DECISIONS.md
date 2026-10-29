@@ -447,3 +447,53 @@ module scripts it loads, and gzips them. Baseline for `/`: 267 KB, which
 leaves 33 KB under the 300 KB budget. That shapes v2: CSS for most motion,
 and framer-motion only inside lazy-loaded pieces.
 
+**D61 — 2026-10-29 — Two theme accents darkened; Classic keeps v1's real notice color.**
+The contrast test failed for white text on two accents: Coral Reef
+(#2FA39A, 3.08:1) and Sunset Shore (#5B7FD6, 3.85:1). Following the spec, I
+darkened only lightness, in the smallest step that passes, and kept the hue:
+Coral Reef #26837C (4.55:1), Sunset Shore #4B72D2 (4.53:1), with their ledge
+shades moved by the same steps. Classic's notice is #80651C, the value the
+v1 code actually uses since D52, not the #8A6D1F in the v2 spec's table;
+the spec says the code wins where they differ.
+
+**D62 — 2026-10-29 — Springs in CSS, and sliders without layoutId.**
+The v2 spec describes framer-motion springs and `layoutId` for the tab
+indicator and segmented controls. Those sit on every page, and `/` only has
+33 KB of budget. I sampled the four springs into CSS `linear()` easing
+curves (`--spring-snappy` and friends in globals.css), and the tab pill and
+segmented thumb slide with a CSS transform by index. The motion looks the
+same, costs nothing on first load, and the Off level zeroes every duration
+in one place. framer-motion stays for lazy-loaded pieces (companions,
+celebrations, shore). Rejected: LazyMotion with the DOM features bundle on
+every page (still ~15–25 KB for effects CSS can do).
+
+**D63 — 2026-10-29 — The settings migration runs on read, and v1 controls write v2 keys.**
+`settingsFromRows` applies the v1 → v2 mapping until `schemaVersion: 2` is
+stored, so an existing user sees the Classic look from the very first
+frame. The provider writes it down only for people who finished onboarding;
+a brand-new or just-deleted database stays empty, and onboarding writes
+`schemaVersion: 2` itself, so a new user is never mistaken for a v1 user
+later. The v1 controls still on screen until V6/V9 (System/Light/Dark,
+Reduce motion, vibration) now also write the v2 keys, so they keep doing
+what they say. Rejected: migrating in an effect only (existing users would
+flash the v2 look first) and always saving (it would write into a freshly
+deleted database).
+
+**D64 — 2026-10-29 — The device's reduced-motion setting is resolved, not forced.**
+v1 had a CSS media query that stopped all motion whenever the device asked
+for reduced motion. v2 lets someone deliberately choose Calm or Lively even
+then, so the device setting now feeds the motion level (spec 5.2) and the
+CSS keys off `data-motion="off"`. With no choice made, a device that asks
+for reduced motion still gets Off.
+
+**D65 — 2026-10-29 — v2 settings use dotted keys in the same table.**
+New settings are stored as rows like `appearance.theme` and
+`motion.level`, as the v2 spec names them, next to the untouched v1 keys.
+The Settings type lists them as quoted keys. No Dexie version change was
+needed, because the settings table is key/value.
+
+**D66 — 2026-10-29 — Small buttons keep a 48px target.**
+The v2 spec draws `sm` buttons at 40px with a 48px hit area. Tide's v1 rule
+is 48px targets, and a pseudo-element hit area doesn't count for
+automated target-size checks, so `sm` stays 48px tall with smaller text.
+

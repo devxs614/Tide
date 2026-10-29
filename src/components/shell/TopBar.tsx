@@ -19,11 +19,11 @@ import { Button } from '@/components/ui/button';
 export function TopBar({ title }: { title: string }) {
   const { settings } = useSettings();
   return (
-    <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b border-line bg-bg/95 px-5 backdrop-blur">
+    <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
       {/* At 130% and 150% text there isn't room for all three in one row; the
           badge drops under the title so the menu never gets pushed off screen. */}
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
-        <h1 className="text-h2 font-bold text-ink">{title}</h1>
+        <h1 className="text-h2 font-extrabold text-ink">{title}</h1>
         {settings.demoMode && (
           <span
             className="rounded-full border border-line bg-surface-2 px-3 py-0.5 text-caption whitespace-nowrap text-ink-soft"

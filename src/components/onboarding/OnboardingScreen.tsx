@@ -25,6 +25,9 @@ export function OnboardingScreen() {
     const contact = contactName.trim() && contactValue.trim();
     await updateMany({
       onboarded: true,
+      // Marks this person as a v2 user, so the v1 → v2 migration never
+      // mistakes them for someone who should keep the v1 look.
+      schemaVersion: 2,
       ...(contact
         ? { trustedContacts: [...settings.trustedContacts, { id: crypto.randomUUID(), name: contactName.trim(), method: /^[+\d\s()-]+$/.test(contactValue) ? 'phone' : 'handle', value: contactValue.trim() }] }
         : {}),
@@ -79,7 +82,7 @@ export function OnboardingScreen() {
           </h1>
           <TextSizePicker />
           <ThemePicker />
-          <SwitchRow id="ob-motion" label={copy.settings.reduceMotion} checked={settings.reduceMotion} onCheckedChange={(v) => void update('reduceMotion', v)} />
+          <SwitchRow id="ob-motion" label={copy.settings.reduceMotion} checked={settings.reduceMotion || settings['motion.level'] === 'off'} onCheckedChange={(v) => void updateMany({ reduceMotion: v, 'motion.level': v ? 'off' : 'auto' })} />
           <ModePicker />
         </section>
       )}

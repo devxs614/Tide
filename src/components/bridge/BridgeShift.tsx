@@ -22,7 +22,7 @@ function Option({ id, onStart, better, n }: { id: string; onStart: (id: string) 
   const strategy = getStrategy(id);
   if (!strategy) return null;
   return (
-    <div className="flex flex-col gap-2 rounded-card border border-line bg-surface p-4">
+    <div className="flex flex-col gap-2 card p-4">
       <span className="font-bold">{strategy.name}</span>
       <span className="text-ink-soft">{strategy.summary}</span>
       <StrategyMeta strategy={strategy} />
