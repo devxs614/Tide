@@ -35,7 +35,7 @@ const CORNERS: Array<{ q: Quadrant; place: string }> = [
 export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: MapPoint) => void }) {
   const { settings } = useSettings();
   const reduce = useReducedMotionPref();
-  const [useSliders, setUseSliders] = useState(false);
+  const [useSliders, setUseSliders] = useState(settings['checkin.mapStyle'] === 'sliders');
   const [dragging, setDragging] = useState(false);
   // Keyboard changes are spoken through aria-valuetext on the focused dot;
   // this live region only speaks after a drag or tap, so nothing is said twice.

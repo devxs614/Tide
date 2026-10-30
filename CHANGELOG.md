@@ -5,6 +5,20 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V9: Settings 2.0
+- Settings is now an index with search ("dark mode", "pet", "font"),
+  quick presets (Calm, Low sensory, Focused, Playful, High contrast) that
+  show what they change and can be undone, and one page per topic with a
+  live preview and "Reset this section".
+- Many new settings, each doing something real: the clock and date style,
+  how a check-in starts and which feeling words it offers, Day Mode
+  budgets, morning and evening cards, focus length and keeping the screen
+  on, pattern evidence, shore labels, page transitions and more.
+- Background sounds (waves, rain, brown noise) now actually play during
+  focus and winding down, when sound is on.
+- Export and import your settings; import a full backup, checked first,
+  all or nothing.
+
 ### V8: Close the day
 - A short evening wind-down with your companion (about 3 minutes, every
   step skippable): your day as a tide, today's wins, what helped and what

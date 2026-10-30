@@ -105,6 +105,7 @@ export function ShoreScreen() {
 
       <ShoreScene
         svgRef={svgRef}
+        showLabels={settings['shore.showLabels']}
         placed={placed}
         bottles={floating}
         glowingBottleId={eligible?.id}

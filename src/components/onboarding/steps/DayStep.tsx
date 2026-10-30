@@ -48,8 +48,8 @@ export function DayStep({ onNext }: StepProps) {
         <span className="font-display font-extrabold">{copy.ob.clock}</span>
         <SegmentedControl
           label={copy.ob.clock}
-          value={settings['day.clock']}
-          onChange={(v) => void update('day.clock', v)}
+          value={settings['language.timeFormat']}
+          onChange={(v) => void update('language.timeFormat', v)}
           options={[
             { value: '12h', label: copy.ob.clocks['12h'] },
             { value: '24h', label: copy.ob.clocks['24h'] },

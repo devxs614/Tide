@@ -1920,3 +1920,118 @@ snoozed), and the v1 prompts document and its test stay as they were.
 - Today's quick actions row (spec 12) isn't built yet.
 
 **Decisions:** D102–D106.
+
+## Before Phase V9 — Settings 2.0
+2026-10-30, 01:00
+
+For Maya: one place to make Tide fit how her senses and her days work,
+without hunting. A search that understands "dark mode" or "pet", presets
+for a whole sensory profile, a page per topic with a live preview, Undo
+for the changes that would surprise her, and nothing that pretends to be a
+setting but does nothing.
+
+What it touches in v1: the Settings screen (an index plus pages, which
+spec 3.5 allows), its tests (navigation only), and small reads of new
+settings in the check-in, Today, Day Mode, focus, patterns and the shore.
+How I avoid breaking things: every new setting's default is v1's
+behavior, the v1 tests keep their assertions, and the v1 suite runs
+throughout.
+
+## After Phase V9 — Settings 2.0
+2026-10-30, 02:10
+
+**What I built**
+- `/settings` is an index: search, quick presets (each shows what it will
+  change, Apply, Undo), the companion card, and the sections. Each section
+  is a page (`/settings/[section]`) with a live preview, its controls, and
+  "Reset this section" (with Undo).
+- The sections come from one catalog (`lib/settings/catalog.ts`) that also
+  feeds search; generic switches, choices, times and texts, plus the
+  bigger pieces reused as they were (theme grid, voice, sound, people,
+  data, demo, about).
+- `SettingsSchema` (zod) for every key, used for importing; export and
+  import of settings files; "Import backup" with a summary, Replace or
+  Cancel, one transaction and a copy in memory; "Clear saved voice clips".
+- New settings, each wired to something real: pronouns; bold text,
+  density, corners, state colors and shapes (their controls; the look was
+  wired in V1); page transitions and shore waves; background sound volume;
+  reading level, 12/24-hour clock and date style; where a check-in starts,
+  simple or full feeling words, causes, follow-up question, map or
+  sliders; day start and end, Day Mode budgets and banner, moved tasks,
+  morning and evening cards; focus length, the companion's activity, end
+  sound, keeping the screen on; patterns on/off, how much evidence, the
+  default period, showing dismissed patterns again; shore labels.
+- Found while wiring: the background sound (waves, rain, brown noise)
+  chosen in V2 never played. It now plays during a running focus block
+  and the wind-down breathing, if sound is on.
+- Undo for theme (any grid), font, motion level and presets.
+
+**Setting → what it changes → how I checked it**
+- `name`, `pronouns` → greeting / profile field → v1 flow test; manual
+  field render in tests.
+- `appearance.theme` (+ light/dark) → `data-theme` and colors → flow 5.
+- `appearance.font`, `boldText`, `density`, `roundness`,
+  `quadrantPalette`, `showQuadrantShapes`, `textScale`, `extraSpacing` →
+  data attributes and CSS variables on `<html>` → V1 theme tests; v1
+  text-size test (`--text-scale` 1.5).
+- `motion.level` → `data-motion`, all motion → V1 motion tests; the
+  matrix tests in V5. `motion.celebrations`, `motion.confetti` → the
+  celebration decision → V5 matrix tests. `motion.pageTransitions`,
+  `motion.shoreWaves` → `data-page-transitions` / `data-shore-waves` stop
+  those animations → code path checked; CSS rule added. `motion.companionIdle`
+  → companion idles → V3.
+- `sound.*`, `haptics.enabled` → sounds and vibration → V2 tests;
+  `sound.ambience` + `sound.ambienceVolume` → background loop in focus and
+  wind-down → code path (not testable in jsdom: no Web Audio).
+- `voice.*` → read-aloud → V2 tests.
+- `communicationMode` → wording everywhere → v1 flow test (Literal).
+  `language.readingLevel` → sent to the wrap-up route → V8 input builder.
+  `language.timeFormat`, `language.dateStyle` → every time and long date
+  → formatter code path (set once by the settings provider).
+- `checkin.defaultPath`, `checkin.showCauses`, `checkin.showFollowUp`,
+  `checkin.mapStyle`, `checkin.vocabulary` → the check-in's first step,
+  step 3, the follow-up line, sliders, and the words offered and sent to
+  the AI → code paths; existing check-in tests still pass with defaults.
+- `day.*` → evening/morning cards, banner, moved tasks, Day Mode budgets,
+  tide chart, Bridge lead → code paths; V6/V8 tests.
+- `focus.*` → length, activity, end sound, Wake Lock → code paths (Wake
+  Lock isn't in jsdom).
+- `patterns.*` → screen on/off, minimum evidence, default period,
+  dismissed patterns → V8 engine tests (`minEvidence`), code paths.
+- `shore.sky`, `shore.showLabels` → sky colors, names under items → V7
+  sky tests; code path.
+- `aiEnabled`, `privacy.naturalVoiceAllowed`, data actions → v1 tests,
+  V2 tests, backup tests (round trip, broken file, failed replace).
+- Search → flow 13 and synonym tests; presets → flow 6.
+
+**How I checked it**
+- Lint, typecheck, 63 test files (387 tests, four full runs in a row
+  green), the v1 suite (33 files, 164 tests) and the build.
+- New tests: the schema (defaults pass, every key covered, bad values
+  reported, unknown keys ignored), backups and settings files, flow tests
+  5, 6 and 13, search synonyms.
+- First-load JS: `/` 299 KB (tight), section pages 291 KB.
+- The browser pane is in use by the team right now, so I didn't click
+  through Settings there; the tests cover each page.
+
+**What broke and how I fixed it**
+- The demo switch lost its label: my anchor `set-demo` repeated v1's
+  switch id. Anchors are now `setting-…`.
+- Theme picks in the light and dark grids (used when following the
+  device) had no Undo; now every theme pick does.
+- The full suite started failing now and then (a v1 demo test, an
+  onboarding test) with every core busy: some screens took over five
+  seconds to appear. Vitest now uses half the cores; four runs in a row
+  passed (D110).
+- Section pages loaded every settings piece (353 KB); they now load only
+  their own (291 KB).
+- Tests: the preset test pressed an earlier test's Undo; it now presses
+  its own toast's Undo.
+
+**Not built (honest list)**
+- Toolkit settings (favorites, hidden, filters, Bridge length, breathing
+  pattern), keyboard shortcuts on/off (comes with the shortcuts in V11),
+  check-in reminder times, week start, and "waves follow my check-in".
+  They aren't shown, rather than shown doing nothing.
+
+**Decisions:** D107–D111.

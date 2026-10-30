@@ -70,6 +70,8 @@ export function buildDayModeInput(opts: {
   latest: CheckIn | null | undefined;
   tasks: Task[];
   events: CalendarEvent[];
+  // Settings → Day & planning (v2); v1's 4 and 2 when not given.
+  budgets?: { gentle: number; minimum: number };
 }): DayModeInputT {
   const state = opts.latest
     ? { quadrant: opts.latest.quadrant, energy: opts.latest.energy, pleasantness: opts.latest.pleasantness }
@@ -79,7 +81,7 @@ export function buildDayModeInput(opts: {
     requestedMode: opts.requested,
     today: toISODate(opts.now),
     state,
-    energyBudget: ENERGY_BUDGET[opts.requested],
+    energyBudget: opts.budgets?.[opts.requested] ?? ENERGY_BUDGET[opts.requested],
     tasks: plannableTasks(opts.tasks).map((t) => ({
       id: t.id,
       title: t.title.slice(0, 120),

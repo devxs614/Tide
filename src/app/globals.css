@@ -643,3 +643,25 @@ html[data-motion="calm"] .ob-pop {
   from { stroke-dashoffset: 1; }
   to { stroke-dashoffset: 0; }
 }
+
+/* Settings → Motion: page transitions and shore waves can be turned off on
+   their own, whatever the motion level. */
+html[data-page-transitions="false"] .page-enter,
+html[data-page-transitions="false"] .flow-enter {
+  animation: none;
+}
+html[data-shore-waves="false"] :is(.shore-wave-1, .shore-wave-2, .shore-wave-3, .shore-foam) {
+  animation: none;
+}
+
+/* Settings search: the control you jumped to is ringed for a moment (a
+   still ring at motion Off, where the animation is stopped). */
+.setting-highlight {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+  animation: setting-pulse 1.2s var(--ease-out);
+}
+@keyframes setting-pulse {
+  0% { outline-color: transparent; }
+  30% { outline-color: var(--focus); }
+}

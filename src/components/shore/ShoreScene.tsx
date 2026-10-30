@@ -36,6 +36,7 @@ export function ShoreScene({
   onSelect,
   onBottle,
   svgRef,
+  showLabels = false,
 }: {
   placed: Placed<ShoreItem>[];
   bottles: Bottle[];
@@ -46,6 +47,8 @@ export function ShoreScene({
   onSelect: (item: ShoreItem) => void;
   onBottle: (bottle: Bottle) => void;
   svgRef?: React.Ref<SVGSVGElement>;
+  // Settings → Shore: small names under each item.
+  showLabels?: boolean;
 }) {
   const itemRefs = useRef<Array<SVGGElement | null>>([]);
   // Reading order: top row first, left to right.
@@ -151,6 +154,11 @@ export function ShoreScene({
                 <circle r={20} fill="transparent" />
                 <ItemArt type={p.item.type} variant={p.item.variant} />
               </g>
+              {showLabels && (
+                <text y={26} textAnchor="middle" fontSize={8} fontWeight={700} fill="var(--ink)" aria-hidden>
+                  {SHORE_ITEMS[p.item.type].name}
+                </text>
+              )}
             </g>
           </g>
         );

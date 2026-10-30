@@ -55,6 +55,8 @@ export function paintFor(settings: Settings, systemDark: boolean, motion: Motion
     spacing: settings.extraSpacing ? 'extra' : 'normal',
     motion,
     reduceMotion: String(motion === 'off'),
+    pageTransitions: String(settings['motion.pageTransitions']),
+    shoreWaves: String(settings['motion.shoreWaves']),
   };
   return { vars, attrs, dark: theme.scheme === 'dark' };
 }

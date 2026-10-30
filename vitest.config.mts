@@ -22,6 +22,10 @@ export default defineConfig({
     // Flow tests render whole sheets against IndexedDB; give them room on a
     // slow laptop instead of failing on a timer.
     testTimeout: 20000,
+    // v2 added many flow tests; with every core busy, a few screens took
+    // over five seconds to appear and tests failed now and then. Half the
+    // cores keeps each test responsive (the suite takes a little longer).
+    maxWorkers: "50%",
     env: { TZ: "America/Monterrey" },
   },
 });

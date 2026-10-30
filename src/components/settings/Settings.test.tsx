@@ -9,7 +9,7 @@ import { useCheckInSheet } from '@/lib/ui';
 import { CheckInSheet } from '@/components/checkin/CheckInSheet';
 import { OnboardingScreen } from '@/components/onboarding/OnboardingScreen';
 import { mockAi, navigation, renderApp, resetApp } from '@/test/utils';
-import { SettingsScreen } from './SettingsScreen';
+import { SectionPage } from './SectionPage';
 
 function CheckInHarness() {
   const { openCheckIn } = useCheckInSheet();
@@ -32,12 +32,16 @@ describe('settings', () => {
   it('flow 11: text size changes the root size, Literal changes the check-in wording, Delete everything empties the device', async () => {
     mockAi({});
     await addTask({ title: 'Laundry', type: 'chores', energyCost: 2 });
-    const { user } = await renderApp(<SettingsScreen />);
+    // v2 spec 3.5: Settings became an index plus one page per section, so
+    // the same controls are found on their section pages.
+    const { user } = await renderApp(<SectionPage id="appearance" />);
 
     await user.click(await screen.findByRole('button', { name: '150%' }));
     await waitFor(() => expect(document.documentElement.style.getPropertyValue('--text-scale')).toBe('1.5'));
 
-    await user.click(screen.getByRole('button', { name: /^Literal/ }));
+    cleanup();
+    const language = await renderApp(<SectionPage id="language" />);
+    await language.user.click(await screen.findByRole('button', { name: /^Literal/ }));
     await waitFor(async () => expect((await getSettings()).communicationMode).toBe('literal'));
     cleanup();
     const sheet = await renderApp(<CheckInHarness />);
@@ -47,7 +51,7 @@ describe('settings', () => {
 
     cleanup();
     vi.stubGlobal('location', { ...window.location, reload: vi.fn() });
-    const again = await renderApp(<SettingsScreen />);
+    const again = await renderApp(<SectionPage id="privacy" />);
     await again.user.click(await screen.findByRole('button', { name: 'Delete everything' }));
     expect(screen.getByRole('heading', { name: 'Delete everything?' })).toBeInTheDocument();
     await again.user.click(screen.getAllByRole('button', { name: 'Delete everything' }).at(-1)!);
@@ -57,7 +61,7 @@ describe('settings', () => {
   });
 
   it('turns demo mode on only after the warning, and shows the demo clock', async () => {
-    const { user } = await renderApp(<SettingsScreen />);
+    const { user } = await renderApp(<SectionPage id="demo" />);
     await user.click(await screen.findByRole('switch', { name: 'Demo mode (synthetic data)' }));
     expect(screen.getByText(/This replaces what's on this device with example data/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Use demo data' }));

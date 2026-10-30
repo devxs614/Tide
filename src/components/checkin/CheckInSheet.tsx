@@ -10,7 +10,7 @@ import { useEffect, useReducer, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { copy, fill, quadrantLabel } from '@/copy/en';
-import { EMOTION_IDS } from '@/data/emotions';
+import { EMOTION_IDS, SIMPLE_EMOTION_IDS } from '@/data/emotions';
 import { useAi } from '@/lib/ai/useAi';
 import { now } from '@/lib/clock';
 import { createCheckIn } from '@/lib/repo/checkins';
@@ -48,7 +48,9 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
   const { open, closeCheckIn } = useCheckInSheet();
   const { openDayMode } = useDayModeSheet();
   const label = useAi('label');
-  const [state, dispatch] = useReducer(reducer, initialState);
+  // Settings → Check-in decides where step 1 starts: words, body or map.
+  const path = settings['checkin.defaultPath'];
+  const [state, dispatch] = useReducer(reducer, path, (p) => (p === 'body' ? { ...initialState, step: 'body' as const } : p === 'map' ? reducer(initialState, { type: 'skipToMap' }) : initialState));
   const [confirmLeave, setConfirmLeave] = useState(false);
   const [saving, setSaving] = useState(false);
   const mode = settings.communicationMode;
@@ -69,9 +71,11 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
     const t = setTimeout(() => {
       resetLabel();
       dispatch({ type: 'reset' });
+      if (path === 'body') dispatch({ type: 'go', step: 'body' });
+      if (path === 'map') dispatch({ type: 'skipToMap' });
     }, 350);
     return () => clearTimeout(t);
-  }, [open, resetLabel]);
+  }, [open, resetLabel, path]);
 
   const requestClose = () => (isDirty(state) ? setConfirmLeave(true) : close());
 
@@ -83,7 +87,7 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
 
   const findWords = async (input: Omit<LabelInputT, 'mode' | 'localTime' | 'vocabulary'>) => {
     dispatch({ type: 'loading' });
-    const result = await label.run({ ...input, mode, localTime: localTimeLabel(now()), vocabulary: EMOTION_IDS });
+    const result = await label.run({ ...input, mode, localTime: localTimeLabel(now()), vocabulary: settings['checkin.vocabulary'] === 'simple' ? SIMPLE_EMOTION_IDS : EMOTION_IDS });
     if (result.safetyTriggered) return crisis();
     dispatch({ type: 'candidates', output: result.data, aiUsed: result.source !== 'fallback' });
   };
@@ -173,7 +177,7 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
               onToggleEmotion={toggleEmotion}
               onMove={(point) => dispatch({ type: 'move', point })}
               onNoneOfThese={() => dispatch({ type: 'go', step: 'all-words' })}
-              onNext={() => dispatch({ type: 'go', step: 'behind' })}
+              onNext={() => dispatch({ type: 'go', step: settings['checkin.showCauses'] ? 'behind' : 'need' })}
             />
           )}
           {state.step === 'all-words' && (

@@ -66,7 +66,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
                 );
               })}
             </ul>
-            {state.followUp && <p className="text-ink-soft">{state.followUp}</p>}
+            {state.followUp && settings['checkin.showFollowUp'] && <p className="text-ink-soft">{state.followUp}</p>}
           </>
         )}
         {[...pickedFromList, ...customWords].length > 0 && (

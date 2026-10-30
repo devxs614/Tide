@@ -6,12 +6,13 @@
 // dot stays wherever she puts it.
 import { useState } from 'react';
 import { copy } from '@/copy/en';
-import { emotionsInQuadrant } from '@/data/emotions';
+import { SIMPLE_EMOTION_IDS, emotionsInQuadrant } from '@/data/emotions';
 import { QUADRANTS } from '@/lib/quadrant';
 import { Button } from '@/components/ui/button';
 import { StepHeader } from './StepHeader';
 import { ToggleChip } from './ToggleChip';
 import { QuadrantDot } from '@/components/ui/QuadrantDot';
+import { useSettings } from '@/lib/settings';
 
 interface Props {
   selected: string[];
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
+  const simple = useSettings().settings['checkin.vocabulary'] === 'simple';
   const [own, setOwn] = useState('');
   const addOwn = () => {
     const word = own.trim().slice(0, 30);
@@ -40,7 +42,7 @@ export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
               <span className="font-normal text-ink-soft">· {copy.quadrants[q].subtitle}</span>
             </h3>
             <div className="flex flex-wrap gap-2">
-              {emotionsInQuadrant(q).map((e) => (
+              {emotionsInQuadrant(q).filter((e) => !simple || SIMPLE_EMOTION_IDS.includes(e.id)).map((e) => (
                 <ToggleChip key={e.id} label={e.word} pressed={selected.includes(e.id)} onToggle={() => onToggleEmotion(e.id)} />
               ))}
             </div>

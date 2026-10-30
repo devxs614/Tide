@@ -30,13 +30,16 @@ type Period = 'week' | 'month';
 export function PatternsScreen() {
   const { settings } = useSettings();
   const reduce = useReducedMotionPref();
-  const [period, setPeriod] = useState<Period>('month');
+  const [period, setPeriod] = useState<Period>(settings['patterns.defaultPeriod'] === 7 ? 'week' : 'month');
   const windowDays = period === 'week' ? 7 : 28;
-  const data = useLiveQuery(() => loadPatternInput(now(), windowDays), [windowDays]);
+  const minEvidence = settings['patterns.minEvidence'];
+  const data = useLiveQuery(async () => ({ ...(await loadPatternInput(now(), windowDays)), minEvidence }), [windowDays, minEvidence]);
   const patterns = data ? computePatterns(data) : [];
   const cards = useNarration(patterns, settings.communicationMode);
   if (!data) return null;
   const periodLabel = copy.patterns.periods[period];
+
+  if (!settings['patterns.enabled']) return <p className="card-flat p-4">{copy.wrap.patternsOff}</p>;
 
   return (
     <div className="flex flex-col gap-6">

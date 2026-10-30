@@ -25,6 +25,9 @@ import { emitCompanion } from '@/lib/companion/bus';
 import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
+import { useSound } from '@/lib/sound/useSound';
+import { useAmbience } from '@/lib/sound/useAmbience';
+import { useWakeLock } from '@/lib/useWakeLock';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
 const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15, swell: 25 };
@@ -41,13 +44,20 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   }, []);
   const [chosen, setChosen] = useState<FocusMinutes | null>(null);
   const [asking, setAsking] = useState(false);
-  const minutes = chosen ?? suggestedMinutes ?? recallSuggestion(taskId)?.output.focusMinutes ?? ruleMinutes ?? 10;
+  // A fixed length from Settings → Focus wins over the v1 rule ("auto").
+  const fixed = settings['focus.defaultMinutes'] === 'auto' ? undefined : settings['focus.defaultMinutes'];
+  const minutes = chosen ?? suggestedMinutes ?? recallSuggestion(taskId)?.output.focusMinutes ?? fixed ?? ruleMinutes ?? 10;
 
+  const play = useSound();
+  const endSound = settings['focus.endSound'];
   const onFinish = useCallback(() => {
     if (settings.vibration && typeof navigator !== 'undefined') navigator.vibrate?.([200, 100, 200]);
+    if (endSound) play('focus-end');
     setAsking(true);
-  }, [settings.vibration]);
+  }, [settings.vibration, endSound, play]);
   const timer = useFocusTimer(minutes, onFinish);
+  useAmbience(timer.phase === 'running');
+  useWakeLock(timer.phase === 'running' && settings['focus.keepAwake']);
   const celebrate = useCelebrate();
 
   if (task === undefined) return null;
@@ -127,7 +137,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             <CompanionHost
               placement="focus"
               size={SIZES.lg}
-              base={timer.phase === 'finished' ? 'idle' : 'focused'}
+              base={timer.phase === 'finished' || !settings['focus.companionActivity'] ? 'idle' : 'focused'}
               listens={['focusEnded']}
               openingLine="focus_start"
               bubble="left"

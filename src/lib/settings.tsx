@@ -17,6 +17,7 @@ import { shouldSaveMigration, v2MigrationPatch } from './settings/migrate';
 import { crossfadeFrom, paintFor, writePaint } from './theme/applyTheme';
 import { resolveMotionLevel } from './motion/resolve';
 import type { Settings } from './types';
+import { setTimePreferences } from './time';
 
 interface SettingsContextValue {
   settings: Settings;
@@ -83,6 +84,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   // The clock has to be right before children render times, so this runs
   // during render rather than in an effect. It only sets a module variable.
   setDemoClock(settings.demoMode ? settings.demoClock : null);
+  setTimePreferences({ timeFormat: settings['language.timeFormat'], dateStyle: settings['language.dateStyle'] });
 
   useEffect(() => {
     if (!loaded) return;

@@ -765,3 +765,33 @@ which leaves real timers (and user events) alone.
 that can't play doesn't produce an error toast nobody asked for. Read
 aloud still tells you. `startWrap` runs in a transaction so it can't
 create the same day twice.
+
+**D107 — 2026-10-30 — Settings pages come from one catalog.**
+Sixteen sections with dozens of controls would be dozens of near-identical
+files. `lib/settings/catalog.ts` lists each section's controls as data;
+generic switches, choices, times and texts draw them, the bigger pieces
+are reused, and search reads the same list, so a new setting is added in
+one place. The v1 Settings tests now open the section pages that hold the
+same controls (spec 3.5), with the same assertions.
+
+**D108 — 2026-10-30 — `day.clock` became `language.timeFormat`.**
+V6 stored the 12/24-hour choice as `day.clock`; the spec's key is
+`language.timeFormat`. Renamed before any release. The time and date
+formatters read the preference from a module setting the settings
+provider updates, so every `formatTime` call follows it without changes.
+
+**D109 — 2026-10-30 — Unbuilt settings aren't shown.**
+Spec 15.2 lists some settings this phase didn't reach (toolkit favorites
+and filters, shortcuts, check-in reminder times, week start, waves
+following check-ins). Rather than show a control that does nothing, they
+are left out until they work.
+
+**D110 — 2026-10-30 — Vitest runs on half the cores.**
+With 63 test files in parallel on every core, a few flow tests (including
+a v1 one) sometimes waited more than five seconds for a screen. Half the
+cores made four full runs in a row pass, at about 45 seconds a run.
+
+**D111 — 2026-10-30 — Anchors and lazy pieces on Settings pages.**
+Search anchors use `setting-…`, so they never repeat an existing control's
+id (which took the demo switch's label). Each section page loads only its
+own bigger pieces.

@@ -89,3 +89,12 @@ export function emotionWord(id: string): string {
 export function emotionsInQuadrant(q: Quadrant): Emotion[] {
   return EMOTIONS.filter((e) => e.quadrant === q);
 }
+
+// The simple vocabulary (v2 spec 15.2): four common words per state, for
+// anyone who finds 48 words too many to choose from.
+export const SIMPLE_EMOTION_IDS = [
+  'anxious', 'frustrated', 'overwhelmed', 'angry',
+  'excited', 'motivated', 'happy', 'proud',
+  'sad', 'drained', 'bored', 'lonely',
+  'calm', 'content', 'relaxed', 'grateful',
+];
