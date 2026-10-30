@@ -319,6 +319,8 @@ export const copy = {
     moveToLabel: 'Move to… {title}',
     movedLabel: 'Moved to tomorrow',
     doneToast: 'Done. Added to your proof log.',
+    // Under a state-aware title ("That counted.") on a low or pressured day.
+    addedToProof: 'Added to your proof log.',
     movedToast: 'Moved to {status}.',
     breakItDown: 'Break it down for me',
     stuckBecause: 'Stuck because: {reason}',
@@ -876,6 +878,68 @@ export const copy = {
     shoreEmpty:
       'Your shore is quiet for now. Finish a task, get through a switch, or try a strategy, and something will wash up.',
     shoreHint: 'Every win leaves something here. Tap anything to remember it.',
+  },
+
+  // State-aware celebrations (v2 spec 10.5). The low-energy and
+  // high-pressure versions say less and never shout; big titles drop their
+  // second sentence in Direct mode and say exactly what happened in Literal.
+  celebrate: {
+    surgeSmall: 'Done. One less thing.',
+    ebbSmall: 'That counted.',
+    surgeBig: 'You did a hard thing while a lot was going on.',
+    ebbBig: 'You did that on a low day. It counts.',
+    continue: 'Continue',
+    features: {
+      checkin: 'check-in',
+      unstick: 'small first step',
+      focus: 'focus block',
+      bridge: 'bridge',
+      strategy: 'strategy',
+      wrap: 'closed day',
+      bottle: 'bottle',
+    },
+    // Read to screen readers for every celebration, and shown as a toast at
+    // motion Off, so nobody misses that something worked.
+    announce: {
+      checkinSaved: 'Check-in saved.',
+      taskStarted: 'Task started.',
+      taskDone: 'Task done.',
+      unstuck: 'You got unstuck.',
+      focusDone: 'Focus block done.',
+      bridgeDone: 'Switch done.',
+      transitionRated: 'Switch rated.',
+      recheckBetter: 'Glad it helped.',
+      wrapDone: 'Day closed.',
+      firstTime: 'A first.',
+      bottleOpened: 'Bottle opened.',
+    },
+    big: {
+      unstuck: {
+        gentle: { title: 'You got unstuck!', message: 'That was the hardest part. {companion} saw it.', messageNoCompanion: 'That was the hardest part.' },
+        direct: { title: 'You got unstuck.', message: 'That was the hardest part.' },
+        literal: { title: 'You started a task that was stuck.', message: 'Your focus block on it is saved.' },
+      },
+      taskDone: {
+        gentle: { title: 'Big one, done.', message: "{title} is finished. It's on your shore now." },
+        direct: { title: 'Big one, done.', message: '{title} is finished.' },
+        literal: { title: 'Task finished: {title}.', message: 'A shell was added to your shore.' },
+      },
+      wrapDone: {
+        gentle: { title: 'Day closed.', message: "Rest well. Tomorrow's first step is ready." },
+        direct: { title: 'Day closed.', message: "Tomorrow's first step is ready." },
+        literal: { title: 'Day closed.', message: 'Your first step for tomorrow is saved.' },
+      },
+      firstTime: {
+        gentle: { title: 'First {feature}!', message: 'A pearl just washed up on your shore.' },
+        direct: { title: 'First {feature}.', message: '' },
+        literal: { title: 'You used {feature} for the first time.', message: 'A pearl was added to your shore.' },
+      },
+      other: {
+        gentle: { title: 'You did it.', message: '' },
+        direct: { title: 'Done.', message: '' },
+        literal: { title: 'Done.', message: '' },
+      },
+    },
   },
 
   // Friendly error and 404 pages (v2 spec 17.5, Appendix A). Never blame

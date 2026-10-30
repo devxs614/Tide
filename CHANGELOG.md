@@ -5,6 +5,20 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V5: Celebrations
+- Wins are celebrated in a way that fits your day: sparkles and (for big
+  moments) confetti when you feel good, a soft glow and "That counted." on
+  a low day, one slow ripple and "Done. One less thing." when a lot is
+  going on. Never an overlay on a hard day.
+- Big moments (getting unstuck, a hard task done) get a short overlay with
+  your companion and a Continue button; at most one every 10 minutes.
+- Firsts are celebrated once: first check-in, focus block, strategy,
+  switch and small first step.
+- Nothing celebrates during breathing, while typing, or on the support
+  pages. Motion Off turns movement into words.
+- Pages glide in, Focus and the Companion Studio slide up, and feeling
+  words arrive one after another.
+
 ### V4: Companions across the app
 - Today: the companion by the greeting says hello once per part of the day
   and opens the Companion Studio when tapped; other tabs show its head in

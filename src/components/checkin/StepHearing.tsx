@@ -12,6 +12,7 @@ import { EmotionCandidateCard } from './EmotionCandidateCard';
 import { MoodMap, type MapPoint } from './MoodMap';
 import { StepHeader } from './StepHeader';
 import { canLeaveStepTwo, type CheckInState } from './checkInState';
+import type { CSSProperties } from 'react';
 
 interface Props {
   state: CheckInState;
@@ -47,11 +48,11 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
           <>
             <p className="text-ink-soft">{copy.checkin.step2Hint}</p>
             <ul className="flex flex-col gap-3">
-              {state.candidates.map((c) => {
+              {state.candidates.map((c, i) => {
                 const emotion = getEmotion(c.id);
                 if (!emotion) return null;
                 return (
-                  <li key={c.id}>
+                  <li key={c.id} className="stagger-in" style={{ '--i': i } as CSSProperties}>
                     <EmotionCandidateCard
                       word={emotion.word}
                       definition={c.definition}

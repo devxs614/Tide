@@ -21,6 +21,7 @@ import { StrategyMeta } from './StrategyMeta';
 import { ToolArea } from './ToolArea';
 import { SIZES, type Expression } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 
 export function returnPath(context: StrategyContext, refId?: string): string {
   if (context === 'unstick' && refId) return `/tasks?unstick=${refId}`;
@@ -45,6 +46,7 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
   const [phase, setPhase] = useState<'doing' | 'recheck' | 'after'>('doing');
   const [result, setResult] = useState<RecheckResult | undefined>();
   const [saving, setSaving] = useState(false);
+  const celebrate = useCelebrate();
 
   if (!strategy) {
     return (
@@ -67,6 +69,10 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
       result: r,
     });
     setSaving(false);
+    // The first strategy ever tried gets a pearl; "Better" is a small win.
+    const first = (await db.strategyUses.count()) === 1;
+    if (first) void celebrate('firstTime', { feature: 'strategy' });
+    else if (r === 'better') void celebrate('recheckBetter');
     if (!r) return router.push(returnPath(context, refId));
     setResult(r);
     setPhase('after');

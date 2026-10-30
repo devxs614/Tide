@@ -9,10 +9,13 @@ import { CrisisLines } from './CrisisLines';
 import { CampusSupport, TrustedContacts } from './ContactList';
 import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
+import { holdCelebrations } from '@/lib/celebrate/store';
 
 export function SupportScreen() {
   // Playful sounds don't belong on the page where people look for help.
   useEffect(() => holdQuiet(), []);
+  // Never a celebration here, whatever happens elsewhere (v2 spec 10.4).
+  useEffect(() => holdCelebrations(), []);
   return (
     <div className="flex flex-col gap-8">
       {/* A small, soft companion for company on the everyday support page

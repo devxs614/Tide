@@ -638,3 +638,34 @@ v1 shows the re-check answer as a card, not a toast, so the "toast head"
 from spec 9 sits beside the answer in that card. In box breathing the
 square grows from 200px to 240px when a companion is in it, the phase
 words move under the companion, and the moving dot stays as in v1.
+
+**D86 — 2026-10-29 — Our own small particle system, not canvas-confetti.**
+The spec allows either. A ~80-line canvas system (`Particles.tsx`) does
+confetti (80 pieces, gravity 0.9), sparkles and rising bubbles in the
+theme's colors, runs under three seconds, ignores taps, and loads only
+with the big overlay. No new dependency to audit or license.
+
+**D87 — 2026-10-29 — Hard-day toasts reuse the v1 toast.**
+Task done already shows "Done. Added to your proof log." (a v1 test checks
+it). On Ebb or Surge days the celebration's words become the toast title
+("That counted.") and the proof-log note moves underneath, so there's one
+toast, not two. Pleasant and neutral days keep the v1 toast exactly.
+
+**D88 — 2026-10-29 — "Was stuck at any point today" is approximated.**
+Tasks don't keep a status history, so a task done is big when it is stuck
+now, has a stuck reason saved (it went through Unstick), or costs 3.
+"Unstuck" is a focus block ending "Got going" on a task with a stuck
+reason. Firsts are counted from the existing tables (first check-in, focus
+block, strategy use, transition, and first saved first step), so people
+coming from v1 aren't congratulated on firsts they had long ago.
+
+**D89 — 2026-10-29 — At motion Off, small wins become words.**
+Spec 10.3 says other tiers become a toast with an icon at Off. Small wins
+do; micro ones (a check-in, a task started) are announced to screen
+readers but don't add a toast, because their screens already confirm them
+in words and a toast for every check-in would be noise.
+
+**D90 — 2026-10-29 — A dev page to review celebrations.**
+`/dev/celebrations` plays any tier × state through the real host without
+reading or writing data, so the matrix can be reviewed by eye at each
+motion level. Like `/dev/companions`, it's a 404 in production.

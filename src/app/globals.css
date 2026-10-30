@@ -549,3 +549,79 @@ html[data-shapes="true"] .q-shape {
 .splash-in {
   animation: tide-enter 300ms var(--ease-out) 200ms both;
 }
+
+/* Celebrations (v2 spec 10.3): transform and opacity only. Motion Off never
+   gets here (the decision turns effects into words), and Calm keeps them
+   small. */
+.cel-pop {
+  animation: cel-pop 900ms var(--ease-out) both;
+}
+@keyframes cel-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  25% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+  45% { transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+.cel-glow {
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 45%, transparent) 0%, transparent 70%);
+  animation: cel-glow 1300ms ease-in-out both;
+}
+@keyframes cel-glow {
+  0% { opacity: 0; transform: scale(0.6); }
+  40% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+.cel-ripple {
+  animation: cel-ripple 1300ms var(--ease-out) both;
+}
+@keyframes cel-ripple {
+  0% { opacity: 0.6; transform: scale(0.4); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+.cel-spark {
+  animation: cel-spark 900ms var(--ease-out) both;
+}
+@keyframes cel-spark {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); }
+}
+.cel-overlay-in {
+  animation: cel-overlay-in 280ms var(--ease-out) both;
+}
+@keyframes cel-overlay-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Page and flow entrances (v2 spec 5.4). `backwards` fill on purpose: once
+   the animation ends no transform is left behind, so fixed-position pieces
+   inside a page (drag previews, sheets) keep positioning against the
+   window. */
+html[data-motion="lively"] .page-enter {
+  animation: tide-enter var(--dur-base) var(--ease-out) backwards;
+}
+html[data-motion="calm"] .page-enter {
+  animation: tide-fade var(--dur-base) var(--ease-out) backwards;
+}
+html[data-motion="lively"] .flow-enter,
+html[data-motion="calm"] .flow-enter {
+  animation: tide-flow-enter var(--dur-slow) var(--ease-out) backwards;
+}
+@keyframes tide-fade {
+  from { opacity: 0; }
+}
+@keyframes tide-flow-enter {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+}
+
+/* Emotion candidates arrive one after another, 35ms apart (spec 5.5). */
+html[data-motion="lively"] .stagger-in {
+  animation: tide-enter var(--dur-base) var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+html[data-motion="calm"] .stagger-in {
+  animation: tide-fade var(--dur-base) var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}

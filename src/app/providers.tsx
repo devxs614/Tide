@@ -2,13 +2,14 @@
 
 // Client-side providers shared by every page: settings (and the demo clock
 // that hangs off them), which sheet is open, the Unstick sheet that can open
-// from anywhere, and the calm toast area.
+// from anywhere, the calm toast area, and the one place celebrations play.
 import type { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { SettingsProvider } from '@/lib/settings';
 import { UiProvider, useUnstickSheet } from '@/lib/ui';
 import { Toaster } from '@/components/ui/sonner';
 import { WhenOpened } from '@/components/shell/WhenOpened';
+import { CelebrationHost } from '@/components/celebrate/CelebrationHost';
 
 const UnstickSheet = dynamic(() => import('@/components/tasks/UnstickSheet').then((m) => m.UnstickSheet), { ssr: false });
 
@@ -31,6 +32,7 @@ export function Providers({ children }: { children: ReactNode }) {
         <GlobalSheets />
       </UiProvider>
       <Toaster />
+      <CelebrationHost />
     </SettingsProvider>
   );
 }

@@ -24,6 +24,7 @@ import { WaterFill } from './WaterFill';
 import { emitCompanion } from '@/lib/companion/bus';
 import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
 const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15, swell: 25 };
@@ -47,6 +48,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
     setAsking(true);
   }, [settings.vibration]);
   const timer = useFocusTimer(minutes, onFinish);
+  const celebrate = useCelebrate();
 
   if (task === undefined) return null;
   if (task === null) {
@@ -67,6 +69,13 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   const answer = async (outcome: Outcome) => {
     await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome });
     emitCompanion({ type: 'focusEnded', outcome });
+    if (outcome === 'didnt_start') return;
+    // Getting going on a task that was stuck is the big one (v2 spec 10.2);
+    // the first focus block ever gets a pearl; otherwise a small win.
+    const first = (await db.focusBlocks.count()) === 1;
+    if (outcome === 'got_going' && task?.stuckReason) void celebrate('unstuck');
+    else if (first) void celebrate('firstTime', { feature: 'focus' });
+    else void celebrate('focusDone');
   };
 
   const smallerStep = () => {
@@ -76,7 +85,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   };
 
   return (
-    <div className="flex min-h-dvh flex-col gap-5 p-5">
+    <div className="flow-enter flex min-h-dvh flex-col gap-5 p-5">
       <header className="flex items-start gap-3">
         <h1 className="flex-1 text-h2 font-bold break-words">{task.title}</h1>
         <Button variant="secondary" onClick={end}>

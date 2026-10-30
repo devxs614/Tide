@@ -11,12 +11,15 @@ import { Button } from '@/components/ui/button';
 import { CrisisLines } from './CrisisLines';
 import { CampusSupport, TrustedContacts } from './ContactList';
 import { useSettings } from '@/lib/settings';
+import { holdCelebrations } from '@/lib/celebrate/store';
 
 export function CrisisScreen() {
   const router = useRouter();
   const { settings } = useSettings();
   // No sound here, ever: not a tap, not a chime (v2 spec 6.4).
   useEffect(() => holdQuiet(), []);
+  // Never a celebration here, whatever happens elsewhere (v2 spec 10.4).
+  useEffect(() => holdCelebrations(), []);
   return (
     <section aria-labelledby="crisis-heading" className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">

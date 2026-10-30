@@ -35,6 +35,8 @@ import { StepNeed } from './StepNeed';
 import { StepWhat } from './StepWhat';
 import { bodyCues, initialState, isDirty, reducer } from './checkInState';
 import type { LabelInputT } from '@/lib/ai/schemas';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
+import { db } from '@/lib/db';
 
 export function CheckInSheet() {
   const router = useRouter();
@@ -48,6 +50,7 @@ export function CheckInSheet() {
   const mode = settings.communicationMode;
   const companion = useCompanion();
   const typing = useTypingSignal();
+  const celebrate = useCelebrate();
 
   const close = () => {
     setConfirmLeave(false);
@@ -110,6 +113,9 @@ export function CheckInSheet() {
     setSaving(false);
     close();
     emitCompanion({ type: 'checkinSaved', quadrant: checkIn.quadrant });
+    // A quiet pop for every check-in; the very first one gets a pearl.
+    const first = (await db.checkins.count()) === 1;
+    void celebrate(first ? 'firstTime' : 'checkinSaved', { feature: 'checkin', ownToast: !first });
     const reaction = afterCheckIn[checkIn.quadrant];
     if (need === 'keep') {
       toast(fill(copy.checkin.saved, { quadrant: quadrantLabel(checkIn.quadrant, mode) }), {

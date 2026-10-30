@@ -117,6 +117,9 @@ what I generated and what came from elsewhere.
 | `src/app/error.tsx`, `src/app/not-found.tsx`, `src/components/shell/ErrorContent.tsx`, `src/components/shell/Splash.tsx` | Friendly error, 404 and splash | Claude Code | Spec 17.4–17.5 |
 | Edits for companions in `TodayHeader`, `TopBar`, `AppShell`, `CheckInSheet`, `UnstickSheet`, `BridgeSteps`, `FocusScreen`, `BoxBreathing`, `ToolArea`, the grounding, sudoku and walk tools, `StrategyRunner`, `PatternsScreen`, `SupportScreen`, `useTaskMoves`, `useAi`, `empty-state.tsx` | Hosts and events in v1 screens | Claude Code | v1 behavior unchanged; v1 suite passes |
 | `src/components/checkin/CheckInCompanion.test.tsx`, `src/components/safety/CrisisCompanion.test.tsx`, `src/components/shell/ErrorContent.test.tsx` | Flow test 7, crisis rule, error page | Claude Code | |
+| `src/lib/celebrate/**` (matrix, caps, store, text, `useCelebrate`, tests) | State-aware celebrations engine | Claude Code | Spec 10 (D86–D89) |
+| `src/components/celebrate/*` (host, effects, overlay, particles, preview, flow test), `src/app/dev/celebrations/page.tsx` | Drawing celebrations; dev preview | Claude Code | Own particle system instead of canvas-confetti (D86) |
+| `src/app/(app)/template.tsx` and celebration wiring in check-in, tasks, focus, Bridge, rating, re-check, Unstick, box breathing and support | Page enter and celebration events | Claude Code | v1 toasts kept (D87) |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

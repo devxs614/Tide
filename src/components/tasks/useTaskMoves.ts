@@ -13,10 +13,12 @@ import type { TaskStatus } from '@/lib/types';
 import { emitCompanion } from '@/lib/companion/bus';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { companionToastIcon } from '@/components/companion/companionToastIcon';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 
 export function useTaskMoves() {
   const { openUnstick } = useUnstickSheet();
   const companion = useCompanion();
+  const celebrate = useCelebrate();
 
   return useCallback(
     async (taskId: string, status: TaskStatus, index?: number) => {
@@ -25,11 +27,23 @@ export function useTaskMoves() {
       await moveTask(taskId, status, index);
       if (before.status === status) return;
       if (status === 'done') {
+        // A task that was stuck, or one that costs a lot of energy, is a big
+        // one (v2 spec 10.2). On a hard day the toast's title says so kindly
+        // ("That counted.") and the proof-log note moves underneath.
+        const hard = before.status === 'stuck' || !!before.stuckReason || before.energyCost === 3;
         emitCompanion({ type: 'taskDone', taskType: before.type, wasStuck: before.status === 'stuck' });
-        toast(copy.tasks.doneToast, { icon: companionToastIcon(companion, 'happy', 'hop') });
+        const decision = await celebrate('taskDone', { tier: hard ? 'big' : 'small', title: before.title, ownToast: true });
+        const face = decision?.companion ?? { expression: 'happy' as const, reaction: 'hop' as const };
+        toast(decision?.toast ?? copy.tasks.doneToast, {
+          description: decision?.toast ? copy.tasks.addedToProof : undefined,
+          icon: companionToastIcon(companion, face.expression, face.reaction),
+        });
       } else if (status === 'stuck') openUnstick({ taskId });
-      else toast(fill(copy.tasks.movedToast, { status: copy.tasks.statuses[status] }));
+      else {
+        if (status === 'in_progress') void celebrate('taskStarted');
+        toast(fill(copy.tasks.movedToast, { status: copy.tasks.statuses[status] }));
+      }
     },
-    [openUnstick, companion],
+    [openUnstick, companion, celebrate],
   );
 }
