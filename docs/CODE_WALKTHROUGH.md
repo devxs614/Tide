@@ -761,3 +761,39 @@ resting expression after 4 seconds.
   chosen.
 - *Do the v1 flows still work?* The v1 suite runs unchanged (33 files),
   and the companion code only adds an event after each flow's own work.
+
+## Celebrations (V5)
+
+**What it does for Maya.** When she finishes something, Tide marks it in a
+way that fits how she said she feels: a party on a good day, a soft glow
+and "That counted." on a low one, one calm ripple when she's under
+pressure. Big moments get a short overlay with her companion.
+
+**Files**
+- `src/lib/celebrate/matrix.ts` — `decide()`: tier × state → effect,
+  overlay, sound, companion face and words, then motion level and settings.
+- `caps.ts` (one big per 10 minutes, three small per minute), `text.ts`
+  (titles and messages per mode), `store.ts` (the current celebration and
+  the hold rules), `useCelebrate.ts` (reads the latest check-in and plays
+  the decision).
+- `src/components/celebrate/CelebrationHost.tsx` (in `app/providers.tsx`),
+  `BurstEffect.tsx`, `CelebrationOverlay.tsx` and `Particles.tsx` (lazy).
+
+**Data flow.** A screen finishes its own work, then calls
+`celebrate('taskDone', { tier, title })` → the latest check-in (six hours)
+picks the column → caps and settings adjust the tier → `decide()` → sound,
+`celebrate` on the companion bus, `showCelebration()` for the host, and a
+toast if there are words.
+
+**Decisions worth defending**
+- Hard days never get an overlay, at any setting (a test checks every
+  tier and level).
+- Our own particle system instead of a dependency (D86).
+- One toast, not two, on hard days (D87).
+
+**Likely reviewer questions**
+- *Isn't this gamification?* No points, streaks or scores; nothing is
+  lost by not doing something. It only marks real progress, and it gets
+  quieter on hard days.
+- *Can I turn it down?* Settings → Motion: celebrations Full, Gentle or
+  Off, and confetti on or off; motion Off removes all movement.

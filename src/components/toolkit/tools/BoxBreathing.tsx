@@ -19,6 +19,7 @@ import { useCompanionShown } from '@/lib/companion/useCompanion';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import type { BreathPhase } from '@/components/companion/CompanionFigure';
 import { cn } from '@/lib/utils';
+import { holdCelebrations } from '@/lib/celebrate/store';
 
 const SIDE_MS = 4000;
 const TOTAL_MS = 120_000;
@@ -56,6 +57,8 @@ export function BoxBreathing({ onDone }: ToolProps) {
     const id = setInterval(() => redraw((n) => n + 1), reduce ? 250 : 50);
     return () => clearInterval(id);
   }, [startedAt, reduce, finished]);
+  // No celebrations pop up in the middle of a breath (v2 spec 10.4).
+  useEffect(() => (startedAt !== null && !finished ? holdCelebrations() : undefined), [startedAt, finished]);
   // Speak each phase's cue (and its soft breath sound) once, just before it starts.
   useEffect(() => {
     if (!settings['voice.breathingCues'] || startedAt === null || finished) return;

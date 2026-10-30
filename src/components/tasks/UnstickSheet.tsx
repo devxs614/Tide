@@ -27,6 +27,7 @@ import { CompanionHost } from '@/components/companion/CompanionHost';
 import { UnstickReasons } from './UnstickReasons';
 import { UnstickStep } from './UnstickStep';
 import { recallSuggestion, rememberSuggestion, type UnstickSuggestion } from './unstickCache';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 
 export function UnstickSheet() {
   const { request, closeUnstick } = useUnstickSheet();
@@ -48,6 +49,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
   const router = useRouter();
   const { settings } = useSettings();
   const { run } = useAi('unstick');
+  const celebrate = useCelebrate();
   const resumed = request.resume ? recallSuggestion(task.id) : undefined;
   // If the page was reloaded while she was away, the remembered step is gone,
   // but the reason she gave is saved on the task, so she isn't asked twice.
@@ -105,6 +107,8 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
     if (!suggestion) return;
     await setFirstStep(task.id, suggestion.output.firstStep);
     if (task.status !== 'in_progress') await moveTask(task.id, 'in_progress');
+    // The first small first step ever taken gets a pearl.
+    if ((await db.tasks.filter((t) => !!t.firstStep).count()) === 1) void celebrate('firstTime', { feature: 'unstick' });
     onClose();
     router.push(`/focus/${task.id}?minutes=${suggestion.output.focusMinutes}`);
   };

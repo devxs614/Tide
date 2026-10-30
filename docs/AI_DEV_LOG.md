@@ -1570,3 +1570,79 @@ after each screen.
   only inside the sheet.
 
 **Decisions:** D78–D85.
+
+## Before Phase V5 — Celebrations and micro-interactions
+2026-10-29, 21:45
+
+For Maya: finishing something should feel good, but the celebration has
+to fit the day she said she's having. Swell gets sparkles and, for big
+moments, confetti; Ebb gets a soft glow and "That counted."; Surge gets one
+slow ripple and "Done. One less thing." Nothing pops up while she's
+breathing, typing or on the support pages.
+
+What it touches in v1: the places where wins happen (check-in, task moves,
+focus, Bridge, transition rating, re-check, Unstick). How I avoid breaking
+them: each place calls `celebrate()` after its own work is done, the v1
+toasts stay as they are (only a hard-day title replaces "Done. Added to
+your proof log.", with the proof-log note kept underneath), and
+celebrations draw in one host outside every screen. The overlay and
+particles load only when a big moment happens.
+
+## After Phase V5 — Celebrations and micro-interactions
+2026-10-29, 22:10
+
+**What I built**
+- `src/lib/celebrate/`: the matrix (tier × state, then motion level and
+  settings), frequency caps, the words (Gentle, Direct, Literal, and no
+  companion name when there's no companion), a small store with the
+  "hold" rules, and `useCelebrate()`, which plays a decision: the effect or
+  overlay, the sound, the companion's reaction, a toast when words are
+  needed, and a screen-reader announcement.
+- `CelebrationHost` (mounted once in the providers): small effects in CSS
+  (pop, glow, sparkle burst or ring, ripple) and, lazily, the big overlay
+  with the companion (or a sparkle ring), title, message and Continue,
+  plus a small canvas particle system for confetti, sparkles and bubbles.
+- Wired events: check-in saved, task started, task done (big when it was
+  stuck or costs 3), unstuck, focus done, Bridge done, transition rated
+  easy/okay, re-check Better, and firsts (first check-in, focus block,
+  strategy, switch, small first step). Close the day and bottles come with
+  V7 and V8.
+- Motion: a page-enter transition for every tab (`template.tsx`), a
+  slide-up for Focus and the Companion Studio, and emotion candidates that
+  arrive one after another. The tab indicator, button press, card select,
+  switch spring, tab bounce and FAB breath came with V1.
+- `/dev/celebrations`, a dev-only page that plays any tier and state.
+
+**How I checked it**
+- Lint, typecheck, 53 test files (339 tests), the v1 suite (33 files, 164
+  tests) and the build are green.
+- New tests: the matrix for every tier, state and motion level (no overlay
+  on hard days, ever; confetti only at Lively; Off turns movement into
+  words), the settings, the caps, and spec flow test 8 (Swell → small
+  sparkle burst; Ebb → "That counted." and no overlay), plus a big task in
+  Swell (overlay, focus on Continue, Escape closes), a big task on a low
+  day (kind words, no overlay) and the hold rule.
+- In the browser pane at phone width (Calm): the small Swell ring, the
+  Surge ripple, and the big overlay with sparkles and the sparkle ring.
+- Performance: first-load JS for `/` is 289 KB (V4: 285). During the big
+  overlay with particles the page ran at 61 fps on average, worst frame
+  19 ms, measured with requestAnimationFrame in the pane at Calm. I could
+  not run Chrome DevTools with 4× CPU throttling from here, so the spec's
+  throttled 50 fps check on a mid-range phone is still open (TEAM_TODO).
+
+**What broke and how I fixed it**
+- At Calm, a sparkle burst with no travel drew all eight sparkles on top
+  of each other, so it looked like one. At Calm a burst is now a ring.
+- A hook call ended up inside a condition while fixing that; lint would
+  have caught it, I moved it first.
+- A test used a task type that doesn't exist ("reading"); typecheck
+  caught it.
+
+**Not done in this phase (honest list)**
+- From the micro-interaction catalog: the task card's water ripple when
+  marked done, cards gliding between columns (`layout` animation), number
+  count-ups, the checkbox stroke draw and the mood-map dot squash. They
+  need framer-motion on screens that don't load it today, and the budget
+  is tight; I'll revisit them in V11's polish pass.
+
+**Decisions:** D86–D90.

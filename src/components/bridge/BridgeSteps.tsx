@@ -32,6 +32,8 @@ import { BridgeClose } from './BridgeClose';
 import { BridgePrep } from './BridgePrep';
 import { hardLine } from './BridgeCard';
 import { updateDraft, type BridgeDraft } from './bridgeDrafts';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
+import { db } from '@/lib/db';
 
 export interface BridgeData {
   to: CalendarEvent;
@@ -48,6 +50,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
   const { settings } = useSettings();
   const { run } = useAi('bridge');
   const nowTs = useNow(30_000);
+  const celebrate = useCelebrate();
   // The companion packs its little bag as the Bridge opens (v2 spec 9). Its
   // host is a child, so it is already listening when this runs.
   useEffect(() => emitCompanion({ type: 'bridgeOpened' }), []);
@@ -114,6 +117,9 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
       strategyUseId: latestUse?.id,
     });
     onClose();
+    // A switch made is a small win; the very first one gets a pearl.
+    const first = (await db.transitions.count()) === 1;
+    void celebrate(first ? 'firstTime' : 'bridgeDone', { feature: 'bridge' });
   };
 
   return (

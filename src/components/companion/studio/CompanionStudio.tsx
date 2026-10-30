@@ -71,7 +71,7 @@ export function CompanionStudio() {
   const goBack = () => (window.history.length > 1 ? router.back() : router.push('/'));
 
   return (
-    <div className="flex flex-col gap-5 px-4 pt-3 pb-10">
+    <div className="flow-enter flex flex-col gap-5 px-4 pt-3 pb-10">
       <Button variant="quiet" size="sm" className="self-start" onClick={goBack} aria-label={t.backLabel}>
         <ArrowLeft aria-hidden />
         {copy.global.back}

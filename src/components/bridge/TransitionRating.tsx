@@ -13,11 +13,13 @@ import { rateTransition, transitionLabels } from '@/lib/repo/transitions';
 import { DAY } from '@/lib/time';
 import type { TransitionRating as Rating } from '@/lib/types';
 import { Button } from '@/components/ui/button';
+import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 
 const RATINGS: Rating[] = ['easy', 'okay', 'hard'];
 
 export function TransitionRating({ nowTs }: { nowTs: number }) {
   const bucket = Math.floor(nowTs / 30_000);
+  const celebrate = useCelebrate();
   const pending = useLiveQuery(async () => {
     const at = now();
     const [transitions, events] = await Promise.all([
@@ -33,6 +35,9 @@ export function TransitionRating({ nowTs }: { nowTs: number }) {
   const rate = async (r: Rating) => {
     await rateTransition(t.id, r);
     toast(copy.bridge.rated);
+    // A switch that went easy or okay is worth a small moment; a hard one
+    // just gets thanked for the rating.
+    if (r !== 'hard') void celebrate('transitionRated');
   };
   return (
     <section aria-labelledby="rate-heading" className="flex flex-col gap-3 card p-4">

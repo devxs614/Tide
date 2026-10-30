@@ -110,6 +110,12 @@ up during the build. — Claude Code
   `docs/CODE_WALKTHROUGH.md` → "Replacing companion art" explains what each
   drawing must keep. *Any time.*
 
+## Performance (v2)
+- [ ] **Check animation smoothness on a mid-range phone** (or Chrome
+  DevTools → Performance → CPU 4× slowdown): Today, the check-in sheet and
+  a big celebration (`/dev/celebrations` in `npm run dev`) should stay above
+  50 fps. I could only measure without throttling here (61 fps). *By Nov 3.*
+
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
 - [ ] Take screenshots for the README and the deck. *Nov 4.*
