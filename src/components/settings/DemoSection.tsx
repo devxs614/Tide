@@ -1,79 +1,79 @@
 'use client';
 
-// Demo mode, for the stage and for rehearsals. Turning it on replaces the
-// data on this device with a fictional student's three weeks (after a clear
-// warning), and the restart buttons reset both the data and the clock so the
-// scripted demo can run again from the top.
+// Settings → Demo (v2 spec 16.2–16.3). The demo now runs in its own
+// workspace with its own database, so starting it never replaces Maya's
+// data (an intentional change from v1). Inside the demo: leave it, or move
+// the demo clock to the moments the tour uses. Someone who used v1's demo
+// mode still has example data in their main space, and can clear it.
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { copy, fill } from '@/copy/en';
-import { now } from '@/lib/clock';
-import { DEMO_BRIDGE_TIME, DEMO_JUMP_TIME, leaveDemo, loadDemoData, setDemoTime } from '@/lib/repo/demo';
+import { copy } from '@/copy/en';
+import { DEMO_START } from '@/lib/clock';
+import { DEMO_BRIDGE_TIME, leaveDemo, setDemoTime } from '@/lib/repo/demo';
 import { useSettings } from '@/lib/settings';
-import { formatLongDate, formatTime } from '@/lib/time';
+import { currentWorkspace, enterDemoWorkspace, leaveDemoWorkspace } from '@/lib/workspace';
 import { Button } from '@/components/ui/button';
-import { SwitchRow } from '@/components/ui/switch';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { clearDrafts } from '@/components/bridge/bridgeDrafts';
-import { clearSuggestions } from '@/components/tasks/unstickCache';
 import { Section } from './Section';
 
+const EVENING = new Date(2026, 10, 5, 20, 35).getTime();
+
 export function DemoSection() {
-  const router = useRouter();
   const { settings } = useSettings();
-  const [asking, setAsking] = useState<'on' | 'off' | null>(null);
-
-  // A fresh run: same data, same clock, and nothing remembered in memory
-  // from the last rehearsal (bridge notes, unstick steps).
-  const restart = async (base?: number) => {
-    clearDrafts();
-    clearSuggestions();
-    await loadDemoData(base);
-    toast(copy.settings.demoRestarted);
-    router.push('/');
-  };
-
-  const confirm = async () => {
-    const turningOn = asking === 'on';
-    setAsking(null);
-    if (turningOn) return restart();
-    clearDrafts();
-    clearSuggestions();
-    await leaveDemo();
-  };
+  const [confirming, setConfirming] = useState(false);
+  const inDemo = currentWorkspace() === 'demo';
+  const d = copy.demo;
 
   return (
     <Section id="demo" title={copy.settings.demo}>
-      <SwitchRow id="set-demo" label={copy.settings.demoMode} checked={settings.demoMode} onCheckedChange={(v) => setAsking(v ? 'on' : 'off')} />
-      {settings.demoMode && (
-        <div className="flex flex-col gap-2">
-          <p className="text-ink-soft">{fill(copy.settings.demoClockNow, { time: `${formatLongDate(now())}, ${formatTime(now())}` })}</p>
-          <Button variant="secondary" className="self-start" onClick={() => void restart()}>
-            {copy.settings.restartDemo}
-          </Button>
-          <Button variant="secondary" className="self-start" onClick={() => void restart(DEMO_BRIDGE_TIME)}>
-            {copy.settings.restartAtBridge}
-          </Button>
-          <Button variant="secondary" className="self-start" onClick={() => void setDemoTime(DEMO_JUMP_TIME).then(() => router.push('/'))}>
-            {copy.settings.jumpToBridge}
-          </Button>
-        </div>
-      )}
-      <Dialog open={asking !== null} onOpenChange={(o) => !o && setAsking(null)}>
-        <DialogContent showCloseButton={false}>
-          <DialogHeader className="pr-0">
-            <DialogTitle>{asking === 'on' ? copy.settings.demoOnTitle : copy.settings.demoOffTitle}</DialogTitle>
-            <DialogDescription>{asking === 'on' ? copy.settings.demoOnBody : copy.settings.demoOffBody}</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="secondary" onClick={() => setAsking(null)} autoFocus>
-              {copy.global.cancel}
+      {inDemo ? (
+        <>
+          <p className="card-flat p-3">{d.inDemo}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => enterDemoWorkspace('full')}>{d.full.title}</Button>
+            <Button variant="secondary" onClick={() => void setDemoTime(DEMO_START)}>
+              {d.restartClock}
             </Button>
-            <Button onClick={() => void confirm()}>{asking === 'on' ? copy.settings.demoOnConfirm : copy.settings.demoOffConfirm}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button variant="secondary" onClick={() => void setDemoTime(DEMO_BRIDGE_TIME)}>
+              {d.jumpBridge}
+            </Button>
+            <Button variant="secondary" onClick={() => void setDemoTime(EVENING)}>
+              {d.jumpEvening}
+            </Button>
+            <Button variant="quiet" onClick={leaveDemoWorkspace}>
+              {d.leave}
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-ink-soft">{d.launcherBody}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => enterDemoWorkspace('full')}>{d.full.title}</Button>
+            <Button variant="secondary" onClick={() => enterDemoWorkspace('pitch')}>
+              {d.pitch.title}
+            </Button>
+            <Button variant="secondary" onClick={() => enterDemoWorkspace('presenter')}>
+              {d.presenter.title}
+            </Button>
+            <Button variant="quiet" onClick={() => enterDemoWorkspace('explore')}>
+              {d.explore}
+            </Button>
+          </div>
+          {settings.demoMode && (
+            <div className="card-flat flex flex-col gap-2 p-3">
+              <p>{d.oldDemoData}</p>
+              {confirming ? (
+                <Button variant="notice" className="self-start" onClick={() => void leaveDemo().then(() => setConfirming(false))}>
+                  {d.clearOld}
+                </Button>
+              ) : (
+                <Button variant="secondary" className="self-start" onClick={() => setConfirming(true)}>
+                  {d.clearOld}
+                </Button>
+              )}
+            </div>
+          )}
+        </>
+      )}
     </Section>
   );
 }

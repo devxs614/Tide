@@ -89,7 +89,7 @@ export function ShoreScreen() {
         </div>
         <div className="ml-auto flex gap-1">
           <Button variant="quiet" size="sm" asChild>
-            <Link href="/shore/collection">
+            <Link href="/shore/collection" data-demo-id="shore-collection">
               <BookOpen aria-hidden />
               {copy.shore.collection}
             </Link>

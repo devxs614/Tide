@@ -42,7 +42,7 @@ export function FocusOutcome({ open, rewards, onAnswer, onSmallerStep, onDone }:
         <div className="flex flex-col gap-3 p-5" aria-live="polite">
           {!answer &&
             OUTCOMES.map((o) => (
-              <Button key={o} variant="secondary" size="block" onClick={() => void choose(o)}>
+              <Button key={o} variant="secondary" size="block" onClick={() => void choose(o)} data-demo-id={`focus-outcome-${o}`}>
                 {copy.focus.outcomes[o]}
               </Button>
             ))}

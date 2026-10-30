@@ -12,9 +12,14 @@ import { CrisisLines } from './CrisisLines';
 import { CampusSupport, TrustedContacts } from './ContactList';
 import { useSettings } from '@/lib/settings';
 import { holdCelebrations } from '@/lib/celebrate/store';
+import { currentWorkspace } from '@/lib/workspace';
 
-export function CrisisScreen() {
+// `preview` (v2 spec 16.8): the demo tour shows this screen with a banner
+// saying it's a preview and nothing was saved. Only in the demo workspace;
+// in Maya's own space the flag is ignored.
+export function CrisisScreen({ preview = false }: { preview?: boolean } = {}) {
   const router = useRouter();
+  const showPreview = preview && currentWorkspace() === 'demo';
   const { settings } = useSettings();
   // No sound here, ever: not a tap, not a chime (v2 spec 6.4).
   useEffect(() => holdQuiet(), []);
@@ -22,6 +27,7 @@ export function CrisisScreen() {
   useEffect(() => holdCelebrations(), []);
   return (
     <section aria-labelledby="crisis-heading" className="flex flex-col gap-6">
+      {showPreview && <p className="rounded-card border-2 border-line bg-surface-2 p-3 font-bold">{copy.demo.crisisPreview}</p>}
       <div className="flex flex-col gap-2">
         <h2 id="crisis-heading" className="text-h1 font-bold">
           {copy.support.crisisHeading}

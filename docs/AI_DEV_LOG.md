@@ -2035,3 +2035,85 @@ throughout.
   They aren't shown, rather than shown doing nothing.
 
 **Decisions:** D107–D111.
+
+## Before Phase V10 — Demo workspace and Demo director
+2026-10-30, 02:20
+
+For the team (and judges): a Demo button that shows every feature in a
+few minutes, smoothly, offline, and without ever touching the real data on
+the device. For the live pitch: a presenter mode a clicker can drive.
+
+What it touches in v1: the database (its name is now chosen by
+workspace), the demo seed (extended, never changed), the clock (speed and
+jumps, only while a demo clock is set), Settings → Demo (spec 3.5's
+intentional change: the demo no longer replaces the device's data), the
+crisis screen (a preview banner, demo only) and `data-demo-id` attributes
+on the elements the tour touches.
+
+## After Phase V10 — Demo workspace and Demo director
+2026-10-30, 03:30
+
+**What I built**
+- Workspaces: `localStorage['tide.workspace']` picks `tide` or
+  `tide-demo` when the app loads; entering or leaving reloads, so the main
+  database isn't even opened during a demo. A "Demo" pill in the top bar.
+- The demo seed v2 on top of the unchanged v1 seed: Lolo (pink, scarf),
+  Lagoon, Lively motion, twelve closed days that plant exactly one wrap
+  pattern (`wrapHelped:c-box`), and the October 29 bottle.
+- The clock gained speed (60× during the focus block) and jumps.
+- Autoplay forces the saved demo answers (no network needed); presenter
+  mode can still use live AI.
+- The director (`src/demo/director/`): an engine that waits for each
+  element, clicks the way a pointer does, types character by character,
+  holds so viewers can see results, skips any step it can't do, pauses in
+  presenter mode, goes back to a chapter's start, and changes speed; a
+  bottom bar with captions, progress and buttons (and keyboard and clicker
+  keys); a spotlight; a soft cursor; the end screen; a debug panel
+  (`?demoDebug=1`).
+- Scripts: the full tour (eleven chapters with the spec's captions) and
+  the 100-second pitch cut, built from the same chapter steps.
+- `/demo` launcher, Menu → "Run the demo", Settings → Demo (start any
+  mode; inside the demo: restart the clock, jump to the bridge or evening,
+  leave), "Watch the demo" on the welcome step, and a way to clear v1 demo
+  data still in someone's main space.
+- Crisis preview: `/support?crisis=1&preview=1` shows a banner saying it's
+  a preview and nothing was saved, only in the demo workspace.
+
+**How I checked it**
+- Lint, typecheck, all tests (395, two full runs), the v1 suite (33
+  files, 164 tests) and the build are green.
+- New tests: flow 14 (start and leave the demo; the main data's counts
+  don't change), the database name per workspace, the v2 seed (exactly the
+  four planted patterns, Lolo, closed days, the bottle, idempotent), the
+  director on fake elements (click, type, a missing element skipped, the
+  log, presenter pause), every script target present in the code, and the
+  crisis preview only in the demo.
+- The v1 Settings demo test now checks the v2 behavior (spec 3.5): the
+  demo opens its own workspace and the device's task is still there.
+- First-load JS: `/` 296 KB (after making Today's occasional cards load
+  later), `/demo` 243 KB.
+
+**What broke and how I fixed it**
+- The director's engine never "saw" elements in the test environment
+  (jsdom has no layout), so each step waited four seconds. Visibility in
+  tests now means "in the page".
+- `/` reached 300 KB exactly; the cards that only show sometimes (choose a
+  companion, bottle, morning, evening) now load after the page.
+
+**Not done (honest list)**
+- I haven't watched the whole tour in a browser: the browser pane is in
+  use by the team, and the demo workspace flag would switch their tab to
+  the demo database too. The tour is built to skip any step it can't do,
+  but it needs a rehearsal at 1× on the presenting laptop (TEAM_TODO).
+- The tour is shorter than the spec's: the companion species and theme
+  cycles, check-in, Day Mode, Unstick and focus, the Bridge, patterns, the
+  shore, the start of Close the day, the low-sensory preset and the crisis
+  preview are in; the mood-map drag, the bottle opening, the full wrap-up
+  and the Literal-mode example aren't.
+- Tests don't run the full script end to end (navigation is mocked in
+  jsdom); Playwright isn't set up here.
+- Shift+D to open the launcher comes with the keyboard shortcuts in V11.
+- The v1 seed has five days with box breathing, not six; the wrap pattern
+  uses those five (D112).
+
+**Decisions:** D112–D115.

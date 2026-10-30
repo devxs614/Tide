@@ -33,7 +33,9 @@ export function PresetsRow() {
       </h2>
       <div className="flex flex-wrap gap-2">
         {PRESET_IDS.map((id) => (
-          <Chip key={id} label={copy.ob.presets[id].name} pressed={open === id} onToggle={() => setOpen(open === id ? null : id)} />
+          <span key={id} data-demo-id={`settings-preset-${id}`}>
+            <Chip label={copy.ob.presets[id].name} pressed={open === id} onToggle={() => setOpen(open === id ? null : id)} />
+          </span>
         ))}
       </div>
       {open && values && (
@@ -41,6 +43,7 @@ export function PresetsRow() {
           <p className="text-small">{fill(copy.set.presetConfirm, { list: describe(changes) || '—' })}</p>
           <Button
             className="self-start"
+            data-demo-id="settings-preset-apply"
             onClick={() => {
               undoable(values, fill(copy.set.presetApplied, { name: copy.ob.presets[open].name }));
               setOpen(null);

@@ -151,7 +151,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
         </p>
         <div className="flex w-full max-w-xs flex-col gap-2">
           {timer.phase === 'ready' && (
-            <Button size="lg" onClick={timer.start}>
+            <Button data-demo-id="focus-start" size="lg" onClick={timer.start}>
               {copy.focus.start}
             </Button>
           )}

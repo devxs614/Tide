@@ -14,7 +14,7 @@ export function ArriveStep({ next }: WrapStepProps) {
       <h1 className="text-h1 font-extrabold">{copy.wrap.arriveTitle}</h1>
       <p className="text-ink-soft">{copy.wrap.arriveSub}</p>
       <div className="mt-auto flex flex-col gap-2">
-        <Button size="block" onClick={next}>
+        <Button size="block" onClick={next} data-demo-id="wrap-start">
           {copy.wrap.start}
         </Button>
         <Button variant="secondary" onClick={() => router.push('/')}>

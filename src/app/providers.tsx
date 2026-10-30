@@ -10,6 +10,7 @@ import { UiProvider, useUnstickSheet } from '@/lib/ui';
 import { Toaster } from '@/components/ui/sonner';
 import { WhenOpened } from '@/components/shell/WhenOpened';
 import { CelebrationHost } from '@/components/celebrate/CelebrationHost';
+import { DemoHost } from '@/demo/DemoHost';
 
 const UnstickSheet = dynamic(() => import('@/components/tasks/UnstickSheet').then((m) => m.UnstickSheet), { ssr: false });
 
@@ -33,6 +34,7 @@ export function Providers({ children }: { children: ReactNode }) {
       </UiProvider>
       <Toaster />
       <CelebrationHost />
+      <DemoHost />
     </SettingsProvider>
   );
 }

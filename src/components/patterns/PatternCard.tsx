@@ -28,7 +28,7 @@ export function PatternCard({ pattern, card, periodLabel }: { pattern: PatternRe
   };
 
   return (
-    <article className="flex flex-col gap-3 card p-4">
+    <article data-demo-id="pattern-card" className="flex flex-col gap-3 card p-4">
       {card ? (
         <>
           <h3 className="text-[1.1176rem] leading-snug font-bold">{card.title}</h3>

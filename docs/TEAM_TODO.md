@@ -119,6 +119,15 @@ up during the build. — Claude Code
   motion): it should stay above 50 fps. Use `/dev/shore` or a demo with
   many wins. *By Nov 3.*
 
+## Demo (v2)
+- [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
+  theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the
+  clicker (→ / PageDown). Note any step that's skipped (`/demo` with
+  `?demoDebug=1` shows them) and tell Claude Code. *By Nov 3.* Why: I
+  couldn't watch it in a browser while the pane was in use.
+- [ ] Record the backup video of the full tour once it runs cleanly.
+  *By Nov 4.*
+
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
 - [ ] Take screenshots for the README and the deck. *Nov 4.*

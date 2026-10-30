@@ -73,6 +73,7 @@ export function ShoreScene({
       ref={svgRef}
       viewBox="0 0 390 560"
       preserveAspectRatio="xMidYMax slice"
+      data-demo-id="shore-scene"
       role="group"
       aria-label={fill(copy.shore.sceneLabel, { n: placed.length })}
       className="shore block h-[min(62vh,560px)] w-full overflow-hidden rounded-card border-2 border-line"

@@ -47,6 +47,7 @@ export function TabBar() {
           return (
             <li key={href} className="flex">
               <Link
+                data-demo-id={`tab-${href === "/" ? "today" : href.slice(1)}`}
                 href={href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(

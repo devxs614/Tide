@@ -15,6 +15,7 @@ export function BridgeClose({ prompt, note, onNote, onSave }: { prompt: string; 
       </h3>
       <label htmlFor="parking-note">{prompt}</label>
       <input
+        data-demo-id="bridge-parking"
         id="parking-note"
         value={note}
         maxLength={140}

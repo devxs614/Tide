@@ -931,3 +931,29 @@ scrolls to the control and rings it.
   checked.
 - *Can a bad file break the app?* No: each value is checked; bad ones
   keep the current value and are reported.
+
+## Demo workspace and director (V10)
+
+**What it does.** A guided tour of every feature, on example data in its
+own database, with captions, a spotlight and presenter controls. The
+device's real data is never opened while it runs.
+
+**Files**
+- `lib/workspace.ts` (which workspace; enter and leave by reload),
+  `lib/db.ts` (`databaseName()`), `lib/clock.ts` (speed),
+  `data/demo/seedV2.ts`, `repo/demo.ts` (`seedDemoWorkspace`).
+- `demo/DemoHost.tsx` (in the providers; loads nothing outside the demo),
+  `demo/DemoRuntime.tsx`, `demo/DemoLauncher.tsx` (`/demo`).
+- `demo/director/engine.ts`, `actions.ts`, `customActions.ts`,
+  `scripts/full.ts`, `scripts/pitch.ts`, `DirectorHUD.tsx`,
+  `Spotlight.tsx`, `DemoCursor.tsx`, `EndScreen.tsx`.
+
+**Data flow.** Launcher → `enterDemoWorkspace(mode)` → reload with
+`?demo=start&mode=…` → `DemoRuntime` seeds `tide-demo` if needed → the
+engine plays the script, using `data-demo-id` targets, the router for
+navigation and the repo for clock jumps.
+
+**Likely reviewer questions**
+- *Can the demo break my data?* No: it's a different database, chosen at
+  load; tested with row counts before and after.
+- *What if the network is down?* Autoplay uses only saved answers.

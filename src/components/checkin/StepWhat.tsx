@@ -30,6 +30,7 @@ export function StepWhat({ text, onText, onNext, onNoWords, onSkipToMap }: Props
           </label>
           <textarea
             id="checkin-text"
+            data-demo-id="checkin-text"
             rows={4}
             maxLength={600}
             value={text}
@@ -49,7 +50,7 @@ export function StepWhat({ text, onText, onNext, onNoWords, onSkipToMap }: Props
         </Button>
       </div>
       <div className="flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
-        <Button className="sm:flex-1" disabled={!ready} onClick={onNext}>
+        <Button className="sm:flex-1" disabled={!ready} onClick={onNext} data-demo-id="checkin-next">
           {copy.global.next}
         </Button>
         <Button variant="secondary" className="sm:flex-1" onClick={onSkipToMap}>

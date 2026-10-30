@@ -795,3 +795,25 @@ cores made four full runs in a row pass, at about 45 seconds a run.
 Search anchors use `setting-…`, so they never repeat an existing control's
 id (which took the demo switch's label). Each section page loads only its
 own bigger pieces.
+
+**D112 — 2026-10-30 — The wrap pattern uses the v1 seed's five days.**
+Spec 16.10 asks for six closed days with box breathing (four okay or
+good). The v1 seed has box breathing on five days, and adding a sixth use
+would change v1's planted `strategyEffect:c-box` numbers. The demo seed
+plants `wrapHelped:c-box` with 4 of 5 against 1 of 6, still well past the
+rule's threshold.
+
+**D113 — 2026-10-30 — The workspace is chosen at load, switched by reload.**
+`db` is created once with `tide` or `tide-demo` from localStorage. Every
+switch reloads the page, so no code path can hold the main database while
+the demo runs. In tests, `databaseName()` checks the choice.
+
+**D114 — 2026-10-30 — The tour skips what it can't do.**
+A step whose element doesn't appear within four seconds is logged and
+skipped; the tour never stops on an error. Each chapter starts with its
+own setup, so going back a chapter (←) recovers from most surprises.
+
+**D115 — 2026-10-30 — Settings → Demo starts the v2 demo.**
+Spec 3.5 changes demo mode: it no longer replaces the device's data. The
+v1 switch became buttons for each tour mode; someone with v1 demo data in
+their main space is offered to clear it, with a confirmation.

@@ -70,7 +70,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
         <p className="text-ink-soft">{output.why}</p>
       </div>
       <div className="flex flex-col gap-2 border-t border-line p-5">
-        <Button size="block" onClick={onStart} disabled={loading}>
+        <Button size="block" onClick={onStart} disabled={loading} data-demo-id="unstick-start">
           {fill(copy.unstick.start, { n })}
         </Button>
         <div className="flex gap-2">
