@@ -119,6 +119,15 @@ up during the build. — Claude Code
   motion): it should stay above 50 fps. Use `/dev/shore` or a demo with
   many wins. *By Nov 3.*
 
+## Install and offline (v2)
+- [ ] **Try Install Tide on the deployed URL** in Chrome on a laptop
+  (Settings → About → Install Tide) and on an iPhone (it should show "Tap
+  Share, then Add to Home Screen"). *By Nov 4.* Why: the browser here
+  doesn't offer installing, so I could only test it with a simulated
+  offer.
+- [ ] Turn the Wi-Fi off with Tide open and check in: the "Offline" note
+  should appear and the suggestions should be the built-in ones. *By Nov 4.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

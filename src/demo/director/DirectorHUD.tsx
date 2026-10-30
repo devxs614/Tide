@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { Button } from '@/components/ui/button';
+import { WithTooltip } from '@/components/ui/tooltip';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { cn } from '@/lib/utils';
 import { director, type DirectorState } from './engine';
@@ -39,6 +40,7 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
 
   return (
     <section
+      data-demo-hud
       aria-label={copy.demo.hudLabel}
       className={cn('card fixed inset-x-4 z-[70] mx-auto flex max-w-[400px] flex-col gap-2 p-3', top ? 'top-4' : 'bottom-24')}
     >
@@ -53,15 +55,21 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
         </p>
       )}
       <div className="flex flex-wrap items-center gap-1">
-        <Button variant="quiet" size="icon" aria-label={copy.demo.previous} onClick={director.prev}>
-          <ChevronLeft aria-hidden />
-        </Button>
-        <Button variant="secondary" size="icon" aria-label={state.paused ? copy.demo.play : copy.demo.pause} onClick={director.toggle}>
-          {state.paused ? <Play aria-hidden /> : <Pause aria-hidden />}
-        </Button>
-        <Button variant="quiet" size="icon" aria-label={copy.demo.next} onClick={director.next}>
-          <ChevronRight aria-hidden />
-        </Button>
+        <WithTooltip label={copy.demo.previous}>
+          <Button variant="quiet" size="icon" aria-label={copy.demo.previous} onClick={director.prev}>
+            <ChevronLeft aria-hidden />
+          </Button>
+        </WithTooltip>
+        <WithTooltip label={state.paused ? copy.demo.play : copy.demo.pause}>
+          <Button variant="secondary" size="icon" aria-label={state.paused ? copy.demo.play : copy.demo.pause} onClick={director.toggle}>
+            {state.paused ? <Play aria-hidden /> : <Pause aria-hidden />}
+          </Button>
+        </WithTooltip>
+        <WithTooltip label={copy.demo.next}>
+          <Button variant="quiet" size="icon" aria-label={copy.demo.next} onClick={director.next}>
+            <ChevronRight aria-hidden />
+          </Button>
+        </WithTooltip>
         <Button variant="quiet" size="sm" onClick={() => director.setSpeed(SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length])}>
           {fill(copy.demo.speed, { x: state.speed })}
         </Button>
@@ -71,9 +79,11 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
         <Button variant="quiet" size="sm" onClick={director.toggleNarration}>
           {state.narration ? copy.demo.narrationOn : copy.demo.narrationOff}
         </Button>
-        <Button variant="quiet" size="icon" className="ml-auto" aria-label={copy.demo.exit} onClick={director.exit}>
-          <X aria-hidden />
-        </Button>
+        <WithTooltip label={copy.demo.exit}>
+          <Button variant="quiet" size="icon" className="ml-auto" aria-label={copy.demo.exit} onClick={director.exit}>
+            <X aria-hidden />
+          </Button>
+        </WithTooltip>
       </div>
     </section>
   );

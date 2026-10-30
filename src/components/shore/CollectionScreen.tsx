@@ -18,13 +18,16 @@ import { formatLongDate } from '@/lib/time';
 import type { FirstFeature } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { ItemArt } from './ItemArt';
+import { ScreenSkeleton } from '@/components/ui/skeleton';
 
 export function CollectionScreen() {
   const { settings } = useSettings();
-  const wins = useLiveQuery(() => db.wins.toArray(), []) ?? [];
+  const wins = useLiveQuery(() => db.wins.toArray(), []);
   const released = useLiveQuery(() => db.bottles.filter((b) => !!b.releasedAt).toArray(), []) ?? [];
-  const items = shoreItems(wins, settings.firsts, 'all', now());
+  const items = shoreItems(wins ?? [], settings.firsts, 'all', now());
   const pearls = (Object.entries(settings.firsts) as Array<[FirstFeature, number]>).sort((a, b) => a[1] - b[1]);
+  // Otherwise every item would show as "not found yet" for a moment.
+  if (!wins) return <ScreenSkeleton rows={4} rowClassName="h-32" />;
 
   return (
     <div className="flex flex-col gap-6">

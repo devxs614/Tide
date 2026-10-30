@@ -17,6 +17,7 @@ import { useVoice } from '@/lib/voice/useVoice';
 import { now } from '@/lib/clock';
 import { dayPart } from '@/lib/time';
 import { Button } from '@/components/ui/button';
+import { WithTooltip } from '@/components/ui/tooltip';
 import { CardButton } from '@/components/ui/card';
 import { SwitchRow } from '@/components/ui/switch';
 
@@ -48,9 +49,9 @@ export function VoiceTab({ species }: { species: CompanionSpecies }) {
       />
       {natural && cloud ? (
         <section className="flex flex-col gap-2" aria-labelledby="studio-voice">
-          <h3 id="studio-voice" className="font-display font-extrabold">
+          <h2 id="studio-voice" className="font-display font-extrabold">
             {t.companionVoice}
-          </h3>
+          </h2>
           {cloud.voices.map((v) => (
             <div key={v.id} className="flex items-center gap-2">
               <CardButton
@@ -61,14 +62,16 @@ export function VoiceTab({ species }: { species: CompanionSpecies }) {
                 <span className="font-display font-extrabold">{v.name}</span>
                 {v.id === ownVoice && <span className="text-small text-ink-soft">{t.voiceCurrent}</span>}
               </CardButton>
-              <Button
-                variant="secondary"
-                size="icon"
-                aria-label={`${copy.voice.playSample}: ${v.name}`}
-                onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}
-              >
-                <Volume2 aria-hidden />
-              </Button>
+              <WithTooltip label={copy.voice.playSample}>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label={`${copy.voice.playSample}: ${v.name}`}
+                  onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}
+                >
+                  <Volume2 aria-hidden />
+                </Button>
+              </WithTooltip>
             </div>
           ))}
         </section>

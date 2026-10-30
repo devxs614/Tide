@@ -11,6 +11,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { WhenOpened } from '@/components/shell/WhenOpened';
 import { CelebrationHost } from '@/components/celebrate/CelebrationHost';
 import { DemoHost } from '@/demo/DemoHost';
+// Catches the browser's install offer early, so "Install Tide" can use it later.
+import '@/lib/install';
 
 const UnstickSheet = dynamic(() => import('@/components/tasks/UnstickSheet').then((m) => m.UnstickSheet), { ssr: false });
 

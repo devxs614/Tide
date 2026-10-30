@@ -5,6 +5,25 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V11: Finishing touches, accessibility and speed
+- Keyboard shortcuts on a computer: C to check in, N for a new task, 1 to
+  5 for the tabs, W to close the day, / to search settings, ? for the
+  list, Shift+D for the demo. They never fire while you type, and you can
+  turn them off in Settings → Keyboard shortcuts.
+- A small "Offline · using built-in suggestions" note when the network
+  drops.
+- Install Tide from Settings → About or What's new, where your browser
+  allows it (on iPhone and iPad it shows the two taps). Tide never asks
+  on its own.
+- "How this screen works" in the menu: a few plain sentences about the
+  screen you're on, which can be read aloud.
+- Quieter loading: shapes where content will appear instead of a blank
+  or a flash of "nothing here yet".
+- Accessibility fixes: Close the day now tells screen readers each new
+  step, headings in the companion studio are in order, theme groups have
+  clear names, and the companion's speech bubble no longer covers buttons
+  at large text sizes.
+
 ### V10: The demo
 - A Demo button (`/demo`, the menu, Settings → Demo, and the welcome
   screen): a guided tour with captions, a spotlight and a soft cursor, in

@@ -89,6 +89,9 @@ export const copy = {
     proofLog: 'Proof log',
     settings: 'Settings',
     aboutTide: 'About Tide',
+    // v2 spec 17.2 and 17.8.
+    offline: 'Offline · using built-in suggestions',
+    helpScreen: 'How this screen works',
     titles: {
       today: 'Today',
       tasks: 'Tasks',
@@ -1229,9 +1232,11 @@ export const copy = {
       privacy: 'Privacy & data',
       people: 'People & support',
       demo: 'Demo',
+      shortcuts: 'Keyboard shortcuts',
       about: 'About',
     },
     labels: {
+      shortcuts: 'Use keyboard shortcuts',
       pronouns: 'Pronouns (optional, only for you)',
       boldText: 'Bold text',
       density: 'Spacing between things',
@@ -1311,6 +1316,7 @@ export const copy = {
       keepAwake: 'Where your browser allows it.',
       minEvidence: 'A higher number means fewer, surer patterns.',
       shapes: 'So state never depends on color alone.',
+      shortcuts: 'Single keys on a computer keyboard. They never fire while you type.',
     },
   },
 
@@ -1351,6 +1357,104 @@ export const copy = {
     runPitch: 'Run the pitch cut',
     crisisPreview: 'Preview: this is what Tide shows if someone writes about being in danger. Nothing was saved.',
     debugTitle: 'Demo steps',
+  },
+
+  // Desktop keyboard shortcuts (v2 spec 17.1). Single keys, never while
+  // typing in a field; the sheet opens with "?" and says how to turn them off.
+  shortcuts: {
+    title: 'Keyboard shortcuts',
+    intro: 'On a computer keyboard, these keys work anywhere in the main screens, except while you are typing.',
+    turnOff: 'You can turn them off in Settings, under Keyboard shortcuts.',
+    openSettings: 'Open shortcut settings',
+    keyLabel: 'Key',
+    actionLabel: 'What it does',
+    list: [
+      { keys: ['C'], action: 'Check in' },
+      { keys: ['N'], action: 'New task' },
+      { keys: ['1 to 5'], action: 'Today, Tasks, Toolkit, Patterns, Shore' },
+      { keys: ['W'], action: 'Close the day' },
+      { keys: ['/'], action: 'Search settings' },
+      { keys: ['?'], action: 'Show this list' },
+      { keys: ['Shift', 'D'], action: 'Run the demo' },
+    ],
+  },
+
+  // "Install Tide" (v2 spec 17.3). Only ever offered when someone opens
+  // About or What's new; Tide never pops the browser's prompt by itself.
+  install: {
+    button: 'Install Tide',
+    body: 'Opens in its own window, like an app. Everything still stays on this device.',
+    iosTitle: 'Add Tide to your Home Screen',
+    ios: 'Tap Share, then Add to Home Screen.',
+    installed: 'Tide is installed on this device.',
+    unavailable: "This browser doesn't offer installing from here. Tide works the same in a tab.",
+  },
+
+  // "How this screen works" (v2 spec 17.8): a few plain sentences per
+  // screen, opened from the menu, with read-aloud.
+  screenHelp: {
+    title: 'How this screen works',
+    shortcutsHint: 'On a keyboard, press ? to see the shortcuts.',
+    screens: {
+      today: {
+        name: 'Today',
+        body: [
+          'Today shows your current state, the plan for today and what is coming up next.',
+          'Check in with the round button at the bottom. Tide uses what you tell it to suggest a lighter or fuller day; you always choose.',
+          'Nothing here counts against you. Anything unfinished can move to another day.',
+        ],
+      },
+      tasks: {
+        name: 'Tasks',
+        body: [
+          'Your tasks sit in four groups: Not started, In progress, Stuck and Done.',
+          "Stuck is information, not failure. Choose I'm stuck on a task to get one small first step.",
+          'Focus starts a short timer for one task, with your companion working next to you if you have one.',
+        ],
+      },
+      toolkit: {
+        name: 'Toolkit',
+        body: [
+          'Short strategies for different states: settling down, getting started, and focusing.',
+          'Each one says how long it takes. You can stop any time, and you can say whether it helped.',
+        ],
+      },
+      patterns: {
+        name: 'Patterns',
+        body: [
+          'Patterns are links Tide noticed in your own check-ins, like a strategy that often helped in one state.',
+          'Each pattern shows its evidence. If one is not true for you, choose Not true for me and it goes away.',
+        ],
+      },
+      shore: {
+        name: 'Your Shore',
+        body: [
+          'Things you do leave something on your shore: a shell for a finished task, sea glass for a switch you got through, driftwood for a closed day.',
+          'Choose any item to see when it washed up and why. Nothing ever disappears from your shore.',
+        ],
+      },
+      proof: {
+        name: 'Proof log',
+        body: [
+          'Things you did, kept here for the days that feel heavy.',
+          'Wins collect as you finish tasks, get through switches and try strategies. You can add your own, too.',
+        ],
+      },
+      settings: {
+        name: 'Settings',
+        body: [
+          'Every change applies at once; there is no Save button.',
+          'Search for a setting by name, or try a preset. Each page has Reset this section if you want its defaults back.',
+        ],
+      },
+      support: {
+        name: 'Talk to a person',
+        body: [
+          'This page keeps the people you can reach: people you trust, support at your school and crisis lines.',
+          'Tide never contacts anyone for you. You copy a message and send it yourself, when you want to.',
+        ],
+      },
+    },
   },
 
   // Friendly error and 404 pages (v2 spec 17.5, Appendix A). Never blame

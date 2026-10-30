@@ -16,6 +16,7 @@ import { useSound } from '@/lib/sound/useSound';
 import { dayPart, toISODate } from '@/lib/time';
 import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
+import { WithTooltip } from '@/components/ui/tooltip';
 import { Companion } from '@/components/companion/Companion';
 import { CompanionSay } from '@/components/companion/CompanionSay';
 import { NoneCompanion } from '@/components/companion/NoneCompanion';
@@ -82,9 +83,11 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
         onTouchEnd={onTouchEnd}
         className="flex items-center gap-2 rounded-card"
       >
-        <Button variant="quiet" size="icon" aria-label={copy.ob.previous} onClick={() => move(-1)}>
-          <ChevronLeft aria-hidden />
-        </Button>
+        <WithTooltip label={copy.ob.previous}>
+          <Button variant="quiet" size="icon" aria-label={copy.ob.previous} onClick={() => move(-1)}>
+            <ChevronLeft aria-hidden />
+          </Button>
+        </WithTooltip>
         <div key={choice} className="stagger-in card flex flex-1 flex-col items-center gap-2 p-4 text-center" aria-live="polite">
           <div className="relative flex h-36 items-end">
             {hello && choice !== 'none' && (
@@ -103,9 +106,11 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
             </Button>
           )}
         </div>
-        <Button variant="quiet" size="icon" aria-label={copy.ob.nextCompanion} onClick={() => move(1)}>
-          <ChevronRight aria-hidden />
-        </Button>
+        <WithTooltip label={copy.ob.nextCompanion}>
+          <Button variant="quiet" size="icon" aria-label={copy.ob.nextCompanion} onClick={() => move(1)}>
+            <ChevronRight aria-hidden />
+          </Button>
+        </WithTooltip>
       </div>
       <div aria-hidden className="flex justify-center gap-2">
         {CHOICES.map((c, i) => (

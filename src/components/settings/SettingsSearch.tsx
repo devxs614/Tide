@@ -2,8 +2,8 @@
 
 // The search field at the top of Settings (v2 spec 15.4). Results show the
 // setting and its section; choosing one opens that section at the control
-// and rings it briefly.
-import { useState } from 'react';
+// and rings it briefly. The "/" shortcut lands here as /settings#search.
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
@@ -11,7 +11,11 @@ import { searchSettings } from '@/lib/settings/searchIndex';
 
 export function SettingsSearch() {
   const [q, setQ] = useState('');
+  const field = useRef<HTMLInputElement>(null);
   const hits = searchSettings(q);
+  useEffect(() => {
+    if (window.location.hash === '#search') field.current?.focus();
+  }, []);
   return (
     <div role="search" className="flex flex-col gap-2">
       <label htmlFor="settings-search" className="sr-only">
@@ -20,6 +24,7 @@ export function SettingsSearch() {
       <div className="flex items-center gap-2 rounded-input border-2 border-line bg-surface px-3">
         <Search aria-hidden className="size-5 text-ink-soft" />
         <input
+          ref={field}
           id="settings-search"
           type="search"
           value={q}

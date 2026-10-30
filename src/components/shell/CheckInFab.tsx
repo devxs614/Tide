@@ -9,11 +9,13 @@ import { WavesHorizontal } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { useCheckInSheet } from '@/lib/ui';
 import { useFeedback } from '@/lib/sound/useFeedback';
+import { usePauseOffscreen } from '@/lib/motion/usePauseOffscreen';
 
 export function CheckInFab() {
   const { openCheckIn } = useCheckInSheet();
   const [ripple, setRipple] = useState(0);
   const feedback = useFeedback();
+  const pauseRef = usePauseOffscreen<HTMLSpanElement>();
   return (
     <div className="pointer-events-none flex justify-center pb-1">
       <button
@@ -26,7 +28,7 @@ export function CheckInFab() {
         onPointerDown={() => setRipple((n) => n + 1)}
         className="group pointer-events-auto flex flex-col items-center gap-1 rounded-full"
       >
-        <span className="fab-breath relative">
+        <span ref={pauseRef} className="fab-breath relative">
           <span className="press-3d relative flex size-[68px] items-center justify-center overflow-hidden rounded-full bg-primary text-on-primary [--ledge-color:var(--primary-shadow)] [--press-depth:5px] group-active:translate-y-[5px] group-active:shadow-none">
             <WavesHorizontal className="size-8 stroke-[2.5]" aria-hidden />
             {ripple > 0 && (

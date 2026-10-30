@@ -136,6 +136,9 @@ what I generated and what came from elsewhere.
 | `src/demo/**` (director engine, actions, custom actions, scripts, HUD, spotlight, cursor, end screen, runtime, host, launcher, options, tests), `src/app/demo/page.tsx` | The Demo director | Claude Code | Spec 16 (D113, D114) |
 | `src/lib/workspace.ts`, workspace choice in `src/lib/db.ts`, clock speed in `src/lib/clock.ts`, `src/data/demo/seedV2.ts` (+ test), `seedDemoWorkspace` in `repo/demo.ts`, force-cache in `lib/ai/runAi.ts` | Demo workspace and seed v2 | Claude Code | D112 |
 | `data-demo-id` attributes across components; `DemoSection.tsx` rewritten; crisis preview in `CrisisScreen.tsx`; `docs/demo-script.md` v2 section | Demo targets and controls | Claude Code | D115 |
+| `src/lib/{shortcuts,install,useOnline}.ts`, `src/components/shell/{KeyboardShortcuts,ShortcutsList,ShortcutsSheet,OfflinePill,InstallButton,ScreenHelpSheet}.tsx`, `src/components/shell/quality.test.tsx`, the Keyboard shortcuts settings page | Quality features (spec 17) | Claude Code | D116–D120 |
+| `src/components/ui/{tooltip,skeleton}.tsx`, `src/lib/motion/usePauseOffscreen.ts` (+ test), skeletons and empty states in Tasks, Toolkit, Patterns, Proof, Shore, Collection | Tooltips, loading states, pausing loops | Claude Code | Tooltip on Radix (shadcn pattern); D121 |
+| `src/test/a11y.test.tsx`, `src/test/copyGuards.test.ts`; fixes in the studio headings, `ThemeGrid`, `WrapScreen`, `CompanionSay`, `SettingsScreen` | Accessibility audit and copy pass | Claude Code | D122, D123 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app
@@ -173,6 +176,7 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | vitest 5.0.5, @vitejs/plugin-react 6.1.2 | Test runner | MIT |
 | @testing-library/react, dom, user-event, jest-dom | Component and flow tests | MIT |
 | fake-indexeddb 6.2.6 | IndexedDB in tests | Apache-2.0 |
+| axe-core 4.14.0 | Accessibility audit in tests (`src/test/a11y.test.tsx`); also used by the lint plugin | MPL-2.0 |
 | jsdom 30.1.3 | Browser environment for tests | MIT |
 | eslint 9, eslint-config-next 16.4.3 | Linting | MIT |
 | prettier 3.9.10 | Formatting | MIT |

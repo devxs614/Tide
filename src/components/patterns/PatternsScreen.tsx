@@ -24,6 +24,7 @@ import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import { HardSummary } from './HardSummary';
 import { DAY } from '@/lib/time';
+import { ScreenSkeleton } from '@/components/ui/skeleton';
 
 type Period = 'week' | 'month';
 
@@ -36,7 +37,7 @@ export function PatternsScreen() {
   const data = useLiveQuery(async () => ({ ...(await loadPatternInput(now(), windowDays)), minEvidence }), [windowDays, minEvidence]);
   const patterns = data ? computePatterns(data) : [];
   const cards = useNarration(patterns, settings.communicationMode);
-  if (!data) return null;
+  if (!data) return <ScreenSkeleton rows={2} rowClassName="h-36" />;
   const periodLabel = copy.patterns.periods[period];
 
   if (!settings['patterns.enabled']) return <p className="card-flat p-4">{copy.wrap.patternsOff}</p>;

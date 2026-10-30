@@ -66,14 +66,17 @@ function Grid({ selected, onPick, label }: { selected: ThemeId; onPick: (id: The
     <div className="flex flex-col gap-4">
       {label && <h4 className="text-body font-extrabold">{label}</h4>}
       {GROUPS.map((group) => (
-        <section key={group} className="flex flex-col gap-2" aria-label={copy.themes.groups[group]}>
+        // Groups, not landmarks: with "follow my device" on there are two
+        // grids, and a screen reader's landmark list shouldn't hold two
+        // "Dark" regions. The name says which grid each group belongs to.
+        <div key={group} role="group" className="flex flex-col gap-2" aria-label={label ? `${label}, ${copy.themes.groups[group]}` : copy.themes.groups[group]}>
           <h5 className="font-display text-small font-bold text-ink-soft">{copy.themes.groups[group]}</h5>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {THEME_IDS.filter((id) => THEMES[id].group === group).map((id) => (
               <ThemeCard key={id} id={id} selected={selected === id} onPick={() => onPick(id)} />
             ))}
           </div>
-        </section>
+        </div>
       ))}
     </div>
   );

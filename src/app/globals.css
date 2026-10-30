@@ -430,6 +430,26 @@ html[data-motion="calm"] .anim-slide-in {
 html[data-motion="lively"] .fab-breath {
   animation: tide-breath 4s ease-in-out infinite;
 }
+
+/* The offline pill (spec 17.2) fades with opacity only; visibility waits
+   for the fade before hiding it, so it never blocks a tap underneath. */
+.offline-pill {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-base) ease-out, visibility 0s linear var(--dur-base);
+}
+.offline-pill.is-on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur-base) ease-out;
+}
+
+/* Loops pause when their element is off screen or the tab is hidden
+   (spec 5.6); usePauseOffscreen sets the attribute. */
+[data-paused],
+[data-paused] * {
+  animation-play-state: paused !important;
+}
 .tab-bounce {
   animation: tide-tab-bounce 300ms var(--ease-out);
 }

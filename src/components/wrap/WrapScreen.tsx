@@ -4,7 +4,7 @@
 // three minutes, every one skippable. The sky behind moves from golden hour
 // to night as the steps go by. Progress is saved after each step, so leaving
 // and coming back resumes where Maya was; a closed day can be reopened.
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { X } from 'lucide-react';
@@ -54,6 +54,17 @@ export function WrapScreen({ reopen = false }: { reopen?: boolean }) {
     emitCompanion({ type: 'wrapStarted' });
   }, [date, reopen]);
 
+  // Each step's heading takes focus as the step appears, so a screen reader
+  // says where Maya is, as in onboarding. The step's box is keyed by step,
+  // so this runs once per step, never while she's typing in one.
+  const focusHeading = useCallback((box: HTMLDivElement | null) => {
+    const heading = box?.querySelector<HTMLElement>('h1');
+    if (!heading) return;
+    heading.tabIndex = -1;
+    heading.classList.add('outline-none');
+    heading.focus({ preventScroll: true });
+  }, []);
+
   if (!ready || !wrap || !facts) return null;
   const step = Math.min(WRAP_STEPS, Math.max(1, wrap.step));
   const go = (n: number) => void saveWrapStep(date, { step: Math.min(WRAP_STEPS, Math.max(1, n)) });
@@ -83,12 +94,14 @@ export function WrapScreen({ reopen = false }: { reopen?: boolean }) {
             base={faceFor(step)}
             listens={['checkinSaved', 'aiLoading', 'aiDone', 'wrapEnded']}
             openingLine={step === 1 ? 'wrap_start' : undefined}
-            bubble="right"
+            // Beside the companion, not above it: above, at large text sizes,
+            // the bubble covered Close and the progress bar.
+            bubble="inline"
             noneAlt="nothing"
           />
         </div>
       </div>
-      <div key={step} className="flow-enter flex flex-1 flex-col gap-4 p-5">
+      <div key={step} ref={focusHeading} className="flow-enter flex flex-1 flex-col gap-4 p-5">
         <WrapStep step={step} wrap={wrap} facts={facts} save={save} next={() => go(step + 1)} />
       </div>
       {!own && (

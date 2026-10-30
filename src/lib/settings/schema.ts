@@ -100,6 +100,7 @@ export const SettingsSchema = z.object({
   'focus.companionActivity': flag,
   'focus.endSound': flag,
   'focus.keepAwake': flag,
+  'shortcuts.enabled': flag,
   'patterns.enabled': flag,
   'patterns.minEvidence': z.union([z.literal(3), z.literal(5)]),
   'patterns.defaultPeriod': z.union([z.literal(7), z.literal(28)]),

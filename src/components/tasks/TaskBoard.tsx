@@ -25,6 +25,7 @@ import { STATUS_ORDER } from './MoveToMenu';
 import { StateColumn } from './StateColumn';
 import { useTaskMoves } from './useTaskMoves';
 import { SomedayList } from './SomedayList';
+import { ScreenSkeleton } from '@/components/ui/skeleton';
 
 function statusOf(id: string, tasks: Task[]): TaskStatus | undefined {
   if (id.startsWith('column:')) return id.slice('column:'.length) as TaskStatus;
@@ -47,7 +48,7 @@ export function TaskBoard() {
     ) as Record<TaskStatus, Task[]>;
   }, [tasks]);
 
-  if (!tasks) return null;
+  if (!tasks) return <ScreenSkeleton rows={4} rowClassName="h-20" />;
   const titleOf = (id: string | number) => tasks.find((t) => t.id === id)?.title ?? '';
   const nameOf = (id: string | number | undefined) => {
     const status = id === undefined ? undefined : statusOf(String(id), tasks);

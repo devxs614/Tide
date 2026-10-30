@@ -11,6 +11,7 @@ import { cleanVoiceName } from '@/lib/voice/voiceRanking';
 import { useDeviceVoices } from '@/lib/voice/useDeviceVoices';
 import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
+import { WithTooltip } from '@/components/ui/tooltip';
 import { CardButton } from '@/components/ui/card';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import type { StepProps } from '../OnboardingStep';
@@ -44,14 +45,16 @@ export function VoiceStep({ onNext }: StepProps) {
               <CardButton selected={settings['voice.deviceVoiceURI'] === v.voiceURI} onClick={() => void update('voice.deviceVoiceURI', v.voiceURI)} className="flex-1">
                 <span className="font-display font-extrabold">{cleanVoiceName(v.name)}</span>
               </CardButton>
-              <Button
-                variant="secondary"
-                size="icon"
-                aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
-                onClick={() => void voice.speak(copy.voice.voiceSample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
-              >
-                <Volume2 aria-hidden />
-              </Button>
+              <WithTooltip label={copy.voice.playSample}>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
+                  onClick={() => void voice.speak(copy.voice.voiceSample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
+                >
+                  <Volume2 aria-hidden />
+                </Button>
+              </WithTooltip>
             </div>
           ))}
         </div>

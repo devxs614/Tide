@@ -3,13 +3,15 @@
 // Settings 2.0, the index (v2 spec 15.1): search at the top, quick presets,
 // the companion, and every section as a row. Each section opens its own page
 // with a live preview. Every change applies at once; there is no Save button.
+import { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves,
+  Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Keyboard, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves,
 } from 'lucide-react';
 import { copy } from '@/copy/en';
-import { SECTIONS, type SectionId } from '@/lib/settings/catalog';
+import { SECTIONS, sectionById, type SectionId } from '@/lib/settings/catalog';
 import { CompanionSection } from './CompanionSection';
 import { PresetsRow } from './PresetsRow';
 import { SettingsSearch } from './SettingsSearch';
@@ -29,11 +31,19 @@ const ICONS: Record<SectionId, LucideIcon> = {
   shore: Shell,
   privacy: ShieldCheck,
   people: HeartHandshake,
+  shortcuts: Keyboard,
   demo: PlayCircle,
   about: Info,
 };
 
 export function SettingsScreen() {
+  const router = useRouter();
+  // v1 linked to sections with a hash (/settings#people from the support
+  // page, for one). Those links still work: they open the section's page.
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (sectionById(id)) router.replace(`/settings/${id}`);
+  }, [router]);
   return (
     <div className="flex flex-col gap-6">
       <SettingsSearch />

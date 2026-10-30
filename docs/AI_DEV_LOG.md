@@ -2117,3 +2117,157 @@ on the elements the tour touches.
   uses those five (D112).
 
 **Decisions:** D112–D115.
+
+## Before Phase V11 — Quality, accessibility and performance
+2026-10-30, 10:05
+
+The last building phase. Section 17 lists the small things that make an
+app feel finished: keyboard shortcuts on a computer, saying when the
+network is gone, an install button that never nags, help for each screen,
+tooltips on icon-only buttons. Then three audits: empty and loading
+states on every screen, accessibility on every new flow, and performance
+against the budgets in 5.6. Last, a pass over every new string.
+
+Plan: shortcuts as a plain function (easy to test) plus one listener in
+the app shell; the offline pill and install control as small pieces that
+load with the shell; the help and shortcut sheets loaded only when opened,
+so `/` stays under 300 KB. For the audits I'll use axe-core in the test
+suite (it's already in `node_modules` through the lint plugin; I'll make it
+an explicit dev dependency) and a production build on a second port, so
+the team's open browser tab and its data are never touched.
+
+## After Phase V11 — Quality, accessibility and performance
+2026-10-30, 11:10
+
+**What I built**
+- Keyboard shortcuts (spec 17.1): C check in, N new task, 1 to 5 tabs,
+  W close the day, / settings search, ? the list, Shift+D the demo. They
+  never fire while typing or with Ctrl, Cmd or Alt held, stay quiet while
+  a sheet, menu or the demo's controls are open, and are off on the
+  support pages. A new Settings page, Keyboard shortcuts, turns them off
+  (`shortcuts.enabled`, default on) and lists them.
+- Offline pill under the top bar ("Offline · using built-in
+  suggestions"), with a separate polite status line for screen readers.
+- Install Tide in Settings → About and on the last page of What's new:
+  the browser's own dialog where Chromium offers one (caught at startup,
+  shown only on press), the two taps on iPhone and iPad, a quiet note when
+  it's already installed, and an honest line everywhere else.
+- "How this screen works" in the top bar menu: a few plain sentences per
+  screen with Read aloud.
+- Tooltips (500 ms, mouse and keyboard focus, never touch) on the
+  icon-only buttons: the demo controls, voice samples, onboarding's
+  companion arrows.
+- Loops pause off screen and in hidden tabs (the shore and the Check in
+  button's breath; the companion already did).
+- Loading skeletons on Tasks, Toolkit, Patterns, Proof log, the Shore and
+  the Collection; the Proof log's empty state now has the companion.
+- `?new=1` on Tasks opens the new-task form (the N shortcut).
+
+**How I checked it**
+- Lint, typecheck, all tests and the v1 suite (33 files, 164 tests) are
+  green; the build is clean. Final counts are at the end of this entry.
+- New tests: the shortcut rules (every key; never while typing, with a
+  modifier or a held key), the shortcuts on the real app shell (tabs,
+  demo, help sheet, quiet with a sheet open, off in Settings, off on
+  support), the offline announcement, the install control in each
+  browser situation (the browser's prompt only on press), the help sheet,
+  the new-task landing, pausing loops, a copy guard and an axe audit.
+- In a production build on port 3100 (a different origin from the team's
+  tab, so their data was never touched): N opens the form with focus in
+  the title and typing "c" types a "c"; ? opens the list; the offline pill
+  appears and is announced; every new screen at 375 px wide with text at
+  150% has no sideways scrolling; with motion Off nothing loops.
+
+**Empty and loading states (spec 17.9)**
+
+| Screen | Empty state | Loading state |
+|---|---|---|
+| Today | "Nothing on your list" with Add a task; companion in the header | v1's blank page-height block; the top bar shows first |
+| Tasks | "Nothing here right now." per column; Add task above | New: skeleton cards |
+| Toolkit | Never empty (built-in strategies) | New: skeleton cards |
+| Patterns | "Tide needs a few more check-ins…" with progress; companion in the header | New: skeleton cards |
+| Proof log | New: companion + one line; Add a win above | New: skeleton cards |
+| Your Shore | The empty beach with the companion + "Your shore is quiet for now…" | New: a sky-sized placeholder, so items don't pop in |
+| Collection | Every item shown as "not found yet" with how to find it | New: skeleton (before, every item flashed as not found) |
+| Close the day | Never empty (steps from the day's facts) | Blank until facts load (under 50 ms here) |
+| Settings | Never empty | Section pieces load with the page |
+| Talk to a person | "Add someone" when no contacts | Instant (settings already loaded) |
+| Companion studio, onboarding, demo | Never empty | Splash while settings load |
+
+I left two on purpose: Patterns doesn't get a second companion (its
+header already has one, and two would compete), and Today keeps v1's
+blank block: it's one quick read, and a skeleton there would flash for a
+few milliseconds on every visit.
+
+**Accessibility audit**
+
+| Flow | Keyboard path | Focus in overlays | Live regions | Labels and roles (axe) | 150% text at 375 px | Motion Off |
+|---|---|---|---|---|---|---|
+| Onboarding | Tab order Skip, More options, main button; each step moves focus to its heading (browser) | Radix menu | Step heading | Pass | No overflow | No loops |
+| Companion studio | Radix tabs (arrow keys); species and colors are buttons | — | Bubble `status` | Pass after fix 1 | No overflow | Static figure |
+| Shore and Collection | Items are buttons with arrow keys between them; a skip link to the list | Radix sheet returns focus | New-item line | Pass | No overflow (the SVG clips itself) | No loops |
+| Close the day | Fixed (fix 6): each step's heading now takes focus (test) | — | Companion line | Pass | Fixed (fix 3) | No loops |
+| Settings index, search and all 17 pages | Search, presets, rows; anchors from search (V9 tests) | Undo toasts | Search results `polite` | Pass after fix 2 | No overflow | — |
+| Demo launcher and HUD | Real buttons, Space/arrows/Esc while the tour runs | — | Caption `polite` | Pass | No overflow | — |
+| Shortcuts and help sheets | ? and the menu; Escape closes (test) | Radix traps and returns focus | — | Pass | — | — |
+| What's new | Heading takes focus on each page | It's a page-sized dialog | — | Pass | No overflow | — |
+
+Contrast for every theme's text pairs is checked by
+`lib/theme/__tests__/contrast.test.ts` (jsdom can't compute colors, so axe
+skips it there).
+
+Fixes the audit found:
+1. The studio's section headings jumped from h1 to h3; they're h2 now.
+2. With "follow my device" on, Appearance had two "Light", "Dark" and
+   "High contrast" regions; they're named groups now ("When my device is
+   light, Dark").
+3. In Close the day, at 150% text, the companion's bubble ran 9 px off the
+   right edge, and when centered it covered Close. It now sits beside the
+   companion. While there I noticed every bubble's tail pointed away from
+   the companion; it now points at it.
+4. The menu's About Tide and What's new's links still used v1's
+   `/settings#about`, which opened the Settings index instead of the page.
+   Old hash links now open the right page (the support page's v1 link
+   too).
+5. The shortcut list put "1 2 3 4 5" one per line; it says "1 to 5".
+6. Close the day kept focus on the Next button when the step changed, so
+   a screen reader didn't say the new step. Each step's heading now takes
+   focus, as in onboarding and What's new.
+
+**Performance (spec 5.6)**
+
+| Check | Result |
+|---|---|
+| First-load JS, `/` | 298 KB gzipped (budget 300; V10 was 296) |
+| Other routes | `/tasks` 309, `/shore` 316, `/settings` 296, `/wrap` 337, `/demo` 244 KB (no budget in the spec) |
+| Frame rate, Lively motion, no throttling | Today 60 fps, check-in sheet opening 60 fps, Shore 60 fps; no frame over 20 ms in 3 s |
+| Loops off screen or hidden | Shore and Check in breath pause (unit test); companion already did |
+| Lazy pieces | Shortcut list, help sheet and tooltips load only where used |
+
+**Copy pass**
+All new strings are sentence case, short, and say what happens. A new
+test (`src/test/copyGuards.test.ts`) walks every string in `en.ts` and the
+companion copy: no emojis, and none of the guilt phrases (streaks, "missed
+you", "overdue", "you failed", "falling behind"…). None of V11's strings
+change by communication mode; they're already literal.
+
+**Not done (honest list)**
+- Frame rate with 4× CPU throttling: the browser pane here can't throttle,
+  so it stays with the team (TEAM_TODO, Performance).
+- The install prompt itself: this browser pane doesn't offer installing,
+  so I saw the honest "doesn't offer" line; the Chromium path is covered
+  by a test with a fake event. A real check on Chrome and an iPhone is in
+  TEAM_TODO.
+- No service worker: if Tide is reloaded with no network, the browser
+  can't load it. The pill covers the network dropping while it's open.
+- A real screen reader pass is still a human job (TEAM_TODO).
+- The top bar's companion head has no tooltip: it's a picture with an
+  accessible name, and a tooltip there would load Radix Tooltip on every
+  first visit, with `/` at 298 of 300 KB.
+
+**Final checks:** lint and typecheck clean; 439 tests in 69 files and the
+v1 suite (33 files, 164 tests) green; build clean; `/` 298 KB gzipped.
+The bubble fix re-measured at 150% text on a 375 px screen: it sits at
+179–343 px, inside the page, and focus lands on the step's heading.
+
+**Decisions:** D116–D123.

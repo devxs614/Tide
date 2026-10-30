@@ -21,7 +21,7 @@ export type Entry =
   | { kind: 'text'; key: Key; label: string; help?: string; max: number; keywords?: string[] }
   | { kind: 'custom'; id: CustomId; label: string; keys?: Key[]; keywords?: string[] };
 
-export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'demo' | 'about';
+export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'demo' | 'about';
 
 const L = copy.set.labels;
 const H = copy.set.help;
@@ -138,6 +138,13 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
     ],
   },
   { id: 'people', entries: [{ kind: 'custom', id: 'people', label: copy.settings.people, keywords: ['contacts', 'trusted', 'campus', 'support', 'counselor'] }] },
+  {
+    id: 'shortcuts',
+    entries: [
+      { kind: 'switch', key: 'shortcuts.enabled', label: L.shortcuts, help: H.shortcuts, keywords: ['keyboard', 'keys', 'hotkeys', 'shortcuts'] },
+      { kind: 'custom', id: 'shortcutsList', label: copy.shortcuts.title, keywords: ['keyboard', 'keys'] },
+    ],
+  },
   { id: 'demo', entries: [{ kind: 'custom', id: 'demo', label: copy.settings.demo, keywords: ['demo', 'example', 'maya', 'tour'] }] },
   { id: 'about', entries: [{ kind: 'custom', id: 'about', label: copy.settings.about, keywords: ['version', 'credits', 'about', "what's new"] }] },
 ];

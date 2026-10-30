@@ -16,15 +16,16 @@ import { ProgressBar } from '@/components/ui/progress-bar';
 import { WaveMark } from '@/components/ui/wave-mark';
 import { Companion } from '@/components/companion/Companion';
 import { cn } from '@/lib/utils';
+import { InstallButton } from '@/components/shell/InstallButton';
 
 type PageId = keyof typeof copy.whatsNew.pages;
 const PAGES: Array<{ id: PageId; href: string }> = [
   { id: 'companions', href: '/companion' },
-  { id: 'look', href: '/settings#appearance' },
+  { id: 'look', href: '/settings/appearance' },
   { id: 'shore', href: '/shore' },
   { id: 'wrap', href: '/' },
   { id: 'settings', href: '/settings' },
-  { id: 'demo', href: '/settings#demo' },
+  { id: 'demo', href: '/settings/demo' },
 ];
 
 export function WhatsNewSheet({ asPage = false, onClose }: { asPage?: boolean; onClose?: () => void }) {
@@ -81,6 +82,7 @@ export function WhatsNewSheet({ asPage = false, onClose }: { asPage?: boolean; o
             {copy.whatsNew.tryLook}
           </Button>
         )}
+        {last && <InstallButton />}
       </section>
       <div className="flex flex-col gap-2">
         <Button size="block" onClick={() => close(page.href)}>

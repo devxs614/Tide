@@ -13,6 +13,8 @@ import type { Win } from '@/lib/types';
 import { AddWinForm } from './AddWinForm';
 import { RewardsList } from './RewardsList';
 import { WinItem } from './WinItem';
+import { ScreenSkeleton } from '@/components/ui/skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
 
 function groupByDay(wins: Win[]): Array<{ day: string; label: string; wins: Win[] }> {
   const groups: Array<{ day: string; label: string; wins: Win[] }> = [];
@@ -28,7 +30,7 @@ function groupByDay(wins: Win[]): Array<{ day: string; label: string; wins: Win[
 
 export function ProofScreen() {
   const wins = useLiveQuery(async () => (await db.wins.orderBy('ts').reverse().toArray()).filter((w) => w.ts <= now()), []);
-  if (!wins) return null;
+  if (!wins) return <ScreenSkeleton rows={3} />;
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">
@@ -37,7 +39,7 @@ export function ProofScreen() {
       </div>
       <AddWinForm />
       {wins.length === 0 ? (
-        <p className="text-ink-soft">{copy.proof.empty}</p>
+        <EmptyState body={copy.proof.empty} className="py-4" />
       ) : (
         groupByDay(wins).map((g) => (
           <section key={g.day} aria-labelledby={`day-${g.day}`} className="flex flex-col gap-2">

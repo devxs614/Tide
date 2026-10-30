@@ -20,6 +20,7 @@ const BackupControls = load(() => import('./BackupControls').then((m) => m.Backu
 const CompanionSection = load(() => import('./CompanionSection').then((m) => m.CompanionSection));
 const DataSection = load(() => import('./DataSection').then((m) => m.DataSection));
 const DemoSection = load(() => import('./DemoSection').then((m) => m.DemoSection));
+const ShortcutsList = load(() => import('@/components/shell/ShortcutsList').then((m) => m.ShortcutsList));
 const PeopleSection = load(() => import('./PeopleSection').then((m) => m.PeopleSection));
 const ModePicker = load(() => import('./PreferencePickers').then((m) => m.ModePicker));
 const TextSizePicker = load(() => import('./PreferencePickers').then((m) => m.TextSizePicker));
@@ -59,6 +60,14 @@ export function CustomControl({ id }: { id: CustomId }) {
       return <Anchored id={id}><PeopleSection /></Anchored>;
     case 'demo':
       return <Anchored id={id}><DemoSection /></Anchored>;
+    case 'shortcutsList':
+      return (
+        <Anchored id={id}>
+          {/* The page title already says "Keyboard shortcuts". */}
+          <p className="mb-2 text-ink-soft">{copy.shortcuts.intro}</p>
+          <ShortcutsList />
+        </Anchored>
+      );
     case 'about':
       return (
         <Anchored id={id}>

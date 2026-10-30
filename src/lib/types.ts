@@ -323,6 +323,8 @@ export interface Settings {
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;
+  // Desktop keyboard shortcuts (v2 spec 17.1); never while typing.
+  'shortcuts.enabled': boolean;
   // "Not tonight" / "Not now" on Today's evening and morning cards hide
   // them for that date only.
   'wrap.eveningHiddenFor': string | null;
