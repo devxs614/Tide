@@ -1,61 +1,60 @@
 'use client';
 
-// Settings, in the order of the spec: profile, companion, comfort, how Tide talks, AI
-// suggestions, people and support, your data, demo, about. Every change is
-// saved and applied at once; there is no "Save" button to forget.
-import { useState } from 'react';
+// Settings 2.0, the index (v2 spec 15.1): search at the top, quick presets,
+// the companion, and every section as a row. Each section opens its own page
+// with a live preview. Every change applies at once; there is no Save button.
+import Link from 'next/link';
+import type { LucideIcon } from 'lucide-react';
+import {
+  Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves,
+} from 'lucide-react';
 import { copy } from '@/copy/en';
-import { useSettings } from '@/lib/settings';
-import { AboutSection } from './AboutSection';
-import { AiSection } from './AiSection';
-import { AppearanceSection } from './AppearanceSection';
-import { ComfortSection } from './ComfortSection';
+import { SECTIONS, type SectionId } from '@/lib/settings/catalog';
 import { CompanionSection } from './CompanionSection';
-import { DataSection } from './DataSection';
-import { DemoSection } from './DemoSection';
-import { PeopleSection } from './PeopleSection';
-import { ModePicker } from './PreferencePickers';
-import { Section } from './Section';
-import { SoundSection } from './SoundSection';
-import { VoicePicker } from './VoicePicker';
+import { PresetsRow } from './PresetsRow';
+import { SettingsSearch } from './SettingsSearch';
+
+const ICONS: Record<SectionId, LucideIcon> = {
+  profile: UserRound,
+  companion: PawPrint,
+  appearance: Eye,
+  motion: Waves,
+  sound: Bell,
+  voice: Volume2,
+  language: Languages,
+  checkin: PenLine,
+  day: CalendarClock,
+  focus: Timer,
+  patterns: Sparkles,
+  shore: Shell,
+  privacy: ShieldCheck,
+  people: HeartHandshake,
+  demo: PlayCircle,
+  about: Info,
+};
 
 export function SettingsScreen() {
-  const { settings, update } = useSettings();
-  // Its own text, saved as it changes: binding the field to the saved value
-  // dropped letters when typing fast (found in V6 with a keyboard test).
-  const [name, setName] = useState(settings.name);
   return (
-    <div className="flex flex-col gap-8">
-      <Section id="profile" title={copy.settings.profile}>
-        <label htmlFor="profile-name" className="font-bold">
-          {copy.settings.nameLabel}
-        </label>
-        <input
-          id="profile-name"
-          value={name}
-          maxLength={40}
-          onChange={(e) => {
-            setName(e.target.value);
-            void update('name', e.target.value);
-          }}
-          className="min-h-12 rounded-input border border-line bg-surface-2 px-3 text-body"
-        />
-      </Section>
+    <div className="flex flex-col gap-6">
+      <SettingsSearch />
+      <PresetsRow />
       <CompanionSection />
-      <ComfortSection />
-      <AppearanceSection />
-      <Section id="voice" title={copy.voice.title}>
-        <VoicePicker />
-      </Section>
-      <SoundSection />
-      <Section id="talk" title={copy.settings.howTideTalks}>
-        <ModePicker legend={copy.settings.howTideTalks} />
-      </Section>
-      <AiSection />
-      <PeopleSection />
-      <DataSection />
-      <DemoSection />
-      <AboutSection />
+      <nav aria-label={copy.settings.title}>
+        <ul className="flex flex-col gap-2">
+          {SECTIONS.map(({ id }) => {
+            const Icon = ICONS[id];
+            return (
+              <li key={id}>
+                <Link href={`/settings/${id}`} className="press-3d card flex min-h-14 items-center gap-3 px-4 py-3 [--ledge-color:var(--line)] hover:bg-surface-2">
+                  <Icon aria-hidden className="size-5 text-primary" />
+                  <span className="flex-1 font-display font-extrabold">{copy.set.sections[id]}</span>
+                  <ChevronRight aria-hidden className="size-5 text-ink-soft" />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
     </div>
   );
 }

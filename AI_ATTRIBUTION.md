@@ -130,6 +130,9 @@ what I generated and what came from elsewhere.
 | `prompts/06-wrapup.md`, `src/app/api/ai/wrapup/**`, wrap-up parts of `lib/ai/{schemas,fallbacks,runAi,types,prompts,promptDocs}.ts`, `data/demo/cachedResponses.ts`, `/prompts-doc` v2 section | The wrap-up AI route | Prompt text: the team's spec (14.6); code: Claude Code | D102, D103 |
 | `src/lib/repo/dayWraps.ts`, new helpers in `repo/tasks.ts`, `src/lib/wrap/**` (facts, monotone curve, hard summary, tests) | Close the day logic | Claude Code | Fritsch–Carlson monotone interpolation, a standard method |
 | `src/components/wrap/**`, `src/app/wrap/page.tsx`, `components/today/{EveningCard,MorningCard}.tsx`, `components/tasks/SomedayList.tsx`, `components/patterns/HardSummary.tsx`, `lib/patterns/rules/wrapHelped.ts` | Close the day UI, Today cards, Someday, patterns | Claude Code | D104–D106 |
+| `src/lib/settings/{schema,catalog,searchIndex,useUndoableUpdate}.ts`, `src/lib/repo/backup.ts`, tests | Settings 2.0 logic | Claude Code | Spec 15 (D107–D109) |
+| `src/components/settings/{SettingsScreen,SectionPage,SettingControl,CustomControl,LivePreview,PresetsRow,SettingsSearch,BackupControls}.tsx`, `src/app/(app)/settings/[section]/page.tsx`, `Settings2.test.tsx` | Settings index and section pages | Claude Code | v1 `AppearanceSection`/`ComfortSection` replaced |
+| `src/lib/sound/useAmbience.ts`, `src/lib/useWakeLock.ts` and the new settings read in check-in, Today, Day Mode, focus, patterns, shore, time formatting | Wiring the settings | Claude Code | D108, D110, D111 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

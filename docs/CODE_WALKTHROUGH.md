@@ -901,3 +901,33 @@ morning, `MorningCard` reads last night's anchor.
 - *What if I close the app halfway?* It resumes at the same step.
 - *Does it nag?* No notifications; the evening card hides with "Not
   tonight".
+
+## Settings 2.0 (V9)
+
+**What it does for Maya.** One place to make Tide fit her: search,
+presets, a page per topic with a live preview, and Undo for big changes.
+Every control does something real.
+
+**Files**
+- `lib/settings/catalog.ts` (sections and controls as data),
+  `searchIndex.ts`, `schema.ts` (zod for every key), `presets.ts`,
+  `useUndoableUpdate.ts`; `lib/repo/backup.ts` (backup and settings files).
+- `components/settings/SettingsScreen.tsx` (index), `SectionPage.tsx`,
+  `SettingControl.tsx`, `CustomControl.tsx`, `LivePreview.tsx`,
+  `PresetsRow.tsx`, `SettingsSearch.tsx`, `BackupControls.tsx`.
+
+**Data flow.** A control calls `update` (or the undoable version) → the
+settings table → `SettingsProvider` re-renders and repaints `<html>` →
+every screen reads the new value. Search scores the catalog's labels and
+keywords and links to `/settings/<section>#setting-<key>`, where the page
+scrolls to the control and rings it.
+
+**Decisions worth defending**
+- Data-driven pages (D107); unbuilt settings hidden, not fake (D109).
+- Import is all-or-nothing, with a summary first.
+
+**Likely reviewer questions**
+- *Is every setting real?* The log has the checklist, with how each was
+  checked.
+- *Can a bad file break the app?* No: each value is checked; bad ones
+  keep the current value and are reported.

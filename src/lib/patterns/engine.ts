@@ -20,7 +20,11 @@ export function computePatterns(input: PatternInput): PatternResult[] {
     ...stateTaskStart(safeInput),
     ...strategyEffect(safeInput),
     ...wrapHelped(safeInput),
-  ].filter((p) => !input.dismissedKeys.has(p.key));
+  ]
+    .filter((p) => !input.dismissedKeys.has(p.key))
+    // Settings → Patterns "need more evidence" (v2 spec 20.4): only ever
+    // raises the bar; v1 callers pass nothing and see the same results.
+    .filter((p) => !(input.minEvidence && input.minEvidence > 3) || p.n >= input.minEvidence);
 
   // Most certain first, then the biggest difference from usual, then the
   // most observations. Patterns without a baseline count as no difference.

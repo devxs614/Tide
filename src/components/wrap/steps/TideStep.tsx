@@ -12,7 +12,7 @@ export function TideStep({ facts }: WrapStepProps) {
   return (
     <>
       <h1 className="text-h2 font-extrabold">{copy.wrap.tideTitle}</h1>
-      <DayTideChart facts={facts} dayStart={settings['day.start']} dayEnd="23:00" />
+      <DayTideChart facts={facts} dayStart={settings['day.start']} dayEnd={settings['day.end']} />
       <p>
         {fill(copy.wrap.factsSentence, {
           c: facts.checkins.length,

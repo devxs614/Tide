@@ -8,6 +8,7 @@
 import { Check } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
+import { useUndoableUpdate } from '@/lib/settings/useUndoableUpdate';
 import { QUADRANT_PALETTES, THEMES, THEME_IDS, type ThemeGroup, type ThemeId } from '@/lib/theme/themes';
 import { SwitchRow } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
@@ -79,7 +80,8 @@ function Grid({ selected, onPick, label }: { selected: ThemeId; onPick: (id: The
 }
 
 export function ThemeGrid() {
-  const { settings, update, updateMany } = useSettings();
+  const { settings, update } = useSettings();
+  const undoable = useUndoableUpdate();
   const follow = settings['appearance.followSystem'];
   return (
     <div className="flex flex-col gap-4" data-demo-id="theme-grid">
@@ -92,16 +94,17 @@ export function ThemeGrid() {
       />
       {follow ? (
         <>
-          <Grid label={copy.themes.whenLight} selected={settings['appearance.lightTheme']} onPick={(id) => void update('appearance.lightTheme', id)} />
-          <Grid label={copy.themes.whenDark} selected={settings['appearance.darkTheme']} onPick={(id) => void update('appearance.darkTheme', id)} />
+          <Grid label={copy.themes.whenLight} selected={settings['appearance.lightTheme']} onPick={(id) => undoable({ 'appearance.lightTheme': id })} />
+          <Grid label={copy.themes.whenDark} selected={settings['appearance.darkTheme']} onPick={(id) => undoable({ 'appearance.darkTheme': id })} />
         </>
       ) : (
         <Grid
           selected={settings['appearance.theme']}
           // Remember the pick as this person's light or dark favorite too, so
           // the quick Light/Dark switch and "follow my device" use it later.
+          // A new theme is a big change, so it comes with Undo.
           onPick={(id) =>
-            void updateMany({
+            undoable({
               'appearance.theme': id,
               ...(THEMES[id].scheme === 'dark' ? { 'appearance.darkTheme': id } : { 'appearance.lightTheme': id }),
             })

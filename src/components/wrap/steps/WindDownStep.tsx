@@ -4,6 +4,7 @@
 // companion, emptying your head into tasks for tomorrow, or just resting.
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useAmbience } from '@/lib/sound/useAmbience';
 import { copy, fill } from '@/copy/en';
 import { addTask, moveToDate } from '@/lib/repo/tasks';
 import { tomorrowOf } from '@/lib/wrap/facts';
@@ -15,6 +16,8 @@ import type { WrapStepProps } from '../WrapStep';
 export function WindDownStep({ facts, save, next }: WrapStepProps) {
   const [choice, setChoice] = useState<'breathing' | 'brain_dump' | null>(null);
   const [text, setText] = useState('');
+  // Waves (or the chosen ambience) under the slow breathing, if sound is on.
+  useAmbience(choice === 'breathing');
 
   const dump = async () => {
     const lines = text.split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 12);

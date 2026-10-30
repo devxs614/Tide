@@ -295,7 +295,30 @@ export interface Settings {
   'day.start': string;
   'day.wrapTime': string;
   'day.transitionLead': 5 | 10 | 15;
-  'day.clock': '12h' | '24h';
+  'language.timeFormat': '12h' | '24h';
+  'language.dateStyle': 'long' | 'short';
+  // Settings 2.0 (spec 15.2). Each one changes something real; the log has
+  // the checklist of what and how it was checked.
+  pronouns: string;
+  'day.end': string;
+  'day.gentleBudget': number;
+  'day.minimumBudget': number;
+  'day.dayModeSuggestions': boolean;
+  'day.showMoved': boolean;
+  'day.morningCard': boolean;
+  'day.wrapCard': boolean;
+  'checkin.defaultPath': 'words' | 'body' | 'map';
+  'checkin.vocabulary': 'simple' | 'full';
+  'checkin.showCauses': boolean;
+  'checkin.showFollowUp': boolean;
+  'checkin.mapStyle': 'map' | 'sliders';
+  'focus.defaultMinutes': 'auto' | 5 | 10 | 15 | 25;
+  'focus.companionActivity': boolean;
+  'focus.endSound': boolean;
+  'patterns.enabled': boolean;
+  'patterns.minEvidence': 3 | 5;
+  'patterns.defaultPeriod': 7 | 28;
+  'shore.showLabels': boolean;
   'shore.sky': 'time' | 'theme' | 'static';
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;

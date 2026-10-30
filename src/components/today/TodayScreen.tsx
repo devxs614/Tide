@@ -71,21 +71,21 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
       <ChooseCompanionCard />
       <StateCard latest={data.latest} />
       <BottleCard />
-      <MorningCard nowTs={nowTs} />
-      {banner && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
+      {settings['day.morningCard'] && <MorningCard nowTs={nowTs} />}
+      {banner && settings['day.dayModeSuggestions'] && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
       <TransitionRating nowTs={nowTs} />
       {bridge ? <BridgeCard bridge={bridge} /> : next && <NextTransitionCard event={next} nowTs={nowTs} />}
       <TideLine
         events={data.events}
         tasks={todaysTasks(data.tasks, data.plan, today)}
-        moved={movedFromToday(data.tasks, today)}
+        moved={settings['day.showMoved'] ? movedFromToday(data.tasks, today) : []}
         nowTs={nowTs}
         today={today}
         quadrant={data.latest?.quadrant ?? null}
         onAddEvent={() => setAddingEvent(true)}
         onAddTask={() => setAddingTask(true)}
       />
-      <EveningCard nowTs={nowTs} />
+      {settings['day.wrapCard'] && <EveningCard nowTs={nowTs} />}
       <ShorePreview />
       <WhenOpened open={addingEvent}>
         <AddEventSheet open={addingEvent} onOpenChange={setAddingEvent} dayStart={dayStart} />

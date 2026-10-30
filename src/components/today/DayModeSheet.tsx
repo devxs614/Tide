@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { copy } from '@/copy/en';
 import { useAi } from '@/lib/ai/useAi';
 import { now } from '@/lib/clock';
-import { buildDayModeInput, ENERGY_BUDGET, plannableTasks, type LighterMode } from '@/lib/daymode';
+import { buildDayModeInput, plannableTasks, type LighterMode } from '@/lib/daymode';
 import { db } from '@/lib/db';
 import { recentCheckIn } from '@/lib/latestState';
 import { applyDayPlan, undoDayPlan } from '@/lib/repo/dayPlans';
@@ -34,6 +34,7 @@ export function DayModeSheet() {
 
 function DayModeBody({ onClose }: { onClose: () => void }) {
   const { settings } = useSettings();
+  const budgets = { gentle: settings['day.gentleBudget'], minimum: settings['day.minimumBudget'] };
   const { run } = useAi('daymode');
   const [requested, setRequested] = useState<LighterMode | null>(null);
   const [planned, setPlanned] = useState<Task[]>([]);
@@ -50,7 +51,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
       db.events.where('start').between(startOfDay(at), endOfDay(at)).sortBy('start'),
       recentCheckIn(at),
     ]);
-    const input = buildDayModeInput({ mode: settings.communicationMode, requested: mode, now: at, latest, tasks, events });
+    const input = buildDayModeInput({ mode: settings.communicationMode, requested: mode, now: at, latest, tasks, events, budgets });
     const result = await run(input);
     setPlanned(plannableTasks(tasks));
     setKeep(result.data.keep);
@@ -82,7 +83,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
       <DayModeProposal
         tasks={planned}
         keep={keep}
-        budget={ENERGY_BUDGET[requested]}
+        budget={budgets[requested]}
         rationale={rationale}
         onToggle={(id) => setKeep((k) => (k.includes(id) ? k.filter((x) => x !== id) : [...k, id]))}
         onApply={() => void apply()}

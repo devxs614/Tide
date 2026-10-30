@@ -23,10 +23,20 @@ export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;
 export const DAY = 24 * HOUR;
 
+// Maya's clock and date style (Settings → Language). Set once by the
+// settings provider, so every formatter follows it without passing it down.
+let clock24 = false;
+let shortDates = false;
+export function setTimePreferences(prefs: { timeFormat: '12h' | '24h'; dateStyle: 'long' | 'short' }): void {
+  clock24 = prefs.timeFormat === '24h';
+  shortDates = prefs.dateStyle === 'short';
+}
+
 export function formatTime(ts: number): string {
   const d = new Date(ts);
   const h = d.getHours();
   const m = d.getMinutes();
+  if (clock24) return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   const suffix = h < 12 ? 'am' : 'pm';
   const hour12 = h % 12 === 0 ? 12 : h % 12;
   return `${hour12}:${String(m).padStart(2, '0')} ${suffix}`;
@@ -47,6 +57,7 @@ export function shortMonth(ts: number): string {
 // "Thursday, November 5"
 export function formatLongDate(ts: number): string {
   const d = new Date(ts);
+  if (shortDates) return `${weekdayName(ts).slice(0, 3)}, ${MONTHS[d.getMonth()].slice(0, 3)} ${d.getDate()}`;
   return `${weekdayName(ts)}, ${MONTHS[d.getMonth()]} ${d.getDate()}`;
 }
 
