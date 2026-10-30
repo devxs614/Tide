@@ -5,6 +5,20 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V3: Companions
+- Six original companions (Pebble the otter, Lolo the axolotl, Capi the
+  capybara, Zip the gecko, Luma the jellyfish, Shelby the hermit crab), or
+  none. Each has 14 expressions, four colors and 12 accessories, all
+  unlocked from the start.
+- They breathe, blink, react and have a signature move; only one animates
+  at a time, and they hold still off screen or at motion Off.
+- Kind lines for every moment, in each companion's voice (Gentle) or plain
+  shared lines (Direct, Literal). No guilt, no "missed you".
+- The Companion Studio (`/companion`, also from Settings → Companion):
+  name, look, how much they talk, where they appear, their voice, a
+  one-breath preview, and Undo for species and name changes.
+- The companions are not on the app's screens yet; that's V4.
+
 ### V2: Sound, haptics and voice
 - Soft synthesized sounds (off by default): taps, switches, chimes, shore
   sounds and companion chirps, plus waves, rain or brown noise for focus.

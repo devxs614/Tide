@@ -107,6 +107,12 @@ what I generated and what came from elsewhere.
 | `src/app/api/tts/route.ts`, `src/app/api/tts/status/route.ts` | Natural voice route and its status | Claude Code | |
 | `scripts/generate-voice-clips.mjs` | Pre-generates voice clips with the configured provider | Claude Code | Uses Vite's module loader (D70) |
 | `src/components/settings/SoundSection.tsx`, `VoicePicker.tsx` (rewritten in v2), `src/components/ui/ReadAloudButton.test.tsx` | Sound & haptics and Voice settings; read-aloud flow test | Claude Code | |
+| `src/lib/companion/**` (registry, palette, name rules, bus, loop permission, `useCompanion`, `useCompanionVoice`, tests) | The companion engine | Claude Code | Spec 8 (D74–D76) |
+| `src/components/companion/species/*.tsx`, `parts/Face.tsx`, `parts/Accessory.tsx` | Original SVG art for the six companions, their shared face and 12 accessories | Claude Code | Original characters drawn for Tide, not traced from any existing artwork; spec 8.3 art direction |
+| `src/components/companion/companion.css`, `CompanionFigure.tsx`, `Companion.tsx`, `CompanionHost.tsx`, `CompanionSay.tsx`, `NoneCompanion.tsx`, tests | Animation, figure, event host, speech bubble, "no companion" | Claude Code | CSS instead of framer-motion (D73) |
+| `src/components/companion/studio/*`, `src/app/companion/page.tsx`, `src/components/settings/CompanionSection.tsx` | Companion Studio and its Settings entry | Claude Code | Spec 8.8; flow test 4 |
+| `src/components/companion/CompanionGallery.tsx`, `src/app/dev/companions/page.tsx` | Dev-only companion gallery | Claude Code | 404 in production |
+| `src/copy/companions.ts`, `src/copy/__tests__/companions.test.ts` | Companion lines and Studio copy | Lines: the team's Appendix B; About texts and Studio copy: Claude Code | About texts are general, well-known facts about each animal |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

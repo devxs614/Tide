@@ -1396,3 +1396,91 @@ English, a calm pace, gentle voices first) carry over into the new engine.
   engine; replaced with a test of Settings → Voice (D71).
 
 **Decisions:** D67–D72.
+
+## Before Phase V3 — Companions (engine and art)
+2026-10-29, 16:35
+
+For Maya: a small companion to keep her company (Pebble the otter, Lolo
+the axolotl, Capi the capybara, Zip the gecko, Luma the jellyfish, Shelby
+the hermit crab) or no companion at all. It breathes, blinks, reacts to what
+she tells it, has a few kind lines in her communication mode, and never
+looks sad or makes her feel she owes it anything. In this phase I build the
+characters, their expressions, accessories and lines, the event bus that
+will let the rest of the app talk to them, and the Companion Studio page;
+V4 places them across the app.
+
+What it touches in v1: nothing that exists yet, except new settings keys
+and copy. How I avoid breaking things: everything is new files; the
+companion art loads lazily, one species at a time, so first-load size stays
+put; existing users get no companion until they choose one.
+
+One design call up front: the spec suggests framer-motion variants for the
+animation. I'll animate with CSS transforms and keyframes instead (same
+motion, nothing added to the bundle, pausable with one attribute), and log
+it as a decision.
+
+## After Phase V3 — Companions (engine and art)
+2026-10-29, 20:55
+
+**What I built**
+- Six original companions drawn as SVG, one file per species
+  (`src/components/companion/species/`), each loaded only when needed. They
+  share one face (`parts/Face.tsx`), so every species has all 14
+  expressions with the same eyes and mouths, and one set of 12 accessories
+  (`parts/Accessory.tsx`) that sit on each species' head, face, neck or back.
+- The registry (`src/lib/companion/registry.ts`): names, four color
+  variants each, attachment points, sounds, placements and sizes.
+- Animation in CSS (`companion.css`): breathing, blinking, a lively bob,
+  expression fades, poses, one-shot reactions, each species' signature
+  idle, focus activities, breath sync and walking. Only the biggest
+  companion on screen loops; the others hold still, and everything pauses
+  off screen or in a hidden tab.
+- Every line in Appendix B (`src/copy/companions.ts`), plus shared Direct
+  and Literal lines, picked by day so a line doesn't flip between renders.
+- `useCompanion`, the typed event bus and `CompanionHost`, which turns
+  events into an expression, a reaction and a line, and settles back after
+  4 seconds. V4 puts hosts on the real screens.
+- The speech bubble, the "no companion" wave, and the Companion Studio at
+  `/companion`: a little shore with the companion at 180px (tap it for a
+  wave, a hop, a wiggle and its signature move), the name with gentle
+  validation, Look / Personality / Where it appears / Voice tabs, a
+  one-breath preview with the companion leading, and an About paragraph.
+  Species and name changes come with Undo. Settings got a Companion row
+  that opens the Studio.
+- A dev-only gallery at `/dev/companions` (a 404 in production builds).
+
+**How I checked it**
+- Lint, typecheck, all 48 test files (320 tests), the v1 suite (33 files,
+  164 tests) and the build are green. The freeze test still passes.
+- New tests: registry completeness, lines for every species and moment,
+  placeholders filled in every mode, a scan of `companions.ts` for the
+  forbidden phrases, name rules, every species drawing every expression in
+  every color and wearing each accessory once, the figure's screen-reader
+  name, and spec flow test 4 (Studio: species, name, color, accessory,
+  Undo) plus "none" as a real choice.
+- In the browser pane at phone width I looked at every species in the
+  gallery in all sizes, colors and accessories, then used the Studio:
+  picked Pebble, tapped her, tried colors and accessories, ran the breath
+  preview, heard a line in the bubble, went through the tabs and switched
+  to Lolo. Afterwards I removed the companion settings I had changed in
+  that browser.
+- Not checked yet: dark themes and motion Off/Lively side by side in the
+  gallery for every species. I looked at a few; V11's visual pass covers
+  the rest.
+
+**What broke and how I fixed it**
+- Companions that weren't the "loop leader" lost their eyes: the pause
+  rule froze the 120ms fade-in at opacity 0. The pause now skips the fade.
+- Accessories drew twice on some species, because one call covered every
+  slot; each call now names its slots.
+- The calm "half" eye read as unimpressed with a flat lid. I curved the
+  lid so it reads as relaxed.
+- In the breath preview the eyes stayed shut on the out-breath; the spec
+  says they open, so the breathing face now rests on soft open eyes and
+  closes only on the in-breath and its hold.
+- The species row in the Studio snapped its first card against the screen
+  edge; scroll padding fixed it.
+- A line test failed because the test didn't pass the minutes value. My
+  test, not the copy.
+
+**Decisions:** D73–D77.

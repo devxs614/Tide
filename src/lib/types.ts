@@ -2,6 +2,7 @@
 // These mirror Section 8.1 of the build spec; the Dexie tables in db.ts and
 // the repo functions in lib/repo/ are typed against them.
 import type { ThemeId } from './theme/themes';
+import type { AccessoryId, CompanionSpecies, Placement } from './companion/registry';
 
 export type Quadrant = 'surge' | 'swell' | 'ebb' | 'still';
 export type CommunicationMode = 'gentle' | 'direct' | 'literal';
@@ -207,6 +208,20 @@ export interface Settings {
   'voice.readCompanion': boolean;
   'voice.breathingCues': boolean;
   'privacy.naturalVoiceAllowed': boolean;
+  // null until chosen: existing users meet the companions in "What's new";
+  // new users choose in onboarding (Lolo if they skip, v2 spec 11.2).
+  'companion.species': CompanionSpecies | 'none' | null;
+  // '' means the species' own name (Pebble, Lolo…).
+  'companion.name': string;
+  'companion.variant': string;
+  'companion.accessory': AccessoryId;
+  'companion.size': 'sm' | 'md' | 'lg';
+  'companion.talkativeness': 'quiet' | 'some' | 'chatty';
+  'companion.placements': Record<Placement, boolean>;
+  'companion.faceStyle': 'dots' | 'none';
+  'companion.mirrorState': boolean;
+  // A cloud voice id; '' means the species' own default voice.
+  'companion.voice': string;
 }
 
 export type VoiceAccent = 'auto' | 'en-US' | 'en-GB' | 'en-AU' | 'en-CA' | 'en-IN' | 'en-IE' | 'en-ZA';

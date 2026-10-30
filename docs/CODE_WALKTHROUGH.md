@@ -653,3 +653,66 @@ Storage) and the device voice, in that order for Auto.
 - *How do I make the demo voice work offline?* Add a key and run
   `npm run voice:clips`.
 
+
+## Companions (V3)
+
+**What it does for Maya.** She can choose a small companion (or none) that
+keeps her company: it breathes and blinks, reacts kindly to what she does,
+says a short line now and then in her communication mode, and never looks
+sad or makes her feel she owes it anything. She meets and customizes it in
+the Companion Studio.
+
+**Files**
+- `src/lib/companion/registry.ts` — species, expressions, reactions, color
+  variants, attachment points, accessories, placements, sizes.
+- `src/lib/companion/useCompanion.ts` — the profile from settings;
+  `useCompanionVoice.ts` — which natural voice reads its lines.
+- `src/lib/companion/bus.ts` — the typed event bus (`emitCompanion`,
+  `onCompanionEvent`); `loopPermission.ts` — only the biggest companion on
+  screen loops; `name.ts` — name rules.
+- `src/components/companion/species/*.tsx` — one drawing per species;
+  `parts/Face.tsx` and `parts/Accessory.tsx` are shared.
+- `src/components/companion/CompanionFigure.tsx` (the animated SVG and its
+  timing), `companion.css` (all the motion), `Companion.tsx` (Maya's
+  companion, or a preview), `CompanionHost.tsx` (one per place; events →
+  expression, reaction, line), `CompanionSay.tsx` (the bubble),
+  `NoneCompanion.tsx` (the calm wave).
+- `src/components/companion/studio/*` and `src/app/companion/page.tsx` —
+  the Studio. `src/copy/companions.ts` — every line and Studio string.
+
+**Data flow.** Settings (`companion.*` keys) → `useCompanion()` →
+`Companion` → `CompanionFigure`, which sets `data-expression`,
+`data-reaction`, `data-breath`, `data-paused` and so on; `companion.css`
+turns those attributes into motion. A screen emits an event (say
+`checkinSaved`) → each `CompanionHost` listening for it picks an
+expression, reaction and line (`responseTo`) → after 4 seconds it settles
+back to its resting expression.
+
+**Decisions worth defending**
+- CSS animation instead of framer-motion: no bundle cost, and one
+  attribute pauses everything (D73).
+- One shared face for all species, so every species has every expression
+  (D74); accessories drawn once and placed per species (D75).
+- The companion never appears on the crisis screen, and "none" is offered
+  first in the Studio, as a real choice.
+
+**Replacing companion art.** A new drawing for a species must: export a
+component taking `SpeciesArtProps`; draw inside a 200×200 viewBox, standing
+on y≈190; take colors only from `colors` (the variant) and `PALETTE`; wrap
+the head in `<g className="cmp-head">` and put the waving limb in
+`.cmp-wave-limb`; call `<Face>` with its eye and mouth positions; call
+`<Accessory>` three times (back layer, inside the head for head and face,
+after the body for neck and back) and update the species' `attach` points
+in the registry; keep the signature-idle class names used in
+`companion.css` (for example `.otter-pebble`). Then check `/dev/companions`
+and run `npx vitest run src/components/companion`.
+
+**Likely reviewer questions**
+- *Can a companion make someone feel guilty?* There is no sad face, no
+  "missed you", no streak; a test scans the lines for the phrases that
+  sneak in most often.
+- *Does this slow the app down?* Each species' drawing loads only when
+  shown, only one companion animates at a time, and they pause off screen.
+- *Why animals?* Body doubling and a gentle presence help many
+  neurodivergent students start tasks; a companion also gives the app a
+  voice that isn't a chatbot. Anyone who doesn't want one picks "none".

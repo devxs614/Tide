@@ -97,6 +97,19 @@ up during the build. — Claude Code
   deprecated, shutting down January 6, 2027 (D68). Before then, switch
   `TIDE_TTS_OPENAI_MODEL` to its successor.
 
+## Companions (v2)
+- [ ] **Ask the Challenge Partner whether the companions feel too
+  childish** for college students, and whether any line feels off. Show
+  the Studio (`/companion`) and two or three screens. *By Nov 2.* Why: the
+  spec wants "charming, not babyish", and only real students can tell us.
+- [ ] **Check the About texts** in `src/copy/companions.ts`
+  (`COMPANION_ABOUT`): they are general facts about each animal (axolotls
+  and Xochimilco, otters holding paws, hermit crabs changing shells). A
+  quick look by someone on the team is enough. *By Nov 3.*
+- [ ] Optional: if a designer on the team wants to redraw a companion,
+  `docs/CODE_WALKTHROUGH.md` → "Replacing companion art" explains what each
+  drawing must keep. *Any time.*
+
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
 - [ ] Take screenshots for the README and the deck. *Nov 4.*
