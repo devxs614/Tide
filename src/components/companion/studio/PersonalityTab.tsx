@@ -6,7 +6,8 @@
 // a voice is available), whatever the setting, because Maya asked for it.
 import { MessageCircle } from 'lucide-react';
 import { fill } from '@/copy/en';
-import { COMPANION_COPY, companionLine, type LineContext } from '@/copy/companions';
+import { companionLine, type LineContext } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
 import type { CompanionSpecies } from '@/lib/companion/registry';
 import type { Settings } from '@/lib/types';

@@ -5,7 +5,7 @@
 import type { Metadata } from 'next';
 import { PhoneFrame } from '@/components/shell/PhoneFrame';
 import { CompanionStudio } from '@/components/companion/studio/CompanionStudio';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 
 export const metadata: Metadata = { title: `${COMPANION_COPY.studio.title} · Tide` };
 

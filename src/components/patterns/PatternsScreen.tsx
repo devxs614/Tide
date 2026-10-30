@@ -20,6 +20,8 @@ import { PeriodDots } from './PeriodDots';
 import { TopStrategies } from './TopStrategies';
 import { TransitionsSummary } from './TransitionsSummary';
 import { useNarration } from './useNarration';
+import { SIZES } from '@/lib/companion/registry';
+import { CompanionHost } from '@/components/companion/CompanionHost';
 
 type Period = 'week' | 'month';
 
@@ -37,7 +39,12 @@ export function PatternsScreen() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <h2 className="text-h1 font-bold">{copy.patterns.title}</h2>
+        {/* Curious, and nothing more: the companion never reacts to a
+            particular pattern, so it can't seem to judge one (v2 spec 9). */}
+        <div className="flex items-center gap-3">
+          <h2 className="flex-1 text-h1 font-bold">{copy.patterns.title}</h2>
+          <CompanionHost placement="patterns" size={SIZES.sm} base="curious" bubble="none" noneAlt="nothing" decorative />
+        </div>
         <div role="group" aria-label={copy.patterns.periodLabel} className="flex gap-2">
           {(['week', 'month'] as Period[]).map((p) => (
             <button

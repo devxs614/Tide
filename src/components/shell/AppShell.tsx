@@ -12,6 +12,7 @@ import { PhoneFrame } from './PhoneFrame';
 import { TopBar } from './TopBar';
 import { TabBar } from './TabBar';
 import { CheckInFab } from './CheckInFab';
+import { Splash } from './Splash';
 import dynamic from 'next/dynamic';
 import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
@@ -75,7 +76,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loaded && !settings.onboarded) router.replace('/onboarding');
   }, [loaded, settings.onboarded, router]);
-  if (!loaded || !settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
+  if (!loaded) return <PhoneFrame><Splash /></PhoneFrame>;
+  if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
 
   return (
     <PhoneFrame wide={wide}>

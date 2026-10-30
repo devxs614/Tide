@@ -82,6 +82,8 @@ export const copy = {
     tabNavLabel: 'Main',
     checkIn: 'Check in',
     profileMenu: 'Menu',
+    // The companion's head in the top bar, which opens the Companion Studio.
+    companion: 'Your companion: {name}',
     proofLog: 'Proof log',
     settings: 'Settings',
     aboutTide: 'About Tide',
@@ -874,6 +876,16 @@ export const copy = {
     shoreEmpty:
       'Your shore is quiet for now. Finish a task, get through a switch, or try a strategy, and something will wash up.',
     shoreHint: 'Every win leaves something here. Tap anything to remember it.',
+  },
+
+  // Friendly error and 404 pages (v2 spec 17.5, Appendix A). Never blame
+  // the person, never show a stack trace.
+  errors: {
+    errorTitle: 'Something went wrong on our side.',
+    errorSub: 'Your data is safe on this device.',
+    tryAgain: 'Try again',
+    goToday: 'Go to Today',
+    notFound: 'This page drifted away.',
   },
 } as const;
 

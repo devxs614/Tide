@@ -537,3 +537,15 @@ html[data-shapes="true"] .q-shape {
     break-inside: auto;
   }
 }
+
+/* A companion head on a toast (v2 spec 9) needs more room than the toast
+   library's 16px icon box; plain toasts keep the original size. */
+[data-sonner-toast] [data-icon]:has(.cmp-toast) {
+  width: 36px;
+  height: 36px;
+}
+
+/* The splash fades in after a short delay, so a quick load shows nothing. */
+.splash-in {
+  animation: tide-enter 300ms var(--ease-out) 200ms both;
+}

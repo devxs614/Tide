@@ -5,7 +5,7 @@
 // purpose, so the Studio stays the one place to change it.
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { SIZES } from '@/lib/companion/registry';
 import { Companion } from '@/components/companion/Companion';

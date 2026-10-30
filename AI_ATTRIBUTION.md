@@ -113,6 +113,10 @@ what I generated and what came from elsewhere.
 | `src/components/companion/studio/*`, `src/app/companion/page.tsx`, `src/components/settings/CompanionSection.tsx` | Companion Studio and its Settings entry | Claude Code | Spec 8.8; flow test 4 |
 | `src/components/companion/CompanionGallery.tsx`, `src/app/dev/companions/page.tsx` | Dev-only companion gallery | Claude Code | 404 in production |
 | `src/copy/companions.ts`, `src/copy/__tests__/companions.test.ts` | Companion lines and Studio copy | Lines: the team's Appendix B; About texts and Studio copy: Claude Code | About texts are general, well-known facts about each animal |
+| `src/components/companion/EmptyStateArt.tsx`, `LazyCompanion.tsx`, `companionToastIcon.tsx`, `src/components/toolkit/ToolCompanion.tsx`, `src/lib/companion/typing.ts`, `src/copy/companionCopy.ts` | Companions placed across the app | Claude Code | Spec 9 (D78–D85) |
+| `src/app/error.tsx`, `src/app/not-found.tsx`, `src/components/shell/ErrorContent.tsx`, `src/components/shell/Splash.tsx` | Friendly error, 404 and splash | Claude Code | Spec 17.4–17.5 |
+| Edits for companions in `TodayHeader`, `TopBar`, `AppShell`, `CheckInSheet`, `UnstickSheet`, `BridgeSteps`, `FocusScreen`, `BoxBreathing`, `ToolArea`, the grounding, sudoku and walk tools, `StrategyRunner`, `PatternsScreen`, `SupportScreen`, `useTaskMoves`, `useAi`, `empty-state.tsx` | Hosts and events in v1 screens | Claude Code | v1 behavior unchanged; v1 suite passes |
+| `src/components/checkin/CheckInCompanion.test.tsx`, `src/components/safety/CrisisCompanion.test.tsx`, `src/components/shell/ErrorContent.test.tsx` | Flow test 7, crisis rule, error page | Claude Code | |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

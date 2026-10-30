@@ -22,6 +22,8 @@ import { useSettings } from '@/lib/settings';
 import { useUnstickSheet, type UnstickRequest } from '@/lib/ui';
 import type { StuckReason, Task } from '@/lib/types';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { SIZES } from '@/lib/companion/registry';
+import { CompanionHost } from '@/components/companion/CompanionHost';
 import { UnstickReasons } from './UnstickReasons';
 import { UnstickStep } from './UnstickStep';
 import { recallSuggestion, rememberSuggestion, type UnstickSuggestion } from './unstickCache';
@@ -114,6 +116,17 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
 
   return (
     <>
+      {/* Soft while Maya says what's in the way, happy once there's a step. */}
+      <CompanionHost
+        placement="unstick"
+        size={SIZES.sm}
+        base={suggestion ? 'happy' : 'soft'}
+        listens={['aiLoading', 'aiDone']}
+        openingLine="unstick_offer"
+        bubble="inline"
+        noneAlt="nothing"
+        className="shrink-0 px-5 pt-5 pr-28"
+      />
       {!suggestion && <UnstickReasons task={task} loading={loading} onChoose={(reason) => ask(reason)} />}
       {suggestion && (
         <UnstickStep

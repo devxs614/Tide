@@ -4,7 +4,7 @@
 // what it wears and how big it shows up in the app. Every choice is shown on
 // the companion itself, so there's no guessing what "Sea glass" means. All
 // twelve accessories are there from day one; nothing is locked or earned.
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { ACCESSORIES, COMPANIONS, SIZES, type CompanionSpecies } from '@/lib/companion/registry';

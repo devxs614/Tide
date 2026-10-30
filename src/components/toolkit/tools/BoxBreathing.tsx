@@ -14,6 +14,11 @@ import { useSound } from '@/lib/sound/useSound';
 import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
 import type { ToolProps } from './types';
+import { SIZES } from '@/lib/companion/registry';
+import { useCompanionShown } from '@/lib/companion/useCompanion';
+import { CompanionHost } from '@/components/companion/CompanionHost';
+import type { BreathPhase } from '@/components/companion/CompanionFigure';
+import { cn } from '@/lib/utils';
 
 const SIDE_MS = 4000;
 const TOTAL_MS = 120_000;
@@ -22,6 +27,7 @@ const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.ou
 // Device voices take a moment to start; speaking a little early keeps the
 // word on the beat (v2 spec 7.9).
 const CUE_LEAD_MS = 150;
+const BREATH: BreathPhase[] = ['in', 'hold-in', 'out', 'hold-out'];
 
 // Where the dot is on the square's edge, as percentages: up the left side
 // while breathing in, across the top while holding, and so on.
@@ -40,6 +46,7 @@ export function BoxBreathing({ onDone }: ToolProps) {
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [, redraw] = useState(0);
   const cuedPhase = useRef(-1);
+  const withCompanion = useCompanionShown('toolkit');
 
   const elapsed = startedAt === null ? 0 : now() - startedAt;
   const finished = elapsed >= TOTAL_MS;
@@ -67,7 +74,10 @@ export function BoxBreathing({ onDone }: ToolProps) {
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div role="img" aria-label={copy.tools.breathe.label} className="relative size-[200px] rounded-md border-4 border-primary/40">
+      {/* With a companion, it sits in the middle of the square and breathes
+          exactly with the phases (v2 spec 9): the square grows a little to
+          fit it, and the words move under it. Without one, this is v1. */}
+      <div role="img" aria-label={copy.tools.breathe.label} className={cn('relative rounded-md border-4 border-primary/40', withCompanion ? 'size-[240px]' : 'size-[200px]')}>
         {!reduce && startedAt !== null && !finished && (
           <span
             aria-hidden
@@ -75,9 +85,26 @@ export function BoxBreathing({ onDone }: ToolProps) {
             style={{ left: `${dot.left}%`, top: `${dot.top}%` }}
           />
         )}
-        <p aria-hidden className="absolute inset-0 flex items-center justify-center p-4 text-center text-lead font-bold">
-          {label}
-        </p>
+        {withCompanion ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 p-3">
+            <CompanionHost
+              placement="toolkit"
+              size={SIZES.lg}
+              base={startedAt === null ? 'calm' : finished ? 'happy' : 'breathing'}
+              breathPhase={startedAt !== null && !finished ? BREATH[phase] : null}
+              breathPhaseMs={SIDE_MS}
+              openingLine="breathing_invite"
+              decorative
+            />
+            <p aria-hidden className="text-center font-bold">
+              {label}
+            </p>
+          </div>
+        ) : (
+          <p aria-hidden className="absolute inset-0 flex items-center justify-center p-4 text-center text-lead font-bold">
+            {label}
+          </p>
+        )}
       </div>
       <p aria-live="polite" className="sr-only">
         {startedAt === null ? '' : finished ? copy.tools.breathe.finished : PHASES[phase]}

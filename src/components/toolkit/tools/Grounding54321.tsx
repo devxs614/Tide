@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { copy, fill } from '@/copy/en';
 import { Button } from '@/components/ui/button';
+import { emitCompanion } from '@/lib/companion/bus';
 import type { ToolProps } from './types';
 
 export function Grounding54321({ onDone }: ToolProps) {
@@ -13,6 +14,12 @@ export function Grounding54321({ onDone }: ToolProps) {
   const prompts = copy.tools.grounding.prompts;
   const count = 5 - card;
   const last = card === prompts.length - 1;
+
+  // A new sense: the companion in the corner perks up (v2 spec 9).
+  const nextCard = () => {
+    setCard(card + 1);
+    emitCompanion({ type: 'nudge', expression: 'curious', reaction: 'lean' });
+  };
 
   return (
     <section aria-live="polite" className="flex flex-col gap-4 card p-4">
@@ -27,7 +34,7 @@ export function Grounding54321({ onDone }: ToolProps) {
           />
         ))}
       </div>
-      <Button onClick={() => (last ? onDone() : setCard(card + 1))}>{last ? copy.global.done : copy.global.next}</Button>
+      <Button onClick={() => (last ? onDone() : nextCard())}>{last ? copy.global.done : copy.global.next}</Button>
     </section>
   );
 }

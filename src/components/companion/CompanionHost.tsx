@@ -6,10 +6,12 @@
 // focused little activity during a focus block. Its face drifts back to the
 // place's resting expression after 4 seconds. It speaks only as much as Maya
 // chose (quiet, some, chatty), and never on the crisis screen. If she chose
-// no companion, the place shows calm waves or nothing.
+// no companion, the place shows calm waves or nothing; if she hasn't chosen
+// yet (everyone coming from v1), the place looks exactly as it did in v1.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { companionLine, type LineContext } from '@/copy/companions';
-import { quadrantName } from '@/copy/en';
+import { COMPANION_COPY } from '@/copy/companionCopy';
+import { fill, quadrantName } from '@/copy/en';
 import { emitCompanion, onCompanionEvent, type CompanionEvent } from '@/lib/companion/bus';
 import { type Expression, type Placement, type Reaction } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
@@ -39,7 +41,7 @@ interface Response {
 
 // After a check-in: close and gentle for the hard quadrants, a hop for Swell,
 // calm for Still (v2 spec 9).
-const AFTER_CHECKIN: Record<Quadrant, Response> = {
+export const afterCheckIn: Record<Quadrant, Response> = {
   surge: { expression: 'soft', reaction: 'lean' },
   swell: { expression: 'happy', reaction: 'hop' },
   ebb: { expression: 'soft', reaction: 'lean' },
@@ -52,7 +54,7 @@ export function responseTo(event: CompanionEvent): Response | null {
   switch (event.type) {
     case 'checkinSaved':
       return {
-        ...AFTER_CHECKIN[event.quadrant],
+        ...afterCheckIn[event.quadrant],
         line: `after_checkin_${event.quadrant}` as LineContext,
         vars: { quadrant: quadrantName(event.quadrant) },
       };
@@ -87,6 +89,8 @@ export function responseTo(event: CompanionEvent): Response | null {
       return { expression: 'sleeping', line: 'wrap_end', hold: true };
     case 'say':
       return { line: event.context, vars: event.vars };
+    case 'nudge':
+      return { expression: event.expression, reaction: event.reaction };
     default:
       return null;
   }
@@ -113,7 +117,10 @@ export interface CompanionHostProps {
   breathPhase?: BreathPhase | null;
   breathPhaseMs?: number;
   walking?: boolean;
-  bubble?: 'left' | 'right' | 'none';
+  // Above the companion, tail left or right; inline, in a row to its right
+  // (the top of a sheet, where a bubble above would leave the screen and one
+  // on top would hide the title); or no bubble at all.
+  bubble?: 'left' | 'right' | 'inline' | 'none';
   // What "no companion" shows here.
   noneAlt?: 'waves' | 'nothing';
   onTap?: () => void;
@@ -144,7 +151,8 @@ export function CompanionHost({
   const naturalVoice = useCompanionVoice();
   const decay = useRef(0);
   const tapIndex = useRef(0);
-  const shown = profile.placements[placement] && !!profile.species;
+  const placed = profile.placements[placement];
+  const shown = placed && !!profile.species;
   const px = size ?? profile.size;
   const lineText = useCallback(
     (context: LineContext, vars: Record<string, string | number> = {}) =>
@@ -232,8 +240,24 @@ export function CompanionHost({
   }, []);
 
   if (!shown) {
-    return noneAlt === 'waves' ? <NoneCompanion size={px} /> : null;
+    // Only an explicit "none" gets the calm wave; "not chosen yet" and a
+    // switched-off place show nothing at all.
+    return placed && profile.chosen && profile.isNone && noneAlt === 'waves' ? <NoneCompanion size={px} /> : null;
   }
+
+  const figure = (
+    <Companion
+      size={px}
+      expression={expression}
+      reaction={reaction.name}
+      reactionKey={reaction.key}
+      breathPhase={breathPhase}
+      breathPhaseMs={breathPhaseMs}
+      walking={walking}
+      holdIdle={expression === 'listening' || !!breathPhase}
+      decorative={decorative}
+    />
+  );
 
   const tap = () => {
     if (onTap) return onTap();
@@ -241,6 +265,25 @@ export function CompanionHost({
     respond({ reaction: cycle[tapIndex.current++ % cycle.length], expression: 'happy' });
     say(profile.talkativeness === 'chatty' ? 'idle_tip' : dayPart(new Date(now()).getHours()), {}, true);
   };
+
+  // A real button, so the tap works from the keyboard too. Decorative
+  // places (the breathing square) just show the figure.
+  const body = decorative ? (
+    figure
+  ) : (
+    <button type="button" onClick={tap} aria-label={onTap ? fill(COMPANION_COPY.openStudio, { name: profile.name }) : undefined} className="block shrink-0 rounded-card">
+      {figure}
+    </button>
+  );
+
+  if (bubble === 'inline') {
+    return (
+      <div className={cn('flex min-h-14 items-center gap-3', className)} data-companion-placement={placement}>
+        {body}
+        {line && <CompanionSay text={line.text} lineKey={line.key} side="inline" onDone={() => setLine(null)} className="min-w-0" />}
+      </div>
+    );
+  }
 
   return (
     <div className={cn('relative inline-flex flex-col items-center', className)} data-companion-placement={placement}>
@@ -253,18 +296,7 @@ export function CompanionHost({
           className={cn('absolute bottom-full z-10 mb-1 w-max', bubble === 'left' ? 'right-0' : 'left-0')}
         />
       )}
-      <Companion
-        size={px}
-        expression={expression}
-        reaction={reaction.name}
-        reactionKey={reaction.key}
-        breathPhase={breathPhase}
-        breathPhaseMs={breathPhaseMs}
-        walking={walking}
-        holdIdle={expression === 'listening' || !!breathPhase}
-        onClick={tap}
-        decorative={decorative}
-      />
+      {body}
     </div>
   );
 }

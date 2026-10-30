@@ -22,6 +22,9 @@ import { minutesUntil } from '@/lib/time';
 import { useNow } from '@/lib/useNow';
 import type { CalendarEvent, StrategyUse, Task } from '@/lib/types';
 import { SheetTitle } from '@/components/ui/sheet';
+import { emitCompanion } from '@/lib/companion/bus';
+import { SIZES } from '@/lib/companion/registry';
+import { CompanionHost } from '@/components/companion/CompanionHost';
 import { Button } from '@/components/ui/button';
 import { TalkToAPersonButton } from '@/components/safety/TalkToAPersonButton';
 import { BridgeShift } from './BridgeShift';
@@ -45,6 +48,9 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
   const { settings } = useSettings();
   const { run } = useAi('bridge');
   const nowTs = useNow(30_000);
+  // The companion packs its little bag as the Bridge opens (v2 spec 9). Its
+  // host is a child, so it is already listening when this runs.
+  useEffect(() => emitCompanion({ type: 'bridgeOpened' }), []);
   const prefix = data.fromTask ? `${data.fromTask.title}: ` : '';
   const [note, setNote] = useState(draft.note ?? prefix);
   const [plan, setPlan] = useState<{ ai: BridgeOutputT; candidates: RankedStrategy[] } | null>(null);
@@ -113,6 +119,15 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
   return (
     <>
       <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-4">
+        <CompanionHost
+          placement="bridge"
+          size={SIZES.md}
+          base="packing"
+          listens={['bridgeOpened', 'aiLoading', 'aiDone']}
+          bubble="inline"
+          noneAlt="nothing"
+          className="pr-24"
+        />
         <div className="flex flex-col gap-1 pr-24">
           <SheetTitle>{fill(copy.bridge.sheetTitle, { from, to: data.to.title })}</SheetTitle>
           <p className="font-bold text-primary">{fill(copy.bridge.countdown, { m: minutesUntil(data.to.start, nowTs), to: data.to.title })}</p>

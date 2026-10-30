@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react';
 import { Wind } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
 import { useSound } from '@/lib/sound/useSound';
 import { useVoice } from '@/lib/voice/useVoice';

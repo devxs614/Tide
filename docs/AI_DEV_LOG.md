@@ -1484,3 +1484,89 @@ it as a decision.
   test, not the copy.
 
 **Decisions:** D73–D77.
+
+## Before Phase V4 — Companions across the app
+2026-10-29, 21:02
+
+For Maya: the companion she chose shows up where it helps. It waves on
+Today, listens while she types a check-in and reacts gently to how she
+feels, keeps her company during a focus block, packs a bag before a switch,
+and breathes with her in box breathing. It never appears on the crisis
+screen.
+
+What it touches in v1: Today's header, the check-in sheet, Unstick, the
+focus page, the Bridge, the toolkit tools and re-check, Patterns, the
+support page and empty states, plus new error and 404 pages. How I avoid
+breaking them: each screen gets one `CompanionHost` and a few
+`emitCompanion` calls, nothing in the flows themselves changes, and someone
+who hasn't chosen a companion yet (every existing user until V6's What's
+new) sees exactly the v1 screens: no companion and no wave alternative.
+Only an explicit "none" shows the calm wave alternatives. The v1 suite runs
+after each screen.
+
+## After Phase V4 — Companions across the app
+2026-10-29, 21:40
+
+**What I built**
+- Today: the companion sits right of the greeting, waves and says hello
+  once per part of the day, reacts to check-ins and finished tasks, and
+  opens the Studio when tapped. Other tabs show its head in the top bar
+  (also a way into the Studio); Today and the support pages don't.
+- Check-in: a row at the top of the sheet with the companion and its line
+  ("I'm listening. Take your time."). It listens while Maya types or
+  dictates (a typing signal that settles 400ms after the last key), looks
+  thoughtful while the AI works and curious when the words arrive. Saving
+  sends `checkinSaved`; Today's companion leans in softly for Surge and Ebb,
+  hops for Swell, stays calm for Still, and the "Checked in" toast carries
+  its head.
+- Unstick and the Bridge: the same top row; soft then happy in Unstick,
+  packing its bag in the Bridge.
+- Focus: beside the water fill at size L, doing its own little task (body
+  doubling), proud after "Got going", soft after "Didn't start".
+- Toolkit: in the middle of the box-breathing square, breathing with the
+  exact phases (the square grows to fit; the dot stays); a small one in the
+  corner of grounding, the sudoku, the message template and the walk timer
+  (walking along the top at Lively); beside the re-check answer, glad,
+  calm or soft.
+- Patterns: a small curious companion by the title that never reacts to a
+  pattern. The everyday support page: a small soft one. The crisis screen:
+  none, anywhere.
+- Empty states, a new error page and a new 404 use the companion (soft on
+  the error pages) or the wave. A splash shows the wave mark while settings
+  load, fading in only if loading takes longer than a blink.
+- `useAi` now tells the companion when Tide is thinking, so every AI screen
+  gets that for free. A small `nudge` event lets tools ask for a look.
+
+**How I checked it**
+- Lint, typecheck, 51 test files (325 tests), the v1 suite (33 files, 164
+  tests) and the build are green.
+- New tests: spec flow test 7 (typing → `listening`; saving an Ebb
+  check-in → Today's companion `soft` with a lean), the v1 check-in with no
+  companion chosen (no companion, no wave), the crisis screen and its top
+  bar with a companion chosen (nothing drawn), the support page's soft
+  companion, and the error page.
+- First-load JS for `/`: 285 KB gzipped (V3 was 274; the budget is 300).
+- In the browser pane at phone width, with Pebble: Today's header, the
+  check-in row and its listening face while typing, box breathing with
+  Pebble breathing in the square, and the top-bar head on Toolkit. I set
+  that browser's settings for the check and removed them afterwards. I
+  didn't answer the re-check there, so as not to save a record in it, and
+  I didn't run a focus block in the browser; tests cover both.
+
+**What broke and how I fixed it**
+- The first budget measurement was 320 KB. The root error page wraps every
+  screen and pulled in the companion lines, the voice engine and a second
+  copy of the copy catalog (about 19 KB on its own); the top bar pulled in
+  all the Studio words for one label. The error page now loads its content
+  only when an error happens, decorative companions load just after the
+  page, the Studio words moved to their own file, and Today's host loads
+  lazily (D83).
+- My first sheet layout put the companion in the top corner. In the
+  browser it sat under the 110px-wide Close button and its bubble hid the
+  step title. It's now a row above the step with the line beside it (D80),
+  and the v1 headers are untouched.
+- A test saw a "no companion" wave where there shouldn't be one: a toast
+  left over from the previous test. Not an app bug; the test now looks
+  only inside the sheet.
+
+**Decisions:** D78–D85.

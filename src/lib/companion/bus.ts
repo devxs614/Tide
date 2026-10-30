@@ -5,6 +5,7 @@
 import type { FocusOutcome, Quadrant, TaskType } from '@/lib/types';
 import type { LineContext } from '@/copy/companions';
 import type { BreathPhase } from '@/components/companion/CompanionFigure';
+import type { Expression, Reaction } from './registry';
 
 export type CelebrationTier = 'micro' | 'small' | 'big';
 
@@ -22,7 +23,10 @@ export type CompanionEvent =
   | { type: 'wrapStarted' }
   | { type: 'wrapEnded' }
   | { type: 'typing'; active: boolean }
-  | { type: 'say'; context: LineContext; vars?: Record<string, string | number> };
+  | { type: 'say'; context: LineContext; vars?: Record<string, string | number> }
+  // A small moment inside a tool (a new sense in grounding, a solved
+  // puzzle) that deserves a look, not a line. Added in V4, beyond spec 8.9.
+  | { type: 'nudge'; expression: Expression; reaction?: Reaction };
 
 type Listener = (event: CompanionEvent) => void;
 const listeners = new Set<Listener>();

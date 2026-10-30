@@ -52,10 +52,12 @@ describe('companion lines', () => {
     expect(companionLine('otter', 'greeting_morning', 'gentle', { name: 'Maya' }, '2026-10-01')).toBe(a);
   });
 
-  it('never uses the forbidden phrases anywhere in the file', () => {
-    const source = readFileSync(path.join(__dirname, '..', 'companions.ts'), 'utf8').toLowerCase();
-    for (const phrase of ['missed you', 'where were you', "haven't", 'havent', "don't forget", 'dont forget', 'should']) {
-      expect(source, phrase).not.toContain(phrase);
+  it('never uses the forbidden phrases anywhere in the companion copy', () => {
+    for (const file of ['companions.ts', 'companionCopy.ts']) {
+      const source = readFileSync(path.join(__dirname, '..', file), 'utf8').toLowerCase();
+      for (const phrase of ['missed you', 'where were you', "haven't", 'havent', "don't forget", 'dont forget', 'should']) {
+        expect(source, `${file}: ${phrase}`).not.toContain(phrase);
+      }
     }
   });
 });

@@ -3,7 +3,7 @@
 // sound and an About text; every accessory has a slot and a label; every
 // expression has words for screen readers.
 import { describe, expect, it } from 'vitest';
-import { COMPANION_ABOUT, COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_ABOUT, COMPANION_COPY } from '@/copy/companionCopy';
 import { ACCESSORIES, ACCESSORY_SLOT, COMPANIONS, EXPRESSIONS, PLACEMENTS, SPECIES, variantFor } from '../registry';
 
 describe('companion registry', () => {
