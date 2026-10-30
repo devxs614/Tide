@@ -105,6 +105,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
           {MODES.map((m) => (
             <li key={m}>
               <button
+                data-demo-id={`daymode-${m}`}
                 type="button"
                 onClick={() => void choose(m)}
                 className="flex w-full flex-col gap-1 press-3d card [--ledge-color:var(--line)] p-4 text-left hover:bg-surface-2"

@@ -73,7 +73,7 @@ export function StudioHero({ line, onLineDone }: { line: { text: string; key: nu
         )}
         <div key={current ?? 'none'} className="studio-arrive absolute bottom-3 left-1/2 -translate-x-1/2">
           {profile.species ? (
-            <button type="button" onClick={onTap} className="block rounded-card">
+            <button type="button" onClick={onTap} className="block rounded-card" data-demo-id="companion-hero">
               <Companion
                 size={SIZES.xl}
                 expression={now?.expression ?? 'idle'}

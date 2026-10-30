@@ -7,6 +7,7 @@ import { DEMO_START, demoClockAt } from '../clock';
 import { buildDemoData } from '@/data/demo/seed';
 import { clearData } from './data';
 import { setSettings } from './settings';
+import { DEMO_BOTTLE, DEMO_SETTINGS_V2, demoDayWraps } from '@/data/demo/seedV2';
 
 // 4:36 pm: the Bridge to Calculus (4:50 pm) is already on screen when the
 // demo starts, and the lab (until 4:40 pm) is still where Maya is.
@@ -55,4 +56,18 @@ export async function leaveDemo(): Promise<void> {
 // Moves the demo clock without touching the data (rehearsal only).
 export async function setDemoTime(base: number): Promise<void> {
   await setSettings({ demoClock: demoClockAt(base) });
+}
+
+// The demo workspace (v2 spec 16.3): fill its own database the first time
+// (or when it has no v2 data yet). The main database is never touched; this
+// only ever runs while the demo database is the open one.
+export async function seedDemoWorkspace(): Promise<void> {
+  if ((await db.checkins.count()) > 0 && (await db.dayWraps.count()) > 0) return;
+  await loadDemoData(DEMO_START);
+  const uses = await db.strategyUses.toArray();
+  await db.transaction('rw', db.dayWraps, db.bottles, async () => {
+    await db.dayWraps.bulkAdd(demoDayWraps(uses));
+    await db.bottles.add(DEMO_BOTTLE);
+  });
+  await setSettings(DEMO_SETTINGS_V2);
 }

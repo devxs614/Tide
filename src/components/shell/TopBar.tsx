@@ -9,7 +9,7 @@
 // header, and on the support pages, where the crisis screen lives.
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HeartHandshake, Info, Menu, Moon, PawPrint, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
+import { HeartHandshake, Info, Menu, Moon, PawPrint, PlayCircle, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import {
@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useCompanion } from '@/lib/companion/useCompanion';
+import { currentWorkspace } from '@/lib/workspace';
 import { LazyCompanion as Companion } from '@/components/companion/LazyCompanion';
 
 const HEAD_SIZE = 40;
@@ -28,6 +29,7 @@ export function TopBar({ title }: { title: string }) {
   const { settings } = useSettings();
   const companion = useCompanion();
   const pathname = usePathname();
+  const inDemo = currentWorkspace() === 'demo';
   const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
     <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
@@ -35,7 +37,7 @@ export function TopBar({ title }: { title: string }) {
           badge drops under the title so the menu never gets pushed off screen. */}
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
         <h1 className="text-h2 font-extrabold text-ink">{title}</h1>
-        {settings.demoMode && (
+        {(settings.demoMode || inDemo) && (
           <span
             className="rounded-full border border-line bg-surface-2 px-3 py-0.5 text-caption whitespace-nowrap text-ink-soft"
             aria-label={copy.global.demoBadgeLabel}
@@ -66,6 +68,12 @@ export function TopBar({ title }: { title: string }) {
               <Link href="/proof">
                 <Trophy aria-hidden />
                 {copy.shell.proofLog}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/demo">
+                <PlayCircle aria-hidden />
+                {copy.demo.launcherTitle}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

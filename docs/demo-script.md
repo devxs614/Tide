@@ -56,3 +56,45 @@ keep narrating over it. Don't troubleshoot on stage.
 - [ ] Notifications off on the presenting device.
 - [ ] Backup video open in another tab or on another device.
 - [ ] One full rehearsal done today with Wi-Fi off.
+
+## v2: the Demo button and the guided tour
+
+Tide v2 runs the demo in its **own workspace**: a separate database
+(`tide-demo`) filled with Maya's example data. Starting it never touches
+the data on the device, and leaving it brings the real data back exactly
+as it was.
+
+### Starting a demo
+- Open **`/demo`** (for example `https://<your-url>/demo`), or Menu →
+  "Run the demo", or Settings → Demo, or "Watch the demo" on the first
+  onboarding screen.
+- Choose **Full tour** (about 4 minutes), **Pitch cut** (100 seconds) or
+  **Presenter mode** (pauses at each key moment). Options: read captions
+  aloud, show captions, speed 1×, 1.5× or 2×.
+- The first start fills the demo workspace (a second or two). Autoplay uses
+  only the saved demo answers, so it plays the same way every time and
+  works with no network.
+
+### Presenter keys (a clicker works)
+- **Next:** → or PageDown · **Back to the previous chapter:** ← or PageUp
+- **Play/pause:** Space · **Speed:** S · **Captions:** C · **Narration:** N
+- **Exit the tour:** Esc (you stay in the demo workspace)
+- Every control is also a button on the bar at the bottom.
+
+### If something goes wrong
+1. A step that can't find its button is skipped; the tour keeps going.
+2. Press Esc, open `/demo` again and start the same mode, or use ← to go
+   back to the start of the chapter (each chapter sets up its own route
+   and time).
+3. Settings → Demo inside the demo workspace has "Restart demo clock",
+   "Jump to the bridge moment" and "Jump to evening".
+4. Add `?demoDebug=1` to the address to see which steps ran or were
+   skipped.
+5. Last resort: play the backup video.
+
+### Leaving
+Settings → Demo → "Leave demo", or "Leave demo" on the tour's end screen.
+
+### Backup video
+Record the full tour at 1× in the Lagoon theme, with captions on, once
+it's been rehearsed on the presenting laptop (TEAM_TODO).

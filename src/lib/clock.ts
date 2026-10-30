@@ -19,9 +19,23 @@ export function realNow(): number {
   return Date.now();
 }
 
+// v2 (spec 16.3): the demo can run time faster for a moment (a focus block
+// at 60×) or jump to a moment. Both only matter while a demo clock is set,
+// so outside the demo time is real, exactly as in v1.
+let speed = 1;
+
 export function now(): number {
   if (!demoClock) return Date.now();
-  return demoClock.base + (Date.now() - demoClock.startedAt);
+  return demoClock.base + (Date.now() - demoClock.startedAt) * speed;
+}
+
+export function setDemoSpeed(multiplier: number): void {
+  if (demoClock) demoClock = { base: now(), startedAt: Date.now() };
+  speed = multiplier;
+}
+
+export function demoSpeed(): number {
+  return speed;
 }
 
 // A demo clock that reads `base` right now, for "Restart demo" and the

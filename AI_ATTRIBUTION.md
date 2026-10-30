@@ -133,6 +133,9 @@ what I generated and what came from elsewhere.
 | `src/lib/settings/{schema,catalog,searchIndex,useUndoableUpdate}.ts`, `src/lib/repo/backup.ts`, tests | Settings 2.0 logic | Claude Code | Spec 15 (D107–D109) |
 | `src/components/settings/{SettingsScreen,SectionPage,SettingControl,CustomControl,LivePreview,PresetsRow,SettingsSearch,BackupControls}.tsx`, `src/app/(app)/settings/[section]/page.tsx`, `Settings2.test.tsx` | Settings index and section pages | Claude Code | v1 `AppearanceSection`/`ComfortSection` replaced |
 | `src/lib/sound/useAmbience.ts`, `src/lib/useWakeLock.ts` and the new settings read in check-in, Today, Day Mode, focus, patterns, shore, time formatting | Wiring the settings | Claude Code | D108, D110, D111 |
+| `src/demo/**` (director engine, actions, custom actions, scripts, HUD, spotlight, cursor, end screen, runtime, host, launcher, options, tests), `src/app/demo/page.tsx` | The Demo director | Claude Code | Spec 16 (D113, D114) |
+| `src/lib/workspace.ts`, workspace choice in `src/lib/db.ts`, clock speed in `src/lib/clock.ts`, `src/data/demo/seedV2.ts` (+ test), `seedDemoWorkspace` in `repo/demo.ts`, force-cache in `lib/ai/runAi.ts` | Demo workspace and seed v2 | Claude Code | D112 |
+| `data-demo-id` attributes across components; `DemoSection.tsx` rewritten; crisis preview in `CrisisScreen.tsx`; `docs/demo-script.md` v2 section | Demo targets and controls | Claude Code | D115 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

@@ -70,7 +70,7 @@ export function WrapScreen({ reopen = false }: { reopen?: boolean }) {
             {copy.wrap.close}
           </Button>
           {!own && (
-            <Button variant="quiet" size="sm" className="ml-auto" onClick={() => go(step + 1)}>
+            <Button variant="quiet" size="sm" className="ml-auto" onClick={() => go(step + 1)} data-demo-id="wrap-skip">
               {copy.wrap.skipStep}
             </Button>
           )}

@@ -21,10 +21,6 @@ import { WhenOpened } from '@/components/shell/WhenOpened';
 const TaskForm = dynamic(() => import('@/components/tasks/TaskForm').then((m) => m.TaskForm), { ssr: false });
 const AddEventSheet = dynamic(() => import('./AddEventSheet').then((m) => m.AddEventSheet), { ssr: false });
 import { DayModeBanner } from './DayModeBanner';
-import { ChooseCompanionCard } from './ChooseCompanionCard';
-import { BottleCard } from './BottleCard';
-import { EveningCard } from './EveningCard';
-import { MorningCard } from './MorningCard';
 
 import { NextTransitionCard } from './NextTransitionCard';
 import { StateCard } from './StateCard';
@@ -32,9 +28,15 @@ import { TideLine } from './TideLine';
 import { TodayHeader } from './TodayHeader';
 import { useTodayData } from './useTodayData';
 
-// The shore strip sits near the bottom of Today and brings the item art;
-// loading it after the page keeps Today's first load in budget.
-const ShorePreview = dynamic(() => import('./ShorePreview').then((m) => m.ShorePreview), { ssr: false, loading: () => null });
+// The shore strip and the cards that only show some of the time (choose a
+// companion, a bottle, morning, evening) load after the page, which keeps
+// Today's first load in budget.
+const lazy = <T,>(loader: () => Promise<T>) => dynamic(loader as never, { ssr: false, loading: () => null });
+const ShorePreview = lazy(() => import('./ShorePreview').then((m) => m.ShorePreview));
+const ChooseCompanionCard = lazy(() => import('./ChooseCompanionCard').then((m) => m.ChooseCompanionCard));
+const BottleCard = lazy(() => import('./BottleCard').then((m) => m.BottleCard));
+const EveningCard = lazy(() => import('./EveningCard').then((m) => m.EveningCard)) as React.ComponentType<{ nowTs: number }>;
+const MorningCard = lazy(() => import('./MorningCard').then((m) => m.MorningCard)) as React.ComponentType<{ nowTs: number }>;
 
 export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
   // Every 30 seconds: the bridge countdown needs it, the "Now" marker

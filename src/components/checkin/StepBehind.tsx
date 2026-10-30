@@ -31,7 +31,7 @@ export function StepBehind({ causes, onToggle, onNext, onSkip }: Props) {
         <Button className="sm:flex-1" onClick={onNext}>
           {copy.global.next}
         </Button>
-        <Button variant="secondary" className="sm:flex-1" onClick={onSkip}>
+        <Button variant="secondary" className="sm:flex-1" onClick={onSkip} data-demo-id="checkin-skip">
           {copy.global.skip}
         </Button>
       </div>

@@ -73,7 +73,7 @@ export function DayModeProposal({ tasks, keep, budget, rationale, onToggle, onAp
       </div>
       <div className="flex flex-col gap-2 border-t border-line p-5">
         {tasks.length > 0 && (
-          <Button size="block" onClick={onApply}>
+          <Button size="block" onClick={onApply} data-demo-id="daymode-apply">
             {copy.dayMode.useThisPlan}
           </Button>
         )}

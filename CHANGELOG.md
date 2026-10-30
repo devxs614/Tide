@@ -5,6 +5,15 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V10: The demo
+- A Demo button (`/demo`, the menu, Settings → Demo, and the welcome
+  screen): a guided tour with captions, a spotlight and a soft cursor, in
+  its own workspace with example data. Your own data is never touched.
+- Full tour (about 4 minutes), a 100-second pitch cut, and presenter mode
+  for a clicker. Works offline.
+- A safe preview of the crisis screen, only inside the demo.
+- Changed from v1: demo mode no longer replaces what's on the device.
+
 ### V9: Settings 2.0
 - Settings is now an index with search ("dark mode", "pet", "font"),
   quick presets (Calm, Low sensory, Focused, Playful, High contrast) that

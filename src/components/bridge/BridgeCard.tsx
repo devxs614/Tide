@@ -43,7 +43,7 @@ export function BridgeCard({ bridge }: { bridge: UpcomingBridge }) {
         <li>2 · {copy.bridge.shift}</li>
         <li>3 · {copy.bridge.startStep}</li>
       </ol>
-      <Button className="self-start" onClick={() => openBridge(bridge.to.id)}>
+      <Button className="self-start" onClick={() => openBridge(bridge.to.id)} data-demo-id="bridge-get-ready">
         {copy.bridge.getReady}
       </Button>
     </section>

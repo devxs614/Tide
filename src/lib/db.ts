@@ -17,6 +17,7 @@ import type {
   Transition,
   Win,
 } from './types';
+import { currentWorkspace } from './workspace';
 
 export interface SettingRow {
   key: string;
@@ -85,7 +86,13 @@ export class TideDB extends Dexie {
   }
 }
 
-export const db = new TideDB();
+// The demo workspace has its own database with the same shape (v2 spec
+// 16.3); which one opens is decided once, at load.
+export function databaseName(workspace = currentWorkspace()): string {
+  return workspace === 'demo' ? 'tide-demo' : 'tide';
+}
+
+export const db = new TideDB(databaseName());
 
 // Every table except settings. Seeding demo data and "Delete everything"
 // both walk this list, so a new table only has to be added in one place.

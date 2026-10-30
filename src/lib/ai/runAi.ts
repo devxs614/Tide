@@ -29,6 +29,13 @@ import type { AiInputs, AiOutputs, AiResult, AiRouteName, AiSource } from './typ
 
 export const DEMO_CACHE_DELAY_MS = 900;
 
+// The autoplay tour uses only the saved demo answers (v2 spec 16.3), so it
+// plays the same way every time and works with no network at all.
+let forceCache = false;
+export function setDemoForceCache(on: boolean): void {
+  forceCache = on;
+}
+
 interface ClientConfig {
   timeoutMs: number;
   demoTimeoutMs: number;
@@ -135,8 +142,11 @@ export async function runAi<R extends AiRouteName>(
 
   const config = await loadConfig();
   const cached = opts.demoMode ? findCachedResponse(route, input) : undefined;
+  if (cached && forceCache) {
+    await sleep(DEMO_CACHE_DELAY_MS);
+    return finish(route, cached, 'demo-cache');
+  }
   const live = callRoute(route, input, opts.demoMode ? config.demoTimeoutMs : config.timeoutMs);
-
   if (cached) {
     // A failed live call never wins the race; the saved answer arrives anyway.
     const winner = await Promise.race([

@@ -17,6 +17,7 @@ export function CheckInFab() {
   return (
     <div className="pointer-events-none flex justify-center pb-1">
       <button
+        data-demo-id="fab-checkin"
         type="button"
         onClick={() => {
           feedback('tap');

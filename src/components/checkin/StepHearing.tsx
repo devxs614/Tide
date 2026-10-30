@@ -54,7 +54,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
                 const emotion = getEmotion(c.id);
                 if (!emotion) return null;
                 return (
-                  <li key={c.id} className="stagger-in" style={{ '--i': i } as CSSProperties}>
+                  <li key={c.id} data-demo-id={`checkin-candidate-${c.id}`} className="stagger-in" style={{ '--i': i } as CSSProperties}>
                     <EmotionCandidateCard
                       word={emotion.word}
                       definition={c.definition}
@@ -88,7 +88,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
         )}
       </div>
       <div className="border-t border-line p-5">
-        <Button size="block" disabled={!canLeaveStepTwo(state)} onClick={onNext}>
+        <Button size="block" disabled={!canLeaveStepTwo(state)} onClick={onNext} data-demo-id="checkin-next">
           {copy.global.next}
         </Button>
       </div>

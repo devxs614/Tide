@@ -161,7 +161,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
         <BridgePrep steps={plan?.ai.prepSteps ?? []} draft={draft} />
       </div>
       <div className="flex flex-col gap-2 border-t border-line p-5">
-        <Button size="block" onClick={() => void leave()}>
+        <Button size="block" onClick={() => void leave()} data-demo-id="bridge-done">
           {copy.bridge.doneGoing}
         </Button>
         <TalkToAPersonButton />

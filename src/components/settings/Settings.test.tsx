@@ -60,15 +60,23 @@ describe('settings', () => {
     expect(await db.settings.count()).toBe(0);
   });
 
-  it('turns demo mode on only after the warning, and shows the demo clock', async () => {
+  // v2 spec 3.5: the demo runs in its own workspace (its own database), so
+  // starting it no longer replaces this device's data. Same intent as v1's
+  // test (demo mode is a deliberate choice); the assertion is now that the
+  // main data is untouched.
+  it('starts the demo in its own workspace and leaves this data alone', async () => {
+    await addTask({ title: 'My real task', type: 'admin', energyCost: 1 });
+    const assign = vi.fn();
+    vi.stubGlobal('location', { ...window.location, assign });
     const { user } = await renderApp(<SectionPage id="demo" />);
-    await user.click(await screen.findByRole('switch', { name: 'Demo mode (synthetic data)' }));
-    expect(screen.getByText(/This replaces what's on this device with example data/)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Use demo data' }));
-    expect(await screen.findByText(/Demo clock: Thursday, November 5, 3:4\d pm/)).toBeInTheDocument();
-    expect((await getSettings()).name).toBe('Maya');
-    expect(await db.events.count()).toBeGreaterThan(30);
+    await user.click(await screen.findByRole('button', { name: 'Full tour' }));
+    expect(window.localStorage.getItem('tide.workspace')).toBe('demo');
+    expect(assign).toHaveBeenCalledWith('/?demo=start&mode=full');
+    expect(await db.tasks.count()).toBe(1);
+    expect((await getSettings()).demoMode).toBe(false);
+    window.localStorage.removeItem('tide.workspace');
   });
+
 });
 
 describe('onboarding', () => {
