@@ -31,9 +31,9 @@ export function PersonalityTab({ species, onHearLine }: { species: CompanionSpec
   return (
     <div className="flex flex-col gap-4">
       <div role="group" aria-labelledby="studio-talk" className="flex flex-col gap-2">
-        <h3 id="studio-talk" className="font-display font-extrabold">
+        <h2 id="studio-talk" className="font-display font-extrabold">
           {t.studio.talkativeness}
-        </h3>
+        </h2>
         {LEVELS.map((level) => (
           <CardButton key={level} selected={value === level} onClick={() => void update('companion.talkativeness', level)}>
             <span className="font-display font-extrabold">{t.talkativeness[level].name}</span>

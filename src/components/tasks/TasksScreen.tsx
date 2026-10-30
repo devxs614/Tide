@@ -15,10 +15,20 @@ import { WhenOpened } from '@/components/shell/WhenOpened';
 
 const TaskForm = dynamic(() => import('./TaskForm').then((m) => m.TaskForm), { ssr: false });
 
-export function TasksScreen({ resumeUnstickId }: { resumeUnstickId?: string }) {
+export function TasksScreen({ resumeUnstickId, startNew = false }: { resumeUnstickId?: string; startNew?: boolean }) {
   const router = useRouter();
   const { openUnstick } = useUnstickSheet();
-  const [formOpen, setFormOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(startNew);
+  // Pressing "n" again while already on Tasks arrives as a new search param.
+  const [seenStartNew, setSeenStartNew] = useState(startNew);
+  if (startNew !== seenStartNew) {
+    setSeenStartNew(startNew);
+    if (startNew) setFormOpen(true);
+  }
+
+  useEffect(() => {
+    if (startNew) router.replace('/tasks');
+  }, [startNew, router]);
 
   useEffect(() => {
     if (!resumeUnstickId) return;

@@ -15,6 +15,7 @@ import { cleanVoiceName, scoreVoice } from '@/lib/voice/voiceRanking';
 import { useDeviceVoices } from '@/lib/voice/useDeviceVoices';
 import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
+import { WithTooltip } from '@/components/ui/tooltip';
 import { CardButton } from '@/components/ui/card';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import { SwitchRow } from '@/components/ui/switch';
@@ -87,9 +88,11 @@ export function VoicePicker() {
                     >
                       <span className="font-display font-extrabold">{v.name}</span>
                     </CardButton>
-                    <Button variant="secondary" size="icon" aria-label={`${copy.voice.playSample}: ${v.name}`} onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}>
-                      <Volume2 aria-hidden />
-                    </Button>
+                    <WithTooltip label={copy.voice.playSample}>
+                      <Button variant="secondary" size="icon" aria-label={`${copy.voice.playSample}: ${v.name}`} onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}>
+                        <Volume2 aria-hidden />
+                      </Button>
+                    </WithTooltip>
                   </div>
                 ))}
               </div>
@@ -112,14 +115,16 @@ export function VoicePicker() {
                     <span className="font-display font-extrabold">{cleanVoiceName(v.name)}</span>
                     <span className="text-small text-ink-soft">{accentLabel(v.lang)}</span>
                   </CardButton>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
-                    onClick={() => void voice.speak(sample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
-                  >
-                    <Volume2 aria-hidden />
-                  </Button>
+                  <WithTooltip label={copy.voice.playSample}>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
+                      onClick={() => void voice.speak(sample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
+                    >
+                      <Volume2 aria-hidden />
+                    </Button>
+                  </WithTooltip>
                 </div>
               ))}
               {limited && <p className="text-small text-ink-soft">{copy.voice.voiceLimited}</p>}

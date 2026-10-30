@@ -7,9 +7,12 @@
 // With a companion, its head sits by the menu and opens the Companion Studio
 // (v2 spec 4.4), except on Today, where the companion is already in the
 // header, and on the support pages, where the crisis screen lives.
+// "How this screen works" opens a short explanation of the current screen.
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HeartHandshake, Info, Menu, Moon, PawPrint, PlayCircle, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
+import { CircleHelp, HeartHandshake, Info, Menu, Moon, PawPrint, PlayCircle, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import {
@@ -22,6 +25,9 @@ import { Button } from '@/components/ui/button';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { currentWorkspace } from '@/lib/workspace';
 import { LazyCompanion as Companion } from '@/components/companion/LazyCompanion';
+import { WhenOpened } from './WhenOpened';
+
+const ScreenHelpSheet = dynamic(() => import('./ScreenHelpSheet').then((m) => m.ScreenHelpSheet), { ssr: false });
 
 const HEAD_SIZE = 40;
 
@@ -30,6 +36,7 @@ export function TopBar({ title }: { title: string }) {
   const companion = useCompanion();
   const pathname = usePathname();
   const inDemo = currentWorkspace() === 'demo';
+  const [helpOpen, setHelpOpen] = useState(false);
   const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
     <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
@@ -64,6 +71,10 @@ export function TopBar({ title }: { title: string }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-56">
+            <DropdownMenuItem onSelect={() => setHelpOpen(true)}>
+              <CircleHelp aria-hidden />
+              {copy.shell.helpScreen}
+            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/proof">
                 <Trophy aria-hidden />
@@ -107,7 +118,7 @@ export function TopBar({ title }: { title: string }) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/settings#about">
+              <Link href="/settings/about">
                 <Info aria-hidden />
                 {copy.shell.aboutTide}
               </Link>
@@ -115,6 +126,9 @@ export function TopBar({ title }: { title: string }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <WhenOpened open={helpOpen}>
+        <ScreenHelpSheet pathname={pathname} open={helpOpen} onOpenChange={setHelpOpen} />
+      </WhenOpened>
     </header>
   );
 }

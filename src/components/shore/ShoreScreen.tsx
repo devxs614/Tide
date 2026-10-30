@@ -33,6 +33,7 @@ import { BottleOpenDialog } from './BottleOpenDialog';
 import { BottleWriteSheet } from './BottleWriteSheet';
 import { ItemDetailsSheet } from './ItemDetailsSheet';
 import { ShoreScene } from './ShoreScene';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const RANGES: ShoreRange[] = ['today', 'week', 'all'];
 const MAX_ARRIVALS = 6;
@@ -103,20 +104,26 @@ export function ShoreScreen() {
         </div>
       </div>
 
-      <ShoreScene
-        svgRef={svgRef}
-        showLabels={settings['shore.showLabels']}
-        placed={placed}
-        bottles={floating}
-        glowingBottleId={eligible?.id}
-        newIds={level === 'off' ? [] : newIds}
-        sky={sky}
-        onSelect={setSelected}
-        onBottle={(b) => (b.id === eligible?.id ? setOpening(b) : toast(copy.shore.waitingBottle))}
-        companion={
-          <CompanionHost placement="shore" size={SIZES.md} base={phase === 'night' ? 'sleeping' : 'idle'} listens={['shoreItem']} bubble="right" noneAlt="nothing" />
-        }
-      />
+      {/* Until the wins load, a calm placeholder of the same size, so the
+          sand doesn't fill in all at once a moment later. */}
+      {wins === undefined ? (
+        <Skeleton className="h-[min(62vh,560px)]" />
+      ) : (
+        <ShoreScene
+          svgRef={svgRef}
+          showLabels={settings['shore.showLabels']}
+          placed={placed}
+          bottles={floating}
+          glowingBottleId={eligible?.id}
+          newIds={level === 'off' ? [] : newIds}
+          sky={sky}
+          onSelect={setSelected}
+          onBottle={(b) => (b.id === eligible?.id ? setOpening(b) : toast(copy.shore.waitingBottle))}
+          companion={
+            <CompanionHost placement="shore" size={SIZES.md} base={phase === 'night' ? 'sleeping' : 'idle'} listens={['shoreItem']} bubble="right" noneAlt="nothing" />
+          }
+        />
+      )}
       <p aria-live="polite" className="sr-only">
         {latest ? fill(copy.shore.newOnShore, { item: latest.description }) : ''}
       </p>

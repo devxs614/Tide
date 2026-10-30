@@ -19,6 +19,7 @@ import { TalkToAPersonButton } from '@/components/safety/TalkToAPersonButton';
 import { FAMILY_ICONS } from './familyIcons';
 import { StrategyCard } from './StrategyCard';
 import { QuadrantDot } from '@/components/ui/QuadrantDot';
+import { ScreenSkeleton } from '@/components/ui/skeleton';
 
 const href = (id: string) => `/toolkit/${id}?context=toolkit`;
 
@@ -28,7 +29,7 @@ export function ToolkitScreen() {
   const uses = useLiveQuery(() => db.strategyUses.toArray(), []);
   const [showAll, setShowAll] = useState(false);
   const [family, setFamily] = useState<string | null>(null);
-  if (latest === undefined || !uses) return null;
+  if (latest === undefined || !uses) return <ScreenSkeleton rows={4} rowClassName="h-20" />;
 
   const quadrant = latest?.quadrant;
   const ranked = rankStrategies({ quadrant, uses, context: 'toolkit', now: now() });

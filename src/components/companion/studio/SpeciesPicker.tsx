@@ -20,9 +20,9 @@ export function SpeciesPicker({
   const t = COMPANION_COPY;
   return (
     <div role="group" aria-labelledby="studio-species" className="flex flex-col gap-2">
-      <h3 id="studio-species" className="font-display font-extrabold">
+      <h2 id="studio-species" className="font-display font-extrabold">
         {t.studio.species}
-      </h3>
+      </h2>
       <p className="text-small text-ink-soft">{t.studio.speciesHelp}</p>
       {/* Negative margins let the row scroll to the screen edge while the
           first and last cards still line up with the page. */}

@@ -35,8 +35,8 @@ export function CompanionSay({
   // Changing the key shows the bubble again, even for the same words.
   lineKey: number;
   onDone?: () => void;
-  // Where the tail points: down-left or down-right (bubble above the
-  // companion), or left (bubble in line beside it, at the top of a sheet).
+  // Which way the bubble reaches from the companion it sits above (the
+  // tail sits at the end nearest the companion), or inline, beside it.
   side?: 'left' | 'right' | 'inline';
   className?: string;
 }) {
@@ -67,7 +67,7 @@ export function CompanionSay({
           'absolute size-3 border-line bg-surface',
           side === 'inline'
             ? 'top-1/2 -left-1.5 -translate-y-1/2 rotate-45 border-b-2 border-l-2'
-            : cn('-bottom-1.5 rotate-45 border-r-2 border-b-2', side === 'left' ? 'left-6' : 'right-6'),
+            : cn('-bottom-1.5 rotate-45 border-r-2 border-b-2', side === 'left' ? 'right-6' : 'left-6'),
         )}
       />
     </div>

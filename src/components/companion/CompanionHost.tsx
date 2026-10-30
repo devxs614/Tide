@@ -117,9 +117,9 @@ export interface CompanionHostProps {
   breathPhase?: BreathPhase | null;
   breathPhaseMs?: number;
   walking?: boolean;
-  // Above the companion, tail left or right; inline, in a row to its right
-  // (the top of a sheet, where a bubble above would leave the screen and one
-  // on top would hide the title); or no bubble at all.
+  // Above the companion, reaching to its left or right; inline, in a row to
+  // its right (the top of a sheet, or a centered companion, where a bubble
+  // above would leave the screen or hide the title); or no bubble at all.
   bubble?: 'left' | 'right' | 'inline' | 'none';
   // What "no companion" shows here.
   noneAlt?: 'waves' | 'nothing';

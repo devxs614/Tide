@@ -12,7 +12,8 @@ export function EmptyState({
   art,
   className,
 }: {
-  title: string;
+  // Optional when the screen's own heading already says where we are.
+  title?: string;
   body?: string;
   action?: React.ReactNode;
   art?: React.ReactNode;
@@ -21,7 +22,7 @@ export function EmptyState({
   return (
     <div className={cn('flex flex-col items-center gap-3 px-4 py-8 text-center', className)}>
       <div className="anim-pop">{art ?? <EmptyStateArt />}</div>
-      <h2 className="text-h3 font-extrabold text-ink">{title}</h2>
+      {title && <h2 className="text-h3 font-extrabold text-ink">{title}</h2>}
       {body && <p className="mx-auto text-ink-soft">{body}</p>}
       {action && <div className="mt-2">{action}</div>}
     </div>

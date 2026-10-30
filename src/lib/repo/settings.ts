@@ -105,6 +105,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'shore.sky': 'time',
   'shore.lastSeenAt': 0,
   'focus.keepAwake': true,
+  'shortcuts.enabled': true,
   'wrap.eveningHiddenFor': null,
   'wrap.morningHiddenFor': null,
 };

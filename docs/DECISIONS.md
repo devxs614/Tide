@@ -817,3 +817,54 @@ own setup, so going back a chapter (←) recovers from most surprises.
 Spec 3.5 changes demo mode: it no longer replaces the device's data. The
 v1 switch became buttons for each tour mode; someone with v1 demo data in
 their main space is offered to clear it, with a confirmation.
+
+**D116 — 2026-10-30 — Shortcuts live in the app shell, and step aside.**
+The listener is mounted by `AppShell`, so the main screens get shortcuts
+and the full-screen moments (focus, Close the day, onboarding, the demo)
+never react to a stray key. It also does nothing while a dialog, menu or
+the demo's controls are open, and on the support pages, where a key
+should never take someone away from crisis numbers. Rejected: a global
+listener in the providers, which would have needed exceptions everywhere.
+
+**D117 — 2026-10-30 — Shortcuts match the character, not the key position.**
+`?` and `/` are read from `event.key`, so they work on Spanish and other
+keyboard layouts where those characters sit elsewhere. Ctrl, Cmd and Alt
+always pass through untouched, so browser and screen reader commands keep
+working. Rejected: `event.code`, which is tied to US key positions.
+
+**D118 — 2026-10-30 — Install: catch the offer early, use it only on press.**
+Chromium fires `beforeinstallprompt` once, soon after load, so
+`lib/install.ts` catches it at startup and stops Chrome's own mini bar;
+the dialog opens only when someone presses Install Tide. Where installing
+isn't offered, the control says so plainly instead of showing a button
+that does nothing. Rejected: adding a service worker in V11 just to make
+installing possible in more places; it changes how updates reach people
+and needs its own testing.
+
+**D119 — 2026-10-30 — The offline pill has a separate status line.**
+The visible pill fades with opacity and is hidden from screen readers; a
+visually hidden `role="status"` line holds the words only while offline,
+so the change is announced once and nothing is read when it fades away.
+
+**D120 — 2026-10-30 — Tooltips only where a control shows only an icon.**
+`WithTooltip` wraps the few icon-only buttons (demo controls, voice
+samples, companion arrows), all on pages that load later. Rejected:
+building tooltips into every `Button`, which would load Radix Tooltip on
+every first visit with `/` at 298 of 300 KB.
+
+**D121 — 2026-10-30 — Loading skeletons are silent.**
+Skeletons are `aria-hidden` and announce nothing: IndexedDB answers in
+milliseconds, and a "Loading" announcement on every tab switch would be
+noise. Screen readers get the real content a moment later.
+
+**D122 — 2026-10-30 — Bubbles never cover controls; tails point at the companion.**
+In Close the day the companion is centered under Close and the progress
+bar, so its bubble sits beside it (inline) instead of above. Bubble tails
+were at the far end of each bubble; they now sit over the companion.
+
+**D123 — 2026-10-30 — axe-core in the tests; old Settings hash links redirect.**
+The accessibility audit runs axe-core (MPL-2.0, now an explicit dev
+dependency) on every new flow and all Settings pages, with contrast left
+to the theme token tests because jsdom can't compute colors. Separately,
+v1 links like `/settings#people` open that section's page, so the v1
+support page link (and its v1 test) stay as they were.

@@ -17,6 +17,8 @@ import dynamic from 'next/dynamic';
 import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
+import { OfflinePill } from './OfflinePill';
+import { KeyboardShortcuts } from './KeyboardShortcuts';
 
 // The sheets load the first time they open, so a screen's first load
 // doesn't carry the check-in steps, the AI validation and the Bridge.
@@ -93,6 +95,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {copy.global.skipToContent}
       </a>
       <TopBar title={titleFor(pathname)} />
+      <OfflinePill />
       <BridgeBanner />
       <main id="main" tabIndex={-1} className="flex-1 px-5 pb-48 pt-5 outline-none">
         {children}
@@ -107,6 +110,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <TabBar />
       </div>
       <Sheets />
+      <KeyboardShortcuts />
       {showWhatsNew && <WhatsNewSheet />}
     </PhoneFrame>
   );

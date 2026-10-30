@@ -957,3 +957,46 @@ navigation and the repo for clock jumps.
 - *Can the demo break my data?* No: it's a different database, chosen at
   load; tested with row counts before and after.
 - *What if the network is down?* Autoplay uses only saved answers.
+
+## Quality features (V11)
+
+**What it does.** The finishing layer from spec 17: desktop keyboard
+shortcuts, an offline note, an Install Tide control, "How this screen
+works" sheets, tooltips on icon-only buttons, loading skeletons, and
+loops that rest when nobody can see them.
+
+**Files**
+- `lib/shortcuts.ts` (a key press → an action, with the "never while
+  typing" rules), `components/shell/KeyboardShortcuts.tsx` (the listener
+  in `AppShell` and the `?` sheet), `ShortcutsList.tsx`, `ShortcutsSheet.tsx`.
+- `lib/useOnline.ts`, `components/shell/OfflinePill.tsx`.
+- `lib/install.ts` (catches `beforeinstallprompt` at startup; imported by
+  `app/providers.tsx`), `components/shell/InstallButton.tsx` (About and
+  What's new).
+- `components/shell/ScreenHelpSheet.tsx` (opened from the `TopBar` menu;
+  words in `copy.screenHelp`).
+- `components/ui/tooltip.tsx` (`WithTooltip`), `components/ui/skeleton.tsx`,
+  `lib/motion/usePauseOffscreen.ts`.
+- Audits: `src/test/a11y.test.tsx` (axe on every new flow and every
+  Settings page), `src/test/copyGuards.test.ts` (no emojis, no guilt).
+
+**Data flow.** Key press → `shortcutFor(event)` → the listener checks that
+nothing else has the keyboard → router push, the check-in sheet, or the
+`?` sheet. `online`/`offline` events → `useOnline` → the pill. The install
+offer is kept in `lib/install.ts` until Install Tide is pressed.
+
+**Decisions worth defending.** Shortcuts only in the main screens and
+never on support (D116); characters, not key positions (D117); never
+auto-prompting to install (D118); silent skeletons (D121).
+
+**Likely reviewer questions**
+- *Can a shortcut fire while I type?* No: inputs, text areas, editable
+  text and comboboxes are skipped, and so are Ctrl, Cmd and Alt (tested).
+- *Does Tide work offline?* Everything is on the device, so yes while it's
+  open; AI words switch to the built-in ones and the pill says so. There's
+  no service worker, so a reload with no network can't load the app.
+- *How was accessibility checked?* axe-core on every new flow, the
+  contrast tests for every theme, keyboard flow tests, and a run in a
+  production build at 375 px with text at 150% and motion Off. A human
+  screen reader pass is in TEAM_TODO.
+

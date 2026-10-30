@@ -31,9 +31,9 @@ export function LookTab({ onSpecies }: { onSpecies: (species: CompanionSpecies |
       {species && (
         <>
           <div role="group" aria-labelledby="studio-color" className="flex flex-col gap-2">
-            <h3 id="studio-color" className="font-display font-extrabold">
+            <h2 id="studio-color" className="font-display font-extrabold">
               {t.studio.color}
-            </h3>
+            </h2>
             <div className="grid grid-cols-4 gap-2">
               {COMPANIONS[species].variants.map((v) => (
                 <CardButton
@@ -50,9 +50,9 @@ export function LookTab({ onSpecies }: { onSpecies: (species: CompanionSpecies |
           </div>
 
           <div role="group" aria-labelledby="studio-accessory" className="flex flex-col gap-2">
-            <h3 id="studio-accessory" className="font-display font-extrabold">
+            <h2 id="studio-accessory" className="font-display font-extrabold">
               {t.studio.accessory}
-            </h3>
+            </h2>
             <div className="grid grid-cols-3 gap-2">
               {ACCESSORIES.map((a) => (
                 <CardButton
