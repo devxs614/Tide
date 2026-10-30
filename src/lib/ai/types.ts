@@ -11,9 +11,11 @@ import type {
   NarrateOutputT,
   UnstickInputT,
   UnstickOutputT,
+  WrapupInputT,
+  WrapupOutputT,
 } from './schemas';
 
-export type AiRouteName = 'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate';
+export type AiRouteName = 'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate' | 'wrapup';
 
 export interface AiInputs {
   label: LabelInputT;
@@ -21,6 +23,7 @@ export interface AiInputs {
   daymode: DayModeInputT;
   bridge: BridgeInputT;
   narrate: NarrateInputT;
+  wrapup: WrapupInputT;
 }
 
 export interface AiOutputs {
@@ -29,6 +32,7 @@ export interface AiOutputs {
   daymode: DayModeOutputT;
   bridge: BridgeOutputT;
   narrate: NarrateOutputT;
+  wrapup: WrapupOutputT;
 }
 
 // 'demo-cache' is for debugging and Settings → About suggestions only; the

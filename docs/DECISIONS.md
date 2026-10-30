@@ -736,3 +736,32 @@ of thing that matters: a note to herself must be deletable.
 in V10). The Shore's Collection and List links sit at the top of the page
 rather than in the shared top bar. Today's shore strip and the bottle
 dialog load after the page, to stay under 300 KB.
+
+**D102 — 2026-10-30 — Wrap-up numbers may be counts of the input's lists.**
+Spec 14.6: "any digit in the output must appear in the input facts". Read
+literally, "You checked in 2 times" would fail when there are two
+check-ins, because "2" isn't written anywhere. The check allows numbers
+written in the input and the lengths of its lists (check-ins, tasks done,
+switches, strategies, helped, hard). Invented numbers still fail.
+
+**D103 — 2026-10-30 — The prompts document lists v2 routes on their own.**
+The v1 page printed the shared preamble once per route, and its test
+counts that. The wrap-up route is shown in a section after the v1 routes,
+with its own prompt and a note that it uses the same shared preamble. The
+v1 route list is typed to the five v1 routes, which is also what it is.
+
+**D104 — 2026-10-30 — The first closed day is celebrated as a first.**
+The first wrap gets the "first time" celebration at the big tier (and its
+pearl); later ones get `wrapDone`. Both leave driftwood on the shore.
+
+**D105 — 2026-10-30 — Time-based tests fake only `Date`.**
+`setDemoClock` is reset by the settings provider whenever demo mode is
+off, so tests that set it and then rendered were reading real time. They
+now use `vi.useFakeTimers({ toFake: ['Date'] })` and `vi.setSystemTime`,
+which leaves real timers (and user events) alone.
+
+**D106 — 2026-10-30 — Quiet failures for unasked speech; atomic starts.**
+`useVoice().speak` takes `quiet`, used for companion lines, so a voice
+that can't play doesn't produce an error toast nobody asked for. Read
+aloud still tells you. `startWrap` runs in a transaction so it can't
+create the same day twice.

@@ -141,7 +141,7 @@ export const BridgeOutput = z.object({
 });
 
 // ---------- narrate ----------
-export const PatternKindZ = z.enum(['strategy_before_task', 'hard_transition', 'state_task_start', 'strategy_effect']);
+export const PatternKindZ = z.enum(['strategy_before_task', 'hard_transition', 'state_task_start', 'strategy_effect', 'wrap_helped']);
 
 export const NarrateInput = z.object({
   mode: ModeZ,
@@ -227,4 +227,66 @@ export function numbersAreFromFacts(card: NarrateCard, facts: Record<string, str
   const allowed = new Set(Object.values(facts).flatMap((v) => String(v).match(/\d+/g) ?? []));
   const used = `${card.title} ${card.body} ${card.whyText}`.match(/\d+/g) ?? [];
   return used.every((d) => allowed.has(d));
+}
+
+// ——— v2: /api/ai/wrapup (spec 14.6). Facts and reflection labels go in;
+// the free-text notes never do. Four short fields come out.
+export const WrapupInput = z.object({
+  mode: ModeZ,
+  readingLevel: z.enum(['standard', 'simple']).optional(),
+  date: z.string(),
+  facts: z.object({
+    checkins: z.array(z.object({ time: z.string(), quadrant: QuadrantZ, emotions: z.array(z.string()).max(2) })).max(8),
+    tasksDone: z.array(z.string().max(120)).max(12),
+    focusBlocks: z.object({ total: z.number().int(), gotGoing: z.number().int() }),
+    transitions: z.array(z.object({ label: z.string().max(80), rating: z.enum(['easy', 'okay', 'hard']).nullable() })).max(8),
+    strategies: z.array(z.object({ name: z.string(), result: z.enum(['better', 'same', 'worse']).nullable() })).max(8),
+  }),
+  reflection: z.object({
+    helped: z.array(z.string()).max(10),
+    hard: z.array(z.string()).max(10),
+    overall: z.enum(['very_hard', 'hard', 'mixed', 'okay', 'good']).nullable(),
+  }),
+  tomorrow: z.object({
+    anchorTaskTitle: z.string().max(120).nullable(),
+    firstEventTitle: z.string().max(80).nullable(),
+    patternHint: z.object({ text: z.string().max(140) }).nullable(),
+  }),
+  companionName: z.string().max(16).nullable(),
+});
+export type WrapupInputT = z.infer<typeof WrapupInput>;
+
+export const WrapupOutput = z.object({
+  summary: z.string().min(1).max(320),
+  highlight: z.string().min(1).max(110),
+  tomorrowTip: z.string().min(1).max(140),
+  companionLine: z.string().min(1).max(80),
+});
+export type WrapupOutputT = z.infer<typeof WrapupOutput>;
+
+// Words that turn a summary into a verdict. Any of them sends the answer to
+// the fallback template (spec 14.6).
+export const WRAPUP_FORBIDDEN = [
+  'productive', 'unproductive', 'lazy', 'should have', 'failed', 'failure', 'only managed', 'not enough',
+  'disappointing', 'must', 'diagnos', 'disorder', 'therapy',
+];
+
+export function checkWrapupOutput(input: WrapupInputT, output: WrapupOutputT): string | null {
+  const text = Object.values(output).join(' ');
+  const lower = text.toLowerCase();
+  const word = WRAPUP_FORBIDDEN.find((w) => lower.includes(w));
+  if (word) return `the word "${word}" is not allowed`;
+  // Numbers only from the input: any number written in it, or a count of
+  // its lists ("You checked in 2 times" when there are two check-ins).
+  const f = input.facts;
+  const counts = [f.checkins, f.tasksDone, f.transitions, f.strategies, input.reflection.helped, input.reflection.hard].map((l) => String(l.length));
+  const allowed = new Set([...(JSON.stringify(input).match(/\d+/g) ?? []), ...counts]);
+  const stray = (text.match(/\d+/g) ?? []).find((d) => !allowed.has(d));
+  if (stray) return `the number ${stray} is not in the input`;
+  // A quoted phrase of three or more words must be (part of) a real title.
+  const titles = [...input.facts.tasksDone, input.tomorrow.anchorTaskTitle ?? ''].map((t) => t.toLowerCase());
+  for (const [, quoted] of text.matchAll(/["“]([^"”]+)["”]/g)) {
+    if (quoted.trim().split(/\s+/).length >= 3 && !titles.some((t) => t.includes(quoted.toLowerCase()))) return `"${quoted}" is not a task title`;
+  }
+  return null;
 }

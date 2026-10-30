@@ -19,9 +19,11 @@ const PHASES: BreathPhase[] = ['in', 'hold-in', 'out', 'hold-out'];
 const WORDS = [copy.tools.breathe.in, copy.tools.breathe.holdIn, copy.tools.breathe.out, copy.tools.breathe.holdOut];
 const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
 const SIDE_S = 4;
-const TOTAL_S = SIDE_S * 4;
 
-export function BreathTogether() {
+// `rounds` and `title` let Close the day reuse this for a slow, one-minute
+// wind-down (four rounds), with the companion sleepy instead of calm.
+export function BreathTogether({ rounds = 1, title = COMPANION_COPY.studio.tryBreath, sleepy = false }: { rounds?: number; title?: string; sleepy?: boolean }) {
+  const TOTAL_S = SIDE_S * 4 * rounds;
   const { settings } = useSettings();
   const play = useSound();
   const voice = useVoice();
@@ -39,7 +41,7 @@ export function BreathTogether() {
 
   // Each side's cue, once, as it starts (the same cues as the Toolkit).
   const elapsed = second ?? 0;
-  const side = running ? Math.floor(elapsed / SIDE_S) : -1;
+  const side = running ? Math.floor(elapsed / SIDE_S) % 4 : -1;
   useEffect(() => {
     if (side < 0) return;
     if (settings['voice.breathingCues']) void voice.speak(CUES[side]);
@@ -54,12 +56,12 @@ export function BreathTogether() {
   return (
     <section aria-labelledby="studio-breath" className="card flex flex-col items-center gap-3 p-4">
       <h2 id="studio-breath" className="self-start text-h3 font-extrabold">
-        {COMPANION_COPY.studio.tryBreath}
+        {title}
       </h2>
       <p className="self-start text-small text-ink-soft">{COMPANION_COPY.studio.breathHint}</p>
       <Companion
         size={128}
-        expression={running ? 'breathing' : done ? 'happy' : 'calm'}
+        expression={running ? 'breathing' : sleepy ? 'sleepy' : done ? 'happy' : 'calm'}
         breathPhase={running ? PHASES[side] : null}
         breathPhaseMs={SIDE_S * 1000}
         decorative
@@ -74,7 +76,7 @@ export function BreathTogether() {
       {!running && (
         <Button variant="secondary" onClick={start}>
           <Wind aria-hidden />
-          {COMPANION_COPY.studio.tryBreath}
+          {title}
         </Button>
       )}
     </section>

@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 import { copy, fill } from '@/copy/en';
 import { getTaskType } from '@/data/taskTypes';
 import { now } from '@/lib/clock';
-import { dueLabel } from '@/lib/time';
+import { dueLabel, toISODate } from '@/lib/time';
 import { useUnstickSheet } from '@/lib/ui';
 import type { Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -36,6 +36,7 @@ export function TaskCard({ task, handle, compact = false }: { task: Task; handle
         <EnergyDots cost={task.energyCost} />
         {task.due && <span>{dueLabel(task.due, now())}</span>}
         {task.movedTo && <span>{copy.tasks.movedLabel}</span>}
+        {task.snoozedUntil && task.snoozedUntil > toISODate(now()) && <span>{fill(copy.wrap.snoozedLabel, { date: dueLabel(task.snoozedUntil, now()) })}</span>}
       </p>
       {task.status === 'stuck' && task.stuckReason && (
         <p className="text-caption text-ink-soft">{fill(copy.tasks.stuckBecause, { reason: copy.unstick.reasons[task.stuckReason] })}</p>

@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { STATUS_ORDER } from './MoveToMenu';
 import { StateColumn } from './StateColumn';
 import { useTaskMoves } from './useTaskMoves';
+import { SomedayList } from './SomedayList';
 
 function statusOf(id: string, tasks: Task[]): TaskStatus | undefined {
   if (id.startsWith('column:')) return id.slice('column:'.length) as TaskStatus;
@@ -42,7 +43,7 @@ export function TaskBoard() {
   const columns = useMemo(() => {
     const list = tasks ?? [];
     return Object.fromEntries(
-      STATUS_ORDER.map((s) => [s, list.filter((t) => t.status === s).sort((a, b) => a.order - b.order)]),
+      STATUS_ORDER.map((s) => [s, list.filter((t) => t.status === s && !t.someday).sort((a, b) => a.order - b.order)]),
     ) as Record<TaskStatus, Task[]>;
   }, [tasks]);
 
@@ -102,6 +103,7 @@ export function TaskBoard() {
           ))}
         </div>
       </DndContext>
+      <SomedayList tasks={(tasks ?? []).filter((t) => t.someday && t.status !== 'done')} />
     </div>
   );
 }

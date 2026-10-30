@@ -7,7 +7,7 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type AiRoute = 'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate';
+export type AiRoute = 'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate' | 'wrapup';
 
 const FILES: Record<AiRoute | 'preamble', string> = {
   preamble: '00-shared-preamble.md',
@@ -16,6 +16,7 @@ const FILES: Record<AiRoute | 'preamble', string> = {
   daymode: '03-daymode.md',
   bridge: '04-bridge.md',
   narrate: '05-narrate.md',
+  wrapup: '06-wrapup.md',
 };
 
 function read(name: string): string {
@@ -29,6 +30,7 @@ export const PROMPT_TEXT: Record<AiRoute | 'preamble', string> = {
   daymode: read(FILES.daymode),
   bridge: read(FILES.bridge),
   narrate: read(FILES.narrate),
+  wrapup: read(FILES.wrapup),
 };
 
 export const PROMPT_FILES = FILES;

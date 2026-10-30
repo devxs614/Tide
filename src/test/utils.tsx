@@ -55,7 +55,7 @@ type RouteHandler = (body: unknown) => unknown;
 
 // Stubs fetch for /api/config and /api/ai/<route>. Unlisted routes answer
 // missing_key, like a deployment without an API key.
-export function mockAi(handlers: Partial<Record<'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate', RouteHandler>>) {
+export function mockAi(handlers: Partial<Record<'label' | 'unstick' | 'daymode' | 'bridge' | 'narrate' | 'wrapup', RouteHandler>>) {
   const fn = vi.fn(async (url: string, init?: RequestInit) => {
     if (url === '/api/config') return new Response(JSON.stringify({ timeoutMs: 2000, demoTimeoutMs: 1000 }));
     const route = url.replace('/api/ai/', '') as keyof typeof handlers;

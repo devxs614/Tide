@@ -84,6 +84,8 @@ export const DEFAULT_SETTINGS: Settings = {
   'shore.sky': 'time',
   'shore.lastSeenAt': 0,
   'focus.keepAwake': true,
+  'wrap.eveningHiddenFor': null,
+  'wrap.morningHiddenFor': null,
 };
 
 export function settingsFromRows(rows: Array<{ key: string; value: unknown }>): Settings {

@@ -20,6 +20,8 @@ import type {
   NarrateOutputT,
   UnstickInputT,
   UnstickOutputT,
+  WrapupInputT,
+  WrapupOutputT,
 } from './schemas';
 
 // ---------- label ----------
@@ -230,9 +232,37 @@ export function narrateTemplate(p: NarrateInputT['patterns'][number]): NarrateCa
         body: `In your data, you often felt better after ${s('strategyName').toLowerCase()}. It could be one to keep handy.`,
         whyText: `From ${s('n')} times you tried ${s('strategyName').toLowerCase()} and checked in after; you felt better ${s('k')} times.`,
       };
+    case 'wrap_helped':
+      return {
+        key: p.key,
+        title: `Days with ${s('strategyName').toLowerCase()} tended to end okay`,
+        body: `In your data, days when you used ${s('strategyName').toLowerCase()} more often ended okay or good.`,
+        whyText: `From ${s('nA')} closed days with ${s('strategyName').toLowerCase()} (${s('kA')} okay or good) and ${s('nB')} without it (${s('kB')} okay or good).`,
+      };
   }
 }
 
 export function narrateFallback(input: NarrateInputT): NarrateOutputT {
   return { cards: input.patterns.map(narrateTemplate) };
+}
+
+// The evening summary without the model (spec 14.6): plain sentences built
+// from the facts, the first thing that helped as the highlight, a small tip
+// for tomorrow, and the companion's own goodnight line.
+export function wrapupFallback(input: WrapupInputT, companionGoodnight?: string): WrapupOutputT {
+  const f = input.facts;
+  const t = copy.wrap.fallback;
+  const sentences: string[] = [];
+  if (f.checkins.length > 0) sentences.push(fill(f.checkins.length === 1 ? t.checkinsOne : t.checkins, { n: f.checkins.length }));
+  if (f.tasksDone.length > 0) sentences.push(fill(f.tasksDone.length === 1 ? t.tasksOne : t.tasks, { k: f.tasksDone.length }));
+  const better = f.strategies.find((s) => s.result === 'better');
+  if (better) sentences.push(fill(t.helped, { strategy: better.name }));
+  if (input.reflection.hard[0]) sentences.push(fill(t.hard, { hard: input.reflection.hard[0] }));
+  if (sentences.length === 0) sentences.push(t.closed);
+  return {
+    summary: sentences.slice(0, 3).join(' '),
+    highlight: better ? fill(t.helped, { strategy: better.name }) : f.tasksDone[0] ? fill(t.finished, { title: f.tasksDone[0] }) : t.closed,
+    tomorrowTip: input.tomorrow.patternHint?.text ?? (input.tomorrow.anchorTaskTitle ? fill(t.anchorTip, { anchor: input.tomorrow.anchorTaskTitle }) : t.smallTip),
+    companionLine: companionGoodnight ?? t.goodnight,
+  };
 }

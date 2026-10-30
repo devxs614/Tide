@@ -2,9 +2,8 @@
 // a task is done, the Shore shows the right item and tapping it explains it;
 // a note written today surfaces only a day later, on an Ebb or Surge day,
 // once, and keeping it adds a bottle win.
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { screen, waitFor, within } from '@testing-library/react';
-import { realNow, setDemoClock } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { getEligibleBottle, writeBottle } from '@/lib/repo/bottles';
 import { createCheckIn } from '@/lib/repo/checkins';
@@ -15,11 +14,15 @@ import { renderApp, resetApp } from '@/test/utils';
 import { ShoreScreen } from './ShoreScreen';
 
 const WED = new Date(2026, 9, 28, 10, 0).getTime();
-const clockAt = (ts: number) => setDemoClock({ base: ts, startedAt: realNow() });
+// Only Date is faked: the settings provider resets the demo clock outside
+// demo mode, so tests set the system time itself.
+const clockAt = (ts: number) => vi.setSystemTime(ts);
 
 beforeEach(async () => {
+  vi.useFakeTimers({ toFake: ['Date'] });
   await resetApp();
 });
+afterEach(() => vi.useRealTimers());
 
 describe('Your Shore', () => {
   it('flow 9: a finished studying task washes up as a scallop, and tapping it explains it', async () => {
@@ -61,7 +64,6 @@ describe('messages in a bottle', () => {
     clockAt(thursday + 60_000);
     await createCheckIn({ emotions: [], energy: 3, pleasantness: -3, aiUsed: false });
     expect((await getEligibleBottle(thursday + 60_000))?.id).toBe(first.id);
-    setDemoClock(null);
   });
 
   it('flow 10: write → an Ebb check-in a day later → Today card → open → keep → a bottle win', async () => {
@@ -81,6 +83,5 @@ describe('messages in a bottle', () => {
     const [bottle] = await db.bottles.toArray();
     expect(bottle).toMatchObject({ kept: true });
     expect(bottle.openedAt).toBeGreaterThan(0);
-    setDemoClock(null);
   });
 });

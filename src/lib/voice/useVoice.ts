@@ -42,7 +42,9 @@ export function useVoice() {
     async (
       text: string | string[],
       // Overrides, for "Play sample" on one particular voice in Settings.
-      opts: { naturalVoice?: string; deviceVoiceURI?: string; engine?: 'natural' | 'device' } = {},
+      // `quiet` skips the "couldn't play" toast: for things read without
+      // being asked (a companion's line), a failure shouldn't interrupt.
+      opts: { naturalVoice?: string; deviceVoiceURI?: string; engine?: 'natural' | 'device'; quiet?: boolean } = {},
     ): Promise<SpeakOutcome> => {
       const req: SpeakRequest = {
         text,
@@ -54,7 +56,7 @@ export function useVoice() {
         naturalAllowed: settings['privacy.naturalVoiceAllowed'],
       };
       const outcome = await engineSpeak(req, attemptsFor(req), id);
-      if (outcome === 'failed') toast(copy.voice.couldntPlay);
+      if (outcome === 'failed' && !opts.quiet) toast(copy.voice.couldntPlay);
       return outcome;
     },
     [engine, settings, id],
