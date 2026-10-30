@@ -552,3 +552,38 @@ before its own voice started. The engine now records which caller owns the
 current speech and tells listeners, so exactly one button shows "Stop
 reading".
 
+
+**D73 — 2026-10-29 — Companion animation is CSS, not framer-motion.**
+The spec suggests framer-motion variants. The same motion (breathing,
+blinking, reactions, breath sync) works as CSS keyframes on transform and
+opacity, driven by data attributes on the SVG. It adds nothing to the
+first-load bundle (framer-motion is only on Patterns today), and one
+attribute (`data-paused`) holds every loop still. Rejected: framer-motion
+on every companion, which would load it on Today.
+
+**D74 — 2026-10-29 — One face for all six companions.**
+Each species says where its eyes, mouth and cheeks are; one shared `Face`
+component draws the 14 expressions. This guarantees every species has
+every expression, keeps them consistent, and means a new expression is one
+change. Rejected: drawing expressions per species (84 drawings to keep in
+step).
+
+**D75 — 2026-10-29 — Accessories are drawn once and placed per species.**
+Each of the 12 accessories is drawn around a point at head size, and each
+species has four attachment points (head, face, neck, back) with a scale
+and tilt. Head and face accessories are drawn inside the head group, so a
+curious head tilt carries the hat with it. Rejected: 72 hand-placed
+accessory drawings.
+
+**D76 — 2026-10-29 — Changing species keeps a custom name.**
+If Maya named her companion, the name is hers, so switching from otter to
+axolotl keeps "Biscuit". An empty name means "the species' default", so
+someone who never renamed sees Lolo after switching. Saving the default
+name stores an empty name for the same reason. The color resets to the new
+species' first variant, because variants belong to a species.
+
+**D77 — 2026-10-29 — The breathing face opens on the out-breath.**
+Spec 8.4: eyes closed during the in-breath, open during the out-breath.
+The `breathing` expression now rests on soft open eyes and closes them only
+for "in" and its hold. Without a breath phase (a still picture) the eyes
+stay closed, which reads as calm.

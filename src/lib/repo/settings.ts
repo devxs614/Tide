@@ -59,6 +59,19 @@ export const DEFAULT_SETTINGS: Settings = {
   'voice.readCompanion': false,
   'voice.breathingCues': false,
   'privacy.naturalVoiceAllowed': true,
+  'companion.species': null,
+  'companion.name': '',
+  'companion.variant': '',
+  'companion.accessory': 'none',
+  'companion.size': 'md',
+  'companion.talkativeness': 'some',
+  'companion.placements': {
+    today: true, checkin: true, unstick: true, focus: true, bridge: true, toolkit: true, patterns: true,
+    shore: true, wrap: true, celebrations: true, toasts: true, empty: true, support: true,
+  },
+  'companion.faceStyle': 'dots',
+  'companion.mirrorState': false,
+  'companion.voice': '',
 };
 
 export function settingsFromRows(rows: Array<{ key: string; value: unknown }>): Settings {

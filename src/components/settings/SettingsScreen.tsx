@@ -1,6 +1,6 @@
 'use client';
 
-// Settings, in the order of the spec: profile, comfort, how Tide talks, AI
+// Settings, in the order of the spec: profile, companion, comfort, how Tide talks, AI
 // suggestions, people and support, your data, demo, about. Every change is
 // saved and applied at once; there is no "Save" button to forget.
 import { copy } from '@/copy/en';
@@ -9,6 +9,7 @@ import { AboutSection } from './AboutSection';
 import { AiSection } from './AiSection';
 import { AppearanceSection } from './AppearanceSection';
 import { ComfortSection } from './ComfortSection';
+import { CompanionSection } from './CompanionSection';
 import { DataSection } from './DataSection';
 import { DemoSection } from './DemoSection';
 import { PeopleSection } from './PeopleSection';
@@ -33,6 +34,7 @@ export function SettingsScreen() {
           className="min-h-12 rounded-input border border-line bg-surface-2 px-3 text-body"
         />
       </Section>
+      <CompanionSection />
       <ComfortSection />
       <AppearanceSection />
       <Section id="voice" title={copy.voice.title}>
