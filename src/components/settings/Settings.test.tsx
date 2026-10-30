@@ -68,19 +68,32 @@ describe('settings', () => {
 });
 
 describe('onboarding', () => {
-  it('walks three steps, applies preferences at once, and saves a trusted person', async () => {
+  // v2 spec 3.5: onboarding grew from three steps to twelve. The navigation
+  // here changed with it; what the test checks (choices apply at once, a
+  // trusted person is saved, skipping works from any step) did not.
+  it('walks the steps, applies preferences at once, and saves a trusted person', async () => {
     await resetApp({ onboarded: false });
     const { user } = await renderApp(<OnboardingScreen />);
-    expect(await screen.findByText('Step 1 of 3')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Tide helps you plan around how you actually feel.' })).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
-    await user.click(screen.getByRole('button', { name: 'Dark' }));
+    expect(await screen.findByText('Step 1 of 12')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Welcome to Tide.' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: "Let's set up your space" }));
+    // Steps 2–6 keep their defaults.
+    for (let n = 2; n <= 6; n++) {
+      await screen.findByText(`Step ${n} of 12`);
+      await user.click(screen.getByRole('button', { name: 'Skip' }));
+    }
+    await screen.findByText('Step 7 of 12');
+    await user.click(screen.getByRole('button', { name: /Midnight Tide/ }));
     await waitFor(() => expect(document.documentElement.classList.contains('dark')).toBe(true));
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText('Step 3 of 3')).toBeInTheDocument();
+    for (let n = 7; n <= 11; n++) {
+      await screen.findByText(`Step ${n} of 12`);
+      await user.click(screen.getByRole('button', { name: 'Skip' }));
+    }
+    await screen.findByText('Step 12 of 12');
     await user.type(screen.getByLabelText('Name'), 'Sofi');
     await user.type(screen.getByLabelText('Number or handle'), '+52 81 0000 0000');
-    await user.click(screen.getByRole('button', { name: 'Start my day' }));
+    await user.click(screen.getByRole('button', { name: 'Next' }));
+    await user.click(await screen.findByRole('button', { name: 'Skip' }));
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/'));
     const settings = await getSettings();
     expect(settings.onboarded).toBe(true);
@@ -90,7 +103,9 @@ describe('onboarding', () => {
   it('can be skipped from the first step', async () => {
     await resetApp({ onboarded: false });
     const { user } = await renderApp(<OnboardingScreen />);
-    await user.click(await screen.findByRole('button', { name: 'Skip' }));
+    await user.click(await screen.findByRole('button', { name: 'More options' }));
+    await user.click(await screen.findByRole('menuitem', { name: 'Skip setup' }));
     await waitFor(async () => expect((await getSettings()).onboarded).toBe(true));
   });
 });
+

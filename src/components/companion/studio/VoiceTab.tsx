@@ -14,6 +14,8 @@ import { useSettings } from '@/lib/settings';
 import type { CompanionSpecies } from '@/lib/companion/registry';
 import { ttsStatus, type TtsStatus } from '@/lib/voice/cloudEngine';
 import { useVoice } from '@/lib/voice/useVoice';
+import { now } from '@/lib/clock';
+import { dayPart } from '@/lib/time';
 import { Button } from '@/components/ui/button';
 import { CardButton } from '@/components/ui/card';
 import { SwitchRow } from '@/components/ui/switch';
@@ -34,7 +36,7 @@ export function VoiceTab({ species }: { species: CompanionSpecies }) {
   const natural = !!cloud?.available && settings['privacy.naturalVoiceAllowed'];
   const ownVoice = cloud?.available ? COMPANION_CLOUD_VOICE[cloud.provider as TtsProvider]?.[species] : undefined;
   const chosen = settings['companion.voice'] || ownVoice;
-  const sample = companionLine(species, 'greeting_morning', settings.communicationMode, { name: settings.name });
+  const sample = companionLine(species, `greeting_${dayPart(now())}`, settings.communicationMode, { name: settings.name });
 
   return (
     <div className="flex flex-col gap-4">

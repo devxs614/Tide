@@ -37,8 +37,12 @@ import { bodyCues, initialState, isDirty, reducer } from './checkInState';
 import type { LabelInputT } from '@/lib/ai/schemas';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 import { db } from '@/lib/db';
+import { CoachContext } from './CheckInCoach';
+import type { CheckIn } from '@/lib/types';
 
-export function CheckInSheet() {
+// `coach` and `onSaved` are for onboarding's first check-in: hints at each
+// step, and after saving, onboarding continues instead of the usual route.
+export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSaved?: (checkIn: CheckIn) => void } = {}) {
   const router = useRouter();
   const { settings } = useSettings();
   const { open, closeCheckIn } = useCheckInSheet();
@@ -122,6 +126,7 @@ export function CheckInSheet() {
         icon: companionToastIcon(companion, reaction.expression ?? 'idle', reaction.reaction),
       });
     }
+    if (onSaved) return onSaved(checkIn);
     if (need === 'adjust') openDayMode();
     if (need === 'regulate') router.push('/toolkit');
     if (need === 'talk') router.push('/support');
@@ -131,6 +136,7 @@ export function CheckInSheet() {
     <>
       <Sheet open={open} onOpenChange={(next) => (next ? undefined : requestClose())}>
         <SheetContent className="h-[94dvh]" aria-describedby={undefined}>
+          <CoachContext value={coach}>
           <CompanionHost
             placement="checkin"
             size={SIZES.sm}
@@ -186,6 +192,7 @@ export function CheckInSheet() {
             />
           )}
           {state.step === 'need' && <StepNeed onChoose={(need) => void save(need)} saving={saving} />}
+          </CoachContext>
         </SheetContent>
       </Sheet>
       <LeaveConfirm open={confirmLeave} onKeep={() => setConfirmLeave(false)} onLeave={close} />

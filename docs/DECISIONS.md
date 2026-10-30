@@ -669,3 +669,34 @@ in words and a toast for every check-in would be noise.
 `/dev/celebrations` plays any tier × state through the real host without
 reading or writing data, so the matrix can be reviewed by eye at each
 motion level. Like `/dev/companions`, it's a 404 in production.
+
+**D91 — 2026-10-29 — The v1 onboarding tests follow the new steps.**
+Spec 3.5 allows it ("Onboarding tests: update step navigation; Skip still
+works from any step"). Both tests keep their assertions (a theme choice
+applies at once, a trusted person is saved, onboarding can be skipped from
+the first step); only how they get there changed. Skipping everything now
+lives in "More options → Skip setup", and "Skip" moves one step on.
+
+**D92 — 2026-10-29 — First-time pearls are a setting, not wins.**
+Spec 18.3 suggests a first-time win per feature, but a v1 test checks that
+trying a strategy and saying "Better" creates exactly one win. A second
+row would break it (and change what the Proof log shows). So `firsts`
+records when each feature was first used; the Shore will draw those as
+pearls. The welcome shell is a real win (`kind: 'welcome'`), since no v1
+flow creates or counts it.
+
+**D93 — 2026-10-29 — "Skip setup" never overrides a choice.**
+It applies the spec's defaults, but keeps a companion Maya already chose
+and, after the senses and colors steps, the look she set. Someone who
+picked Shelby and then got tired of setting up shouldn't end up with Lolo.
+
+**D94 — 2026-10-29 — "What's new" waits outside the demo.**
+It shows for anyone onboarded without a companion choice, except in demo
+mode: the demo has its own tour, and a full-screen sheet over it would
+break the scripted run (and its v1 test).
+
+**D95 — 2026-10-29 — The Bridge lead follows the new setting.**
+`getUpcomingTransition` takes an optional lead (default 15 minutes, v1's
+fixed value), and the hook passes `day.transitionLead`. Without this, the
+onboarding question "Warn me before switching activities" would change
+nothing.

@@ -13,6 +13,7 @@ import { MoodMap, type MapPoint } from './MoodMap';
 import { StepHeader } from './StepHeader';
 import { canLeaveStepTwo, type CheckInState } from './checkInState';
 import type { CSSProperties } from 'react';
+import { CheckInCoach } from './CheckInCoach';
 
 interface Props {
   state: CheckInState;
@@ -40,6 +41,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
     <>
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
         <StepHeader title={byMode(copy.checkin.step2Title, settings.communicationMode)} stepNumber={2} />
+        <CheckInCoach>{copy.ob.coachWords}</CheckInCoach>
         <p aria-live="polite" className="text-ink-soft">
           {state.loading ? copy.checkin.loadingLabel : ''}
         </p>

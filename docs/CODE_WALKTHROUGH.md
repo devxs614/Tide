@@ -797,3 +797,37 @@ toast if there are words.
   quieter on hard days.
 - *Can I turn it down?* Settings → Motion: celebrations Full, Gentle or
   Off, and confetti on or off; motion Off removes all movement.
+
+## Onboarding 2.0 and What's new (V6)
+
+**What it does for Maya.** Twelve short steps set up her space (name,
+companion, senses, colors, how Tide talks, voice, her day, privacy,
+someone she trusts) and end with a coached first check-in and the first
+shell on her shore. Nothing leaves the device; there is no account. People
+from v1 get "What's new" once instead.
+
+**Files**
+- `src/components/onboarding/OnboardingScreen.tsx` (frame: progress, Back,
+  Skip, Skip setup, resume through `onboarding.step`),
+  `OnboardingStep.tsx` (the order), `steps/*.tsx` (one file per step),
+  `WelcomeShore.tsx`.
+- `src/lib/settings/presets.ts` (presets and skip-setup defaults).
+- `src/components/checkin/CheckInCoach.tsx` (hints, only when coached).
+- `src/components/whatsnew/WhatsNewSheet.tsx` (in `AppShell`, and at
+  `/whats-new`), `src/components/today/ChooseCompanionCard.tsx`.
+
+**Data flow.** Each step writes its settings as Maya chooses (so the
+theme, motion and sounds change in front of her), then advances
+`onboarding.step`. "Go to my day" (or Skip setup) sets `onboarded`,
+`schemaVersion: 2`, creates the welcome win and goes to Today.
+
+**Decisions worth defending**
+- No login, ever (spec 11.1): accounts would mean sending emotional data
+  to a server.
+- Skip setup keeps choices already made (D93); firsts aren't wins (D92).
+- What's new never interrupts the demo (D94).
+
+**Likely reviewer questions**
+- *What if I close the app halfway?* It opens at the same step.
+- *Do v1 users have to redo setup?* No: they see "What's new" once and
+  keep their look.

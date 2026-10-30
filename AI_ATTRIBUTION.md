@@ -120,6 +120,10 @@ what I generated and what came from elsewhere.
 | `src/lib/celebrate/**` (matrix, caps, store, text, `useCelebrate`, tests) | State-aware celebrations engine | Claude Code | Spec 10 (D86–D89) |
 | `src/components/celebrate/*` (host, effects, overlay, particles, preview, flow test), `src/app/dev/celebrations/page.tsx` | Drawing celebrations; dev preview | Claude Code | Own particle system instead of canvas-confetti (D86) |
 | `src/app/(app)/template.tsx` and celebration wiring in check-in, tasks, focus, Bridge, rating, re-check, Unstick, box breathing and support | Page enter and celebration events | Claude Code | v1 toasts kept (D87) |
+| `src/components/onboarding/**` (rewritten: the twelve steps, frame, beach, flow tests), `src/app/onboarding/page.tsx` | Onboarding 2.0 | Claude Code | Spec 11.2 (D91, D93); v1 `WaveArt.tsx` removed, unused |
+| `src/lib/settings/presets.ts` | Quick presets and skip-setup defaults | Claude Code | Spec 15.3 |
+| `src/components/whatsnew/WhatsNewSheet.tsx`, `src/app/whats-new/page.tsx`, `src/components/today/ChooseCompanionCard.tsx` | What's new for v1 users | Claude Code | Spec 11.3 (D94) |
+| `src/components/checkin/CheckInCoach.tsx` and small additions to `CheckInSheet`, `StepWhat`, `StepHearing`, `StepNeed`; `lib/bridge.ts` lead; `repo/wins.ts` welcome win | Coached first check-in, Bridge lead, welcome shell | Claude Code | D92, D95 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

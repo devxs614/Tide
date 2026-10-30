@@ -1,7 +1,8 @@
 'use client';
 
-// The switch coming up in the next 15 minutes, if any, with the numbers for
-// "has felt hard 3 of the last 4 times" when they clear the pattern bar.
+// The switch coming up soon (15 minutes, or the lead Maya chose), if any,
+// with the numbers for "has felt hard 3 of the last 4 times" when they
+// clear the pattern bar.
 // It re-checks every 30 seconds (the caller's clock), so the card appears on
 // its own as the time comes, including on the demo clock.
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -10,6 +11,7 @@ import { db } from '@/lib/db';
 import { getUpcomingTransition, type UpcomingTransition } from '@/lib/bridge';
 import { loadPatternInput } from '@/lib/patterns/data';
 import { hardSwitchFor } from '@/lib/patterns/rules/hardTransition';
+import { useSettings } from '@/lib/settings';
 import { DAY } from '@/lib/time';
 
 export interface UpcomingBridge extends UpcomingTransition {
@@ -19,6 +21,7 @@ export interface UpcomingBridge extends UpcomingTransition {
 
 export function useUpcomingBridge(nowTs: number): UpcomingBridge | null | undefined {
   const bucket = Math.floor(nowTs / 30_000);
+  const lead = useSettings().settings['day.transitionLead'];
   return useLiveQuery(async () => {
     const at = now();
     const [events, transitions, tasks] = await Promise.all([
@@ -26,10 +29,10 @@ export function useUpcomingBridge(nowTs: number): UpcomingBridge | null | undefi
       db.transitions.toArray(),
       db.tasks.where('status').anyOf(['in_progress', 'stuck']).toArray(),
     ]);
-    const upcoming = getUpcomingTransition(at, events, transitions, tasks);
+    const upcoming = getUpcomingTransition(at, events, transitions, tasks, lead);
     if (!upcoming) return null;
     const fromKind = upcoming.fromEvent?.kind ?? 'task';
     const hard = hardSwitchFor(await loadPatternInput(at, 28), fromKind, upcoming.to.kind);
     return { ...upcoming, fromKind, hard };
-  }, [bucket]);
+  }, [bucket, lead]);
 }

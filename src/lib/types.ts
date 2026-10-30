@@ -101,13 +101,23 @@ export interface Transition {
   ratedAt?: number;
 }
 
+// v2 (spec 18.1): what kind of win this is, so the Shore can wash up the
+// right thing. Optional; older wins get it inferred.
+export type WinKind =
+  | 'task_done' | 'transition' | 'strategy_better' | 'unstuck'
+  | 'manual' | 'wrap' | 'bottle' | 'first_time' | 'welcome';
+
 export interface Win {
   id: string;
   ts: number;
   text: string;
   source: 'task' | 'transition' | 'strategy' | 'manual';
   refId?: string;
+  kind?: WinKind;
 }
+
+// The features whose first use is celebrated once (v2 spec 10.2).
+export type FirstFeature = 'checkin' | 'unstick' | 'focus' | 'bridge' | 'strategy' | 'wrap' | 'bottle';
 
 export interface Reward {
   id: string;
@@ -222,6 +232,22 @@ export interface Settings {
   'companion.mirrorState': boolean;
   // A cloud voice id; '' means the species' own default voice.
   'companion.voice': string;
+  // Onboarding 2.0 (spec 11): the step to resume at.
+  'onboarding.step': number;
+  // Existing users see "What's new" once; the Today card asks once.
+  'whatsNew.seen': boolean;
+  'today.companionCardDismissed': boolean;
+  // When each feature was first used. Kept here rather than as wins, so the
+  // proof log's v1 behavior (one win per real event) is unchanged (D92).
+  firsts: Partial<Record<FirstFeature, number>>;
+  'language.readingLevel': 'standard' | 'simple';
+  // 'HH:MM', 24-hour, whatever the display clock is.
+  'day.start': string;
+  'day.wrapTime': string;
+  'day.transitionLead': 5 | 10 | 15;
+  'day.clock': '12h' | '24h';
+  'shore.sky': 'time' | 'theme' | 'static';
+  'focus.keepAwake': boolean;
 }
 
 export type VoiceAccent = 'auto' | 'en-US' | 'en-GB' | 'en-AU' | 'en-CA' | 'en-IN' | 'en-IE' | 'en-ZA';

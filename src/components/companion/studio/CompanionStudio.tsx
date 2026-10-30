@@ -18,6 +18,8 @@ import { useCompanionVoice } from '@/lib/companion/useCompanionVoice';
 import type { CompanionSpecies } from '@/lib/companion/registry';
 import { useSound } from '@/lib/sound/useSound';
 import { useVoice } from '@/lib/voice/useVoice';
+import { now } from '@/lib/clock';
+import { dayPart } from '@/lib/time';
 import type { Settings } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -31,7 +33,8 @@ import { WhereTab } from './WhereTab';
 
 // "Hear a line" walks through a few kinds of moments, so a handful of taps
 // gives a real sense of the companion's voice.
-const SAMPLE_CONTEXTS: LineContext[] = ['greeting_morning', 'after_checkin_swell', 'focus_start', 'after_checkin_ebb', 'celebration', 'idle_tip'];
+// The first is a hello for the time of day, filled in when it's heard.
+const SAMPLE_CONTEXTS: Array<LineContext | 'greeting'> = ['greeting', 'after_checkin_swell', 'focus_start', 'after_checkin_ebb', 'celebration', 'idle_tip'];
 
 export function CompanionStudio() {
   const router = useRouter();
@@ -61,7 +64,8 @@ export function CompanionStudio() {
 
   const hearLine = () => {
     if (!species) return;
-    const context = SAMPLE_CONTEXTS[sampleIndex.current++ % SAMPLE_CONTEXTS.length];
+    const pick = SAMPLE_CONTEXTS[sampleIndex.current++ % SAMPLE_CONTEXTS.length];
+    const context: LineContext = pick === 'greeting' ? `greeting_${dayPart(now())}` : pick;
     const text = companionLine(species, context, settings.communicationMode, { name: settings.name, quadrant: 'Swell', m: 10 }, String(sampleIndex.current));
     setLine((prev) => ({ text, key: (prev?.key ?? 0) + 1 }));
     play(`chirp-${species}`);
