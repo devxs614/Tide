@@ -53,6 +53,12 @@ export interface Task {
   parkingNote?: string; // "where I left off"
   movedFrom?: string; // 'YYYY-MM-DD' the day Day Mode moved it from
   movedTo?: string; // 'YYYY-MM-DD' the day it was moved to
+  // v2 (spec 18.1), all optional: set aside for someday, let go in a
+  // wrap-up, snoozed, or chosen as the "one thing" for a day.
+  someday?: boolean;
+  letGoAt?: number;
+  snoozedUntil?: string;
+  anchorDate?: string;
   createdAt: number;
   startedAt?: number;
   doneAt?: number;
@@ -107,6 +113,15 @@ export type WinKind =
   | 'task_done' | 'transition' | 'strategy_better' | 'unstuck'
   | 'manual' | 'wrap' | 'bottle' | 'first_time' | 'welcome';
 
+export interface WinMeta {
+  taskType?: TaskType;
+  energyCost?: 1 | 2 | 3;
+  rating?: 'easy' | 'okay';
+  strategyId?: string;
+  family?: StrategyFamily;
+  feature?: string;
+}
+
 export interface Win {
   id: string;
   ts: number;
@@ -114,6 +129,41 @@ export interface Win {
   source: 'task' | 'transition' | 'strategy' | 'manual';
   refId?: string;
   kind?: WinKind;
+  meta?: WinMeta;
+}
+
+// A note to future Maya, opened on a hard day (v2 spec 13.7).
+export interface Bottle {
+  id: string;
+  ts: number;
+  text: string;
+  fromWrapDate?: string;
+  surfacedAt?: number;
+  openedAt?: number;
+  kept?: boolean;
+  releasedAt?: number;
+}
+
+export type Overall = 'very_hard' | 'hard' | 'mixed' | 'okay' | 'good';
+
+// One evening wrap-up (v2 spec 14). Written step by step so it can resume.
+export interface DayWrap {
+  date: string;
+  startedAt: number;
+  completedAt?: number;
+  step: number;
+  eveningCheckInId?: string;
+  helped: string[];
+  helpedNote?: string;
+  hard: string[];
+  hardNote?: string;
+  overall?: Overall;
+  carryover: Array<{ taskId: string; decision: 'tomorrow' | 'this_week' | 'let_go' | 'keep' }>;
+  anchorTaskId?: string;
+  anchorFirstStep?: string;
+  aiSummary?: { summary: string; highlight: string; tomorrowTip: string; companionLine: string; source: 'ai' | 'fallback' | 'demo-cache' };
+  bottleId?: string;
+  windDown?: 'breathing' | 'brain_dump' | 'rest';
 }
 
 // The features whose first use is celebrated once (v2 spec 10.2).
@@ -247,6 +297,8 @@ export interface Settings {
   'day.transitionLead': 5 | 10 | 15;
   'day.clock': '12h' | '24h';
   'shore.sky': 'time' | 'theme' | 'static';
+  // When Maya last looked at her shore; newer items arrive with a wave.
+  'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;
 }
 

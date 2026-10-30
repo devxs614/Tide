@@ -82,6 +82,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'day.transitionLead': 15,
   'day.clock': '12h',
   'shore.sky': 'time',
+  'shore.lastSeenAt': 0,
   'focus.keepAwake': true,
 };
 

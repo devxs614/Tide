@@ -3,10 +3,12 @@
 // herself. There is deliberately no function to delete a single win.
 import { db } from '../db';
 import { now } from '../clock';
-import type { Win } from '../types';
+import type { Win, WinKind, WinMeta } from '../types';
 
-export async function addWin(text: string, source: Win['source'], refId?: string): Promise<Win> {
-  const win: Win = { id: crypto.randomUUID(), ts: now(), text: text.trim(), source, refId };
+// `kind` and `meta` (v2) tell the Shore what washes up: a spiral shell for a
+// writing task, blue sea glass for an easy switch, and so on.
+export async function addWin(text: string, source: Win['source'], refId?: string, kind?: WinKind, meta?: WinMeta): Promise<Win> {
+  const win: Win = { id: crypto.randomUUID(), ts: now(), text: text.trim(), source, refId, ...(kind && { kind }), ...(meta && { meta }) };
   await db.wins.add(win);
   return win;
 }

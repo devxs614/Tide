@@ -53,7 +53,7 @@ export async function moveTask(id: string, status: TaskStatus, index?: number): 
     if (status === 'in_progress' && !task.startedAt) changes.startedAt = t;
     if (status === 'done' && task.status !== 'done') {
       changes.doneAt = t;
-      await addWin(finishedTaskWin(task.title), 'task', task.id);
+      await addWin(finishedTaskWin(task.title), 'task', task.id, 'task_done', { taskType: task.type, energyCost: task.energyCost });
     }
     // Moving a finished task back clears the stamp but keeps the win:
     // wins never go down.

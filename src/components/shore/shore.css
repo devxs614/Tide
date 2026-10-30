@@ -1,0 +1,54 @@
+/*
+  Your Shore's motion (v2 spec 13.3, 13.6): waves sliding, clouds drifting,
+  stars twinkling, bottles bobbing and new things washing up. Transforms
+  and opacity only. Lively moves everything; Calm keeps the waves slow and
+  the clouds still; Off is a still picture (the global rule stops it all).
+*/
+.shore :is(g, path, circle, ellipse, rect) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+html[data-motion="lively"] .shore-wave-1 { animation: shore-wave 8s linear infinite; }
+html[data-motion="lively"] .shore-wave-2 { animation: shore-wave 11s linear infinite reverse; }
+html[data-motion="lively"] .shore-wave-3 { animation: shore-wave 14s linear infinite; }
+html[data-motion="calm"] .shore-wave-1 { animation: shore-wave 16s linear infinite; }
+html[data-motion="calm"] .shore-wave-2 { animation: shore-wave 22s linear infinite reverse; }
+html[data-motion="calm"] .shore-wave-3 { animation: shore-wave 28s linear infinite; }
+.shore-wave-1, .shore-wave-2, .shore-wave-3 { transform-box: view-box; transform-origin: 0 0; }
+@keyframes shore-wave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-390px); }
+}
+html[data-motion="lively"] .shore-foam { animation: shore-foam 6s linear infinite; }
+@keyframes shore-foam { to { stroke-dashoffset: -40; } }
+html[data-motion="lively"] .shore-cloud { animation: shore-cloud var(--cloud-s, 120s) linear infinite alternate; transform-box: view-box; }
+@keyframes shore-cloud { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
+html[data-motion="lively"] .shore-star { animation: shore-twinkle var(--twinkle, 3s) ease-in-out infinite; }
+@keyframes shore-twinkle { 50% { opacity: 0.25; } }
+html[data-motion="lively"] .shore-grass { animation: shore-sway 5s ease-in-out infinite alternate; transform-origin: bottom center; }
+@keyframes shore-sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+html:not([data-motion="off"]) .shore-bob { animation: shore-bob 3.4s ease-in-out infinite; }
+@keyframes shore-bob { 50% { transform: translateY(-4px) rotate(4deg); } }
+.shore-glow { filter: drop-shadow(0 0 6px var(--accent)); }
+
+/* Arrival (spec 13.6). Lively: from the water, carried up the sand, a
+   squash on landing. Calm: a short drop and fade. Up to six, one by one. */
+html[data-motion="lively"] .shore-arrive {
+  animation: shore-arrive 1500ms var(--ease-out) backwards;
+  animation-delay: calc(300ms + var(--i, 0) * 450ms);
+}
+@keyframes shore-arrive {
+  0% { opacity: 0; transform: translateY(-120px) scale(0.6); }
+  25% { opacity: 1; transform: translateY(-110px) scale(0.7); }
+  40% { transform: translateY(-104px) scale(0.7); }
+  85% { transform: translateY(0) scale(1, 0.85); }
+  100% { transform: translateY(0) scale(1); }
+}
+html[data-motion="calm"] .shore-arrive {
+  animation: shore-drop 500ms var(--ease-out) backwards;
+  animation-delay: calc(200ms + var(--i, 0) * 250ms);
+}
+@keyframes shore-drop {
+  from { opacity: 0; transform: translateY(-12px); }
+}
+.shore-item:focus-visible { outline: 3px solid var(--focus, var(--primary)); outline-offset: 2px; }

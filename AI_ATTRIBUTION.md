@@ -124,6 +124,9 @@ what I generated and what came from elsewhere.
 | `src/lib/settings/presets.ts` | Quick presets and skip-setup defaults | Claude Code | Spec 15.3 |
 | `src/components/whatsnew/WhatsNewSheet.tsx`, `src/app/whats-new/page.tsx`, `src/components/today/ChooseCompanionCard.tsx` | What's new for v1 users | Claude Code | Spec 11.3 (D94) |
 | `src/components/checkin/CheckInCoach.tsx` and small additions to `CheckInSheet`, `StepWhat`, `StepHearing`, `StepNeed`; `lib/bridge.ts` lead; `repo/wins.ts` welcome win | Coached first check-in, Bridge lead, welcome shell | Claude Code | D92, D95 |
+| `src/lib/db.ts` (Dexie v2 and upgrade), `src/lib/__tests__/dbUpgrade.test.ts`, kinds in `repo/{tasks,focus,transitions,strategies,wins}.ts`, `repo/bottles.ts` | Data model v2 | Claude Code | Spec 18 (D100) |
+| `src/data/shoreItems.ts`, `src/lib/shore/**` (items, placement, sky, palette, image export, tests) | Shore logic | Claude Code | Sunrise/sunset table approximate for Monterrey (D96–D99) |
+| `src/components/shore/**` (scene, item art, screen, details, bottles, collection, dev preview, flow tests), `src/app/(app)/shore/collection/page.tsx`, `src/app/dev/shore/page.tsx`, `src/components/today/{BottleCard,ShorePreview}.tsx` | Your Shore UI | Claude Code | Original item drawings |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

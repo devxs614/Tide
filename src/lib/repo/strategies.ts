@@ -4,7 +4,7 @@
 // helps you" without anyone typing that in.
 import { db } from '../db';
 import { now } from '../clock';
-import { strategyName } from '@/data/strategies';
+import { getStrategy, strategyName } from '@/data/strategies';
 import { strategyWin } from '../wins';
 import { latestCheckIn } from './checkins';
 import { addWin } from './wins';
@@ -33,7 +33,7 @@ export async function recordStrategyUse(input: NewStrategyUse): Promise<Strategy
   await db.transaction('rw', db.strategyUses, db.wins, async () => {
     await db.strategyUses.add(use);
     if (use.result === 'better') {
-      await addWin(strategyWin(strategyName(use.strategyId)), 'strategy', use.id);
+      await addWin(strategyWin(strategyName(use.strategyId)), 'strategy', use.id, 'strategy_better', { strategyId: use.strategyId, family: getStrategy(use.strategyId)?.family });
     }
   });
   return use;

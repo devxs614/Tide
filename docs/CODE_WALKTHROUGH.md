@@ -831,3 +831,37 @@ theme, motion and sounds change in front of her), then advances
 - *What if I close the app halfway?* It opens at the same step.
 - *Do v1 users have to redo setup?* No: they see "What's new" once and
   keep their look.
+
+## Your Shore (V7)
+
+**What it does for Maya.** Her wins become a beach she can look at on a
+heavy day: each win is a shell, a pebble, sea glass or a starfish, chosen
+by what she did; firsts are pearls; notes to her future self float until
+a hard day. Nothing is counted on the main view and nothing is ever lost.
+
+**Files**
+- Data: `lib/db.ts` (Dexie v2), `lib/repo/bottles.ts`, win kinds in the
+  repo functions that create wins.
+- Logic: `data/shoreItems.ts` (win → item), `lib/shore/items.ts` (wins +
+  pearls for a range), `placement.ts`, `sky.ts`, `palette.ts`,
+  `exportImage.ts`.
+- UI: `components/shore/ShoreScreen.tsx`, `ShoreScene.tsx`, `ItemArt.tsx`,
+  `ItemDetailsSheet.tsx`, `BottleWriteSheet.tsx`, `BottleOpenDialog.tsx`,
+  `CollectionScreen.tsx`; on Today, `BottleCard.tsx` and `ShorePreview.tsx`.
+
+**Data flow.** A win is saved with a `kind` and `meta` → `shoreItems()`
+turns wins (and `firsts`) into items → `placeItems()` gives each a spot →
+`ShoreScene` draws them. Items newer than `shore.lastSeenAt` wash in, then
+the visit updates `lastSeenAt`.
+
+**Decisions worth defending**
+- Deterministic items and spots: the same wins always make the same
+  beach, so it feels like a real place (D96).
+- No totals, no goals: the Collection is a field guide.
+- Bottles surface only on hard days and only one a day.
+
+**Likely reviewer questions**
+- *Is this gamification?* There's nothing to lose, no streak, no score;
+  it only shows what already happened.
+- *What happened to old v1 wins?* The upgrade gave each a kind, so they're
+  on the shore too (tested with a real v1 database).
