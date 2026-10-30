@@ -36,7 +36,7 @@ export async function rateTransition(id: string, rating: TransitionRating): Prom
     await db.transitions.update(id, { rating, ratedAt: now() });
     if (rating === 'easy' || rating === 'okay') {
       const labels = await transitionLabels(t);
-      await addWin(transitionWin(labels.from, labels.to), 'transition', id);
+      await addWin(transitionWin(labels.from, labels.to), 'transition', id, 'transition', { rating });
     }
   });
 }

@@ -17,7 +17,7 @@ export async function saveFocusBlock(input: NewFocusBlock): Promise<FocusBlock> 
     // going after that earns a win, once; clearing the reason stops a second
     // block from repeating it.
     if (task && block.outcome === 'got_going' && task.stuckReason) {
-      await addWin(unstuckWin(task.title), 'task', task.id);
+      await addWin(unstuckWin(task.title), 'task', task.id, 'unstuck', { taskType: task.type, energyCost: task.energyCost });
       await db.tasks.update(task.id, { stuckReason: undefined });
     }
     return block;

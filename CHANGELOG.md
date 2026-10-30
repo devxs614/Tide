@@ -5,6 +5,21 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V7: Your Shore
+- The Shore tab: every win washes up on your own beach (shells by kind of
+  task, a pebble when you got unstuck, sea glass for a switch, a starfish
+  for a strategy that helped, a sand dollar for your own wins), firsts are
+  pearls, and new things wash in when you visit. Today, this week or all.
+- The sky follows the time of day; at night your companion sleeps.
+- Tap anything to remember what it was. Everything works with the
+  keyboard, and at motion Off it's a still picture.
+- Messages in a bottle: write a kind note to future you; on a hard day,
+  a day or more later, it washes up on Today. Keep it, or let it drift.
+- A Collection page (a field guide, not a checklist), "Save as image",
+  and a little strip of your shore on Today.
+- Your data now includes notes and wrap-ups in exports and in "Delete
+  everything".
+
 ### V6: Onboarding 2.0 and What's new
 - A new twelve-step setup that feels like making a profile, with no
   account: your name, your companion (name, color, accessory), a senses

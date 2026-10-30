@@ -115,6 +115,9 @@ up during the build. — Claude Code
   DevTools → Performance → CPU 4× slowdown): Today, the check-in sheet and
   a big celebration (`/dev/celebrations` in `npm run dev`) should stay above
   50 fps. I could only measure without throttling here (61 fps). *By Nov 3.*
+- [ ] **Same check for the Shore with a full beach** (48 items, Lively
+  motion): it should stay above 50 fps. Use `/dev/shore` or a demo with
+  many wins. *By Nov 3.*
 
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*

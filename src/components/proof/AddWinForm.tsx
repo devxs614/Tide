@@ -19,7 +19,7 @@ export function AddWinForm() {
     const value = text.trim();
     if (!value) return;
     if (detectCrisis(value)) return router.push('/support?crisis=1');
-    await addWin(value.slice(0, 200), 'manual');
+    await addWin(value.slice(0, 200), 'manual', undefined, 'manual');
     setText('');
   };
 

@@ -22,11 +22,17 @@ const TaskForm = dynamic(() => import('@/components/tasks/TaskForm').then((m) =>
 const AddEventSheet = dynamic(() => import('./AddEventSheet').then((m) => m.AddEventSheet), { ssr: false });
 import { DayModeBanner } from './DayModeBanner';
 import { ChooseCompanionCard } from './ChooseCompanionCard';
+import { BottleCard } from './BottleCard';
+
 import { NextTransitionCard } from './NextTransitionCard';
 import { StateCard } from './StateCard';
 import { TideLine } from './TideLine';
 import { TodayHeader } from './TodayHeader';
 import { useTodayData } from './useTodayData';
+
+// The shore strip sits near the bottom of Today and brings the item art;
+// loading it after the page keeps Today's first load in budget.
+const ShorePreview = dynamic(() => import('./ShorePreview').then((m) => m.ShorePreview), { ssr: false, loading: () => null });
 
 export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
   // Every 30 seconds: the bridge countdown needs it, the "Now" marker
@@ -62,6 +68,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
       <TodayHeader nowTs={nowTs} />
       <ChooseCompanionCard />
       <StateCard latest={data.latest} />
+      <BottleCard />
       {banner && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
       <TransitionRating nowTs={nowTs} />
       {bridge ? <BridgeCard bridge={bridge} /> : next && <NextTransitionCard event={next} nowTs={nowTs} />}
@@ -75,6 +82,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
         onAddEvent={() => setAddingEvent(true)}
         onAddTask={() => setAddingTask(true)}
       />
+      <ShorePreview />
       <WhenOpened open={addingEvent}>
         <AddEventSheet open={addingEvent} onOpenChange={setAddingEvent} dayStart={dayStart} />
       </WhenOpened>

@@ -1721,3 +1721,98 @@ the same screens.
   buttons would lead nowhere. They come with those phases.
 
 **Decisions:** D91–D95.
+
+## Before Phase V7 — Your Shore
+2026-10-29, 22:45
+
+For Maya: the Proof log becomes a place. Every win washes up on a little
+beach (a scallop for a studying task, sea glass for a switch that went
+okay, a starfish for a strategy that helped), firsts are pearls, and she
+can write a kind note to her future self that floats in the shallows until
+a hard day. No totals, no goals, nothing ever lost.
+
+What it touches in v1: the database (Dexie version 2, with an upgrade that
+keeps every row), the functions that create wins (they now also say what
+kind of win it is), the Proof log's add-win form, Today (a bottle card and
+a shore strip), and "Delete everything"/export (the new tables). How I
+avoid breaking things: the upgrade is tested against a real v1 database,
+win texts and counts don't change, and the v1 suite runs throughout.
+
+## After Phase V7 — Your Shore
+2026-10-29, 23:25
+
+**What I built**
+- Dexie version 2: `bottles` and `dayWraps` tables, a `kind` index on
+  wins, the new task indexes, and an upgrade that infers each old win's
+  kind (and the task's type and energy for task wins). Wins created from
+  now on carry `kind` and `meta`.
+- The item catalog (`src/data/shoreItems.ts`): 14 kinds, each decided by
+  the win, never by chance, with its words and how it arrives. Small flat
+  drawings for all of them (`ItemArt.tsx`).
+- Placement (`lib/shore/placement.ts`): 48 spots, oldest first, a hashed
+  spot per item with jitter, tilt and size; deterministic, never closer
+  than 30px, and a new item never moves the others. Beyond 48: the most
+  recent 48 and "+n more in your collection".
+- The scene (`ShoreScene.tsx`): sky by time of day (dawn, day, golden
+  hour, dusk, night with stars; approximate sunrise and sunset for
+  Monterrey), the sun or moon on its arc, clouds, three waves with foam,
+  sand, dune grass, items as keyboard buttons (Tab, arrows, Enter), bottles
+  bobbing (the one ready to open glows), and the companion at the
+  waterline, asleep at night. Things that arrived since the last visit
+  wash in one by one (up to six); at Off they just appear and a screen
+  reader hears what's new.
+- The Shore screen: Today / This week / All, the details sheet for each
+  item, "Write a note to future you", "Save as image" (with "Include my
+  name"), Collection and List links, and a skip link to the list.
+- Messages in a bottle: write (with dictation and the safety check first),
+  surface (a day old, on an Ebb or Surge day, one a day, oldest first),
+  open (keep → a bottle win on the sand; let it drift → still readable in
+  the Collection). A Today card when one surfaces.
+- The Collection page: a field guide with counts and first-found dates,
+  soft outlines and "how it arrives" for kinds not found yet, released
+  notes and pearls. No progress bar, no percentages.
+- A shore strip on Today with a "New" pill (never a number).
+- `/dev/shore`, a dev-only page with every item on the sand.
+
+**How I checked it**
+- Lint, typecheck, 57 test files (357 tests), the v1 suite (33 files, 164
+  tests) and the build are green.
+- New tests: every win kind → item; placement determinism, 30px minimum
+  with all 48 spots used, append stability and overflow; sky phases and
+  colors; item outlines at least 3:1 on every theme's sand; the Dexie
+  v1 → v2 upgrade with real v1 rows; bottle eligibility; spec flow tests 9
+  (studying task → scallop → details) and 10 (write → Ebb a day later →
+  Today card → open → keep → bottle win).
+- In the browser pane at phone width (`/dev/shore`, dark theme): every
+  item on the sand, bottles in the water, waves, grass.
+- First-load JS: `/` 293 KB, `/shore` 309 KB.
+
+**What broke and how I fixed it**
+- A placement test found two items 29.6px apart: rows needed 42px, not 40.
+- Item outlines failed contrast on dark themes' sand; they now follow the
+  theme (dark on light sand, light on dark sand). My first try used a CSS
+  variable, which the browser never saw: the stylesheet build drops a
+  variable that only components reference. I checked the served CSS,
+  confirmed it, and moved the choice into the component.
+- A test found a note from the previous test still there: "Delete
+  everything" (and the test reset) didn't know about the new tables. Now
+  bottles and wrap-ups are deleted and exported with everything else.
+- The guard test caught `Date.now()` in a new test; it uses `realNow()`.
+- Today went to 303 KB; the shore strip and the bottle dialog now load
+  after the page (293 KB).
+
+**Simplified or not done (honest list)**
+- New items wash in along a short curve with a squash, but the front wave
+  doesn't swell and the companion doesn't walk over to them; it notices
+  them (curious, then its line).
+- "Waves follow my check-in" (`shore.mirrorCheckins`, off by default) is
+  not built yet; it comes with Settings 2.0.
+- "Save as image" leaves the companion out: it's drawn as HTML inside the
+  scene, which can't be painted onto the image reliably.
+- Collection and List are links at the top of the Shore page, not buttons
+  in the top bar, which is shared by every tab.
+- Writing a bottle from the Proof log isn't there yet; from the wrap-up it
+  comes with V8.
+- The 50 fps check with 48 items under CPU throttling is in TEAM_TODO.
+
+**Decisions:** D96–D101.

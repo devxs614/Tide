@@ -700,3 +700,39 @@ break the scripted run (and its v1 test).
 fixed value), and the hook passes `day.transitionLead`. Without this, the
 onboarding question "Warn me before switching activities" would change
 nothing.
+
+**D96 — 2026-10-29 — Placement spacing: 44 × 42px with ±7 / ±6px jitter.**
+Spec 13.5 asks for 8 × 6 spots, ±10px sideways jitter and at least 30px
+between items. In a 390px-wide scene those can't all hold: neighbors 44px
+apart with ±10px each could end up 24px apart. I kept the spots and the
+minimum distance and reduced the sideways jitter to ±7px; rows are 42px
+apart. A test checks the 30px minimum with all 48 spots used.
+
+**D97 — 2026-10-29 — Pearls come from `firsts`, bottles from their table.**
+Firsts aren't wins (D92), so the Shore adds a pearl for each entry in the
+`firsts` setting. Unopened bottles bob in the water from the `bottles`
+table; kept ones become bottle wins on the sand; released ones live in the
+Collection.
+
+**D98 — 2026-10-29 — Item outlines follow the theme in the component.**
+One fixed outline can't reach 3:1 on both light and dark sand. A CSS
+variable was the first idea, but the CSS build removes variables that only
+components reference, so `ItemArt` picks the outline from the current
+scheme. Fills stay fixed so an item always looks like itself.
+
+**D99 — 2026-10-29 — The saved image leaves out the companion.**
+The companion is HTML inside the SVG (`foreignObject`), which browsers
+either skip or refuse when painting an SVG onto a canvas. The image keeps
+the sky, sea, sand, items and bottles, and only adds text when "Include my
+name" is ticked.
+
+**D100 — 2026-10-29 — New tables are Maya's data everywhere.**
+`dataTables()` now includes `bottles` and `dayWraps`, so export, demo
+seeding and "Delete everything" cover them. Found by a test, and the kind
+of thing that matters: a note to herself must be deletable.
+
+**D101 — 2026-10-29 — Smaller calls in V7.**
+`TideDB` takes an optional database name (tests, and the demo workspace
+in V10). The Shore's Collection and List links sit at the top of the page
+rather than in the shared top bar. Today's shore strip and the bottle
+dialog load after the page, to stay under 300 KB.
