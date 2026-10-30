@@ -7,6 +7,7 @@ import { ArrowRight, HeartHandshake, Leaf, SlidersHorizontal } from 'lucide-reac
 import { copy } from '@/copy/en';
 import type { Need } from '@/lib/types';
 import { StepHeader } from './StepHeader';
+import { CheckInCoach } from './CheckInCoach';
 
 const ICONS = { keep: ArrowRight, adjust: SlidersHorizontal, regulate: Leaf, talk: HeartHandshake };
 const ORDER: Need[] = ['keep', 'adjust', 'regulate', 'talk'];
@@ -15,6 +16,7 @@ export function StepNeed({ onChoose, saving }: { onChoose: (need: Need) => void;
   return (
     <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-6">
       <StepHeader title={copy.checkin.step4Title} stepNumber={4} />
+      <CheckInCoach>{copy.ob.coachNeed}</CheckInCoach>
       <ul className="flex flex-col gap-3">
         {ORDER.map((need) => {
           const Icon = ICONS[need];

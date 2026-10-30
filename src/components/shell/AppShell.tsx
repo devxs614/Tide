@@ -28,6 +28,8 @@ const DayModeSheet = dynamic(
   () => import('@/components/today/DayModeSheet').then((m) => m.DayModeSheet),
   { ssr: false },
 );
+// v1 users meet v2 here, once (spec 11.3). Loaded only for them.
+const WhatsNewSheet = dynamic(() => import('@/components/whatsnew/WhatsNewSheet').then((m) => m.WhatsNewSheet), { ssr: false });
 const BridgeSheet = dynamic(
   () => import('@/components/bridge/BridgeSheet').then((m) => m.BridgeSheet),
   { ssr: false },
@@ -78,6 +80,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [loaded, settings.onboarded, router]);
   if (!loaded) return <PhoneFrame><Splash /></PhoneFrame>;
   if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
+  // Someone who finished v1 onboarding and hasn't met the companions yet.
+  // Never during the demo, which runs its own scripted tour.
+  const showWhatsNew = !settings.demoMode && settings['companion.species'] === null && !settings['whatsNew.seen'];
 
   return (
     <PhoneFrame wide={wide}>
@@ -102,6 +107,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <TabBar />
       </div>
       <Sheets />
+      {showWhatsNew && <WhatsNewSheet />}
     </PhoneFrame>
   );
 }

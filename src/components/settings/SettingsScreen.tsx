@@ -3,6 +3,7 @@
 // Settings, in the order of the spec: profile, companion, comfort, how Tide talks, AI
 // suggestions, people and support, your data, demo, about. Every change is
 // saved and applied at once; there is no "Save" button to forget.
+import { useState } from 'react';
 import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import { AboutSection } from './AboutSection';
@@ -20,6 +21,9 @@ import { VoicePicker } from './VoicePicker';
 
 export function SettingsScreen() {
   const { settings, update } = useSettings();
+  // Its own text, saved as it changes: binding the field to the saved value
+  // dropped letters when typing fast (found in V6 with a keyboard test).
+  const [name, setName] = useState(settings.name);
   return (
     <div className="flex flex-col gap-8">
       <Section id="profile" title={copy.settings.profile}>
@@ -28,9 +32,12 @@ export function SettingsScreen() {
         </label>
         <input
           id="profile-name"
-          value={settings.name}
+          value={name}
           maxLength={40}
-          onChange={(e) => void update('name', e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            void update('name', e.target.value);
+          }}
           className="min-h-12 rounded-input border border-line bg-surface-2 px-3 text-body"
         />
       </Section>

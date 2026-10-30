@@ -9,7 +9,7 @@
 // header, and on the support pages, where the crisis screen lives.
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HeartHandshake, Info, Menu, Settings as SettingsIcon, Trophy } from 'lucide-react';
+import { HeartHandshake, Info, Menu, PawPrint, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import {
@@ -66,6 +66,18 @@ export function TopBar({ title }: { title: string }) {
               <Link href="/proof">
                 <Trophy aria-hidden />
                 {copy.shell.proofLog}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/companion">
+                <PawPrint aria-hidden />
+                {copy.shell.myCompanion}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/whats-new">
+                <Sparkles aria-hidden />
+                {copy.shell.whatsNew}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

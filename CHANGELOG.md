@@ -5,6 +5,20 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V6: Onboarding 2.0 and What's new
+- A new twelve-step setup that feels like making a profile, with no
+  account: your name, your companion (name, color, accessory), a senses
+  preset, colors, how Tide talks, read-aloud, your day, privacy, someone
+  you trust, and a coached first check-in that ends with the first shell
+  on your shore. Every step can be skipped, and "Skip setup" finishes in
+  one tap. Closing the app resumes where you were.
+- People who used v1 see "What's new" once (and any time from the menu)
+  and keep their current look until they choose. Today asks "Choose a
+  companion?" until they pick one or say no thanks.
+- "Warn me before switching activities" now sets how early the Bridge
+  appears (5, 10 or 15 minutes).
+- Fixed: typing fast in a name field could drop letters.
+
 ### V5: Celebrations
 - Wins are celebrated in a way that fits your day: sparkles and (for big
   moments) confetti when you feel good, a soft glow and "That counted." on

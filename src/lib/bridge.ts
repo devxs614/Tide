@@ -16,10 +16,18 @@ export interface UpcomingTransition {
   minutesUntil: number;
 }
 
-export function getUpcomingTransition(nowTs: number, events: CalendarEvent[], transitions: Transition[], tasks: Task[]): UpcomingTransition | null {
+// `leadMinutes` is Maya's "warn me before switching" (v2: 5, 10 or 15;
+// v1 always used 15, which stays the default).
+export function getUpcomingTransition(
+  nowTs: number,
+  events: CalendarEvent[],
+  transitions: Transition[],
+  tasks: Task[],
+  leadMinutes = BRIDGE_LEAD / MINUTE,
+): UpcomingTransition | null {
   const bridged = new Set(transitions.map((t) => t.toEventId));
   const to = events
-    .filter((e) => e.start > nowTs && e.start - nowTs <= BRIDGE_LEAD && !bridged.has(e.id))
+    .filter((e) => e.start > nowTs && e.start - nowTs <= leadMinutes * MINUTE && !bridged.has(e.id))
     .sort((a, b) => a.start - b.start)[0];
   if (!to) return null;
   return { to, ...resolveFrom(nowTs, events, tasks, to), minutesUntil: Math.max(1, Math.ceil((to.start - nowTs) / MINUTE)) };

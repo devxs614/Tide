@@ -21,6 +21,7 @@ import { WhenOpened } from '@/components/shell/WhenOpened';
 const TaskForm = dynamic(() => import('@/components/tasks/TaskForm').then((m) => m.TaskForm), { ssr: false });
 const AddEventSheet = dynamic(() => import('./AddEventSheet').then((m) => m.AddEventSheet), { ssr: false });
 import { DayModeBanner } from './DayModeBanner';
+import { ChooseCompanionCard } from './ChooseCompanionCard';
 import { NextTransitionCard } from './NextTransitionCard';
 import { StateCard } from './StateCard';
 import { TideLine } from './TideLine';
@@ -59,6 +60,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
   return (
     <div className="flex flex-col gap-5">
       <TodayHeader nowTs={nowTs} />
+      <ChooseCompanionCard />
       <StateCard latest={data.latest} />
       {banner && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
       <TransitionRating nowTs={nowTs} />

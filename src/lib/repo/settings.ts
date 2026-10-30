@@ -72,6 +72,17 @@ export const DEFAULT_SETTINGS: Settings = {
   'companion.faceStyle': 'dots',
   'companion.mirrorState': false,
   'companion.voice': '',
+  'onboarding.step': 1,
+  'whatsNew.seen': false,
+  'today.companionCardDismissed': false,
+  firsts: {},
+  'language.readingLevel': 'standard',
+  'day.start': '07:00',
+  'day.wrapTime': '20:30',
+  'day.transitionLead': 15,
+  'day.clock': '12h',
+  'shore.sky': 'time',
+  'focus.keepAwake': true,
 };
 
 export function settingsFromRows(rows: Array<{ key: string; value: unknown }>): Settings {

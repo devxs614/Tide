@@ -31,12 +31,17 @@ export interface CelebrateContext extends Omit<TextVars, 'companion'> {
 }
 
 export function useCelebrate() {
-  const { settings } = useSettings();
+  const { settings, update } = useSettings();
   const level = useMotionLevel();
   const profile = useCompanion();
 
   return useCallback(
     async (event: CelebrationEvent, ctx: CelebrateContext = {}): Promise<Decision | null> => {
+      // Remember the first use of a feature even if the moment itself is
+      // held (box breathing, support pages): the Shore shows it as a pearl.
+      if (event === 'firstTime' && ctx.feature && !settings.firsts[ctx.feature]) {
+        void update('firsts', { ...settings.firsts, [ctx.feature]: now() });
+      }
       if (celebrationsBlocked()) return null;
       const latest = await recentCheckIn(now());
       const tier = capTier(ctx.tier ?? BASE_TIER[event], now());
@@ -74,6 +79,6 @@ export function useCelebrate() {
       if (words && !ctx.ownToast) toast(words, { description: detail });
       return decision;
     },
-    [settings, level, profile],
+    [settings, update, level, profile],
   );
 }

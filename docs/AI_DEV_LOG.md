@@ -1646,3 +1646,78 @@ particles load only when a big moment happens.
   is tight; I'll revisit them in V11's polish pass.
 
 **Decisions:** D86–D90.
+
+## Before Phase V6 — Onboarding 2.0 and What's new
+2026-10-29, 22:15
+
+For Maya: setting Tide up should feel like making a profile (her name,
+her companion, how her senses like things, her colors, her day) without
+any account, and every choice should show its effect right away. For
+someone who used v1: nobody is pushed through onboarding again; they get a
+short "What's new" once, and keep their look until they choose.
+
+What it touches in v1: the onboarding screen (replaced by twelve steps,
+spec 3.5 allows this), its two tests (navigation only), the check-in
+sheet (two optional props for the coached first check-in), Today (a card
+for v1 users) and the menu. How I avoid breaking things: v1 copy keys
+stay, the check-in sheet behaves exactly as before without the new props,
+and "What's new" never shows in demo mode, so the scripted demo test sees
+the same screens.
+
+## After Phase V6 — Onboarding 2.0 and What's new
+2026-10-29, 22:40
+
+**What I built**
+- Twelve onboarding steps with a progress bar, Back, Skip and "Skip
+  setup" (in a menu at the top right), resuming at the saved step:
+  welcome (all six companions waving on a beach), your name (with a live
+  greeting preview), choosing a companion (a one-card-at-a-time carousel
+  with "Say hi", arrows, swipe and dots), naming it, dressing it, the
+  senses presets (applied at once) with the sounds switch, colors (the
+  theme grid), how Tide talks (with the companion) and reading level,
+  read-aloud (three best voices, speed, yes or "No thanks"), your day
+  (start, close, switch warning, 12- or 24-hour clock), privacy, and
+  finally someone you trust, the first real check-in with hints at each
+  step, and the welcome shell on a little shore.
+- The presets from spec 15.3 (`lib/settings/presets.ts`) and the "Skip
+  setup" defaults (Lagoon, Playful, Calm, sound off, Lolo in pink).
+- The welcome shell is a win with `kind: 'welcome'`; the Shore draws it
+  in V7. Firsts are recorded in a `firsts` setting (D92).
+- "What's new" for v1 users: six pages, each with "Set it up" and "Maybe
+  later", shown once in the app (never in demo mode) and any time at
+  `/whats-new`; "Try the new look" applies Lagoon and Playful. A "Choose a
+  companion?" card on Today until they pick one or say "No thanks". The
+  menu gained "My companion" and "What's new".
+- The Bridge's lead time now follows the "Warn me before switching"
+  choice (15 minutes stays the default, as in v1).
+
+**How I checked it**
+- Lint, typecheck, 54 test files (343 tests), the v1 suite (33 files, 164
+  tests) and the build are green.
+- Spec flow tests 1–3: all twelve steps with the keyboard, through the
+  real first check-in to "Go to my day" (choices saved, one welcome win,
+  the first check-in recorded, Lolo on Today); "Skip setup" defaults; and
+  "What's new" appearing once, with "Try the new look". Also: resuming at
+  a saved step.
+- The two v1 onboarding tests now navigate twelve steps; they still check
+  that a dark theme applies at once, a trusted person is saved, and the
+  whole thing can be skipped from the first step (spec 3.5).
+- In the browser pane at phone width: the welcome beach, the name step,
+  the carousel with "Say hi", naming Lolo, and the senses presets. I put
+  that browser's onboarding progress and companion back afterwards.
+- First-load JS: `/` 291 KB, `/onboarding` 288 KB.
+
+**What broke and how I fixed it**
+- The keyboard test typed "Maya" and saved "Maa": the name field was
+  bound to the saved setting, which arrives a moment later, so fast typing
+  lost letters. The field now keeps its own text. v1's Settings name field
+  had the same bug; I fixed it the same way.
+- "Say hi" said "Good morning!" at 9 pm; hellos now follow the time of day
+  (also in the Studio's samples).
+
+**Not done in this phase (honest list)**
+- "Watch the demo" and "I've used Tide before" on the welcome step: the
+  demo workspace (V10) and backup import (V9) don't exist yet, so the
+  buttons would lead nowhere. They come with those phases.
+
+**Decisions:** D91–D95.
