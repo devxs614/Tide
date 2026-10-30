@@ -300,6 +300,10 @@ export interface Settings {
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;
+  // "Not tonight" / "Not now" on Today's evening and morning cards hide
+  // them for that date only.
+  'wrap.eveningHiddenFor': string | null;
+  'wrap.morningHiddenFor': string | null;
 }
 
 export type VoiceAccent = 'auto' | 'en-US' | 'en-GB' | 'en-AU' | 'en-CA' | 'en-IN' | 'en-IE' | 'en-ZA';

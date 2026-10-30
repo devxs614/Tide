@@ -5,6 +5,21 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V8: Close the day
+- A short evening wind-down with your companion (about 3 minutes, every
+  step skippable): your day as a tide, today's wins, what helped and what
+  was hard, what to do with loose ends, one thing to start tomorrow with
+  its first step ready, a note in a bottle, and a kind summary.
+- The summary comes from a new AI suggestion that only gets counts,
+  titles and the words you picked, never your own notes, and never judges
+  the day. Without AI, a plain template says the same facts.
+- Today shows an evening card near your closing time and, the next
+  morning, "Your one thing today" with its first step.
+- Tasks you let go of wait in a Someday list on the board, ready to bring
+  back. Patterns can now notice which strategies go with days that end
+  okay, and shows what's been hard lately.
+- Companion lines no longer show an error when a voice can't play.
+
 ### V7: Your Shore
 - The Shore tab: every win washes up on your own beach (shells by kind of
   task, a pebble when you got unstuck, sea glass for a switch, a starfish

@@ -4,7 +4,7 @@
 // can't drift from what the app actually sends and accepts.
 import { z } from 'zod';
 import { EMOTION_IDS } from '@/data/emotions';
-import { DEMO_CHECKIN_TEXT, findCachedResponse } from '@/data/demo/cachedResponses';
+import { DEMO_CHECKIN_TEXT, WRAPUP_EXAMPLE_INPUT, findCachedResponse } from '@/data/demo/cachedResponses';
 import type { AiRouteName } from './types';
 import {
   BridgeInput,
@@ -17,6 +17,8 @@ import {
   NarrateOutput,
   UnstickInput,
   UnstickOutput,
+  WrapupInput,
+  WrapupOutput,
 } from './schemas';
 
 export interface RouteDoc {
@@ -81,7 +83,9 @@ const narrateInput = {
   ],
 };
 
-export const ROUTE_DOCS: RouteDoc[] = [
+// The five v1 routes, as the v1 document listed them.
+export type V1Route = Exclude<AiRouteName, 'wrapup'>;
+export const ROUTE_DOCS: Array<RouteDoc & { route: V1Route }> = [
   {
     route: 'label',
     title: 'Label: words for a feeling',
@@ -146,6 +150,28 @@ export const ROUTE_DOCS: RouteDoc[] = [
     validation: ['Cards must use exactly the keys sent, once each.', 'Any number in a card must appear in that pattern\'s facts; otherwise that card is replaced by its template.', 'The "k of n" and confidence shown on screen always come from the engine, never from this text.'],
     fallback: 'A template per pattern kind built only from the facts (for example, "From 5 times you used 3-minute walk before a writing task; you got going 4 times.").',
     safety: 'No free text is sent. Check-ins where the safety layer fired are excluded from every pattern.',
+  },
+];
+
+// Routes added in v2. Listed apart so the v1 document (and its test) stays
+// as it was; the page shows them in their own section.
+export const V2_ROUTE_DOCS: RouteDoc[] = [
+  {
+    route: 'wrapup',
+    title: 'Wrap-up: closing the day',
+    purpose: 'Writes a short, kind summary of the day, one highlight, a tip for tomorrow and a goodnight line, from facts the app counted and labels the student chose. Their own notes are never sent.',
+    tier: 'smart',
+    maxTokens: 600,
+    inputSchema: json(WrapupInput),
+    outputSchema: json(WrapupOutput),
+    exampleInput: WRAPUP_EXAMPLE_INPUT,
+    validation: [
+      'Every number in the answer must appear in the input.',
+      'A quoted phrase of three or more words must be part of a real task title.',
+      'Words that judge the day ("productive", "lazy", "failed", "not enough", "must"…) or mention diagnosis or therapy send the answer to the fallback.',
+    ],
+    fallback: 'Plain sentences from the facts ("You checked in 2 times today. Box breathing helped."), the first thing that helped as the highlight, the pattern hint or "Start small. One step is enough." as the tip, and the companion\'s own goodnight line.',
+    safety: 'No free text is sent; the notes typed in "Something else" stay on the device and go through the safety check when typed.',
   },
 ];
 

@@ -5,7 +5,7 @@ import { db } from '@/lib/db';
 import type { PatternInput } from './types';
 
 export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Promise<PatternInput> {
-  const [checkins, tasks, events, focusBlocks, strategyUses, transitions, dismissed] = await Promise.all([
+  const [checkins, tasks, events, focusBlocks, strategyUses, transitions, dismissed, dayWraps] = await Promise.all([
     db.checkins.toArray(),
     db.tasks.toArray(),
     db.events.toArray(),
@@ -13,6 +13,7 @@ export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Pr
     db.strategyUses.toArray(),
     db.transitions.toArray(),
     db.dismissedPatterns.toArray(),
+    db.dayWraps.toArray(),
   ]);
   return {
     now,
@@ -24,5 +25,6 @@ export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Pr
     strategyUses,
     transitions,
     dismissedKeys: new Set(dismissed.map((d) => d.key)),
+    dayWraps: dayWraps.filter((w) => w.completedAt),
   };
 }

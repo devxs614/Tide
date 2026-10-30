@@ -3,7 +3,7 @@
 // The system prompts are read from /prompts at build time, the schemas come
 // from the zod definitions, and the examples are real input/output pairs.
 import { PROMPT_FILES, PROMPT_TEXT, systemPrompt } from '@/lib/ai/prompts';
-import { ROUTE_DOCS, exampleOutput } from '@/lib/ai/promptDocs';
+import { ROUTE_DOCS, V2_ROUTE_DOCS, exampleOutput } from '@/lib/ai/promptDocs';
 
 export const metadata = { title: 'Tide — AI Prompts' };
 
@@ -63,6 +63,41 @@ export default function PromptsDocPage() {
           </p>
           <h3>System prompt (preamble + route prompt)</h3>
           <Code value={systemPrompt(doc.route)} />
+          <h3>Input schema</h3>
+          <Code value={doc.inputSchema} />
+          <h3>Output schema</h3>
+          <Code value={doc.outputSchema} />
+          <h3>Example input</h3>
+          <Code value={doc.exampleInput} />
+          <h3>Example output</h3>
+          <Code value={exampleOutput(doc)} />
+          <h3>Validation</h3>
+          <ul>
+            {doc.validation.map((v) => (
+              <li key={v}>{v}</li>
+            ))}
+          </ul>
+          <h3>Fallback</h3>
+          <p>{doc.fallback}</p>
+          <h3>Safety</h3>
+          <p>{doc.safety}</p>
+        </section>
+      ))}
+
+      {/* Added in v2. The shared preamble is printed once above, so here
+          the system prompt shows only the route's own part. */}
+      {V2_ROUTE_DOCS.map((doc) => (
+        <section key={doc.route} className="prompts-route">
+          <h2>
+            {doc.title} <span className="prompts-path">/api/ai/{doc.route}</span>
+          </h2>
+          <p>{doc.purpose}</p>
+          <p>
+            <strong>Model:</strong> {TIER_MODEL[doc.tier]} · <strong>max_tokens:</strong> {doc.maxTokens} · <strong>Prompt file:</strong>{' '}
+            prompts/{PROMPT_FILES[doc.route]} (added in v2)
+          </p>
+          <h3>System prompt (the shared preamble above, then this)</h3>
+          <Code value={PROMPT_TEXT[doc.route]} />
           <h3>Input schema</h3>
           <Code value={doc.inputSchema} />
           <h3>Output schema</h3>

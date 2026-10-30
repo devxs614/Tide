@@ -15,6 +15,8 @@ import {
   DayModeOutput,
   LabelOutput,
   NarrateOutput,
+  WrapupOutput,
+  checkWrapupOutput,
   UnstickOutput,
   checkBridgeOutput,
   checkDayModeOutput,
@@ -22,7 +24,7 @@ import {
   checkNarrateKeys,
   checkUnstickOutput,
 } from './schemas';
-import { bridgeFallback, dayModeFallback, labelFallback, narrateFallback, unstickFallback } from './fallbacks';
+import { bridgeFallback, dayModeFallback, labelFallback, narrateFallback, unstickFallback, wrapupFallback } from './fallbacks';
 import type { AiInputs, AiOutputs, AiResult, AiRouteName, AiSource } from './types';
 
 export const DEMO_CACHE_DELAY_MS = 900;
@@ -58,6 +60,7 @@ export function fallbackFor<R extends AiRouteName>(route: R, input: AiInputs[R])
     daymode: () => dayModeFallback(input as AiInputs['daymode']),
     bridge: () => bridgeFallback(input as AiInputs['bridge']),
     narrate: () => narrateFallback(input as AiInputs['narrate']),
+    wrapup: () => wrapupFallback(input as AiInputs['wrapup']),
   };
   return table[route]() as AiOutputs[R];
 }
@@ -78,6 +81,7 @@ function acceptable<R extends AiRouteName>(route: R, input: AiInputs[R], data: u
     daymode: () => DayModeOutput.safeParse(data).success && !checkDayModeOutput(input as AiInputs['daymode'], data as AiOutputs['daymode']),
     bridge: () => BridgeOutput.safeParse(data).success && !checkBridgeOutput(input as AiInputs['bridge'], data as AiOutputs['bridge']),
     narrate: () => NarrateOutput.safeParse(data).success && !checkNarrateKeys(input as AiInputs['narrate'], data as AiOutputs['narrate']),
+    wrapup: () => WrapupOutput.safeParse(data).success && !checkWrapupOutput(input as AiInputs['wrapup'], data as AiOutputs['wrapup']),
   };
   return checks[route]();
 }

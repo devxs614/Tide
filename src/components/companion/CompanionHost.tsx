@@ -200,7 +200,7 @@ export function CompanionHost({
       const text = lineText(context, vars);
       setLine((prev) => ({ text, key: (prev?.key ?? 0) + 1 }));
       play(`chirp-${profile.species}`);
-      if (settings['voice.readCompanion']) void voice.speak(text, { naturalVoice });
+      if (settings['voice.readCompanion']) void voice.speak(text, { naturalVoice, quiet: true });
     },
     [profile.species, profile.talkativeness, naturalVoice, settings, play, voice, lineText],
   );
@@ -232,7 +232,7 @@ export function CompanionHost({
     if (!opening || !profile.species) return;
     if (line) {
       play(`chirp-${profile.species}`);
-      if (settings['voice.readCompanion']) void voice.speak(line.text, { naturalVoice });
+      if (settings['voice.readCompanion']) void voice.speak(line.text, { naturalVoice, quiet: true });
     }
     if (opening.greeting) decay.current = window.setTimeout(() => setExpression(base), DECAY_MS);
     // Only when this place first appears.

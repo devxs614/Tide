@@ -80,3 +80,35 @@ export async function setFirstStep(id: string, step: string): Promise<void> {
 export async function setParkingNote(id: string, note: string): Promise<void> {
   await db.tasks.update(id, { parkingNote: note.trim() || undefined });
 }
+
+// ——— v2 (spec 18.3): what Close the day can do with a loose end. Nothing
+// here deletes a task; each change can be undone by bringing it back.
+
+// "Tomorrow": the same marks Day Mode uses, so Today shows it tomorrow.
+export async function moveToDate(id: string, from: string, to: string): Promise<void> {
+  await db.tasks.update(id, { movedFrom: from, movedTo: to });
+}
+
+// "Later this week": hidden from Today until that day.
+export async function snoozeTask(id: string, date: string): Promise<void> {
+  await db.tasks.update(id, { snoozedUntil: date });
+}
+
+// "Let it go": to Someday, out of Today, Day Mode and loose ends.
+export async function letGo(id: string): Promise<void> {
+  await db.tasks.update(id, { someday: true, letGoAt: now() });
+}
+
+export async function bringBack(id: string): Promise<void> {
+  await db.tasks.update(id, { someday: undefined, letGoAt: undefined, snoozedUntil: undefined });
+}
+
+// The "one thing" for a day, with the first step ready for the morning.
+export async function setAnchor(id: string, date: string, firstStep?: string): Promise<void> {
+  await db.tasks.update(id, { anchorDate: date, ...(firstStep && { firstStep }) });
+}
+
+// Put a loose end back exactly as it was (Undo in Close the day).
+export async function restoreTask(task: Task): Promise<void> {
+  await db.tasks.put(task);
+}

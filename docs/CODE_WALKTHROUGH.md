@@ -865,3 +865,39 @@ the visit updates `lastSeenAt`.
   it only shows what already happened.
 - *What happened to old v1 wins?* The upgrade gave each a kind, so they're
   on the shore too (tested with a real v1 database).
+
+## Close the day (V8)
+
+**What it does for Maya.** In the evening, three minutes with her
+companion to see the day, notice what helped and what was hard, sort loose
+ends, choose one thing for tomorrow with its first step, and get a kind
+summary. Never required, never scored.
+
+**Files**
+- `src/app/wrap/page.tsx` → `components/wrap/WrapScreen.tsx` (frame,
+  resume, sky) → `WrapStep.tsx` → `steps/*.tsx`; `DayTideChart.tsx`.
+- `lib/repo/dayWraps.ts` (start, save each step, complete with driftwood,
+  day boundary), `lib/wrap/facts.ts` (the day's facts and the AI input),
+  `monotone.ts`, `hardSummary.ts`.
+- `/api/ai/wrapup` with `WrapupInput`/`WrapupOutput`/`checkWrapupOutput`
+  in `lib/ai/schemas.ts`, `wrapupFallback` in `fallbacks.ts`.
+- Today: `EveningCard.tsx`, `MorningCard.tsx`; board: `SomedayList.tsx`;
+  patterns: `rules/wrapHelped.ts`, `HardSummary.tsx`.
+
+**Data flow.** Each step saves part of the `DayWrap` record. The summary
+step builds the AI input from counts, titles and chosen labels, calls
+`useAi('wrapup')`, and stores the answer (or the template). Goodnight
+completes the wrap, adds a `wrap` win (driftwood) and celebrates. The next
+morning, `MorningCard` reads last night's anchor.
+
+**Decisions worth defending**
+- Her own notes never leave the device; the route's input has no field
+  for them (tested).
+- The summary can't judge: forbidden words, invented numbers or made-up
+  titles send it to the template.
+- Loose ends are never deleted; "let it go" means Someday, one tap back.
+
+**Likely reviewer questions**
+- *What if I close the app halfway?* It resumes at the same step.
+- *Does it nag?* No notifications; the evening card hides with "Not
+  tonight".

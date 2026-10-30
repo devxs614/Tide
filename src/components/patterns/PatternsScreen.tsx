@@ -22,6 +22,8 @@ import { TransitionsSummary } from './TransitionsSummary';
 import { useNarration } from './useNarration';
 import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
+import { HardSummary } from './HardSummary';
+import { DAY } from '@/lib/time';
 
 type Period = 'week' | 'month';
 
@@ -95,6 +97,7 @@ export function PatternsScreen() {
 
       <TopStrategies tallies={strategyTallies(data)} />
       <TransitionsSummary groups={transitionGroups(data)} />
+      <HardSummary wraps={(data.dayWraps ?? []).filter((w) => w.completedAt && w.completedAt > now() - windowDays * DAY)} />
 
       <footer className="flex flex-col gap-3 border-t border-line pt-4">
         <p className="text-ink-soft">{copy.patterns.footer}</p>

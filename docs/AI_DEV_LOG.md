@@ -1816,3 +1816,107 @@ win texts and counts don't change, and the v1 suite runs throughout.
 - The 50 fps check with 48 items under CPU throttling is in TEAM_TODO.
 
 **Decisions:** D96–D101.
+
+## Before Phase V8 — Close the day
+2026-10-29, 23:30
+
+For Maya: a short evening ritual with her companion, about three minutes
+and all of it skippable: see the day as a tide, let the wins wash up, say
+what helped and what was hard, decide what to do with loose ends, pick one
+thing for tomorrow with its first step ready, and get a kind summary. It is
+never required, never nagged about, never scored.
+
+What it touches in v1: the AI layer (a sixth route), the tasks repo (new
+helpers only), Today (two new cards), the board (a Someday list), the
+pattern engine (one optional rule) and the prompts document. How I avoid
+breaking things: new route and rule are additive, v1 pattern calls give
+identical results (tested), Today only hides tasks v1 never had (someday,
+snoozed), and the v1 prompts document and its test stay as they were.
+
+## After Phase V8 — Close the day
+2026-10-30, 00:40
+
+**What I built**
+- `/wrap`, thirteen steps with a progress bar, Close and "Skip this step",
+  a sky that goes from golden hour to night, and the companion on every
+  step (calm, soft on "what was hard", sleepy, asleep at the end). Saved
+  after every step; resumes where it stopped; a closed day reopens at its
+  summary. After midnight and before the day starts it still counts as
+  "tonight".
+- The steps: arrive; an optional evening check-in (mood map and quick
+  words, saved as a regular check-in); the day as a tide (a smooth line
+  that never overshoots a check-in, with a list view and a full text
+  description); wins; what helped and what was hard (chips, with
+  "Something else" in her own words, which stay on the device and go
+  through the safety check); overall (Stormy to Glassy, plain words in
+  Literal mode); loose ends (tomorrow, later this week, let it go to
+  Someday, keep as is); tomorrow (events, a heads-up from the pattern
+  engine for a switch that's often hard, one thing to start with and a
+  first step from the Unstick route); a note in a bottle; the summary;
+  winding down (a slow minute of breathing, emptying your head into tasks
+  for tomorrow, or rest); goodnight (driftwood on the shore and a
+  celebration that fits the evening).
+- `/api/ai/wrapup`: zod in and out, the prompt (`prompts/06-wrapup.md`),
+  checks for judging words, invented numbers and quoted titles that don't
+  exist, a template fallback, a cached answer for the demo evening, and a
+  v2 section on `/prompts-doc`. Her notes are never part of the input.
+- Today: the evening card (from half an hour before her closing time,
+  "Not tonight" hides it until tomorrow, "Day closed" with Reopen
+  afterwards) and the morning card ("Your one thing today" and its first
+  step, until noon). "Close the day" in the menu.
+- Someday under the board with "Bring back", "Back on …" on snoozed
+  tasks, and both kept off Today.
+- Patterns: the `wrap_helped` rule and "What's been hard" (top two, from
+  three closed days).
+
+**How I checked it**
+- Lint, typecheck, 60 test files (376 tests, three full runs in a row),
+  the v1 suite (33 files, 164 tests) and the build are green.
+- New tests: the wrap-up schema and checks, the prompt naming exactly the
+  schema's fields, the fallback (including an empty day), the route with
+  the SDK faked, the day boundary, the line never overshooting, "later
+  this week", `wrap_helped` (shows, stays quiet, v1 parity) and "What's
+  been hard"; spec flow tests 11 (all the way through with the AI mocked,
+  then the morning card the next day) and 12 (resume at step 6).
+- In the browser pane: the first step with Lolo and the golden sky. I
+  removed the wrap record my visit created. (That browser is now set up
+  by someone on the team, so I kept my visit short.)
+- First-load JS for `/`: 296 KB, close to the 300 KB line.
+
+**What broke and how I fixed it**
+- "Couldn't play the voice on this device" popped up on its own when the
+  companion's line couldn't be spoken. That message is for when someone
+  presses Read aloud; companion lines now fail quietly.
+- React running the start effect twice in development tried to create
+  the same day twice (a ConstraintError in the console). Starting a wrap
+  is now one transaction.
+- The fallback summary said "2 times" and my own check rejected it,
+  because 2 wasn't written in the input. Counts of the input's lists are
+  facts too, so they're allowed (D102).
+- The flow test failed only when the whole suite ran: it pressed Next on a
+  step that was already leaving, which skipped a step under load. The test
+  now waits for each step's title. (In the app, a double tap only moves
+  one step.)
+- Time-based tests set the demo clock, which the settings provider resets
+  outside demo mode, so they were passing by luck. They now fake only
+  `Date` (D105); the Shore tests too.
+- Today went to 308 KB: the morning card pulled in the full companion
+  host. It uses the light, lazy companion now (296 KB).
+
+**Simplified or not done (honest list)**
+- The tide line is one color with each check-in's dot in its state's
+  color, not segments colored by state; the event row uses one kind of
+  mark, not a shell/drop/starfish per event.
+- Quick words in the evening check-in are twelve common feeling words;
+  the 16-word simple vocabulary comes with Settings 2.0.
+- The tomorrow heads-up uses the engine's own numbers ("felt hard 3 of
+  the last 4 times") rather than "last time, box breathing helped", and
+  the summary isn't given that hint yet.
+- The wins step lists today's items with their drawings rather than a
+  small animated shore; goodnight darkens the sky but doesn't animate a
+  moon rising.
+- Loose ends undo by choosing "Keep as is", which puts the task back
+  exactly; there's no separate Undo button.
+- Today's quick actions row (spec 12) isn't built yet.
+
+**Decisions:** D102–D106.

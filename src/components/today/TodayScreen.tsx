@@ -23,6 +23,8 @@ const AddEventSheet = dynamic(() => import('./AddEventSheet').then((m) => m.AddE
 import { DayModeBanner } from './DayModeBanner';
 import { ChooseCompanionCard } from './ChooseCompanionCard';
 import { BottleCard } from './BottleCard';
+import { EveningCard } from './EveningCard';
+import { MorningCard } from './MorningCard';
 
 import { NextTransitionCard } from './NextTransitionCard';
 import { StateCard } from './StateCard';
@@ -69,6 +71,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
       <ChooseCompanionCard />
       <StateCard latest={data.latest} />
       <BottleCard />
+      <MorningCard nowTs={nowTs} />
       {banner && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
       <TransitionRating nowTs={nowTs} />
       {bridge ? <BridgeCard bridge={bridge} /> : next && <NextTransitionCard event={next} nowTs={nowTs} />}
@@ -82,6 +85,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
         onAddEvent={() => setAddingEvent(true)}
         onAddTask={() => setAddingTask(true)}
       />
+      <EveningCard nowTs={nowTs} />
       <ShorePreview />
       <WhenOpened open={addingEvent}>
         <AddEventSheet open={addingEvent} onOpenChange={setAddingEvent} dayStart={dayStart} />

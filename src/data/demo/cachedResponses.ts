@@ -6,7 +6,7 @@
 // Each answer is shaped from the actual input (task ids, candidate
 // strategies), so it always passes the same checks as a live answer.
 import type { AiOutputs, AiRouteName } from '@/lib/ai/types';
-import type { BridgeInputT, DayModeInputT, LabelInputT, NarrateInputT, UnstickInputT } from '@/lib/ai/schemas';
+import type { BridgeInputT, DayModeInputT, LabelInputT, NarrateInputT, UnstickInputT, WrapupInputT } from '@/lib/ai/schemas';
 
 export const DEMO_CHECKIN_TEXT = 'Lab report due tomorrow. I keep opening it and closing it. Heavy. Annoyed at myself.';
 
@@ -93,7 +93,42 @@ function narrate(input: NarrateInputT): AiOutputs['narrate'] | undefined {
   return { cards: input.patterns.map((p) => ({ key: p.key, ...NARRATION[p.key] })) };
 }
 
+// The demo evening (spec 14.6's example): Maya's day as the seed tells it.
+export const WRAPUP_EXAMPLE_INPUT: WrapupInputT = {
+  mode: 'gentle',
+  readingLevel: 'standard',
+  date: '2026-11-05',
+  facts: {
+    checkins: [
+      { time: '3:40 pm', quadrant: 'ebb', emotions: ['drained', 'frustrated'] },
+      { time: '8:35 pm', quadrant: 'still', emotions: ['calm'] },
+    ],
+    tasksDone: ['Email TA about lab data'],
+    focusBlocks: { total: 1, gotGoing: 1 },
+    transitions: [{ label: 'Chemistry lab → Calculus', rating: 'okay' }],
+    strategies: [{ name: 'Box breathing', result: 'better' }],
+  },
+  reflection: { helped: ['Box breathing', 'A person'], hard: ['Starting things'], overall: 'mixed' },
+  tomorrow: {
+    anchorTaskTitle: 'Chemistry lab report',
+    firstEventTitle: 'Physics',
+    patternHint: { text: 'Before writing tasks, a 3-minute walk helped 4 of 5 times.' },
+  },
+  companionName: 'Lolo',
+};
+
+function wrapup(input: WrapupInputT): AiOutputs['wrapup'] | undefined {
+  const demo = input.companionName === 'Lolo' && input.facts.tasksDone.includes('Email TA about lab data');
+  if (!demo) return undefined;
+  return {
+    summary: 'Today started heavy, and starting things was hard. You still emailed your TA, and the switch from lab to calculus went okay. Box breathing and a person helped.',
+    highlight: 'Box breathing helped before calculus.',
+    tomorrowTip: 'Try a 3-minute walk, then just open the lab report and type the title.',
+    companionLine: "You closed the day. Rest now, I've got the shore.",
+  };
+}
+
 export function findCachedResponse<R extends AiRouteName>(route: R, input: unknown): AiOutputs[R] | undefined {
-  const table: Record<AiRouteName, (i: never) => unknown> = { label, unstick, daymode, bridge, narrate };
+  const table: Record<AiRouteName, (i: never) => unknown> = { label, unstick, daymode, bridge, narrate, wrapup };
   return table[route](input as never) as AiOutputs[R] | undefined;
 }

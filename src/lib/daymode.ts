@@ -39,7 +39,9 @@ export function todaysTasks(tasks: Task[], plan: DayPlan | undefined, today: str
   const kept = new Set(plan?.keptTaskIds ?? []);
   return tasks
     .filter((t) => t.status !== 'done' && t.movedFrom !== today)
-    .filter((t) => t.due === today || kept.has(t.id) || t.movedTo === today || t.status === 'in_progress')
+    // v2: tasks let go to Someday, or snoozed past today, wait elsewhere.
+    .filter((t) => !t.someday && !(t.snoozedUntil && t.snoozedUntil > today))
+    .filter((t) => t.due === today || kept.has(t.id) || t.movedTo === today || t.status === 'in_progress' || t.anchorDate === today)
     .sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999') || a.order - b.order);
 }
 

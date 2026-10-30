@@ -127,6 +127,9 @@ what I generated and what came from elsewhere.
 | `src/lib/db.ts` (Dexie v2 and upgrade), `src/lib/__tests__/dbUpgrade.test.ts`, kinds in `repo/{tasks,focus,transitions,strategies,wins}.ts`, `repo/bottles.ts` | Data model v2 | Claude Code | Spec 18 (D100) |
 | `src/data/shoreItems.ts`, `src/lib/shore/**` (items, placement, sky, palette, image export, tests) | Shore logic | Claude Code | Sunrise/sunset table approximate for Monterrey (D96–D99) |
 | `src/components/shore/**` (scene, item art, screen, details, bottles, collection, dev preview, flow tests), `src/app/(app)/shore/collection/page.tsx`, `src/app/dev/shore/page.tsx`, `src/components/today/{BottleCard,ShorePreview}.tsx` | Your Shore UI | Claude Code | Original item drawings |
+| `prompts/06-wrapup.md`, `src/app/api/ai/wrapup/**`, wrap-up parts of `lib/ai/{schemas,fallbacks,runAi,types,prompts,promptDocs}.ts`, `data/demo/cachedResponses.ts`, `/prompts-doc` v2 section | The wrap-up AI route | Prompt text: the team's spec (14.6); code: Claude Code | D102, D103 |
+| `src/lib/repo/dayWraps.ts`, new helpers in `repo/tasks.ts`, `src/lib/wrap/**` (facts, monotone curve, hard summary, tests) | Close the day logic | Claude Code | Fritsch–Carlson monotone interpolation, a standard method |
+| `src/components/wrap/**`, `src/app/wrap/page.tsx`, `components/today/{EveningCard,MorningCard}.tsx`, `components/tasks/SomedayList.tsx`, `components/patterns/HardSummary.tsx`, `lib/patterns/rules/wrapHelped.ts` | Close the day UI, Today cards, Someday, patterns | Claude Code | D104–D106 |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

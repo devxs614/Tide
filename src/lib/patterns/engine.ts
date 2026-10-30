@@ -7,6 +7,7 @@ import { hardTransition } from './rules/hardTransition';
 import { stateTaskStart } from './rules/stateTaskStart';
 import { strategyBeforeTask } from './rules/strategyBeforeTask';
 import { strategyEffect } from './rules/strategyEffect';
+import { wrapHelped } from './rules/wrapHelped';
 
 export const MAX_PATTERNS = 6;
 
@@ -18,6 +19,7 @@ export function computePatterns(input: PatternInput): PatternResult[] {
     ...hardTransition(safeInput),
     ...stateTaskStart(safeInput),
     ...strategyEffect(safeInput),
+    ...wrapHelped(safeInput),
   ].filter((p) => !input.dismissedKeys.has(p.key));
 
   // Most certain first, then the biggest difference from usual, then the
