@@ -19,12 +19,18 @@ import { TalkToAPersonButton } from '@/components/safety/TalkToAPersonButton';
 import { ReCheck } from './ReCheck';
 import { StrategyMeta } from './StrategyMeta';
 import { ToolArea } from './ToolArea';
+import { SIZES, type Expression } from '@/lib/companion/registry';
+import { CompanionHost } from '@/components/companion/CompanionHost';
 
 export function returnPath(context: StrategyContext, refId?: string): string {
   if (context === 'unstick' && refId) return `/tasks?unstick=${refId}`;
   if (context === 'bridge' && refId) return `/?bridge=${refId}`;
   return '/toolkit';
 }
+
+// The companion beside the answer (v2 spec 9): glad when it helped, calm
+// when it's the same, soft and close when it's worse. Never disappointed.
+const AFTER_FACE: Record<RecheckResult, Expression> = { better: 'happy', same: 'calm', worse: 'soft' };
 
 const AFTER: Record<RecheckResult, string> = {
   better: copy.toolkit.better,
@@ -99,7 +105,10 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
       {phase === 'recheck' && <ReCheck onAnswer={(r) => void answer(r)} saving={saving} />}
       {phase === 'after' && result && (
         <section aria-live="polite" className="flex flex-col gap-3 card p-4">
-          <p className="text-lead">{AFTER[result]}</p>
+          <div className="flex items-center gap-3">
+            <CompanionHost placement="toolkit" size={SIZES.sm} base={AFTER_FACE[result]} bubble="none" noneAlt="nothing" decorative />
+            <p className="flex-1 text-lead">{AFTER[result]}</p>
+          </div>
           <Button onClick={() => router.push(returnPath(context, refId))}>{copy.toolkit.continue}</Button>
         </section>
       )}

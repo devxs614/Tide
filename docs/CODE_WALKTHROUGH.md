@@ -716,3 +716,48 @@ and run `npx vitest run src/components/companion`.
 - *Why animals?* Body doubling and a gentle presence help many
   neurodivergent students start tasks; a companion also gives the app a
   voice that isn't a chatbot. Anyone who doesn't want one picks "none".
+
+## Companions across the app (V4)
+
+**What it does for Maya.** Her companion shows up where it helps: on
+Today, at the top of the check-in, Unstick and Bridge sheets, beside the
+water during focus, in the breathing square, and in small ways in other
+exercises. It never appears on the crisis screen, and someone who hasn't
+chosen a companion sees the v1 screens unchanged.
+
+**Files**
+- `CompanionHost` is placed in: `today/TodayHeader.tsx` (lazy),
+  `checkin/CheckInSheet.tsx`, `tasks/UnstickSheet.tsx`,
+  `bridge/BridgeSteps.tsx`, `focus/FocusScreen.tsx`,
+  `toolkit/tools/BoxBreathing.tsx`, `toolkit/ToolCompanion.tsx` (via
+  `ToolArea`), `toolkit/StrategyRunner.tsx`, `patterns/PatternsScreen.tsx`,
+  `safety/SupportScreen.tsx`.
+- Events come from `CheckInSheet` (`checkinSaved`, typing through
+  `lib/companion/typing.ts`), `lib/ai/useAi.ts` (`aiLoading`, `aiDone`),
+  `tasks/useTaskMoves.ts` (`taskDone`), `FocusScreen` (`focusEnded`),
+  `BridgeSteps` (`bridgeOpened`) and the tools (`nudge`).
+- Pictures without lines: `companion/EmptyStateArt.tsx`,
+  `companion/companionToastIcon.tsx`, the top-bar head in
+  `shell/TopBar.tsx`, all through `companion/LazyCompanion.tsx`.
+- `app/error.tsx` (lazy) → `shell/ErrorContent.tsx`; `app/not-found.tsx`;
+  `shell/Splash.tsx`.
+
+**Data flow.** A v1 flow does its normal work, then emits one event (for
+example `checkinSaved { quadrant }`). Every mounted host whose `listens`
+includes that event maps it to an expression, a reaction and maybe a line
+(`responseTo` in `CompanionHost.tsx`), then drifts back to its place's
+resting expression after 4 seconds.
+
+**Decisions worth defending**
+- "Not chosen yet" draws nothing; only an explicit "none" draws waves (D78).
+- Sheets get a companion row instead of a corner companion (D80).
+- Decorative companions and the error page load lazily to keep Today at
+  285 KB (D83).
+
+**Likely reviewer questions**
+- *How do you know the crisis screen never shows a companion?* There's no
+  host in `CrisisScreen`, the top bar skips `/support`, and
+  `CrisisCompanion.test.tsx` checks the rendered page with a companion
+  chosen.
+- *Do the v1 flows still work?* The v1 suite runs unchanged (33 files),
+  and the companion code only adds an event after each flow's own work.

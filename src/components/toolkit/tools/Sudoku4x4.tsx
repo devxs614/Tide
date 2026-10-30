@@ -4,10 +4,11 @@
 // timer, no score, and "Check" never says "wrong": cells that don't match
 // get a dotted outline and "2 cells to look at again". Arrow keys move,
 // number keys 1–4 fill a cell, Backspace clears it.
-import { useState, type KeyboardEvent } from 'react';
+import { useEffect, useState, type KeyboardEvent } from 'react';
 import { copy, fill } from '@/copy/en';
 import { SUDOKU_PUZZLES } from '@/data/sudoku';
 import { Button } from '@/components/ui/button';
+import { emitCompanion } from '@/lib/companion/bus';
 import { cn } from '@/lib/utils';
 import type { ToolProps } from './types';
 
@@ -48,6 +49,10 @@ export function Sudoku4x4({ onDone }: ToolProps) {
 
   const check = () => setFlagged(values.map((v, i) => (v !== 0 && v !== puzzle.solution[i] ? i : -1)).filter((i) => i >= 0));
   const complete = values.every((v, i) => v === puzzle.solution[i]);
+  // Solved: the companion in the corner is happy for her (v2 spec 9).
+  useEffect(() => {
+    if (complete) emitCompanion({ type: 'nudge', expression: 'happy', reaction: 'hop' });
+  }, [complete]);
   const message =
     flagged === null
       ? ''

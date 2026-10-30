@@ -21,6 +21,9 @@ import { recallSuggestion } from '@/components/tasks/unstickCache';
 import { FocusOutcome } from './FocusOutcome';
 import { useFocusTimer } from './useFocusTimer';
 import { WaterFill } from './WaterFill';
+import { emitCompanion } from '@/lib/companion/bus';
+import { SIZES } from '@/lib/companion/registry';
+import { CompanionHost } from '@/components/companion/CompanionHost';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
 const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15, swell: 25 };
@@ -63,6 +66,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
 
   const answer = async (outcome: Outcome) => {
     await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome });
+    emitCompanion({ type: 'focusEnded', outcome });
   };
 
   const smallerStep = () => {
@@ -106,7 +110,21 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             </div>
           </fieldset>
         ) : (
-          <WaterFill progress={timer.progress} remaining={timer.remaining} />
+          // Body doubling: the companion works on its own little task beside
+          // the water while Maya works on hers (v2 spec 9). It appears when
+          // the block starts, so its first line is "let's start".
+          <div className="flex flex-wrap items-end justify-center gap-4">
+            <WaterFill progress={timer.progress} remaining={timer.remaining} />
+            <CompanionHost
+              placement="focus"
+              size={SIZES.lg}
+              base={timer.phase === 'finished' ? 'idle' : 'focused'}
+              listens={['focusEnded']}
+              openingLine="focus_start"
+              bubble="left"
+              noneAlt="waves"
+            />
+          </div>
         )}
         {timer.phase === 'paused' && <p className="text-ink-soft">{copy.focus.paused}</p>}
         <p aria-live="polite" className="sr-only">

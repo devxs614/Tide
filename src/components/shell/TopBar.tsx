@@ -4,9 +4,13 @@
 // the right with the places that aren't tabs (Proof log, Settings, Talk to a
 // person, About). In demo mode a quiet "Demo data" badge sits next to the
 // title so judges are never misled about whose data they are looking at.
+// With a companion, its head sits by the menu and opens the Companion Studio
+// (v2 spec 4.4), except on Today, where the companion is already in the
+// header, and on the support pages, where the crisis screen lives.
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { HeartHandshake, Info, Menu, Settings as SettingsIcon, Trophy } from 'lucide-react';
-import { copy } from '@/copy/en';
+import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import {
   DropdownMenu,
@@ -15,9 +19,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { useCompanion } from '@/lib/companion/useCompanion';
+import { LazyCompanion as Companion } from '@/components/companion/LazyCompanion';
+
+const HEAD_SIZE = 40;
 
 export function TopBar({ title }: { title: string }) {
   const { settings } = useSettings();
+  const companion = useCompanion();
+  const pathname = usePathname();
+  const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
     <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
       {/* At 130% and 150% text there isn't room for all three in one row; the
@@ -33,7 +44,16 @@ export function TopBar({ title }: { title: string }) {
           </span>
         )}
       </div>
-      <div className="ml-auto shrink-0">
+      <div className="ml-auto flex shrink-0 items-center gap-1">
+        {showHead && (
+          <Link
+            href="/companion"
+            aria-label={fill(copy.shell.companion, { name: companion.name })}
+            className="flex size-12 items-center justify-center rounded-full hover:bg-surface-2"
+          >
+            <Companion size={HEAD_SIZE} decorative />
+          </Link>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="default" className="px-3">

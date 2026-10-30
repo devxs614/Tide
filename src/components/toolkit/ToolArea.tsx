@@ -15,6 +15,7 @@ import { MessageTemplate } from './tools/MessageTemplate';
 import { StepsTimer } from './tools/StepsTimer';
 import { WalkTimer } from './tools/WalkTimer';
 import type { ToolProps } from './tools/types';
+import { ToolCompanion } from './ToolCompanion';
 
 const loading = () => <p className="text-ink-soft">{copy.global.loading}</p>;
 
@@ -33,6 +34,12 @@ export const TOOLS: Record<ToolId, ComponentType<ToolProps>> = {
 };
 
 export function ToolArea(props: ToolProps) {
-  const Tool = TOOLS[props.strategy.tool ?? 'steps_timer'];
-  return <Tool {...props} />;
+  const tool = props.strategy.tool ?? 'steps_timer';
+  const Tool = TOOLS[tool];
+  return (
+    <>
+      <ToolCompanion tool={tool} />
+      <Tool {...props} />
+    </>
+  );
 }

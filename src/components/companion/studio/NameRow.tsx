@@ -7,7 +7,7 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
 import { copy } from '@/copy/en';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { cleanCompanionName, companionNameProblem } from '@/lib/companion/name';
 import { COMPANIONS, type CompanionSpecies } from '@/lib/companion/registry';
 import { Button } from '@/components/ui/button';

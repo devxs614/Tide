@@ -5,6 +5,7 @@
 // pocket. "I'm back" works at any time.
 import { useEffect, useRef } from 'react';
 import { copy } from '@/copy/en';
+import { emitCompanion } from '@/lib/companion/bus';
 import { useSettings } from '@/lib/settings';
 import { useCountdown } from '@/lib/useCountdown';
 import { TimerControls } from './TimerControls';
@@ -18,6 +19,7 @@ export function WalkTimer({ strategy, onDone }: ToolProps) {
   useEffect(() => {
     if (!timer.finished || buzzed.current) return;
     buzzed.current = true;
+    emitCompanion({ type: 'nudge', expression: 'happy', reaction: 'hop' });
     if (settings.vibration && typeof navigator !== 'undefined') navigator.vibrate?.([200, 100, 200]);
   }, [timer.finished, settings.vibration]);
 

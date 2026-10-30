@@ -6,7 +6,7 @@
 // feel for it before deciding. When she picks another species, the old one
 // slides out waving and the new one hops in; at motion Off it simply swaps.
 import { useEffect, useRef, useState } from 'react';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { SIZES, type CompanionSpecies, type Expression, type Reaction } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useMotionLevel } from '@/lib/motion/useMotionLevel';

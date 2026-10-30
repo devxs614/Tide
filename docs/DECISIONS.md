@@ -587,3 +587,54 @@ Spec 8.4: eyes closed during the in-breath, open during the out-breath.
 The `breathing` expression now rests on soft open eyes and closes them only
 for "in" and its hold. Without a breath phase (a still picture) the eyes
 stay closed, which reads as calm.
+
+**D78 — 2026-10-29 — "Not chosen yet" looks exactly like v1.**
+Everyone coming from v1 has `companion.species` = null until they choose in
+What's new or the Studio. For them every placement draws nothing: no
+companion and no wave alternative, so v1 screens and tests are unchanged.
+Only an explicit "none" shows the calm wave alternatives the spec
+describes. Rejected: showing waves for "not chosen", which would change
+every v1 screen before anyone asked for it.
+
+**D79 — 2026-10-29 — The top-bar head skips Today and the support pages.**
+Spec 4.4 puts the companion's head in the top bar. On Today the companion
+is already in the header (and opens the Studio when tapped), and two of
+the same character side by side looked odd. The support pages are skipped
+because the crisis screen is `/support?crisis=1`, and the companion must
+never appear there; checking the path is simpler and safer than reading
+the query string in the shell.
+
+**D80 — 2026-10-29 — In sheets, the companion gets its own row.**
+A bubble above a companion at the top of a sheet would leave the screen,
+and one beside it covered the step title, which is the first thing a
+screen reader and an overwhelmed reader need. So the check-in, Unstick
+and Bridge sheets show a row with the companion and its line in the flow,
+above the step. v1's headers and their spacing are untouched.
+
+**D81 — 2026-10-29 — `useAi` emits the thinking events.**
+Rather than adding `aiLoading`/`aiDone` to each screen, the one hook every
+AI call goes through emits them. Only companions listen; nothing about the
+AI calls changes.
+
+**D82 — 2026-10-29 — A `nudge` event for small moments in tools.**
+Spec 9 asks for "curious on each new sense" and "happy when solved", which
+the spec's event list doesn't cover. `nudge { expression, reaction }` is a
+small addition to the bus; tools send it, the corner companion reacts.
+
+**D83 — 2026-10-29 — Keeping Today under 300 KB.**
+V4 first measured 320 KB. The root `error.tsx` is in every page's bundle,
+so it now only lazy-loads its content; the top bar, toasts and empty
+states use a lazily loaded Companion; the Studio words live in
+`companionCopy.ts`, apart from the lines; Today's CompanionHost loads after
+the page. Result: 285 KB. Rejected: dropping the top-bar head.
+
+**D84 — 2026-10-29 — The splash shows the wave mark, not the companion.**
+Spec 17.4 says "the companion (or the wave mark)", but which companion it
+is lives in the settings being loaded. The splash shows the wave mark,
+fading in after 200ms so a fast load shows nothing at all.
+
+**D85 — 2026-10-29 — Re-check and box breathing placements.**
+v1 shows the re-check answer as a card, not a toast, so the "toast head"
+from spec 9 sits beside the answer in that card. In box breathing the
+square grows from 200px to 240px when a companion is in it, the phase
+words move under the companion, and the moving dot stays as in v1.

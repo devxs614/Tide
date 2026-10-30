@@ -9,6 +9,7 @@
 // again before the first answer lands, only the newest answer is kept.
 import { useCallback, useRef, useState } from 'react';
 import { useSettings } from '@/lib/settings';
+import { emitCompanion } from '@/lib/companion/bus';
 import { runAi } from './runAi';
 import type { AiInputs, AiOutputs, AiResult, AiRouteName, AiSource } from './types';
 
@@ -29,10 +30,14 @@ export function useAi<R extends AiRouteName>(route: R) {
     async (input: AiInputs[R]): Promise<AiResult<R>> => {
       const id = ++latest.current;
       setState({ status: 'loading' });
+      // The companion looks thoughtful while Tide works on an answer, and
+      // curious when it lands (v2 spec 9). Nothing else listens to this.
+      emitCompanion({ type: 'aiLoading', route });
       const result = await runAi(route, input, {
         aiEnabled: settings.aiEnabled,
         demoMode: settings.demoMode,
       });
+      emitCompanion({ type: 'aiDone' });
       if (id === latest.current) setState({ status: 'done', data: result.data, source: result.source });
       return result;
     },

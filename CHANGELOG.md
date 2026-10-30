@@ -5,6 +5,19 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 
 ## v2 (in progress, branch `v2-experience`)
 
+### V4: Companions across the app
+- Today: the companion by the greeting says hello once per part of the day
+  and opens the Companion Studio when tapped; other tabs show its head in
+  the top bar.
+- Check-in, Unstick and the Bridge: the companion keeps you company at the
+  top of the sheet, listens while you type and reacts kindly when you save.
+- Focus: body doubling beside the water. Box breathing: the companion
+  breathes with you in the square. Small company in other exercises.
+- Friendly error and "page drifted away" pages, designed empty states, and
+  a quiet splash while Tide loads.
+- Never on the crisis screen. Anyone who hasn't chosen a companion yet sees
+  the app exactly as before.
+
 ### V3: Companions
 - Six original companions (Pebble the otter, Lolo the axolotl, Capi the
   capybara, Zip the gecko, Luma the jellyfish, Shelby the hermit crab), or
@@ -17,7 +30,6 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
 - The Companion Studio (`/companion`, also from Settings → Companion):
   name, look, how much they talk, where they appear, their voice, a
   one-breath preview, and Undo for species and name changes.
-- The companions are not on the app's screens yet; that's V4.
 
 ### V2: Sound, haptics and voice
 - Soft synthesized sounds (off by default): taps, switches, chimes, shore

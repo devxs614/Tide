@@ -4,7 +4,7 @@
 // row that scrolls sideways, the six companions plus "none", each with a
 // small drawing, its default name and one line about its personality. "None"
 // sits first so it reads as a real choice, not a leftover.
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { COMPANIONS, SIZES, SPECIES, type CompanionSpecies } from '@/lib/companion/registry';
 import { CardButton } from '@/components/ui/card';
 import { Companion } from '../Companion';

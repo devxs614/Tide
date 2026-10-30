@@ -8,7 +8,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   ArrowRightLeft, ChartColumn, Footprints, HeartHandshake, Inbox, MessageSquare, Moon, PartyPopper, PenLine, Shell, Sun, Timer, Wind,
 } from 'lucide-react';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
 import { PLACEMENTS, type Placement } from '@/lib/companion/registry';
 import { Switch } from '@/components/ui/switch';

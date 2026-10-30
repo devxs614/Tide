@@ -9,7 +9,7 @@
 import './companion.css';
 import { useEffect, useId, useRef, useState, type ComponentType } from 'react';
 import dynamic from 'next/dynamic';
-import { COMPANION_COPY } from '@/copy/companions';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { fill } from '@/copy/en';
 import { COMPANIONS, variantFor, type AccessoryId, type CompanionSpecies, type Expression, type Reaction } from '@/lib/companion/registry';
 import { PALETTE } from '@/lib/companion/palette';

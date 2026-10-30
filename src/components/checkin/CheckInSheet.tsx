@@ -4,7 +4,8 @@
 // through four short steps (her words, possible feeling words, what might be
 // behind it, what she needs) and saves one check-in at the end. If her words
 // sound like a crisis, coaching stops: the check-in is saved without the
-// text and the support screen opens instead.
+// text and the support screen opens instead. Her companion (if she has one)
+// sits in the corner: it listens while she types and reacts when she saves.
 import { useEffect, useReducer, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -19,6 +20,12 @@ import { localTimeLabel } from '@/lib/time';
 import { useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import type { Need } from '@/lib/types';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { emitCompanion } from '@/lib/companion/bus';
+import { SIZES } from '@/lib/companion/registry';
+import { useTypingSignal } from '@/lib/companion/typing';
+import { useCompanion } from '@/lib/companion/useCompanion';
+import { CompanionHost, afterCheckIn } from '@/components/companion/CompanionHost';
+import { companionToastIcon } from '@/components/companion/companionToastIcon';
 import { AllWords } from './AllWords';
 import { BodyPath } from './BodyPath';
 import { LeaveConfirm } from './LeaveConfirm';
@@ -39,6 +46,8 @@ export function CheckInSheet() {
   const [confirmLeave, setConfirmLeave] = useState(false);
   const [saving, setSaving] = useState(false);
   const mode = settings.communicationMode;
+  const companion = useCompanion();
+  const typing = useTypingSignal();
 
   const close = () => {
     setConfirmLeave(false);
@@ -100,7 +109,13 @@ export function CheckInSheet() {
     });
     setSaving(false);
     close();
-    if (need === 'keep') toast(fill(copy.checkin.saved, { quadrant: quadrantLabel(checkIn.quadrant, mode) }));
+    emitCompanion({ type: 'checkinSaved', quadrant: checkIn.quadrant });
+    const reaction = afterCheckIn[checkIn.quadrant];
+    if (need === 'keep') {
+      toast(fill(copy.checkin.saved, { quadrant: quadrantLabel(checkIn.quadrant, mode) }), {
+        icon: companionToastIcon(companion, reaction.expression ?? 'idle', reaction.reaction),
+      });
+    }
     if (need === 'adjust') openDayMode();
     if (need === 'regulate') router.push('/toolkit');
     if (need === 'talk') router.push('/support');
@@ -110,10 +125,22 @@ export function CheckInSheet() {
     <>
       <Sheet open={open} onOpenChange={(next) => (next ? undefined : requestClose())}>
         <SheetContent className="h-[94dvh]" aria-describedby={undefined}>
+          <CompanionHost
+            placement="checkin"
+            size={SIZES.sm}
+            listens={['typing', 'aiLoading', 'aiDone']}
+            openingLine="checkin_listening"
+            bubble="inline"
+            noneAlt="nothing"
+            className="shrink-0 px-5 pt-5 pr-28"
+          />
           {state.step === 'what' && (
             <StepWhat
               text={state.text}
-              onText={(text) => dispatch({ type: 'text', text })}
+              onText={(text) => {
+                dispatch({ type: 'text', text });
+                typing();
+              }}
               onNext={onNextFromWords}
               onNoWords={() => dispatch({ type: 'go', step: 'body' })}
               onSkipToMap={() => dispatch({ type: 'skipToMap' })}
