@@ -2271,3 +2271,144 @@ The bubble fix re-measured at 150% text on a 375 px screen: it sits at
 179–343 px, inside the page, and focus lands on the step's heading.
 
 **Decisions:** D116–D123.
+
+## Before Phase V12 — Documentation, final audit and merge
+2026-10-30, 11:25 (written up in the evening, after a usage-limit pause)
+
+The last phase: the README, architecture and prompts page for v2, the
+final audit of every acceptance criterion in the v2 spec and the
+Definition of Done, today's progress report, and the merge to `main` if
+everything is green. The kickoff says to merge; pushing publishes, so I'll
+merge and tag locally and ask the team before pushing, as with v1.
+
+Two things I know are open from earlier phases and will try to close
+here instead of only listing them: Today's quick actions row (spec 12),
+and watching the guided tour run in a real browser. For the second, a
+production build on port 3100 is a different origin from the team's tab,
+so the demo database there is separate from anything they have open.
+
+## After Phase V12 — Documentation, final audit and merge
+2026-10-30, 19:20
+
+**What I built**
+- Today's quick actions (spec 12), the last missing piece of Today 2.0:
+  Check in, Regulate, Focus (pick a task first) and Close the day (from two
+  hours before the usual closing time, "later" before that).
+- The README for v2 (what's new, "Delight without guilt", running the
+  demo, natural voices, themes, companions), `docs/architecture.md` with a
+  second diagram for the v2 layer, the voice note and six routes on
+  `/prompts-doc`, the final CHANGELOG entry, TEAM_TODO additions, and
+  today's progress report. Settings → About shows 2.0.0.
+
+**What I found by running the tour for real, and fixed**
+Until now the guided tour had only run in tests, where custom actions and
+navigation are mocked. In V12 I ran it on a production build: first in a
+background tab of the browser pane on port 3100 (a separate origin, so the
+team's data was never in reach), and, once those tabs had been closed, in
+a separate headless Chrome with its own temporary profile, driven over the
+DevTools protocol, so the team's browser pane was left alone. It was badly
+broken, and the tests could not have shown it:
+1. **Every tour ended at its first step.** Each chapter's setup sends
+   Escape to close any open sheet; it bubbled up to the window, where the
+   HUD treats Escape as "exit the tour". It no longer bubbles (test added).
+2. **On a browser that had never opened the demo, Pitch cut opened
+   onboarding.** The shell sent the still-empty demo database to
+   onboarding before the seed ran, which also lost `?demo=start`. Inside
+   the demo workspace it now shows the splash until the seed is done
+   (D125, test added and checked to fail without the fix).
+3. **A second tour in a row skipped the Bridge**, because the first run
+   had completed it, and the planted patterns' numbers had moved. Each tour
+   now starts from the seed (D126); the reset refuses outside the demo.
+4. **Autoplay called the AI** for a pattern whose numbers had moved (no
+   saved answer). Autoplay now never calls it (D127).
+5. **The focus block never ended in time** in the pitch cut (60× for 4 s is
+   4 minutes of a 10-minute block), so the outcome step was skipped. It
+   fast-forwards at 400× now.
+6. **Captions flashed by** in under a second in the pitch cut, which ran in
+   about 40 seconds. Captions now hold at least 1 s plus 50 ms a character
+   (D128).
+7. `?demoDebug=1` disappeared with the tour's first page change; it's read
+   once now.
+The launcher, README and demo script said "about 4 minutes" and "100
+seconds"; they now give the measured times.
+
+**How I checked it**
+- Lint and typecheck clean; 447 tests in 71 files green; the v1 suite (33
+  files, 164 tests) and the dictation freeze test green; the build clean.
+- First-load JS: `/` 299 KB gzipped (budget 300), `/demo` 245 KB.
+- The tour in headless Chrome against the production build, fresh
+  profile, twice in a row each: Pitch cut 80 s, 28 of 28 steps, twice;
+  Full tour 133 s, 45 of 45 steps, twice; no step skipped, no AI request
+  (the only `/api/` call is the voice availability check, which falls back
+  to the device's voices without a network).
+- No secrets in the repository (`git grep` for key patterns; only
+  `.env.example` is tracked).
+
+**Final audit: phase acceptance criteria (spec 22)**
+
+| Phase | Criterion | Where | How verified | Status |
+|---|---|---|---|---|
+| V0 | Green baseline, tag and branch, freeze test | tag `v1-baseline`, branch `v2-experience`, `src/test/frozen-dictation.test.ts` | Tag present; freeze test 7/7 today | Met |
+| V1 | v1 flows work, v2 look, contrast, existing users keep Classic + Hyperlegible | `lib/theme/*`, `lib/settings/__tests__/migrate.test.ts` | `test:v1` 164/164; contrast tests for 15 themes; migration test | Met |
+| V2 | Good voice, speech-friendly text, cloud voice with fallback, freeze | `lib/voice/*`, `/api/tts` | Ranking, `speechText`, engine and TTS route tests | Met in tests; a real provider key was never available (TEAM_TODO) |
+| V3 | Six companions + none, all expressions, Studio | `lib/companion/*`, `components/companion/*` | Registry and species tests, flow 4 | Met; "charming for 18–24" is the team's call (TEAM_TODO) |
+| V4 | Flow 7; never on the crisis screen; v1 flows unchanged | `CheckInCompanion.test.tsx`, `CrisisCompanion.test.tsx` | Tests; `test:v1` | Met |
+| V5 | Flow 8; frame rate; `test:v1`; v1 pitch e2e | `Celebrations.test.tsx` | Test; 61 fps unthrottled (V5); no Playwright | Met, throttled fps open (TEAM_TODO) |
+| V6 | Flows 1–3 | `Onboarding.test.tsx` | Tests | Met |
+| V7 | Flows 9–10; 48 items smoothly; Off fully static and accessible | `Shore.test.tsx`, `lib/shore/__tests__` | Tests; 60 fps unthrottled (V11); Off checked in a build (V11); axe | Met, 48-item throttled check open (TEAM_TODO) |
+| V8 | Flows 11–12; wrap-up schema and semantic tests; patterns | `Wrap.test.tsx`, `api/ai/wrapup/route.test.ts`, `lib/wrap/__tests__`, pattern engine tests | Tests | Met (simplifications listed in After V8) |
+| V9 | Flows 5, 6, 13; every setting in a checklist | `Settings2.test.tsx`, checklist in After V9 | Tests; checklist | Partly: toolkit settings, reminder times, week start and "waves follow my check-in" aren't built (hidden, not fake) |
+| V10 | Flow 14; tour start to finish, offline, twice in a row, main data untouched | `demo.test.tsx`, headless runs above | Test; two runs per mode with no AI calls | Met in V12 after the fixes above. Pages still load from the server, so with no internet run Tide locally |
+| V11 | Audit tables, issues fixed or explained | After V11 | Tables and fixes | Met |
+| V12 | Docs, audit, merge | This entry | — | Met (merge below) |
+
+**Definition of Done (spec 23)**
+
+- [x] Every v1 feature works as before; `test:v1` passes. (The v1
+  100-second script is covered by the v1 suite; the v2 pitch cut replaces
+  it in the demo workspace.)
+- [x] Dictation byte-for-byte unchanged (freeze test).
+- [x] 15 themes with contrast tests; Classic matches v1; picker with live preview.
+- [~] Design system on every screen; checked at 375 px with 150% text in
+  V11. A desktop-width screenshot pass in three themes is in TEAM_TODO.
+- [x] Motion Off/Calm/Lively everywhere; OS reduced motion maps to Off;
+  `/` within budget; throttled fps explained (TEAM_TODO).
+- [x] Sound engine and ambience, off by default; haptics where supported.
+- [~] Read-aloud with the best voice, speech text and chunking, voice
+  picker with samples; the cloud voice is tested only with mocks (no key).
+- [x] Six companions + none, expressions, variants, accessories, Studio,
+  lines in every mode, placements and talkativeness, never on the crisis
+  screen, never guilt (copy guard).
+- [x] Companions across the app, breathing in sync, focus body doubling.
+- [x] State-aware celebrations with caps.
+- [x] 12-step onboarding with resume and skip; What's new; no login.
+- [x] Today 2.0: header, quick actions (V12), morning, bottle and evening
+  cards, shore strip.
+- [x] Your Shore: scene, 14 item types, deterministic placement,
+  arrivals, details, collection, bottles, save as image, list view.
+- [x] Close the day: 13 steps, chart, loose ends, anchor and first step,
+  AI summary with checks and fallback, bottle, wind-down, goodnight;
+  morning card; `wrap_helped` (simplifications in After V8).
+- [~] Settings 2.0: presets, search, live preview, import/export, backup
+  restore; four settings from 15.2 aren't built (After V9).
+- [x] Demo: separate workspace; launcher, onboarding, menu and Settings
+  entries; full tour, pitch cut and presenter mode; no AI calls in
+  autoplay; never touches the main data; crisis preview only in the demo.
+- [x] Quality features (spec 17).
+- [~] Accessibility: keyboard paths and axe clean on every new flow, text
+  equivalents for visuals; Lighthouse wasn't run in v2 (TEAM_TODO).
+- [x] All tests green; build clean; no secrets; `.env.example` has the voice keys.
+- [x] Docs and logs updated (README, CHANGELOG, this log, attribution,
+  decisions, walkthrough, TEAM_TODO, demo script, architecture,
+  prompts-doc, progress report).
+- [x] Merged to `main` and tagged `v2.0.0` locally; not pushed until the
+  team says so (D129).
+
+**Not done (honest list)**
+- The four Settings 2.0 items above; a desktop screenshot pass; throttled
+  frame rates; Lighthouse; a real cloud-voice key; a human screen reader
+  pass; Playwright e2e suites (not installed). All are in TEAM_TODO.
+- `/` has 1 KB of budget left: anything new on Today or the shell must load
+  after the page.
+
+**Decisions:** D124–D129.

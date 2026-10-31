@@ -140,12 +140,15 @@ export async function runAi<R extends AiRouteName>(
   }
   if (!opts.aiEnabled) return finish(route, fallbackFor(route, input), 'fallback');
 
-  const config = await loadConfig();
   const cached = opts.demoMode ? findCachedResponse(route, input) : undefined;
-  if (cached && forceCache) {
+  // Demo autoplay never touches the network: the saved answer, or the
+  // built-in one when nothing was saved for this input (a pattern whose
+  // numbers moved, say). So the tour plays the same with the Wi-Fi off.
+  if (forceCache && opts.demoMode) {
     await sleep(DEMO_CACHE_DELAY_MS);
-    return finish(route, cached, 'demo-cache');
+    return cached ? finish(route, cached, 'demo-cache') : finish(route, fallbackFor(route, input), 'fallback');
   }
+  const config = await loadConfig();
   const live = callRoute(route, input, opts.demoMode ? config.demoTimeoutMs : config.timeoutMs);
   if (cached) {
     // A failed live call never wins the race; the saved answer arrives anyway.

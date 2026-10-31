@@ -949,9 +949,18 @@ device's real data is never opened while it runs.
   `Spotlight.tsx`, `DemoCursor.tsx`, `EndScreen.tsx`.
 
 **Data flow.** Launcher → `enterDemoWorkspace(mode)` → reload with
-`?demo=start&mode=…` → `DemoRuntime` seeds `tide-demo` if needed → the
-engine plays the script, using `data-demo-id` targets, the router for
-navigation and the repo for clock jumps.
+`?demo=start&mode=…` → `DemoRuntime` resets `tide-demo` to the seed
+(`resetDemoWorkspace`, V12) → the engine plays the script, using
+`data-demo-id` targets, the router for navigation and the repo for clock
+jumps. While the demo database is still empty, the shell shows the splash
+instead of sending it to onboarding (D125).
+
+**Fixed in V12, after running the tour in a real browser.** The chapter
+setup's Escape (to close open sheets) bubbled to the window, where the HUD
+treats Escape as "exit", so every tour ended at its first step; it no
+longer bubbles. A second tour in a row skipped the Bridge because the first
+had done it; each tour now starts from the seed. Autoplay never calls the
+network (D127), and captions hold long enough to read (D128).
 
 **Likely reviewer questions**
 - *Can the demo break my data?* No: it's a different database, chosen at
@@ -999,4 +1008,23 @@ auto-prompting to install (D118); silent skeletons (D121).
   contrast tests for every theme, keyboard flow tests, and a run in a
   production build at 375 px with text at 150% and motion Off. A human
   screen reader pass is in TEAM_TODO.
+
+## Today's quick actions (V12)
+
+**What it does.** Four tiles under the Day Mode banner: Check in (opens
+the sheet), Regulate (the Toolkit, already sorted for the latest
+check-in), Focus (a short list of tasks, In progress first, each opening
+its focus page) and Close the day (a link from two hours before
+`day.wrapTime`, "Close the day · later" before that).
+
+**Files.** `components/today/QuickActions.tsx` (with `closeDayOpen`),
+`FocusPicker.tsx`, `QuickActions.test.tsx`; loaded by `TodayScreen.tsx`
+after the page, with a same-height placeholder.
+
+**Likely reviewer questions**
+- *Why is Close the day sometimes greyed out?* It's for the evening; before
+  then the tile says "later" rather than vanishing, so the layout never
+  jumps and nothing nags.
+- *Why not four in a row on a laptop?* Today stays phone-width on every
+  screen (D124).
 

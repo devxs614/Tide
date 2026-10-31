@@ -868,3 +868,43 @@ dependency) on every new flow and all Settings pages, with contrast left
 to the theme token tests because jsdom can't compute colors. Separately,
 v1 links like `/settings#people` open that section's page, so the v1
 support page link (and its v1 test) stay as they were.
+
+**D124 — 2026-10-30 — Today's quick actions are always two by two.**
+Spec 12 asks for 1×4 on desktop, but Today lives in the phone-width column
+on every screen size, where four tiles in a row would squeeze "Close the
+day · later" into three lines. Regulate opens the Toolkit, which already
+sorts itself for the latest check-in, instead of adding a filter to it.
+Close the day opens two hours before the usual closing time and says
+"later" before that, never hidden. The row loads after the page with a
+placeholder of its own height, so `/` stays under 300 KB.
+
+**D125 — 2026-10-30 — The demo workspace is never sent to onboarding.**
+On a browser that had never opened the demo, the shell saw a fresh
+database with no `onboarded` setting and went to onboarding before the
+seed finished, which also dropped the `?demo=start` the tour starts from.
+Inside the demo workspace the shell now shows the splash until the seed
+has run.
+
+**D126 — 2026-10-30 — Every tour starts from the seed.**
+`resetDemoWorkspace()` reloads the seed before each tour, so a second
+tour in a row starts from the same afternoon (the first run had already
+done the Bridge, and the planted patterns' numbers had moved). It refuses
+to run outside the demo workspace. Rejected: undoing each step's changes
+afterwards, which would miss whatever the presenter did by hand.
+
+**D127 — 2026-10-30 — Autoplay never goes to the network.**
+With saved answers forced (autoplay), an input with no saved answer now
+gets the built-in answer straight away instead of a live call. That keeps
+the tour identical every time and quick with the Wi-Fi off. Presenter mode
+can still use live AI.
+
+**D128 — 2026-10-30 — Captions stay up long enough to read.**
+Each step with a caption holds at least one second plus 50 ms a character
+(about 3.5 s for a typical caption). The pitch cut's holds were capped at
+0.9 s, which left it at about 40 seconds and its captions unreadable; it
+now takes about 80 seconds.
+
+**D129 — 2026-10-30 — v2 is merged and tagged locally; pushing waits.**
+The kickoff asked to merge to `main` when everything is green. Pushing
+`main` and the tag publishes them, so it waits for the team's go-ahead, as
+it did for v1.

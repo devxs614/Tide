@@ -15,8 +15,11 @@ const sleep = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms))
 export async function runCustom(name: string, args: Record<string, unknown> | undefined, navigate: (path: string) => void, speed: number): Promise<void> {
   switch (name) {
     case 'setupChapter': {
-      // Close any open sheet first, then move time and place.
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      // Close any open sheet first, then move time and place. The Escape
+      // must not bubble: sheets hear it on the document, but the tour's own
+      // controls listen on the window, where Escape means "exit the tour",
+      // and a bubbling one ended every tour at its first step.
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: false }));
       if (typeof args?.ts === 'number') await setDemoTime(args.ts);
       if (typeof args?.path === 'string') navigate(args.path);
       return sleep(700);

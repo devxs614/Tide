@@ -7,6 +7,7 @@ import { DEMO_START, demoClockAt } from '../clock';
 import { buildDemoData } from '@/data/demo/seed';
 import { clearData } from './data';
 import { setSettings } from './settings';
+import { currentWorkspace } from '../workspace';
 import { DEMO_BOTTLE, DEMO_SETTINGS_V2, demoDayWraps } from '@/data/demo/seedV2';
 
 // 4:36 pm: the Bridge to Calculus (4:50 pm) is already on screen when the
@@ -63,6 +64,19 @@ export async function setDemoTime(base: number): Promise<void> {
 // only ever runs while the demo database is the open one.
 export async function seedDemoWorkspace(): Promise<void> {
   if ((await db.checkins.count()) > 0 && (await db.dayWraps.count()) > 0) return;
+  await fillDemoWorkspace();
+}
+
+// Before every tour: back to the seed exactly, so a second run in a row
+// starts from the same afternoon, with the Bridge not done yet and the
+// planted patterns' numbers intact. Refuses outside the demo workspace, so
+// it can never clear someone's own data.
+export async function resetDemoWorkspace(): Promise<void> {
+  if (currentWorkspace() !== 'demo') return;
+  await fillDemoWorkspace();
+}
+
+async function fillDemoWorkspace(): Promise<void> {
   await loadDemoData(DEMO_START);
   const uses = await db.strategyUses.toArray();
   await db.transaction('rw', db.dayWraps, db.bottles, async () => {

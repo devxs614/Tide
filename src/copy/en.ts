@@ -200,6 +200,20 @@ export const copy = {
   },
 
   today: {
+    // The quick actions row (v2 spec 12). Close the day opens two hours
+    // before Maya's usual closing time; before that it just says "later".
+    quick: {
+      label: 'Quick actions',
+      checkIn: 'Check in',
+      regulate: 'Regulate',
+      focus: 'Focus',
+      closeDay: 'Close the day',
+      closeDayLater: 'Close the day · later',
+      pickTitle: 'Focus on one thing',
+      pickBody: 'Pick a task for a short focus block.',
+      pickNone: 'Nothing is waiting right now.',
+      pickAdd: 'Go to Tasks',
+    },
     greeting: {
       morning: 'Good morning',
       afternoon: 'Good afternoon',
@@ -1325,8 +1339,8 @@ export const copy = {
   demo: {
     launcherTitle: 'Run the demo',
     launcherBody: 'A guided tour on example data, in its own space. Your own data is never touched.',
-    full: { title: 'Full tour', body: 'Every feature, about 4 minutes.' },
-    pitch: { title: 'Pitch cut', body: 'The highlights in 100 seconds.' },
+    full: { title: 'Full tour', body: 'Every feature, a little over 2 minutes.' },
+    pitch: { title: 'Pitch cut', body: 'The highlights in about 80 seconds.' },
     presenter: { title: 'Presenter mode', body: 'Pauses at each key moment until you press Next.' },
     explore: 'Open the demo workspace without the tour',
     narration: 'Read captions aloud',

@@ -96,12 +96,14 @@ describe('offline pill', () => {
     // The pill itself is always drawn (hidden); wait for it to mount.
     await screen.findByText('Offline · using built-in suggestions', { selector: 'span' });
     expect(said()).toBe(false);
+    // Under load the event can arrive before React has subscribed; it reads
+    // the value again when it does, so wait for the result.
     online.mockReturnValue(false);
     act(() => void window.dispatchEvent(new Event('offline')));
-    expect(said()).toBe(true);
+    await waitFor(() => expect(said()).toBe(true));
     online.mockReturnValue(true);
     act(() => void window.dispatchEvent(new Event('online')));
-    expect(said()).toBe(false);
+    await waitFor(() => expect(said()).toBe(false));
   });
 });
 
