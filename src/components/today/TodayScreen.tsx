@@ -1,7 +1,8 @@
 'use client';
 
 // Today, Tide's home screen, top to bottom: greeting, how Maya checked in,
-// the lighter-day offer when it applies, what's next, and the Tide Line.
+// the lighter-day offer when it applies, quick actions, what's next, and
+// the Tide Line.
 // It redraws every minute so the "Now" marker and countdowns stay current.
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -37,6 +38,12 @@ const ChooseCompanionCard = lazy(() => import('./ChooseCompanionCard').then((m) 
 const BottleCard = lazy(() => import('./BottleCard').then((m) => m.BottleCard));
 const EveningCard = lazy(() => import('./EveningCard').then((m) => m.EveningCard)) as React.ComponentType<{ nowTs: number }>;
 const MorningCard = lazy(() => import('./MorningCard').then((m) => m.MorningCard)) as React.ComponentType<{ nowTs: number }>;
+// The quick actions are always there, so they keep their space while they
+// load (two rows of tiles) and nothing below them jumps.
+const QuickActions = dynamic(() => import('./QuickActions').then((m) => m.QuickActions), {
+  ssr: false,
+  loading: () => <div aria-hidden className="min-h-[204px]" />,
+});
 
 export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
   // Every 30 seconds: the bridge countdown needs it, the "Now" marker
@@ -75,6 +82,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
       <BottleCard />
       {settings['day.morningCard'] && <MorningCard nowTs={nowTs} />}
       {banner && settings['day.dayModeSuggestions'] && data.latest && <DayModeBanner reason={banner} checkInId={data.latest.id} />}
+      <QuickActions nowTs={nowTs} />
       <TransitionRating nowTs={nowTs} />
       {bridge ? <BridgeCard bridge={bridge} /> : next && <NextTransitionCard event={next} nowTs={nowTs} />}
       <TideLine

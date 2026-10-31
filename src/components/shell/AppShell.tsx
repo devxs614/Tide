@@ -6,6 +6,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSettings } from '@/lib/settings';
+import { currentWorkspace } from '@/lib/workspace';
 import { copy } from '@/copy/en';
 import { cn } from '@/lib/utils';
 import { PhoneFrame } from './PhoneFrame';
@@ -77,10 +78,14 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   // First visit goes to onboarding. Nothing renders until settings have
   // loaded, so the demo clock and preferences are right on the first paint.
+  // The demo workspace is never sent there: on its first open the database
+  // is still being seeded (which marks onboarding done), and leaving the
+  // page would lose the ?demo=start that tells the tour to begin.
+  const inDemo = currentWorkspace() === 'demo';
   useEffect(() => {
-    if (loaded && !settings.onboarded) router.replace('/onboarding');
-  }, [loaded, settings.onboarded, router]);
-  if (!loaded) return <PhoneFrame><Splash /></PhoneFrame>;
+    if (loaded && !settings.onboarded && !inDemo) router.replace('/onboarding');
+  }, [loaded, settings.onboarded, inDemo, router]);
+  if (!loaded || (!settings.onboarded && inDemo)) return <PhoneFrame><Splash /></PhoneFrame>;
   if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
   // Someone who finished v1 onboarding and hasn't met the companions yet.
   // Never during the demo, which runs its own scripted tour.

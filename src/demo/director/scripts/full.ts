@@ -52,7 +52,10 @@ export const UNSTICK_STEPS: Step[] = [
   { id: 'unstick.reason', chapter: 'unstick', target: 'unstick-reason-dont_know_start', action: { kind: 'click' }, caption: 'Same task, different state, different first step.', holdMs: 2000 },
   { id: 'unstick.start', chapter: 'unstick', target: 'unstick-start', action: { kind: 'click' }, caption: 'Lolo works next to her, like a study buddy.', narrate: true },
   { id: 'focus.start', chapter: 'unstick', target: 'focus-start', action: { kind: 'click' }, holdMs: 600 },
-  { id: 'focus.fast', chapter: 'unstick', action: { kind: 'setSpeed', multiplier: 60 }, holdMs: 5000 },
+  // Fast-forward through the focus block. The pitch cut holds this for 4
+  // seconds, so 400× covers blocks up to 26 minutes (the longest is 25);
+  // at 60× a 10-minute block never ended in time and the outcome was skipped.
+  { id: 'focus.fast', chapter: 'unstick', action: { kind: 'setSpeed', multiplier: 400 }, holdMs: 5000 },
   { id: 'focus.normal', chapter: 'unstick', action: { kind: 'setSpeed', multiplier: 1 } },
   { id: 'focus.outcome', chapter: 'unstick', target: 'focus-outcome-got_going', action: { kind: 'click' }, caption: 'Celebrations match how she feels. No confetti on a low day.', holdMs: 2000, presenterPause: true },
 ];

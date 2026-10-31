@@ -103,7 +103,11 @@ async function play(run: number) {
     if (run !== token) return;
     set({ log: [...state.log, { id: step.id, ok }] });
     if (step.narrate && state.narration && step.caption) await Promise.race([deps!.speak(step.caption), sleep(9000)]);
-    await sleep((step.holdMs ?? 700) / state.speed);
+    // A caption stays up long enough to be read in a room: about a second
+    // plus 50 ms a character (3.5 s for a typical one). Before V12 the pitch
+    // cut showed each for under a second.
+    const readMs = step.caption ? 1000 + step.caption.length * 50 : 0;
+    await sleep(Math.max(step.holdMs ?? 700, readMs) / state.speed);
     if (run !== token) return;
     set({ index: state.index + 1, paused: state.presenter && !!step.presenterPause });
   }

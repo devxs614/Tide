@@ -9,10 +9,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import { databaseName, db } from '@/lib/db';
 import { addTask } from '@/lib/repo/tasks';
+import { resetDemoWorkspace } from '@/lib/repo/demo';
 import { currentWorkspace, enterDemoWorkspace, leaveDemoWorkspace } from '@/lib/workspace';
 import { CrisisScreen } from '@/components/safety/CrisisScreen';
-import { renderApp, resetApp } from '@/test/utils';
+import { navigation, renderApp, resetApp } from '@/test/utils';
+import { AppShell } from '@/components/shell/AppShell';
 import { director, type DirectorDeps } from '../director/engine';
+import { runCustom } from '../director/customActions';
 import { FULL } from '../director/scripts/full';
 import { PITCH } from '../director/scripts/pitch';
 import type { Script } from '../director/types';
@@ -40,6 +43,24 @@ describe('demo workspace', () => {
     expect(databaseName()).toBe('tide');
     expect(assign).toHaveBeenLastCalledWith('/');
     expect(await Promise.all([db.tasks.count(), db.settings.count(), db.wins.count()])).toEqual(before);
+  });
+
+  // Found in V12: on a browser that had never opened the demo, the shell sent
+  // the fresh demo database to onboarding before the seed finished, and the
+  // tour never started. The demo workspace now waits on the splash instead.
+  it('never sends a fresh demo workspace to onboarding', async () => {
+    await resetApp({ onboarded: false });
+    window.localStorage.setItem('tide.workspace', 'demo');
+    await renderApp(<AppShell>{null}</AppShell>);
+    await waitFor(() => expect(navigation.replace).not.toHaveBeenCalledWith('/onboarding'));
+    await new Promise((r) => setTimeout(r, 300));
+    expect(navigation.replace).not.toHaveBeenCalledWith('/onboarding');
+  });
+
+  it('still sends a new person in their own workspace to onboarding', async () => {
+    await resetApp({ onboarded: false });
+    await renderApp(<AppShell>{null}</AppShell>);
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/onboarding'));
   });
 });
 
@@ -109,6 +130,24 @@ function sourceFiles(dir: string): string[] {
   });
 }
 
+describe('chapter setup', () => {
+  // Found in V12 by running the tour in a real browser: the bubbling Escape
+  // that closes sheets reached the HUD's window listener and exited the tour.
+  it('closes sheets without reaching the tour controls', async () => {
+    const onWindow = vi.fn();
+    const onDocument = vi.fn();
+    window.addEventListener('keydown', onWindow);
+    document.addEventListener('keydown', onDocument, { capture: true });
+    const navigate = vi.fn();
+    await runCustom('setupChapter', { path: '/tasks' }, navigate, 4);
+    window.removeEventListener('keydown', onWindow);
+    document.removeEventListener('keydown', onDocument, { capture: true });
+    expect(onDocument).toHaveBeenCalledOnce();
+    expect(onWindow).not.toHaveBeenCalled();
+    expect(navigate).toHaveBeenCalledWith('/tasks');
+  });
+});
+
 describe('demo scripts', () => {
   it('only target elements that exist in the code', () => {
     const code = sourceFiles(path.join(process.cwd(), 'src/components'))
@@ -139,5 +178,21 @@ describe('crisis preview', () => {
     document.body.innerHTML = '';
     await renderApp(<CrisisScreen preview />);
     expect(await screen.findByText(/Preview: this is what Tide shows/)).toBeInTheDocument();
+  });
+});
+
+describe('repeatable tours', () => {
+  it('reset puts the demo back to the seed, and refuses outside the demo', async () => {
+    await resetApp();
+    await addTask({ title: 'Real task', type: 'admin', energyCost: 1 });
+    await resetDemoWorkspace();
+    expect((await db.tasks.toArray()).map((t) => t.title)).toEqual(['Real task']);
+
+    window.localStorage.setItem('tide.workspace', 'demo');
+    await resetDemoWorkspace();
+    const seeded = await Promise.all([db.checkins.count(), db.tasks.count(), db.dayWraps.count()]);
+    await addTask({ title: 'Added during a tour', type: 'admin', energyCost: 1 });
+    await resetDemoWorkspace();
+    expect(await Promise.all([db.checkins.count(), db.tasks.count(), db.dayWraps.count()])).toEqual(seeded);
   });
 });

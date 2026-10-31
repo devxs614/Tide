@@ -23,8 +23,9 @@ function.** So Tide works exactly where emotion and executive function meet.
 
 ## Screenshots
 
-*(The team adds screenshots of Today, the check-in, Unstick, the Bridge and
-Patterns here.)*
+*(The team adds screenshots here: Today, the check-in, Unstick, the Bridge,
+Patterns, Your Shore and Close the day, each in three themes: Lagoon,
+Midnight Tide and Ink.)*
 
 ## What Tide does
 
@@ -53,10 +54,60 @@ Patterns here.)*
   people you can reach; text size, dark mode, reduced motion, Gentle / Direct
   / Literal wording, read aloud and dictation; export or delete everything.
 
+## What's new in v2
+
+- **Companions (optional).** Six original sea-side companions (Pebble the
+  otter, Lolo the axolotl, Capi the capybara, Zip the gecko, Luma the
+  jellyfish, Shelby the hermit crab) or none at all, which is a first-class
+  choice with calm waves instead. Name them, pick a color and one of 11
+  accessories in the Companion Studio, choose where they appear and how much
+  they talk. They react softly to what you tell them, breathe with you in
+  box breathing, work quietly next to you in a focus block and go to sleep
+  with you at the end of the day. Luma can have no face at all. Their lines
+  follow your Gentle, Direct or Literal mode.
+- **A new look.** 15 themes (light, dark and two high-contrast), with the
+  v1 look kept as Classic; four fonts including Atkinson Hyperlegible and
+  Lexend; a color-blind-safe palette for the four states; motion at Off,
+  Calm or Lively (your device's reduced-motion setting means Off).
+- **Sound, off by default.** Soft synthesized sounds and optional
+  background waves, rain or brown noise. Haptics where the device has them.
+- **A better read-aloud voice.** Tide picks the most natural voice your
+  device has, rewrites text so it sounds right, and reads long text in
+  pieces. A cloud voice can be added (see below).
+- **Your Shore.** Things you do leave something on a little beach: a shell
+  for a finished task, sea glass for a switch you got through, driftwood
+  for a closed day. Nothing ever disappears. Write a note in a bottle to
+  your future self; it washes up on a harder day.
+- **Close the day.** A three-minute, fully skippable wind-down: your day as
+  a tide, what helped, what was hard, what to do with loose ends, one thing
+  for tomorrow with its first step ready, and a kind summary.
+- **Today 2.0.** A companion header, quick actions (Check in, Regulate,
+  Focus, Close the day), a morning card with yesterday's "one thing", an
+  evening card, and a strip of your shore.
+- **Settings 2.0.** Search ("dark mode", "pet", "font"), quick presets
+  (Calm, Low sensory, Focused, Playful, High contrast) with Undo, one page
+  per topic with a live preview, settings import and export, and full
+  backup restore.
+- **Onboarding in twelve short steps**, all skippable, and a What's new tour
+  for people who used v1 (nothing changes until they choose).
+- **Finishing touches.** Keyboard shortcuts on a computer (press ?), an
+  offline note, Install Tide where the browser allows it, and "How this
+  screen works" in the menu.
+
+## Delight without guilt
+
+Tide v2 is more playful, on purpose, and it keeps every v1 promise. The
+companion's mood never depends on what you got done. There are no streaks,
+no points to lose, no "we missed you", no red alarms. A celebration fits
+how you feel: on a low day it's a quiet "That counted." instead of confetti.
+Nothing shows on the crisis screen except people you can reach. Everything
+playful can be turned down or off, and a test scans every line of copy for
+guilt phrases and emojis.
+
 ## How the AI is used
 
 The code calculates; the AI interprets language and explains. Claude is used
-in five small server-side routes, only where a fixed rule can't do the job:
+in six small server-side routes, only where a fixed rule can't do the job:
 
 | Route | What it does |
 |---|---|
@@ -65,6 +116,7 @@ in five small server-side routes, only where a fixed rule can't do the job:
 | `/api/ai/daymode` | Which tasks to keep today and which to move for a lighter day |
 | `/api/ai/bridge` | A parking question, one short strategy and prep steps for a switch |
 | `/api/ai/narrate` | Plain sentences for patterns the app already computed |
+| `/api/ai/wrapup` | A kind two- or three-sentence summary when you close the day (v2), from counts, titles and the words you picked, never your notes |
 
 Every route receives only the fields in its schema (no names, no contacts),
 answers with JSON validated by zod on the server and again in the browser,
@@ -88,8 +140,10 @@ the server.
   a confidence level, use "tends to", never "causes", and can be marked "Not
   true for me".
 - **Accessibility:** Atkinson Hyperlegible, text up to 150%, extra spacing,
-  dark mode, reduced motion, Literal mode, read aloud, dictation, 48px
-  targets, full keyboard use, non-drag alternatives.
+  dark and high-contrast themes, a color-blind-safe palette with shapes,
+  motion Off, Literal mode, read aloud, dictation, 48px targets, full
+  keyboard use, non-drag alternatives, and a text version of everything
+  visual (the shore, the tide chart, celebrations, companions).
 - **Human support:** "Talk to a person" is always one tap away. A keyword
   check (English and Spanish) plus the model's own flag stop coaching on
   crisis language and show crisis lines and trusted people.
@@ -98,22 +152,27 @@ the server.
 ## Architecture
 
 Next.js (App Router) with TypeScript, Tailwind and shadcn/ui on the client;
-Dexie (IndexedDB) for all data; five Next.js route handlers that call Claude
-with `@anthropic-ai/sdk`. See [docs/architecture.md](docs/architecture.md)
+Dexie (IndexedDB) for all data; six Next.js route handlers that call Claude
+with `@anthropic-ai/sdk`, and an optional text-to-speech route. See [docs/architecture.md](docs/architecture.md)
 for the diagram and [docs/CODE_WALKTHROUGH.md](docs/CODE_WALKTHROUGH.md) for a
 file-by-file guide.
 
 ```
-src/app/            routes: Today, Tasks, Toolkit, Patterns, Proof, Settings,
-                    Support, Focus, Onboarding, /prompts-doc, /api/ai/*
+src/app/            routes: Today, Tasks, Toolkit, Patterns, Shore, Proof,
+                    Settings, Support, Focus, Close the day, Companion,
+                    Onboarding, Demo, /prompts-doc, /api/ai/*, /api/tts
 src/components/     one folder per module (checkin, tasks, focus, today,
-                    bridge, toolkit, patterns, proof, safety, settings, shell, ui)
+                    bridge, toolkit, patterns, proof, safety, settings, shell,
+                    companion, celebrate, shore, wrap, onboarding, ui)
 src/lib/            data (db, repo/*), clock, AI layer (ai/*), safety,
-                    pattern engine (patterns/*), Day Mode, Bridge rules
+                    pattern engine (patterns/*), Day Mode, Bridge rules,
+                    theme, motion, sound, voice, companion, celebrate,
+                    shore, wrap, settings, workspace
+src/demo/           the demo director, its scripts and the launcher
 src/data/           emotion words, strategies, task types, crisis lines,
                     demo seed and saved demo answers
 src/copy/en.ts      every word on screen
-prompts/            the five system prompts and the shared preamble
+prompts/            the six system prompts and the shared preamble
 docs/               logs, decisions, walkthrough, demo script, team to-do
 ```
 
@@ -128,14 +187,32 @@ npm run dev                   # http://localhost:3000
 ```
 
 Without an API key everything still works: each AI feature uses its built-in
-fallback. Other scripts: `npm test`, `npm run lint`, `npm run typecheck`,
-`npm run build`.
+fallback. Other scripts: `npm test`, `npm run test:v1` (the v1 regression
+suite), `npm run lint`, `npm run typecheck`, `npm run build`.
 
-## Demo mode
+### Natural voices (optional)
 
-Settings → Demo → **Demo mode (synthetic data)** loads three weeks for Maya,
-a fictional student, and sets the clock to Thursday, November 5, 3:40 pm. A
-"Demo data" badge stays visible. The scripted demo also works offline. See
+Read aloud works out of the box with the device's own voices. For a more
+natural voice, set `TIDE_TTS_PROVIDER` to `openai` or `elevenlabs` in
+`.env.local` and add that provider's key (see `.env.example`). Only text
+someone asks to hear is sent, and the server stores none of it. `npm run voice:clips`
+can pre-generate clips for the fixed texts (strategy steps, breathing cues,
+companion lines, demo captions) so they sound natural offline.
+
+## Running the demo
+
+Open **`/demo`** (or the menu's "Run the demo", Settings → Demo, the
+welcome screen's "Watch the demo", or Shift+D on a computer) and choose:
+
+- **Full tour**, every feature in a little over 2 minutes;
+- **Pitch cut**, the highlights in about 80 seconds;
+- **Presenter mode**, which pauses at each key moment until you press Next
+  (→ or PageDown, so a clicker works; ← goes back a chapter, Esc exits).
+
+The demo runs in its own workspace (a separate database) with Maya, a
+fictional student, three weeks of synthetic data, and the clock at Thursday,
+November 5, 3:40 pm. A "Demo" badge stays visible. It works offline, and it
+never opens or changes your own data; "Leave demo" takes you back. See
 [docs/demo-script.md](docs/demo-script.md).
 
 ## Team and roles
@@ -161,8 +238,9 @@ phase by phase, is in [docs/AI_DEV_LOG.md](docs/AI_DEV_LOG.md).
 ## Credits
 
 The four-state mood map is inspired by the circumplex model of emotion and
-Yale's RULER framework. Tide is not affiliated with Yale. Font: Atkinson
-Hyperlegible (Braille Institute, SIL Open Font License).
+Yale's RULER framework. Tide is not affiliated with Yale. Fonts: Atkinson
+Hyperlegible (Braille Institute), Nunito and Lexend, all under the SIL Open
+Font License. The companions are original drawings made in code for Tide.
 
 ## License
 

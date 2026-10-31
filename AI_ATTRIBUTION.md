@@ -139,6 +139,9 @@ what I generated and what came from elsewhere.
 | `src/lib/{shortcuts,install,useOnline}.ts`, `src/components/shell/{KeyboardShortcuts,ShortcutsList,ShortcutsSheet,OfflinePill,InstallButton,ScreenHelpSheet}.tsx`, `src/components/shell/quality.test.tsx`, the Keyboard shortcuts settings page | Quality features (spec 17) | Claude Code | D116–D120 |
 | `src/components/ui/{tooltip,skeleton}.tsx`, `src/lib/motion/usePauseOffscreen.ts` (+ test), skeletons and empty states in Tasks, Toolkit, Patterns, Proof, Shore, Collection | Tooltips, loading states, pausing loops | Claude Code | Tooltip on Radix (shadcn pattern); D121 |
 | `src/test/a11y.test.tsx`, `src/test/copyGuards.test.ts`; fixes in the studio headings, `ThemeGrid`, `WrapScreen`, `CompanionSay`, `SettingsScreen` | Accessibility audit and copy pass | Claude Code | D122, D123 |
+| `src/components/today/{QuickActions,FocusPicker}.tsx` (+ test) | Today's quick actions (V12) | Claude Code | D124 |
+| Demo fixes in V12: `resetDemoWorkspace` in `repo/demo.ts`, `DemoRuntime.tsx`, `customActions.ts`, `engine.ts` caption holds, `scripts/full.ts`, the demo branch in `AppShell.tsx`, autoplay in `lib/ai/runAi.ts`, `src/lib/ai/demoAutoplay.test.ts` | Making the guided tour run for real | Claude Code | D125–D128; found by running the tour in a headless Chrome |
+| `docs/architecture.md` (v2 diagrams), the v2 sections of `README.md`, the voice note on `/prompts-doc` | v2 documentation | Claude Code | |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
 
 ## AI prompts used inside the app

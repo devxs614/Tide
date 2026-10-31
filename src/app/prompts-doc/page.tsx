@@ -31,9 +31,9 @@ export default function PromptsDocPage() {
         <h2>How Tide uses AI</h2>
         <p>
           Tide is a local-first web app that connects how a neurodivergent college student feels with what they can realistically do next.
-          It uses Claude in five small server-side routes, only where a fixed rule can&apos;t do the job: interpreting free language into
-          emotion words, adapting a first step to a specific task and state, reshaping a day, preparing a switch between activities, and
-          putting computed patterns into words. The code calculates; the AI interprets language and explains. Each route receives only the
+          It uses Claude in six small server-side routes, only where a fixed rule can&apos;t do the job: interpreting free language into
+          emotion words, adapting a first step to a specific task and state, reshaping a day, preparing a switch between activities,
+          putting computed patterns into words, and (added in v2) a kind summary when the student closes the day. The code calculates; the AI interprets language and explains. Each route receives only the
           fields in its input schema (no names, no contacts), uses the shared preamble plus its own prompt below, and must answer with one
           JSON object. Every answer is validated with zod and extra checks on the server and again in the browser; an invalid answer gets
           one retry, and any failure, timeout or switched-off AI falls back to a deterministic answer. The server stores and logs no user
@@ -118,6 +118,19 @@ export default function PromptsDocPage() {
           <p>{doc.safety}</p>
         </section>
       ))}
+
+      {/* Not a prompt, but the other place on-screen text can leave the
+          device in v2, so it belongs on the page that says what is sent. */}
+      <section className="prompts-route">
+        <h2>Read aloud with a natural voice (v2, optional)</h2>
+        <p>
+          Read aloud uses the device&apos;s own voices by default, and then nothing leaves the device. If the team sets a voice provider
+          (OpenAI or ElevenLabs) on the server, the text a student presses Read aloud on (up to 600 characters at a time) is sent through
+          /api/tts to that provider and comes back as audio. No other data is sent, the key stays on the server, and the server logs only
+          the provider, status, time and length, never the text. Students can turn the cloud voice off in Settings → Privacy &amp; data.
+          This is text-to-speech only: no model writes or changes anything here.
+        </p>
+      </section>
 
       <section className="prompts-route">
         <h2>Safety and formatting guidelines</h2>

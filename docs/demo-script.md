@@ -68,12 +68,15 @@ as it was.
 - Open **`/demo`** (for example `https://<your-url>/demo`), or Menu →
   "Run the demo", or Settings → Demo, or "Watch the demo" on the first
   onboarding screen.
-- Choose **Full tour** (about 4 minutes), **Pitch cut** (100 seconds) or
+- Choose **Full tour** (a little over 2 minutes), **Pitch cut** (about 80
+  seconds; measured in V12) or
   **Presenter mode** (pauses at each key moment). Options: read captions
   aloud, show captions, speed 1×, 1.5× or 2×.
-- The first start fills the demo workspace (a second or two). Autoplay uses
-  only the saved demo answers, so it plays the same way every time and
-  works with no network.
+- Every start puts the demo workspace back to the same Thursday afternoon
+  (a second or two), so a second run in a row looks exactly like the first.
+  Autoplay uses only the saved demo answers and never calls the AI, so it
+  plays the same way every time. With no internet, run Tide locally
+  (`npm run build` then `npm start`) so the pages themselves can load.
 
 ### Presenter keys (a clicker works)
 - **Next:** → or PageDown · **Back to the previous chapter:** ← or PageUp
@@ -88,8 +91,9 @@ as it was.
    and time).
 3. Settings → Demo inside the demo workspace has "Restart demo clock",
    "Jump to the bridge moment" and "Jump to evening".
-4. Add `?demoDebug=1` to the address to see which steps ran or were
-   skipped.
+4. Add `?demoDebug=1` to the start address (for example
+   `/?demo=start&mode=pitch&demoDebug=1`) to see which steps ran or were
+   skipped; the list stays for the whole tour.
 5. Last resort: play the backup video.
 
 ### Leaving

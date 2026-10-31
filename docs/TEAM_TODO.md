@@ -61,6 +61,11 @@ up during the build. — Claude Code
   sheet → Lighthouse → Accessibility, "Snapshot" mode. *By Nov 4.* Why:
   Lighthouse can't open a sheet from a URL. I ran axe-core on every sheet
   instead (0 violations), and Lighthouse scored 100 on the pages.
+- [ ] **Lighthouse on the v2 screens** (Accessibility, on the deployed
+  URL): Today, Your Shore, Close the day, Settings → Appearance and `/demo`.
+  The spec asks for 95 or more. *By Nov 4.* Why: v1 scored 100; in v2 I ran
+  axe-core (the engine Lighthouse uses) on every new screen with no
+  violations, but I didn't run Lighthouse itself.
 - [ ] Try it on the presenting phone at 150% text and in dark mode, try
   "Dictate", and lock the phone for 2 minutes during a focus block (the
   timer should still be right to the second). *By Nov 4.* Why: I checked
@@ -136,10 +141,20 @@ up during the build. — Claude Code
   couldn't watch it in a browser while the pane was in use.
 - [ ] Record the backup video of the full tour once it runs cleanly.
   *By Nov 4.*
+- [ ] **Test `/demo` on the deployed URL**, not only on localhost: Full
+  tour, Pitch cut, and Leave demo, then check that your own data in the
+  main workspace is as you left it. Try it once with the Wi-Fi off after
+  the page has loaded. *By Nov 4.* Why: the demo has its own database per
+  site, so the deployed site needs its own run.
 
 ## Submission
 - [ ] Record the backup demo video following `docs/demo-script.md`. *Nov 3.*
-- [ ] Take screenshots for the README and the deck. *Nov 4.*
+- [ ] Take screenshots for the README and the deck, in three themes
+  (Lagoon, Midnight Tide, Ink), on a phone and on a laptop-width window:
+  Today, the check-in, Unstick, the Bridge, Patterns, Your Shore and Close
+  the day. The README has a placeholder for them. While you're at it, note
+  anything that looks unfinished at laptop width; I only checked phone
+  width in v2. *Nov 4.*
 - [ ] Fill team names, team name and university in `README.md`, the
   `/prompts-doc` page and the progress reports. *Nov 4.*
 - [ ] Submit the daily progress reports from `docs/progress/`. *Daily until Nov 5.*
