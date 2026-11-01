@@ -28,6 +28,18 @@ is the short version so a resumed session behaves the same way.
   (`node scripts/measure-first-load.mjs /` against `next start -p 3100`).
 - Resume message: Appendix D.2 of the v2 spec.
 
+## Tide v2.1 "Partner-Ready" (branch `v2.1-partner-ready`, Phases R0–R7)
+- Spec: `docs/TIDE_V2_1_FIXES_PROMPT.md`, items F-01 to F-16, strictly in
+  priority order (P0, P1, P2, P3). One commit per item at least.
+- Everything v1 and v2 keeps working: `test`, `test:v1`, the freeze test,
+  the demo reference and seed tests, both demo tours and the pitch path.
+- Data changes are additive (Dexie version 3). No 3D companions; F-16 is
+  a roadmap note on its own branch, never merged.
+- Commits: the team's Git identity (`devxs614`), no AI trailers or
+  co-author lines, even though the spec mentions one. Ask before pushing.
+- Every overlay uses the z-index scale (spec 5.4); every multi-step flow
+  has Back and Cancel; every destructive action has undo or confirmation.
+
 ## Where things stand
 - Progress and the current phase: the end of `docs/AI_DEV_LOG.md` and
   `git log --oneline`.

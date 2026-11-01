@@ -2412,3 +2412,41 @@ seconds"; they now give the measured times.
   after the page.
 
 **Decisions:** D124–D129.
+
+---
+
+# Tide v2.1 "Partner-Ready"
+
+## Before Phase R0 — Baseline
+2026-11-01
+
+The team used v2, showed it to their Challenge Partner, and wrote a
+prioritized list of bugs and improvements; `docs/TIDE_V2_1_FIXES_PROMPT.md`
+turns it into items F-01 to F-16. The partner meeting is on Tuesday, so P0
+and P1 come first. Before changing anything I need a green baseline to
+detect regressions, a tag to come back to, and a branch of my own.
+
+The kickoff message the team pasted is the v2 one (it says "Phases V0 to
+V12" and "commit on v2-experience"); the v2.1 spec has its own plan
+(phases R0 to R7, branch `v2.1-partner-ready`). I'm following the spec's
+plan and logging it (D130). Two of the team's instructions override the
+spec: commits go out as `devxs614` with no AI trailer (the spec asks for
+an `AI-Generated` trailer), and I'll ask before pushing.
+
+## After Phase R0 — Baseline
+2026-11-01
+
+- `git status` was clean; nothing on GitHub was newer. `main` and
+  `v2-experience` were the same commit (4c76b76, v2.0.0).
+- Baseline: lint and typecheck clean; `npm run test` 447 tests in 71
+  files, all green; `npm run test:v1` 164 tests in 33 files, green; build
+  clean; first-load JS for `/` 299 KB gzipped (budget 300).
+- Tagged `v2.0-baseline` on `main` and created `v2.1-partner-ready` from it.
+- Saved the spec as `docs/TIDE_V2_1_FIXES_PROMPT.md`.
+
+One constraint to keep in mind for every item: `/` has 1 KB of budget
+left, so anything new on Today or in the shell must load after the page.
+Another: the team's dev server on port 3000 runs from this folder, so they
+will see my work as I go, and once the Dexie version 3 upgrade lands their
+browser's database moves to version 3 (additive, but v2 code can't open it
+afterwards). I'll have the upgrade tested before it ships.

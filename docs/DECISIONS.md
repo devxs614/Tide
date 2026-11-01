@@ -908,3 +908,17 @@ now takes about 80 seconds.
 The kickoff asked to merge to `main` when everything is green. Pushing
 `main` and the tag publishes them, so it waits for the team's go-ahead, as
 it did for v1.
+
+## v2.1 "Partner-Ready"
+
+**D130 — 2026-11-01 — The v2.1 spec's plan over the reused kickoff text.**
+The pasted kickoff is the v2 one ("Phases V0 to V12", "commit on the
+v2-experience branch"). The v2.1 spec defines phases R0–R7 and a
+`v2.1-partner-ready` branch from `main`. I follow the spec (newer and
+specific) and merge into `main` at the end, as both ask.
+
+**D131 — 2026-11-01 — Commits as the team's identity, no AI trailer.**
+The spec asks for an `AI-Generated: Claude Code` trailer; the team's own
+instruction says never to add AI marks and to commit as `devxs614`. The
+team's instruction wins. AI attribution stays in `AI_ATTRIBUTION.md` and
+the logs, as in v1 and v2.
