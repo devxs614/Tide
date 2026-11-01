@@ -53,6 +53,22 @@
   /* Set from Settings; multiplies the 17px base size. */
   --text-scale: 1;
 
+  /* Layers (v2.1 spec 5.4). Every overlay uses one of these, so a bubble
+     can never end up under the tab bar or a sticky header again. Things
+     inside one component (a sheet's close button) keep small local values. */
+  --z-base: 0;
+  --z-raised: 5;
+  --z-sticky: 10;
+  --z-tabbar: 20;
+  --z-fab: 25;
+  --z-toast: 30;
+  --z-bubble: 35;
+  --z-popover: 40;
+  --z-sheet: 50;
+  --z-celebration: 60;
+  --z-demo: 70;
+  --z-crisis: 90;
+
   /* Shape (v2 spec 4.3). Depth is a solid "ledge" under the element, not a
      blurry shadow; roundness scales every radius except pills. */
   --roundness: 1;

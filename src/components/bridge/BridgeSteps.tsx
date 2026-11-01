@@ -124,7 +124,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
 
   return (
     <>
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-1 pb-4">
         <CompanionHost
           placement="bridge"
           size={SIZES.md}
@@ -132,9 +132,8 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
           listens={['bridgeOpened', 'aiLoading', 'aiDone']}
           bubble="inline"
           noneAlt="nothing"
-          className="pr-24"
         />
-        <div className="flex flex-col gap-1 pr-24">
+        <div className="flex flex-col gap-1">
           <SheetTitle>{fill(copy.bridge.sheetTitle, { from, to: data.to.title })}</SheetTitle>
           <p className="font-bold text-primary">{fill(copy.bridge.countdown, { m: minutesUntil(data.to.start, nowTs), to: data.to.title })}</p>
         </div>

@@ -2450,3 +2450,133 @@ Another: the team's dev server on port 3000 runs from this folder, so they
 will see my work as I go, and once the Dexie version 3 upgrade lands their
 browser's database moves to version 3 (additive, but v2 code can't open it
 afterwards). I'll have the upgrade tested before it ships.
+
+## Before R1.1 — The layout audit tool
+2026-11-01
+
+Before fixing anything visual I want a map of every overlap and clip,
+measured rather than guessed, and something that keeps them fixed. The
+spec asks for a Playwright script plus the same checks as a test.
+Playwright wasn't installed. I added `@playwright/test` without its
+browser download and point it at the Chrome already on this Mac, against a
+production build on port 3100 (a different origin from the team's
+`npm run dev` tab, so their data is never touched).
+
+## Before F-01 — Companion speech bubble cut off or covered (P0)
+2026-11-01
+
+What the person experiences: they tap the companion, or it speaks after a
+check-in, and the bubble's words are cut off at an edge or hidden behind
+the top bar, a card, the tab bar or a sheet. For someone who relies on the
+companion's words (Literal mode especially) that removes information, and
+it makes the app feel broken. Fixed means: in every placement, at every
+width and text size, the full line is readable, never covered, and stays
+up long enough to read. What could break: the bubble inside sheets (Radix
+makes everything outside an open dialog inert), the shore (the companion
+lives inside the scene's SVG), the demo tour's captions about the
+companion, and the check-in tests that read the bubble's text.
+
+## After R1.1 — The layout audit tool
+2026-11-01
+
+**What I built.** `scripts/layout-audit.ts` (`npm run audit:layout`) and
+`e2e/layout-audit.spec.ts` (`npm run e2e`) share `scripts/audit/`: the
+in-page checks (page overflow, clipped text, overlap and covered content
+within the same layer, controls past the edge, the companion's bubble,
+content stuck under the bars at the end of a page, small targets as
+warnings), workspace preparation (the demo workspace seeded by the app
+itself, or an empty one), and 61 screens and open states: every tab,
+every Settings page, Close the day steps 1/3/8/9/11, onboarding steps
+1/3/6/7/10, check-in steps, Day Mode, Unstick, the Bridge, TaskForm,
+the event form, and the companion speaking in each place. A unit test
+fails if a Settings section is added without the audit visiting it.
+
+**Layers.** Sticky bars, sheets, dialogs, the bubble, the celebration and
+the demo controls now carry `data-overlay` (an attribute only). Content
+only counts as covered by something in its own layer, or when an overlay
+ends up under the page; content passing under a sticky bar mid-scroll is
+scrolling, but anything still under the tab bar at the very end of a page
+(or under the top bar at the very top) is a failure.
+
+**False alarms I fixed in the tool before trusting it:** the skip link
+(clipped to nothing on purpose), content inside closed `<details>`, round
+buttons whose corners hit-test through to what's behind them (corner
+samples are now inset by the corner radius), and the bubble following
+its companion off screen once the page scrolls.
+
+**The "before" map** (`docs/audits/2026-11-01-before.json`): 1,224 state
+runs over 6 widths × 4 text sizes in 873 s, with 21,156 findings. Most
+are the same few causes repeated across sizes and scroll positions:
+- the top bar's title runs into the companion head and Menu at narrow
+  widths and big text;
+- tab bar labels overlap (Patterns and Shore);
+- the page scrolls sideways at 320–390px from 1.15× up;
+- Settings' sticky Live Preview slides over the settings below it;
+- theme cards clip their text; the Studio's name heading is truncated;
+- onboarding's "More options" runs off the screen;
+- sheets' bottom buttons cover content at 150%;
+- and the bubble (below).
+A bubble-only pass on the same build (`2026-11-01-before-bubbles.json`)
+reproduced F-01.
+
+## After F-01 — Companion speech bubble cut off or covered
+2026-11-01
+
+**Reproduction** (v2.0 build, `docs/audits/2026-11-01-before-bubbles.json`,
+widths 320/390/1280 × text 1 and 1.5):
+- Today: the greeting bubble sits above the companion, under the sticky
+  top bar ("hidden-under-bar", 22–87px).
+- Shore: the bubble lives inside the scene's SVG (`foreignObject`), which
+  clips it; 5 of 5 sample points hidden at every size.
+- Focus at 320px: the bubble runs past the left edge (−19px, −36px at 1.5).
+- Check-in and Unstick sheets at 1.5: the sheet's Close button sits on the
+  bubble.
+
+**Root cause.** The bubble was absolutely positioned inside the
+companion's own box, so whatever clipped or stacked over that box (the
+SVG, a card with `overflow: hidden`, the sticky top bar) did the same to
+the bubble, and it always opened in the same direction whatever the room.
+In sheets, the Close button floated over the corner and headers guessed
+how much room to leave (`pr-28`); at big text sizes Close grew past it.
+
+**Fix.**
+- `CompanionSay` renders in a portal on the nearest overlay layer
+  (`#tide-overlays`, or the sheet it belongs to: `data-overlay-root` on
+  sheet and dialog content), placed by Floating UI next to the companion's
+  body group: above it in the lower half of the screen, below it in the
+  upper half, with flip, shift, a size cap of min(320px, available
+  width), and a tail positioned by the arrow middleware. It follows
+  scroll and resizes.
+- Text wraps anywhere, never clamps, scales with the text size; in the
+  rare case it's taller than the screen it scrolls inside itself and is
+  focusable.
+- It stays up for max(3.5s, words × 0.45s × text size + 1.5s); hover,
+  focus or touch pause it; a tap pins it; a pinned or tapped bubble shows
+  a close button ("Close message", 44px target) and takes Escape before
+  the sheet behind it does.
+- When you tap the companion, the companion button points at the bubble
+  with `aria-describedby` instead of a live region.
+- The Studio hero and onboarding's "Say hi" use the same bubble.
+- Every z-index in the app maps to the scale in spec 5.4 (D133).
+- Sheets give Close its own row at the top (last in the DOM, so focus
+  still starts in the content), and the `pr-24`/`pr-28` guesses are gone.
+- In sheet headers the bubble stays inline beside the companion (D134).
+
+**How I checked it.**
+- New tests: the bubble portals out of a box with `overflow: hidden` and
+  a transform; inside a sheet it stays in the sheet; the timing formula;
+  one bubble at a time; close button and Escape.
+- Audit (`2026-11-01-f01-bubbles.json`): every bubble check (fully on
+  screen, nothing on top of it at its center and corners, no text cut)
+  passes in every placement (Today, Shore, Studio, Focus, Box breathing,
+  check-in, Unstick, Bridge, Close the day) at 320, 390 and 1280px, at
+  text 1 and 1.5. I also looked at a screenshot of the Shore bubble.
+- `/` first-load JS: 299.7 KB gzipped, budget 300 (Floating UI's
+  positioning was already in the page through Radix's menus). The
+  measuring script now prints one decimal; with 0.3 KB left, everything
+  new on Today and in the shell has to load after the page.
+
+**Left open:** the spec's 120ms crossfade between two lines isn't there
+(a new line simply replaces the old one, with the usual pop). The other
+findings in the same audit runs (top bar, sheet footers, Studio chips,
+page overflow) belong to F-02.

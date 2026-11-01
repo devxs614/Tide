@@ -148,7 +148,7 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
             openingLine="checkin_listening"
             bubble="inline"
             noneAlt="nothing"
-            className="shrink-0 px-5 pt-5 pr-28"
+            className="shrink-0 px-5 pt-1"
           />
           {state.step === 'what' && (
             <StepWhat

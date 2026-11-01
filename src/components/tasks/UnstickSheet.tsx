@@ -129,7 +129,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
         openingLine="unstick_offer"
         bubble="inline"
         noneAlt="nothing"
-        className="shrink-0 px-5 pt-5 pr-28"
+        className="shrink-0 px-5 pt-1"
       />
       {!suggestion && <UnstickReasons task={task} loading={loading} onChoose={(reason) => ask(reason)} />}
       {suggestion && (

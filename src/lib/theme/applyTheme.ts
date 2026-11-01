@@ -75,7 +75,7 @@ export function crossfadeFrom(oldBg: string): void {
   if (typeof document === 'undefined' || !oldBg) return;
   const veil = document.createElement('div');
   veil.setAttribute('aria-hidden', 'true');
-  veil.style.cssText = `position:fixed;inset:0;z-index:2147483647;pointer-events:none;background:${oldBg};opacity:1;transition:opacity 250ms ease-out`;
+  veil.style.cssText = `position:fixed;inset:0;z-index:calc(var(--z-crisis) + 1);pointer-events:none;background:${oldBg};opacity:1;transition:opacity 250ms ease-out`;
   document.body.appendChild(veil);
   requestAnimationFrame(() => {
     veil.style.opacity = '0';

@@ -133,6 +133,14 @@ up during the build. — Claude Code
 - [ ] Turn the Wi-Fi off with Tide open and check in: the "Offline" note
   should appear and the suggestions should be the built-in ones. *By Nov 4.*
 
+## v2.1 checks on real devices (before Tuesday, Nov 3)
+- [ ] **Tap the companion on a real phone at 130% text** (Settings →
+  Appearance → Text size), on Today, on the Shore, in Focus and in the
+  Companion Studio. The whole sentence should show, never under the top
+  bar or cut by the beach scene. *By Mon, Nov 2.* Why: the audit checks
+  this in Chrome; a real phone's browser bars and text settings are the
+  last word.
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

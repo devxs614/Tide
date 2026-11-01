@@ -15,7 +15,7 @@ export function StepHeader({ title, stepNumber }: { title: string; stepNumber?: 
   // The sheet's Close button sits on top of this corner, so long titles
   // wrap before reaching it instead of running underneath at phone width.
   return (
-    <div className="flex flex-col gap-1 pr-24">
+    <div className="flex flex-col gap-1">
       {stepNumber !== undefined && <p className="text-caption text-ink-soft">{fill(copy.checkin.stepOf, { n: stepNumber })}</p>}
       <SheetTitle ref={ref} tabIndex={-1} className="outline-none">
         {title}

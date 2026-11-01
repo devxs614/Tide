@@ -36,7 +36,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
-        <p className="pr-24 text-caption text-ink-soft">{task.title}</p>
+        <p className="text-caption text-ink-soft">{task.title}</p>
         <LeftOffNote task={task} />
         <StepHeader title={copy.unstick.firstStepTitle} />
         <section aria-label={copy.global.suggestion} className="flex flex-col gap-2 card p-4">

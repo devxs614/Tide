@@ -143,6 +143,8 @@ what I generated and what came from elsewhere.
 | Demo fixes in V12: `resetDemoWorkspace` in `repo/demo.ts`, `DemoRuntime.tsx`, `customActions.ts`, `engine.ts` caption holds, `scripts/full.ts`, the demo branch in `AppShell.tsx`, autoplay in `lib/ai/runAi.ts`, `src/lib/ai/demoAutoplay.test.ts` | Making the guided tour run for real | Claude Code | D125–D128; found by running the tour in a headless Chrome |
 | `docs/architecture.md` (v2 diagrams), the v2 sections of `README.md`, the voice note on `/prompts-doc` | v2 documentation | Claude Code | |
 | `README.md` | Project overview | Claude Code | Keeps the team's original first line |
+| `scripts/layout-audit.ts`, `scripts/audit/*` (checks, workspace preparation, states, runner), `e2e/layout-audit.spec.ts`, `e2e/layout-audit.allow.json`, `playwright.config.ts`, `src/test/auditStates.test.ts`; `data-overlay` markers on bars, sheets, dialogs, demo and celebration layers | v2.1 layout audit | Claude Code | Spec 4.3 and Appendix B (D132) |
+| `src/components/companion/CompanionSay.tsx` (rewritten) and its test, `src/lib/overlay/overlayRoot.ts`, the overlay root in `providers.tsx`, bubble anchors in `CompanionHost`, `StudioHero` and onboarding's `CompanionStep`; the z-index scale in `globals.css` and every z-index mapped to it; sheets' Close row in `ui/sheet.tsx`; tooltip portals | v2.1 F-01 speech bubble and layers | Claude Code | Spec 5 (D133, D134) |
 
 ## AI prompts used inside the app
 The five system prompts in /prompts started as drafts in the team's
@@ -179,6 +181,8 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | vitest 5.0.5, @vitejs/plugin-react 6.1.2 | Test runner | MIT |
 | @testing-library/react, dom, user-event, jest-dom | Component and flow tests | MIT |
 | fake-indexeddb 6.2.6 | IndexedDB in tests | Apache-2.0 |
+| @playwright/test 1.64.1 | The layout audit, driving the installed Chrome (no browser download) | Apache-2.0 |
+| @floating-ui/react-dom 2.1.9 | Placing the companion's speech bubble (already shipped inside Radix) | MIT |
 | axe-core 4.14.0 | Accessibility audit in tests (`src/test/a11y.test.tsx`); also used by the lint plugin | MPL-2.0 |
 | jsdom 30.1.3 | Browser environment for tests | MIT |
 | eslint 9, eslint-config-next 16.4.3 | Linting | MIT |

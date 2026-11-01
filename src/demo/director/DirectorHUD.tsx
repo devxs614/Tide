@@ -41,8 +41,10 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
   return (
     <section
       data-demo-hud
+      data-overlay="demo"
+      data-overlay-root
       aria-label={copy.demo.hudLabel}
-      className={cn('card fixed inset-x-4 z-[70] mx-auto flex max-w-[400px] flex-col gap-2 p-3', top ? 'top-4' : 'bottom-24')}
+      className={cn('card fixed inset-x-4 z-[calc(var(--z-demo)+2)] mx-auto flex max-w-[400px] flex-col gap-2 p-3', top ? 'top-4' : 'bottom-24')}
     >
       <div className="flex items-center gap-2">
         <span className="rounded-full bg-primary px-2 py-0.5 text-caption font-bold text-on-primary">{copy.demo.pill}</span>

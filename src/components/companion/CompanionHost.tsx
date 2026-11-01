@@ -8,7 +8,7 @@
 // chose (quiet, some, chatty), and never on the crisis screen. If she chose
 // no companion, the place shows calm waves or nothing; if she hasn't chosen
 // yet (everyone coming from v1), the place looks exactly as it did in v1.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { companionLine, type LineContext } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { fill, quadrantName } from '@/copy/en';
@@ -180,9 +180,13 @@ export function CompanionHost({
   });
   const [expression, setExpression] = useState<Expression>(opening?.greeting ? 'waving' : base);
   const [reaction, setReaction] = useState<{ name: Reaction | null; key: number }>({ name: null, key: 0 });
-  const [line, setLine] = useState<{ text: string; key: number } | null>(() =>
+  const [line, setLine] = useState<{ text: string; key: number; tapped?: boolean } | null>(() =>
     opening && (opening.greeting ? profile.talkativeness !== 'quiet' : true) ? { text: lineText(opening.context), key: 1 } : null,
   );
+  // The companion on the page, for the bubble to float next to (state, not
+  // a ref, so the bubble re-renders once the companion is there).
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const bubbleId = useId();
 
   // A new resting expression for this place (say, the focus block began).
   const [restingBase, setRestingBase] = useState(base);
@@ -198,7 +202,7 @@ export function CompanionHost({
         tapped || profile.talkativeness !== 'quiet' || QUIET_LINES.includes(context);
       if (!allowed) return;
       const text = lineText(context, vars);
-      setLine((prev) => ({ text, key: (prev?.key ?? 0) + 1 }));
+      setLine((prev) => ({ text, key: (prev?.key ?? 0) + 1, tapped }));
       play(`chirp-${profile.species}`);
       if (settings['voice.readCompanion']) void voice.speak(text, { naturalVoice, quiet: true });
     },
@@ -217,6 +221,8 @@ export function CompanionHost({
   );
 
   useEffect(() => () => window.clearTimeout(decay.current), []);
+  // Stable, so the bubble's reading timer isn't restarted by every re-render.
+  const done = useCallback(() => setLine(null), []);
 
   useEffect(() => {
     if (!shown || listens.length === 0) return;
@@ -269,9 +275,18 @@ export function CompanionHost({
   // A real button, so the tap works from the keyboard too. Decorative
   // places (the breathing square) just show the figure.
   const body = decorative ? (
-    figure
+    <span ref={setAnchor} className="block shrink-0">
+      {figure}
+    </span>
   ) : (
-    <button type="button" onClick={tap} aria-label={onTap ? fill(COMPANION_COPY.openStudio, { name: profile.name }) : undefined} className="block shrink-0 rounded-card">
+    <button
+      ref={setAnchor}
+      type="button"
+      onClick={tap}
+      aria-label={onTap ? fill(COMPANION_COPY.openStudio, { name: profile.name }) : undefined}
+      aria-describedby={line?.tapped ? bubbleId : undefined}
+      className="block shrink-0 rounded-card"
+    >
       {figure}
     </button>
   );
@@ -280,23 +295,20 @@ export function CompanionHost({
     return (
       <div className={cn('flex min-h-14 items-center gap-3', className)} data-companion-placement={placement}>
         {body}
-        {line && <CompanionSay text={line.text} lineKey={line.key} side="inline" onDone={() => setLine(null)} className="min-w-0" />}
+        {line && <CompanionSay id={bubbleId} text={line.text} lineKey={line.key} tapped={line.tapped} inline onDone={done} className="flex-1" />}
       </div>
     );
   }
 
+  // The bubble used to sit here, absolutely positioned with a z-index, and
+  // whatever clipped this box clipped the bubble too. It floats in a portal
+  // now (CompanionSay), so nothing here can cut it off.
   return (
     <div className={cn('relative inline-flex flex-col items-center', className)} data-companion-placement={placement}>
-      {bubble !== 'none' && line && (
-        <CompanionSay
-          text={line.text}
-          lineKey={line.key}
-          side={bubble}
-          onDone={() => setLine(null)}
-          className={cn('absolute bottom-full z-10 mb-1 w-max', bubble === 'left' ? 'right-0' : 'left-0')}
-        />
-      )}
       {body}
+      {bubble !== 'none' && line && (
+        <CompanionSay id={bubbleId} text={line.text} lineKey={line.key} tapped={line.tapped} anchor={anchor} onDone={done} />
+      )}
     </div>
   );
 }

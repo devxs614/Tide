@@ -922,3 +922,36 @@ The spec asks for an `AI-Generated: Claude Code` trailer; the team's own
 instruction says never to add AI marks and to commit as `devxs614`. The
 team's instruction wins. AI attribution stays in `AI_ATTRIBUTION.md` and
 the logs, as in v1 and v2.
+
+**D132 — 2026-11-01 — The layout audit drives the installed Chrome and writes settings directly.**
+`@playwright/test` is installed without downloading a browser; the
+config uses `channel: 'chrome'`. Instead of the spec's dev-only
+`window.__tideDev` hook, the audit writes settings rows straight into the
+app's IndexedDB and reloads, so it audits the real production build and
+there is no test hook to keep out of production. Rejected: the
+in-app `/dev/audit` fallback, which a real browser made unnecessary.
+
+**D133 — 2026-11-01 — z-index scale (spec 5.4), mapping.**
+| Where | Before | Now |
+|---|---|---|
+| TopBar, Tasks sticky toolbar, offline pill, Live Preview | z-30, z-20 | `--z-sticky` (10) |
+| Bottom bar (Check in button + tab bar, one container) | z-40 | `--z-tabbar` (20) |
+| Toasts (sonner) | 999999999 | `--z-toast` (30) |
+| Companion bubble, tooltips | z-10 inside its box, z-[80] | `--z-bubble` (35), in a portal |
+| Dropdown menus, skip link | z-50 | `--z-popover` (40) |
+| Sheets, dialogs, What's new | z-50 | `--z-sheet` (50) |
+| Celebration overlay and burst | z-[60] | `--z-celebration` (60) |
+| Demo spotlight, cursor, HUD, end screen, debug list | z-[65]…z-[75] | `--z-demo` (70) to `--z-demo + 4` |
+| Theme crossfade veil | 2147483647 | `--z-crisis + 1` |
+Local stacking inside one component (a sheet's drag handle and close
+button, the segmented control's thumb) keeps small local values.
+Tooltips and the bubble portal into the layer of the element they belong
+to (the sheet, the demo controls), so a higher layer can't hide them.
+
+**D134 — 2026-11-01 — Bubbles in sheet headers stay inline.**
+The spec floats every bubble. In the check-in and Close the day headers
+the bubble sits beside the companion in the flow instead (as since D80
+and D122): there it can't be clipped, and it can't cover the sheet's title
+the way a floating one would for several seconds. Everywhere else it
+floats in a portal with Floating UI (`@floating-ui/react-dom`, the
+positioning-only package Radix already ships, so `/` doesn't grow).

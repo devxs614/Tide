@@ -1373,6 +1373,11 @@ export const copy = {
     debugTitle: 'Demo steps',
   },
 
+  // The companion's speech bubble (v2.1 F-01).
+  companionBubble: {
+    close: 'Close message',
+  },
+
   // Desktop keyboard shortcuts (v2 spec 17.1). Single keys, never while
   // typing in a field; the sheet opens with "?" and says how to turn them off.
   shortcuts: {

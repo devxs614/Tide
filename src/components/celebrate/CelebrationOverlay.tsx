@@ -63,8 +63,9 @@ export function CelebrationOverlay({ view, onClose }: { view: CelebrationView; o
       aria-modal="true"
       aria-labelledby="celebration-title"
       data-celebration="big"
+      data-overlay="celebration"
       onClick={onClose}
-      className={cn('fixed inset-0 z-[60] flex items-center justify-center bg-bg/85 p-6', !overlay.plain && 'cel-overlay-in')}
+      className={cn('fixed inset-0 z-(--z-celebration) flex items-center justify-center bg-bg/85 p-6', !overlay.plain && 'cel-overlay-in')}
     >
       {overlay.particles !== 'none' && <Particles kind={overlay.particles} />}
       <div className="card relative flex w-full max-w-sm flex-col items-center gap-3 p-6 text-center">

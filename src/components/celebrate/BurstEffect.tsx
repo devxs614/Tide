@@ -39,7 +39,7 @@ export function BurstEffect({ view }: { view: CelebrationView }) {
       aria-hidden
       data-celebration={tier}
       data-effect={effect}
-      className="pointer-events-none fixed z-[60] size-28"
+      className="pointer-events-none fixed z-(--z-celebration) size-28"
       style={at}
     >
       {effect === 'pop' && (

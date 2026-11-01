@@ -35,8 +35,9 @@ function SheetOverlay({
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
+      data-overlay="sheet"
       className={cn(
-        'fixed inset-0 z-50 bg-scrim duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
+        'fixed inset-0 z-(--z-sheet) bg-scrim duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
         className,
       )}
       {...props}
@@ -87,38 +88,49 @@ function SheetContent({
       <SheetOverlay />
       <SheetPrimitive.Content
         data-slot="sheet-content"
+        data-overlay="sheet"
+        data-overlay-root
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 mx-auto flex max-h-[94dvh] w-full max-w-[430px] flex-col rounded-t-[var(--radius-xl)] border-2 border-b-0 border-line bg-surface text-body text-ink shadow-sheet outline-none data-open:animate-in data-open:slide-in-from-bottom-full data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:slide-out-to-bottom-full data-closed:duration-(--dur-base) data-closed:ease-in',
+          'fixed inset-x-0 bottom-0 z-(--z-sheet) mx-auto flex max-h-[94dvh] w-full max-w-[430px] flex-col rounded-t-[var(--radius-xl)] border-2 border-b-0 border-line bg-surface text-body text-ink shadow-sheet outline-none data-open:animate-in data-open:slide-in-from-bottom-full data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:slide-out-to-bottom-full data-closed:duration-(--dur-base) data-closed:ease-in',
           className,
         )}
         style={dy ? { ...style, transform: `translateY(${dy}px)` } : style}
         {...props}
       >
-        <div
-          aria-hidden
-          className="absolute top-0 left-1/2 z-20 flex h-6 w-16 -translate-x-1/2 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
-          {...handlers}
-        >
-          <span className="h-1.5 w-10 rounded-full bg-line" />
-        </div>
         {children}
-        {showCloseButton ? (
-          <SheetPrimitive.Close data-slot="sheet-close" asChild>
-            <Button ref={closeRef} variant="quiet" size="sm" className="absolute top-3 right-3 z-10 bg-surface">
-              <XIcon aria-hidden />
-              {closeLabel}
-            </Button>
-          </SheetPrimitive.Close>
-        ) : (
-          <SheetPrimitive.Close ref={closeRef} tabIndex={-1} aria-hidden className="sr-only" />
-        )}
+        {/* The top row: the drag handle and Close. It used to float over the
+            sheet's corner, and every header had to guess how much room to
+            leave; at big text sizes Close grew past that room and sat on top
+            of titles and the companion's words. Now it has its own row.
+            It comes last in the DOM, so focus still starts in the content,
+            and `order-first` draws it at the top. */}
+        <div className="relative order-first flex min-h-6 shrink-0 justify-end px-3 pt-3">
+          <div
+            aria-hidden
+            className="absolute top-0 left-1/2 flex h-6 w-16 -translate-x-1/2 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+            {...handlers}
+          >
+            <span className="h-1.5 w-10 rounded-full bg-line" />
+          </div>
+          {showCloseButton ? (
+            <SheetPrimitive.Close data-slot="sheet-close" asChild>
+              <Button ref={closeRef} variant="quiet" size="sm" className="bg-surface">
+                <XIcon aria-hidden />
+                {closeLabel}
+              </Button>
+            </SheetPrimitive.Close>
+          ) : (
+            <SheetPrimitive.Close ref={closeRef} tabIndex={-1} aria-hidden className="sr-only" />
+          )}
+        </div>
       </SheetPrimitive.Content>
     </SheetPortal>
   );
 }
 
 function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="sheet-header" className={cn('flex flex-col gap-1 px-5 pt-5 pr-28', className)} {...props} />;
+  // No right padding for Close any more: it has its own row (see above).
+  return <div data-slot="sheet-header" className={cn('flex flex-col gap-1 px-5 pt-1', className)} {...props} />;
 }
 
 function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {

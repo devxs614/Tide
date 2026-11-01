@@ -21,7 +21,8 @@ export function Spotlight({ target }: { target: HTMLElement | null }) {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed z-[65] rounded-[20px] transition-all duration-300 ease-out"
+      data-overlay="demo"
+      className="pointer-events-none fixed z-(--z-demo) rounded-[20px] transition-all duration-300 ease-out"
       style={{ left: rect.left - 8, top: rect.top - 8, width: rect.width + 16, height: rect.height + 16, boxShadow: '0 0 0 200vmax rgb(0 0 0 / 0.45)' }}
     />
   );

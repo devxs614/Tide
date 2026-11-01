@@ -33,6 +33,8 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
   const current = settings['companion.species'];
   const [index, setIndex] = useState(() => Math.max(0, CHOICES.indexOf(current ?? 'otter')));
   const [hello, setHello] = useState<{ text: string; key: number } | null>(null);
+  // The companion on screen, for the "Say hi" bubble to float next to.
+  const [figure, setFigure] = useState<HTMLDivElement | null>(null);
   const touchX = useRef<number | null>(null);
   const choice = CHOICES[index];
 
@@ -89,10 +91,8 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
           </Button>
         </WithTooltip>
         <div key={choice} className="stagger-in card flex flex-1 flex-col items-center gap-2 p-4 text-center" aria-live="polite">
-          <div className="relative flex h-36 items-end">
-            {hello && choice !== 'none' && (
-              <CompanionSay text={hello.text} lineKey={hello.key} onDone={() => setHello(null)} className="absolute bottom-full left-1/2 mb-1 w-max -translate-x-1/2" />
-            )}
+          <div ref={setFigure} className="relative flex h-36 items-end">
+            {hello && choice !== 'none' && <CompanionSay text={hello.text} lineKey={hello.key} tapped anchor={figure} onDone={() => setHello(null)} />}
             {choice === 'none' ? <NoneCompanion size={SIZES.lg} /> : <Companion override={{ species: choice }} size={SIZES.lg} />}
           </div>
           <h2 className="text-h2 font-extrabold">{name}</h2>

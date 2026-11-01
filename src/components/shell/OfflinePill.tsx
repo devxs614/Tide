@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 export function OfflinePill() {
   const online = useOnline();
   return (
-    <div className="pointer-events-none sticky top-16 z-30 flex h-0 justify-center">
+    <div data-overlay="chrome" className="pointer-events-none sticky top-16 z-(--z-sticky) flex h-0 justify-center">
       <p role="status" className="sr-only">
         {online ? '' : copy.shell.offline}
       </p>

@@ -95,7 +95,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <PhoneFrame wide={wide}>
       <a
         href="#main"
-        className="sr-only-focusable absolute left-2 top-2 z-50 rounded-full bg-primary px-4 py-2 text-on-primary"
+        className="sr-only-focusable absolute left-2 top-2 z-(--z-popover) rounded-full bg-primary px-4 py-2 text-on-primary"
       >
         {copy.global.skipToContent}
       </a>
@@ -106,8 +106,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
       <div
+        data-overlay="chrome"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-[430px]',
+          'fixed inset-x-0 bottom-0 z-(--z-tabbar) mx-auto w-full max-w-[430px]',
           wide && 'lg:max-w-[1100px]',
         )}
       >

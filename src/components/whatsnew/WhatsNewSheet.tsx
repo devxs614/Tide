@@ -51,7 +51,7 @@ export function WhatsNewSheet({ asPage = false, onClose }: { asPage?: boolean; o
       role={asPage ? undefined : 'dialog'}
       aria-modal={asPage ? undefined : true}
       aria-labelledby="whats-new-title"
-      className={cn('flex flex-col gap-5 bg-bg p-5', asPage ? 'min-h-dvh' : 'fixed inset-0 z-50 mx-auto max-w-[430px] overflow-y-auto')}
+      className={cn('flex flex-col gap-5 bg-bg p-5', asPage ? 'min-h-dvh' : 'fixed inset-0 z-(--z-sheet) mx-auto max-w-[430px] overflow-y-auto')}
     >
       <div className="flex items-center gap-3">
         <p className="font-display font-extrabold">{copy.whatsNew.title}</p>

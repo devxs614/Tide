@@ -34,8 +34,9 @@ function DialogOverlay({
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
+      data-overlay="sheet"
       className={cn(
-        'fixed inset-0 isolate z-50 bg-scrim duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
+        'fixed inset-0 isolate z-(--z-sheet) bg-scrim duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
         className,
       )}
       {...props}
@@ -56,8 +57,10 @@ function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
+        data-overlay="sheet"
+        data-overlay-root
         className={cn(
-          'fixed top-1/2 left-1/2 z-50 grid max-h-[90dvh] w-full max-w-[calc(100%-2.5rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-[var(--radius-xl)] border-2 border-line bg-surface p-5 text-body text-ink shadow-[0_6px_0_var(--line)] outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:fade-out-0 data-closed:duration-(--dur-fast)',
+          'fixed top-1/2 left-1/2 z-(--z-sheet) grid max-h-[90dvh] w-full max-w-[calc(100%-2.5rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-[var(--radius-xl)] border-2 border-line bg-surface p-5 text-body text-ink shadow-[0_6px_0_var(--line)] outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:fade-out-0 data-closed:duration-(--dur-fast)',
           className,
         )}
         {...props}

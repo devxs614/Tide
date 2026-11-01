@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 
 export function EndScreen({ onExplore, onPitch }: { onExplore: () => void; onPitch: () => void }) {
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="demo-end" className="fixed inset-0 z-[72] flex items-center justify-center bg-bg/90 p-5">
+    <div role="dialog" aria-modal="true" aria-labelledby="demo-end" data-overlay="demo" className="fixed inset-0 z-[calc(var(--z-demo)+3)] flex items-center justify-center bg-bg/90 p-5">
       <div className="card flex w-full max-w-sm flex-col gap-4 p-5">
         <h2 id="demo-end" className="text-h1 font-extrabold">
           {copy.demo.endTitle}

@@ -18,7 +18,7 @@ export function LivePreview() {
   const name = settings.name.trim();
   const ts = now();
   return (
-    <details open className="sticky top-16 z-20 rounded-card border-2 border-line bg-bg/95 p-3 backdrop-blur">
+    <details open className="sticky top-16 z-(--z-sticky) rounded-card border-2 border-line bg-bg/95 p-3 backdrop-blur">
       <summary className="min-h-12 cursor-pointer font-display font-extrabold">{copy.set.preview}</summary>
       <div aria-hidden className="card mt-2 flex items-center gap-3 p-3">
         <div className="flex min-w-0 flex-1 flex-col gap-1">

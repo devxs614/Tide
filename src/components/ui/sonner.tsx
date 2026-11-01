@@ -31,6 +31,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
           '--normal-text': 'var(--ink)',
           '--normal-border': 'var(--line)',
           '--border-radius': '20px',
+          // The toast layer from the z-index scale (v2.1 spec 5.4); sonner's
+          // own default would put toasts above sheets and the bubble.
+          zIndex: 'var(--z-toast)',
         } as React.CSSProperties
       }
       toastOptions={{

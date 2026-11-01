@@ -76,7 +76,7 @@ export default function DemoRuntime() {
         <DirectorHUD state={state} />
       )}
       {debug && (
-        <aside aria-label={copy.demo.debugTitle} className="fixed top-2 right-2 z-[75] max-h-[60vh] w-56 overflow-y-auto rounded-card border-2 border-line bg-surface p-2 text-caption">
+        <aside aria-label={copy.demo.debugTitle} className="fixed top-2 right-2 z-[calc(var(--z-demo)+4)] max-h-[60vh] w-56 overflow-y-auto rounded-card border-2 border-line bg-surface p-2 text-caption">
           <p className="font-bold">{copy.demo.debugTitle}</p>
           <ul>
             {state.log.map((l, i) => (

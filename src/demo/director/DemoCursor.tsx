@@ -19,7 +19,7 @@ export function DemoCursor({ target }: { target: HTMLElement | null }) {
   return (
     <span
       aria-hidden
-      className="pointer-events-none fixed z-[66] size-7 rounded-full border-2 border-white bg-primary/70 transition-all duration-500 ease-out"
+      className="pointer-events-none fixed z-[calc(var(--z-demo)+1)] size-7 rounded-full border-2 border-white bg-primary/70 transition-all duration-500 ease-out"
       style={{ left: at.x - 14, top: at.y - 14 }}
     />
   );

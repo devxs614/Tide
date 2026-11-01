@@ -28,6 +28,8 @@ export function StudioHero({ line, onLineDone }: { line: { text: string; key: nu
   const level = useMotionLevel();
   const play = useSound();
   const [tap, setTap] = useState<{ index: number; key: number } | null>(null);
+  // The companion button, for the bubble to float next to.
+  const [hero, setHero] = useState<HTMLButtonElement | null>(null);
   const settle = useRef(0);
 
   // Remember who was here a moment ago, so they can wave goodbye.
@@ -63,9 +65,9 @@ export function StudioHero({ line, onLineDone }: { line: { text: string; key: nu
           <path d="M0 40 Q60 30 120 40 T240 40 T400 38" fill="none" stroke="var(--foam)" strokeWidth={3} opacity={0.7} />
           <path d="M0 66 Q110 46 210 60 T400 56 V112 H0 Z" fill="var(--sand)" />
         </svg>
-        {line && profile.species && (
-          <CompanionSay text={line.text} lineKey={line.key} onDone={onLineDone} className="absolute top-3 left-3 z-10" />
-        )}
+        {/* The bubble used to sit inside this box, which clips (overflow-hidden),
+            so long lines lost their ends. It floats next to the companion now. */}
+        {line && profile.species && <CompanionSay text={line.text} lineKey={line.key} tapped anchor={hero} onDone={onLineDone} />}
         {leaving && (
           <span aria-hidden className="studio-leave absolute bottom-3 left-1/2 -translate-x-1/2">
             <Companion override={{ species: leaving, accessory: profile.accessory }} size={SIZES.xl} expression="waving" decorative />
@@ -73,7 +75,7 @@ export function StudioHero({ line, onLineDone }: { line: { text: string; key: nu
         )}
         <div key={current ?? 'none'} className="studio-arrive absolute bottom-3 left-1/2 -translate-x-1/2">
           {profile.species ? (
-            <button type="button" onClick={onTap} className="block rounded-card" data-demo-id="companion-hero">
+            <button ref={setHero} type="button" onClick={onTap} className="block rounded-card" data-demo-id="companion-hero">
               <Companion
                 size={SIZES.xl}
                 expression={now?.expression ?? 'idle'}

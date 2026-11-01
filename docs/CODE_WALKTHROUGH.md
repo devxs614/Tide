@@ -1028,3 +1028,65 @@ after the page, with a same-height placeholder.
 - *Why not four in a row on a laptop?* Today stays phone-width on every
   screen (D124).
 
+---
+
+# v2.1 "Partner-Ready"
+
+## The layout audit (v2.1)
+
+**What it does.** Opens Tide in the installed Chrome at several widths and
+text sizes, visits every screen and open state, and reports overlap,
+clipped or covered text, sideways scrolling, controls past the edge, and
+problems with the companion's bubble.
+
+**Files.** `scripts/layout-audit.ts` (command line, JSON report to
+`docs/audits/`, screenshots to `e2e/__audit__/`), `scripts/audit/pageChecks.ts`
+(runs inside the page), `prepare.ts` (workspaces and settings written
+into IndexedDB), `states.ts` (the screens and the taps that open sheets),
+`run.ts` (the matrix, a few contexts in parallel), `e2e/layout-audit.spec.ts`,
+`e2e/layout-audit.allow.json` (allowed findings, each with a reason).
+
+**Layers.** Elements marked `data-overlay` (bars, sheets, bubbles, toasts,
+menus, demo, celebration) are separate layers: content is only "covered"
+by something in its own layer. `data-overlay="chrome"` marks the sticky
+bars; content under them at the very end (or top) of a page fails.
+
+**Likely reviewer questions**
+- *Why not unit tests?* jsdom has no layout; only a browser knows where
+  things end up.
+- *Does it touch my data?* It runs on port 3100 (another origin) in its
+  own browser profile.
+- *How do I run it?* `npm run build`, `npx next start -p 3100`, then
+  `npm run audit:layout -- --label=mine` (add `--widths=390 --scales=1.5
+  --states=settings` to narrow it).
+
+## Overlay layers and the speech bubble (v2.1 F-01)
+
+**What it does.** The companion's bubble floats in a portal next to the
+companion, so nothing can clip or cover it, and every overlay in the app
+sits on one z-index scale.
+
+**Files.** `components/companion/CompanionSay.tsx` (portal, Floating UI
+placement, timing, close button, Escape), `lib/overlay/overlayRoot.ts`
+(where floating things attach), `app/providers.tsx` (`#tide-overlays`),
+`components/ui/sheet.tsx` and `dialog.tsx` (`data-overlay-root`, Close in
+its own row), `app/globals.css` (`--z-*` scale), `ui/tooltip.tsx`.
+
+**Data flow.** A host (`CompanionHost`, the Studio hero, onboarding) holds
+the companion element in state and passes it as `anchor`;
+`CompanionSay` finds the overlay root from it (the sheet, or the app
+layer), uses the companion's body group as the reference, and renders
+there with `position: fixed`.
+
+**Decisions worth defending.** Inline bubbles in sheet headers (D134);
+Close in its own sheet row rather than more padding; the positioning-only
+Floating UI package that Radix already ships.
+
+**Likely reviewer questions**
+- *Why not portal to `<body>`?* Radix makes everything outside an open
+  dialog inert; a bubble from a sheet must live inside that sheet.
+- *What if the sentence doesn't fit?* The bubble scrolls inside itself and
+  becomes focusable; nothing is cut.
+- *How long does it stay?* max(3.5s, words × 0.45s × text size + 1.5s),
+  paused while hovered, focused or touched; a tap keeps it.
+

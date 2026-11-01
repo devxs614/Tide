@@ -38,7 +38,7 @@ export function TasksScreen({ resumeUnstickId, startNew = false }: { resumeUnsti
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="sticky top-16 z-20 -mx-5 bg-bg/95 px-5 py-2 backdrop-blur">
+      <div className="sticky top-16 z-(--z-sticky) -mx-5 bg-bg/95 px-5 py-2 backdrop-blur">
         <Button onClick={() => setFormOpen(true)}>
           <Plus aria-hidden />
           {copy.tasks.addTask}

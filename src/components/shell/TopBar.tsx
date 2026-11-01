@@ -39,7 +39,7 @@ export function TopBar({ title }: { title: string }) {
   const [helpOpen, setHelpOpen] = useState(false);
   const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
-    <header className="sticky top-0 z-30 flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
+    <header data-overlay="chrome" className="sticky top-0 z-(--z-sticky) flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
       {/* At 130% and 150% text there isn't room for all three in one row; the
           badge drops under the title so the menu never gets pushed off screen. */}
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
