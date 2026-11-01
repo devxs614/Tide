@@ -1,0 +1,4022 @@
+{
+  "label": "smoke",
+  "createdAt": "2026-11-01T23:26:56.157Z",
+  "seconds": 26,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      390
+    ],
+    "scales": [
+      1
+    ],
+    "states": [
+      "today",
+      "settings"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 1
+  },
+  "failures": [
+    {
+      "check": "hidden-under-bar",
+      "selector": "li > article > div > h3 \"Email TA about lab data\"",
+      "detail": "-5..22",
+      "state": "today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "li > article > p > span \"Admin\"",
+      "detail": "30..48",
+      "state": "today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "li > article > p > span \"Due today\"",
+      "detail": "30..48",
+      "state": "today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "article > div > div > button[radix-_r_4_] \"Move to… Email TA about lab data\"",
+      "detail": "57..108",
+      "state": "today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > section[quick-actions] > button \"Check in\"",
+      "detail": "-11..91",
+      "state": "today:empty",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > section[quick-actions] > button > span \"Check in\"",
+      "detail": "46..72",
+      "state": "today:empty",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > section[quick-actions] > a \"Regulate\"",
+      "detail": "-11..91",
+      "state": "today:empty",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > section[quick-actions] > a > span \"Regulate\"",
+      "detail": "46..72",
+      "state": "today:empty",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "nav > ul > li > a \"Day & planning\"",
+      "detail": "-7..52",
+      "state": "settings",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "ul > li > a > span \"Day & planning\"",
+      "detail": "9..36",
+      "state": "settings",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "nav > ul > li > a \"Focus\"",
+      "detail": "61..120",
+      "state": "settings",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div[setting-name] > label \"Name (optional, only shown to you)\"",
+      "detail": "105x27",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div[setting-name] > input[setting-name-input]",
+      "detail": "105x7",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div[setting-name] > input[setting-name-input]",
+      "detail": "107x35",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-name] > label \"Name (optional, only shown to you)\"",
+      "detail": "5/5 points",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-name] > input[setting-name-input]",
+      "detail": "5/5 points",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-pronouns] > label \"Pronouns (optional, only for you)\"",
+      "detail": "3/5 points",
+      "state": "settings:profile",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[theme-grid] > div > div > h5 \"Light\"",
+      "detail": "318x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "153x30",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "153x30",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "138x26",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> button[theme-card-lagoon] > span > span > span \"Button\"",
+      "detail": "40x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "69x26",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> button[theme-card-oceanBlue] > span > span > span \"Button\"",
+      "detail": "57x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "138x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> button[theme-card-lagoon] > span > span > span \"Button\"",
+      "detail": "40x4",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "69x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> button[theme-card-oceanBlue] > span > span > span \"Button\"",
+      "detail": "57x4",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "138x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > button[theme-card-lagoon] > span > span \"Lagoon\"",
+      "detail": "125x21",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "69x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > button[theme-card-oceanBlue] > span > span \"Ocean Blue\"",
+      "detail": "57x21",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "138x43",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > button[theme-card-lagoon] > span > span \"Soft teal water and warm sand.\"",
+      "detail": "125x32",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "69x43",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > button[theme-card-oceanBlue] > span > span \"Crisp blue, clear and focused.\"",
+      "detail": "57x32",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div > button[theme-card-coralReef] \"ButtonCoral ReefWarm coral pink with tur\"",
+      "detail": "105x45",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div > button[theme-card-coralReef] \"ButtonCoral ReefWarm coral pink with tur\"",
+      "detail": "107x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> button[theme-card-coralReef] > span > span > span \"Button\"",
+      "detail": "40x22",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[theme-grid] > div > div > h5 \"Light\"",
+      "detail": "4/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-lagoon] \"ButtonLagoonSoft teal water and warm san\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-lagoon] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-lagoon] > span > span \"Lagoon\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-lagoon] > span > span \"Soft teal water and warm sand.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-oceanBlue] \"ButtonOcean BlueCrisp blue, clear and fo\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-oceanBlue] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-oceanBlue] > span > span \"Ocean Blue\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-oceanBlue] > span > span \"Crisp blue, clear and focused.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-coralReef] \"ButtonCoral ReefWarm coral pink with tur\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-coralReef] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-coralReef] > span > span \"Coral Reef\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-bubblegum] \"ButtonBubblegumPlayful pink with periwin\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-bubblegum] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-bubblegum] > span > span \"Bubblegum\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-lavenderMist] \"ButtonLavender MistSoft lilac and rose.\"",
+      "detail": "153x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> button[theme-card-lavenderMist] > span > span > span \"Button\"",
+      "detail": "55x22",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-sandbar] \"ButtonSandbarLow stimulation: muted sage\"",
+      "detail": "153x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> button[theme-card-sandbar] > span > span > span \"Button\"",
+      "detail": "57x22",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-lavenderMist] \"ButtonLavender MistSoft lilac and rose.\"",
+      "detail": "138x26",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-lavenderMist] > span > span \"Lavender Mist\"",
+      "detail": "125x15",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-lavenderMist] > span > span \"Soft lilac and rose.\"",
+      "detail": "125x9",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-sandbar] \"ButtonSandbarLow stimulation: muted sage\"",
+      "detail": "69x26",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-sandbar] > span > span \"Sandbar\"",
+      "detail": "57x15",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-sandbar] > span > span \"Low stimulation: muted sage, paper and s\"",
+      "detail": "57x9",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div > button[theme-card-lavenderMist] \"ButtonLavender MistSoft lilac and rose.\"",
+      "detail": "138x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > button[theme-card-lavenderMist] > span > span \"Soft lilac and rose.\"",
+      "detail": "125x5",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div > button[theme-card-sandbar] \"ButtonSandbarLow stimulation: muted sage\"",
+      "detail": "69x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > button[theme-card-sandbar] > span > span \"Low stimulation: muted sage, paper and s\"",
+      "detail": "57x23",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-lavenderMist] \"ButtonLavender MistSoft lilac and rose.\"",
+      "detail": "138x7",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-sandbar] \"ButtonSandbarLow stimulation: muted sage\"",
+      "detail": "69x7",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div > button[theme-card-classic] \"ButtonClassicThe original Tide look.\"",
+      "detail": "138x45",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div > button[theme-card-classic] \"ButtonClassicThe original Tide look.\"",
+      "detail": "105x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> button[theme-card-classic] > span > span > span \"Button\"",
+      "detail": "40x22",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div > button[theme-card-classic] \"ButtonClassicThe original Tide look.\"",
+      "detail": "107x46",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > button[theme-card-classic] > span > span \"Classic\"",
+      "detail": "107x15",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > button[theme-card-classic] > span > span \"The original Tide look.\"",
+      "detail": "107x18",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-lavenderMist] \"ButtonLavender MistSoft lilac and rose.\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-lavenderMist] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-lavenderMist] > span > span \"Lavender Mist\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-lavenderMist] > span > span \"Soft lilac and rose.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-sandbar] \"ButtonSandbarLow stimulation: muted sage\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-sandbar] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-sandbar] > span > span \"Sandbar\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-sandbar] > span > span \"Low stimulation: muted sage, paper and s\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-classic] \"ButtonClassicThe original Tide look.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-classic] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-classic] > span > span \"Classic\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-classic] > span > span \"The original Tide look.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[theme-grid] > div > div > h5 \"Dark\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-aurora] \"ButtonAuroraCharcoal with green and viol\"",
+      "detail": "153x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > button[theme-card-aurora] > span > span \"Aurora\"",
+      "detail": "140x24",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > button[theme-card-aurora] > span > span \"Charcoal with green and violet light.\"",
+      "detail": "140x5",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div > button[theme-card-classicDark] \"ButtonClassic DarkThe original Tide dark\"",
+      "detail": "153x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > button[theme-card-classicDark] > span > span \"Classic Dark\"",
+      "detail": "140x24",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > button[theme-card-classicDark] > span > span \"The original Tide dark look.\"",
+      "detail": "140x5",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-aurora] \"ButtonAuroraCharcoal with green and viol\"",
+      "detail": "138x19",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-aurora] > span > span \"Charcoal with green and violet light.\"",
+      "detail": "125x8",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div > button[theme-card-classicDark] \"ButtonClassic DarkThe original Tide dark\"",
+      "detail": "69x19",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > button[theme-card-classicDark] > span > span \"The original Tide dark look.\"",
+      "detail": "57x8",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[theme-grid] > div > div > h5 \"High contrast\"",
+      "detail": "220x17",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-pearl] \"ButtonPearlHigh contrast, light.\"",
+      "detail": "138x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div > button[theme-card-ink] \"ButtonInkHigh contrast, dark.\"",
+      "detail": "69x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div > button[theme-card-pearl] \"ButtonPearlHigh contrast, light.\"",
+      "detail": "138x45",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div > button[theme-card-ink] \"ButtonInkHigh contrast, dark.\"",
+      "detail": "69x45",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div > button[theme-card-pearl] \"ButtonPearlHigh contrast, light.\"",
+      "detail": "105x51",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> button[theme-card-pearl] > span > span > span \"Button\"",
+      "detail": "40x21",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > button[theme-card-pearl] > span > span \"Pearl\"",
+      "detail": "105x11",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div > button[theme-card-pearl] \"ButtonPearlHigh contrast, light.\"",
+      "detail": "107x36",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > button[theme-card-pearl] > span > span \"Pearl\"",
+      "detail": "107x5",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > button[theme-card-pearl] > span > span \"High contrast, light.\"",
+      "detail": "107x18",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-aurora] \"ButtonAuroraCharcoal with green and viol\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-aurora] > span > span > span \"Button\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-aurora] > span > span \"Aurora\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-aurora] > span > span \"Charcoal with green and violet light.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-classicDark] \"ButtonClassic DarkThe original Tide dark\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-classicDark] > span > span > span \"Button\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-classicDark] > span > span \"Classic Dark\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-classicDark] > span > span \"The original Tide dark look.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[theme-grid] > div > div > h5 \"High contrast\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-pearl] \"ButtonPearlHigh contrast, light.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-pearl] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-pearl] > span > span \"Pearl\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-pearl] > span > span \"High contrast, light.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > button[theme-card-ink] \"ButtonInkHigh contrast, dark.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "button[theme-card-ink] > span > span > span \"Button\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-ink] > span > span \"Ink\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > button[theme-card-ink] > span > span \"High contrast, dark.\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-appearance-font] > span \"Font\"",
+      "detail": "3/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-textSize] > fieldset > p \"This is how text will look in Tide.\"",
+      "detail": "318x11",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-extraSpacing] > div > label > span \"Extra letter and word spacing\"",
+      "detail": "203x7",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-extraSpacing] > div > button[setting-extraSpacing-input]",
+      "detail": "37x10",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[setting-appearance-boldText] > div > label > span \"Bold text\"",
+      "detail": "37x10",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[setting-appearance-boldText] > div > label > span \"Bold text\"",
+      "detail": "37x13",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div[setting-appearance-density] > span \"Spacing between things\"",
+      "detail": "220x26",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-appearance-density] > div > button \"Comfortable\"",
+      "detail": "105x39",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div[setting-appearance-roundness] > span \"Corners\"",
+      "detail": "107x25",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-textSize] > fieldset > p \"This is how text will look in Tide.\"",
+      "detail": "2/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-extraSpacing] > div > label > span \"Extra letter and word spacing\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-extraSpacing] > div > button[setting-extraSpacing-input]",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-appearance-boldText] > div > label > span \"Bold text\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-boldText] > div > button[setting-appearance-boldText-input]",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-appearance-density] > span \"Spacing between things\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-density] > div > button \"Comfortable\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-density] > div > button \"Compact\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-appearance-roundness] > span \"Corners\"",
+      "detail": "5/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-roundness] > div > button \"Round\"",
+      "detail": "2/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-roundness] > div > button \"Soft\"",
+      "detail": "2/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-appearance-roundness] > div > button \"Square\"",
+      "detail": "2/5 points",
+      "state": "settings:appearance",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-motion-level] > div > button \"Match my device\"",
+      "detail": "75x29",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-motion-level] > div > button \"Off\"",
+      "detail": "84x29",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-motion-level] > div > button \"Calm\"",
+      "detail": "84x29",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-motion-level] > div > button \"Lively\"",
+      "detail": "75x29",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div[setting-motion-celebrations] > span \"Celebrations\"",
+      "detail": "220x10",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-motion-celebrations] > div > button \"Full\"",
+      "detail": "88x23",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-motion-celebrations] > div > button \"Gentle\"",
+      "detail": "112x23",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-motion-celebrations] > div > button \"Off\"",
+      "detail": "20x23",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-motion-celebrations] > div > button \"Full\"",
+      "detail": "88x14",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-motion-celebrations] > div > button \"Gentle\"",
+      "detail": "112x14",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-motion-celebrations] > div > button \"Off\"",
+      "detail": "20x14",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-motion-confetti] > div > label > span \"Confetti for big moments\"",
+      "detail": "158x18",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-motion-confetti] > div > label > span \"Confetti for big moments\"",
+      "detail": "105x5",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-motion-pageTransitions] > div > label > span \"Page transitions\"",
+      "detail": "92x17",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-level] > div > button \"Match my device\"",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-level] > div > button \"Off\"",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-level] > div > button \"Calm\"",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-level] > div > button \"Lively\"",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-motion-celebrations] > span \"Celebrations\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-celebrations] > div > button \"Full\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-celebrations] > div > button \"Gentle\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-celebrations] > div > button \"Off\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-motion-confetti] > div > label > span \"Confetti for big moments\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-confetti] > div > button[setting-motion-confetti-input]",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-motion-pageTransitions] > div > label > span \"Page transitions\"",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-pageTransitions] > div > button[setting-motion-pageTransitions-input]",
+      "detail": "5/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-motion-companionIdle] > div > label > span \"Companion moves when idle\"",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-motion-companionIdle] > div > button[setting-motion-companionIdle-input]",
+      "detail": "3/5 points",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > div[setting-motion-level] > span \"Motion\"",
+      "detail": "-2..25",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-motion-level] > div > button \"Match my device\"",
+      "detail": "40..112",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-motion-level] > div > button \"Off\"",
+      "detail": "40..112",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-motion-level] > div > button \"Calm\"",
+      "detail": "40..112",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-motion-level] > div > button \"Lively\"",
+      "detail": "40..112",
+      "state": "settings:motion",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-sound] > section[sound] > h2[sound-heading] \"Sound & haptics\"",
+      "detail": "220x30",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> section[sound] > div > label > span \"Sounds\"",
+      "detail": "105x27",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> section[sound] > div > label > span \"Sounds are off by default.\"",
+      "detail": "105x18",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> section[sound] > div > label > span \"Gentle vibration\"",
+      "detail": "90x27",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-sound] > section[sound] > h2[sound-heading] \"Sound & haptics\"",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "section[sound] > div > label > span \"Sounds\"",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "section[sound] > div > label > span \"Sounds are off by default.\"",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-sound] > section[sound] > div > button[sound-on]",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "section[sound] > div > label > span \"Gentle vibration\"",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-sound] > section[sound] > div > button[set-vibration]",
+      "detail": "5/5 points",
+      "state": "settings:sound",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-voice] > div[voice-picker] > div > p \"The most natural voice available\"",
+      "detail": "318x5",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-voice] > div[voice-picker] > div > p \"Natural voices aren't set up for this co\"",
+      "detail": "318x23",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[setting-voice] > div[voice-picker] > div > span \"Speed\"",
+      "detail": "220x6",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[voice-picker] > div > div > button \"0.8×\"",
+      "detail": "44x5",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[voice-picker] > div > div > button \"0.9×\"",
+      "detail": "67x5",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[voice-picker] > div > div > button \"1×\"",
+      "detail": "67x5",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[voice-picker] > div > div > button \"1.1×\"",
+      "detail": "42x5",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[voice-picker] > div > div > button \"0.8×\"",
+      "detail": "44x23",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[voice-picker] > div > div > button \"0.9×\"",
+      "detail": "67x23",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[voice-picker] > div > div > button \"1×\"",
+      "detail": "67x23",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[voice-picker] > div > div > button \"1.1×\"",
+      "detail": "42x23",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[voice-picker] > div > div > button \"0.8×\"",
+      "detail": "44x11",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[voice-picker] > div > div > button \"0.9×\"",
+      "detail": "67x11",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[voice-picker] > div > div > button \"1×\"",
+      "detail": "67x11",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[voice-picker] > div > div > button \"1.1×\"",
+      "detail": "42x11",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-voice] > div[voice-picker] > label > span \"Accent\"",
+      "detail": "220x27",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-voice] > div[voice-picker] > label > select \"AnyUSBritishAustralianCanadianIndianIris\"",
+      "detail": "105x45",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[voice-picker] > div > label > span \"Read AI suggestions automatically\"",
+      "detail": "107x27",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > div > p \"The most natural voice available\"",
+      "detail": "3/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > div > p \"Natural voices aren't set up for this co\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > div > span \"Speed\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > div > button \"0.8×\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > div > button \"0.9×\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > div > button \"1×\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > div > button \"1.1×\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > div > button \"1.2×\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > label > span \"Accent\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > label > select \"AnyUSBritishAustralianCanadianIndianIris\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[voice-picker] > div > label > span \"Read AI suggestions automatically\"",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-voice] > div[voice-picker] > div > button[voice-auto-ai]",
+      "detail": "5/5 points",
+      "state": "settings:voice",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-mode] > fieldset > button \"Gentle“Want to try a tiny first step?”\"",
+      "detail": "318x12",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-mode] > fieldset > button \"Direct“First step: open the doc.”\"",
+      "detail": "318x31",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-mode] > fieldset > button > span \"Direct\"",
+      "detail": "310x12",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-mode] > fieldset > button \"Direct“First step: open the doc.”\"",
+      "detail": "220x26",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[setting-mode] > fieldset > button > span \"“First step: open the doc.”\"",
+      "detail": "220x23",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-mode] > fieldset > button \"Direct“First step: open the doc.”\"",
+      "detail": "220x12",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-mode] > fieldset > button \"Literal“Open the document. Type the titl\"",
+      "detail": "220x23",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[setting-mode] > fieldset > button > span \"Literal\"",
+      "detail": "220x10",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-mode] > fieldset > button \"Literal“Open the document. Type the titl\"",
+      "detail": "220x45",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-mode] > fieldset > button > span \"Literal\"",
+      "detail": "220x13",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-mode] > fieldset > button > span \"“Open the document. Type the title. This\"",
+      "detail": "220x27",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-mode] > fieldset > button \"Literal“Open the document. Type the titl\"",
+      "detail": "105x42",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-mode] > fieldset > button > span \"“Open the document. Type the title. This\"",
+      "detail": "105x23",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div[setting-language-readingLevel] > span \"Reading level for suggestions\"",
+      "detail": "107x27",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-language-readingLevel] > div > button \"Standard\"",
+      "detail": "107x6",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-mode] > fieldset > button \"Gentle“Want to try a tiny first step?”\"",
+      "detail": "2/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-mode] > fieldset > button > span \"“Want to try a tiny first step?”\"",
+      "detail": "2/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-mode] > fieldset > button \"Direct“First step: open the doc.”\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-mode] > fieldset > button > span \"Direct\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-mode] > fieldset > button > span \"“First step: open the doc.”\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-mode] > fieldset > button \"Literal“Open the document. Type the titl\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-mode] > fieldset > button > span \"Literal\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-mode] > fieldset > button > span \"“Open the document. Type the title. This\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-language-readingLevel] > span \"Reading level for suggestions\"",
+      "detail": "5/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-language-readingLevel] > div > button \"Standard\"",
+      "detail": "3/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-language-readingLevel] > div > button \"Simple\"",
+      "detail": "3/5 points",
+      "state": "settings:language",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-checkin-defaultPath] > div > button \"My words\"",
+      "detail": "103x27",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-checkin-defaultPath] > div > button \"My body\"",
+      "detail": "112x27",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-checkin-defaultPath] > div > button \"The map\"",
+      "detail": "103x27",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div[setting-checkin-vocabulary] > span \"Feeling words\"",
+      "detail": "220x7",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-checkin-vocabulary] > div > button \"All 48\"",
+      "detail": "144x23",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-checkin-vocabulary] > div > button \"Simple 16\"",
+      "detail": "76x23",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-checkin-vocabulary] > div > button \"All 48\"",
+      "detail": "144x12",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-checkin-vocabulary] > div > button \"Simple 16\"",
+      "detail": "76x12",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div[setting-checkin-vocabulary] > p \"Simple shows four common words for each \"",
+      "detail": "220x22",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-checkin-showCauses] > div > label > span \"Ask what's behind it\"",
+      "detail": "105x27",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-checkin-showFollowUp] > div > label > span \"Show a follow-up question\"",
+      "detail": "107x27",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"My words\"",
+      "detail": "3/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"My body\"",
+      "detail": "3/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"The map\"",
+      "detail": "3/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-checkin-vocabulary] > span \"Feeling words\"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-vocabulary] > div > button \"All 48\"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-vocabulary] > div > button \"Simple 16\"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-checkin-vocabulary] > p \"Simple shows four common words for each \"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-checkin-showCauses] > div > label > span \"Ask what's behind it\"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-showCauses] > div > button[setting-checkin-showCauses-input]",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-checkin-showFollowUp] > div > label > span \"Show a follow-up question\"",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-checkin-showFollowUp] > div > button[setting-checkin-showFollowUp-input]",
+      "detail": "5/5 points",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > div[setting-checkin-defaultPath] > span \"Start a check-in with\"",
+      "detail": "21..48",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"My words\"",
+      "detail": "63..110",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"My body\"",
+      "detail": "63..110",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-checkin-defaultPath] > div > button \"The map\"",
+      "detail": "63..110",
+      "state": "settings:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div[setting-day-end] > label \"My day ends\"",
+      "detail": "318x14",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div[setting-day-end] > input[setting-day-end-input]",
+      "detail": "318x28",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div[setting-day-wrapTime] > label \"I close the day around\"",
+      "detail": "220x5",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div[setting-day-wrapTime] > label \"I close the day around\"",
+      "detail": "220x18",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div[setting-day-wrapTime] > input[setting-day-wrapTime-input]",
+      "detail": "220x23",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div > div[setting-day-wrapTime] > input[setting-day-wrapTime-input]",
+      "detail": "220x24",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div[setting-day-transitionLead] > span \"Warn me before a switch\"",
+      "detail": "105x23",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-day-transitionLead] > div > button \"5 min\"",
+      "detail": "88x13",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-day-transitionLead] > div > button \"10 min\"",
+      "detail": "17x13",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-day-transitionLead] > div > button \"5 min\"",
+      "detail": "88x25",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-day-transitionLead] > div > button \"10 min\"",
+      "detail": "19x25",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-end] > label \"My day ends\"",
+      "detail": "3/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-end] > input[setting-day-end-input]",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-wrapTime] > label \"I close the day around\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-wrapTime] > input[setting-day-wrapTime-input]",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-transitionLead] > span \"Warn me before a switch\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-transitionLead] > div > button \"5 min\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-transitionLead] > div > button \"10 min\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-transitionLead] > div > button \"15 min\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-gentleBudget] > span \"Energy for a Gentle day\"",
+      "detail": "3/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"2\"",
+      "detail": "47x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"3\"",
+      "detail": "56x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"4\"",
+      "detail": "56x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"5\"",
+      "detail": "56x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"6\"",
+      "detail": "56x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-day-gentleBudget] > div > button \"8\"",
+      "detail": "47x8",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div[setting-day-minimumBudget] > span \"Energy for a Minimum day\"",
+      "detail": "318x16",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-day-minimumBudget] > div > button \"1\"",
+      "detail": "61x23",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-day-minimumBudget] > div > button \"2\"",
+      "detail": "84x23",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-day-minimumBudget] > div > button \"3\"",
+      "detail": "76x23",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-day-minimumBudget] > div > button \"1\"",
+      "detail": "61x20",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-day-minimumBudget] > div > button \"2\"",
+      "detail": "84x20",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-day-minimumBudget] > div > button \"3\"",
+      "detail": "76x20",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-day-dayModeSuggestions] > div > label > span \"Suggest a lighter day when I check in lo\"",
+      "detail": "220x45",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-day-dayModeSuggestions] > div > label > span \"A gentle banner on Today; you always cho\"",
+      "detail": "105x17",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-day-showMoved] > div > label > span \"Show tasks moved to another day\"",
+      "detail": "107x18",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"2\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"3\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"4\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"5\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"6\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"8\"",
+      "detail": "2/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-day-minimumBudget] > span \"Energy for a Minimum day\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-minimumBudget] > div > button \"1\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-minimumBudget] > div > button \"2\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-minimumBudget] > div > button \"3\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-minimumBudget] > div > button \"4\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-day-dayModeSuggestions] > div > label > span \"Suggest a lighter day when I check in lo\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-day-dayModeSuggestions] > div > label > span \"A gentle banner on Today; you always cho\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-dayModeSuggestions] > div > button[setting-day-dayModeSuggestions-input]",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-day-showMoved] > div > label > span \"Show tasks moved to another day\"",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-showMoved] > div > button[setting-day-showMoved-input]",
+      "detail": "5/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-day-morningCard] > div > label > span \"Morning card\"",
+      "detail": "3/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-day-morningCard] > div > button[setting-day-morningCard-input]",
+      "detail": "3/5 points",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > div[setting-day-gentleBudget] > span \"Energy for a Gentle day\"",
+      "detail": "2..29",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"2\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"3\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"4\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"5\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"6\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-day-gentleBudget] > div > button \"8\"",
+      "detail": "44..91",
+      "state": "settings:day",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div > div[setting-focus-defaultMinutes] > span \"Focus length\"",
+      "detail": "220x23",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-focus-defaultMinutes] > div > button \"Pick for me\"",
+      "detail": "44x8",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-focus-defaultMinutes] > div > button \"5 min\"",
+      "detail": "67x8",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-focus-defaultMinutes] > div > button \"10 min\"",
+      "detail": "67x8",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-focus-defaultMinutes] > div > button \"15 min\"",
+      "detail": "42x8",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-focus-defaultMinutes] > div > button \"Pick for me\"",
+      "detail": "44x45",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-focus-defaultMinutes] > div > button \"5 min\"",
+      "detail": "67x45",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-focus-defaultMinutes] > div > button \"10 min\"",
+      "detail": "67x45",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-focus-defaultMinutes] > div > button \"15 min\"",
+      "detail": "42x45",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-focus-defaultMinutes] > div > button \"Pick for me\"",
+      "detail": "44x11",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-focus-defaultMinutes] > div > button \"5 min\"",
+      "detail": "61x11",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-focus-companionActivity] > div > label > span \"Companion works alongside me\"",
+      "detail": "107x18",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-focus-defaultMinutes] > span \"Focus length\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-defaultMinutes] > div > button \"Pick for me\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-defaultMinutes] > div > button \"5 min\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-defaultMinutes] > div > button \"10 min\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-defaultMinutes] > div > button \"15 min\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-defaultMinutes] > div > button \"25 min\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-focus-companionActivity] > div > label > span \"Companion works alongside me\"",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-companionActivity] > div > button[setting-focus-companionActivity-input]",
+      "detail": "5/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-focus-endSound] > div > label > span \"Sound when a block ends\"",
+      "detail": "3/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-focus-endSound] > div > button[setting-focus-endSound-input]",
+      "detail": "3/5 points",
+      "state": "settings:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[setting-patterns-enabled] > div > label > span \"Show patterns\"",
+      "detail": "77x19",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div > div[setting-patterns-minEvidence] > span \"Show a pattern after\"",
+      "detail": "220x22",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-patterns-minEvidence] > div > button \"3 times\"",
+      "detail": "144x35",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-patterns-minEvidence] > div > button \"5 times\"",
+      "detail": "76x35",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-patterns-minEvidence] > div > button \"3 times\"",
+      "detail": "105x8",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div > div[setting-patterns-minEvidence] > p \"A higher number means fewer, surer patte\"",
+      "detail": "105x23",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div[setting-patterns-defaultPeriod] > span \"Look at\"",
+      "detail": "107x27",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-patterns-enabled] > div > label > span \"Show patterns\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-patterns-enabled] > div > button[setting-patterns-enabled-input]",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-patterns-minEvidence] > span \"Show a pattern after\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-patterns-minEvidence] > div > button \"3 times\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-patterns-minEvidence] > div > button \"5 times\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-patterns-minEvidence] > p \"A higher number means fewer, surer patte\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-patterns-defaultPeriod] > span \"Look at\"",
+      "detail": "5/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-patterns-defaultPeriod] > div > button \"The last week\"",
+      "detail": "3/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-patterns-defaultPeriod] > div > button \"The last 4 weeks\"",
+      "detail": "3/5 points",
+      "state": "settings:patterns",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div > div[setting-shore-sky] > span \"Shore sky\"",
+      "detail": "107x27",
+      "state": "settings:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-shore-sky] > span \"Shore sky\"",
+      "detail": "5/5 points",
+      "state": "settings:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-shore-sky] > div > button \"Follows the time of day\"",
+      "detail": "3/5 points",
+      "state": "settings:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-shore-sky] > div > button \"Theme colors\"",
+      "detail": "3/5 points",
+      "state": "settings:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-shore-sky] > div > button \"Still\"",
+      "detail": "3/5 points",
+      "state": "settings:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-ai] > section[ai] > h3 \"About suggestions\"",
+      "detail": "318x13",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-ai] > section[ai] > p \"When AI suggestions are on, Tide sends o\"",
+      "detail": "318x25",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-ai] > section[ai] > p \"When AI suggestions are on, Tide sends o\"",
+      "detail": "220x26",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-ai] > section[ai] > p \"When AI suggestions are on, Tide sends o\"",
+      "detail": "220x23",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-ai] > section[ai] > p \"When AI suggestions are on, Tide sends o\"",
+      "detail": "220x23",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-ai] > section[ai] > p \"Tide does not store this text on its ser\"",
+      "detail": "220x29",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-ai] > section[ai] > p \"Tide does not store this text on its ser\"",
+      "detail": "105x49",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-ai] > section[ai] > p \"When AI is off or not reachable, Tide us\"",
+      "detail": "107x49",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-ai] > section[ai] > h3 \"About suggestions\"",
+      "detail": "3/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-ai] > section[ai] > p \"When AI suggestions are on, Tide sends o\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-ai] > section[ai] > p \"Tide does not store this text on its ser\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-ai] > section[ai] > p \"When AI is off or not reachable, Tide us\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-data] > section[data] > h2[data-heading] \"Your data\"",
+      "detail": "318x22",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[setting-data] > section[data] > label > span \"Include contacts\"",
+      "detail": "125x17",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[setting-data] > section[data] > label > span \"Include contacts\"",
+      "detail": "125x6",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-data] > section[data] > button[button] \"Export my data\"",
+      "detail": "164x19",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-data] > section[data] > button[button] \"Export my data\"",
+      "detail": "164x28",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-data] > section[data] > button[button] \"Delete everything\"",
+      "detail": "153x4",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-data] > section[data] > button[button] \"Delete everything\"",
+      "detail": "105x43",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-backup] > div > button[button] \"Export settings\"",
+      "detail": "107x47",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-privacy-naturalVoiceAllowed] > div > label > span \"Allow natural voices\"",
+      "detail": "2/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-privacy-naturalVoiceAllowed] > div > button[setting-privacy-naturalVoiceAllowed-input]",
+      "detail": "2/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-data] > section[data] > h2[data-heading] \"Your data\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-data] > section[data] > label > button[include-contacts]",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-data] > section[data] > label > span \"Include contacts\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-data] > section[data] > button[button] \"Export my data\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-data] > section[data] > button[button] \"Delete everything\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-backup] > div > button[button] \"Export settings\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-backup] > div > button[button] \"Import settings\"",
+      "detail": "5/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-backup] > div > button[button] \"Import backup\"",
+      "detail": "2/5 points",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-ai] > section[ai] > p \"When AI is off or not reachable, Tide us\"",
+      "detail": "-37..18",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div[setting-privacy-naturalVoiceAllowed] > div > label > span \"Allow natural voices\"",
+      "detail": "51..78",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-privacy-naturalVoiceAllowed] > div > button[setting-privacy-naturalVoiceAllowed-input]",
+      "detail": "48..82",
+      "state": "settings:privacy",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-people] > section[people] > div > label \"Name\"",
+      "detail": "318x27",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div[setting-people] > section[people] > div > input[contact-name]",
+      "detail": "220x26",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[setting-people] > section[people] > div > label \"How to reach them\"",
+      "detail": "220x15",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[setting-people] > section[people] > div > label \"How to reach them\"",
+      "detail": "220x8",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[setting-people] > section[people] > div > select[contact-method] \"PhoneEmailOther (handle)\"",
+      "detail": "220x7",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-people] > section[people] > div > select[contact-method] \"PhoneEmailOther (handle)\"",
+      "detail": "220x40",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-people] > section[people] > div > label \"Number or handle\"",
+      "detail": "105x27",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-people] > section[people] > div > input[contact-value]",
+      "detail": "105x16",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-people] > section[people] > div > input[contact-value]",
+      "detail": "107x27",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-people] > section[people] > div > button[button] \"Add contact\"",
+      "detail": "107x16",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"Name\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > input[contact-name]",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"How to reach them\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > select[contact-method] \"PhoneEmailOther (handle)\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"Number or handle\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > input[contact-value]",
+      "detail": "2/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > button[button] \"Add contact\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div[setting-people] > section[people] > div > button[button] \"Add contact\"",
+      "detail": "138x42",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div[setting-people] > section[people] > div > label \"Campus support name\"",
+      "detail": "220x23",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div[setting-people] > section[people] > div > input[campus-name]",
+      "detail": "220x16",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-people] > section[people] > div > input[campus-name]",
+      "detail": "220x31",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div[setting-people] > section[people] > div > label \"Phone (optional)\"",
+      "detail": "220x6",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-people] > section[people] > div > label \"Phone (optional)\"",
+      "detail": "105x17",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "105x25",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "107x17",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div[setting-people] > section[people] > div > label \"Website (optional)\"",
+      "detail": "107x25",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"Campus support name\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > input[campus-name]",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"Phone (optional)\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > label \"Website (optional)\"",
+      "detail": "5/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-people] > section[people] > div > input[campus-url]",
+      "detail": "2/5 points",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div[setting-people] > section[people] > div > label \"Number or handle\"",
+      "detail": "-3..24",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div[setting-people] > section[people] > div > input[contact-value]",
+      "detail": "32..83",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "table > thead > tr > th \"Key\" <> tr > td > span > kbd \"C\"",
+      "detail": "28x22",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "table > thead > tr > th \"What it does\" <> tr > td > span > kbd \"C\"",
+      "detail": "6x22",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "table > thead > tr > th \"What it does\" <> table > tbody > tr > td \"Check in\"",
+      "detail": "15x26",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div > div[setting-shortcutsList] > p \"On a computer keyboard, these keys work \"",
+      "detail": "318x49",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div > div[setting-shortcutsList] > p \"On a computer keyboard, these keys work \"",
+      "detail": "220x9",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> table > thead > tr > th \"What it does\"",
+      "detail": "100x22",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> tr > td > span > kbd \"C\"",
+      "detail": "5x23",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> table > tbody > tr > td \"Check in\"",
+      "detail": "134x23",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> tr > td > span > kbd \"C\"",
+      "detail": "5x6",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> table > tbody > tr > td \"Check in\"",
+      "detail": "134x11",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> table > tbody > tr > td \"New task\"",
+      "detail": "134x8",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> tr > td > span > kbd \"N\"",
+      "detail": "5x25",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> table > tbody > tr > td \"New task\"",
+      "detail": "134x30",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> tr > td > span > kbd \"1 to 5\"",
+      "detail": "38x7",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> table > tbody > tr > td \"Today, Tasks, Toolkit, Patterns, Shore\"",
+      "detail": "134x12",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> tr > td > span > kbd \"1 to 5\"",
+      "detail": "38x22",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> table > tbody > tr > td \"Today, Tasks, Toolkit, Patterns, Shore\"",
+      "detail": "20x47",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> tr > td > span > kbd \"W\"",
+      "detail": "11x29",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> table > tbody > tr > td \"Close the day\"",
+      "detail": "22x33",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> tr > td > span > kbd \"/\"",
+      "detail": "5x9",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> table > tbody > tr > td \"Search settings\"",
+      "detail": "22x14",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div[setting-shortcutsList] > p \"On a computer keyboard, these keys work \"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > thead > tr > th \"Key\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > thead > tr > th \"What it does\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "tr > td > span > kbd \"C\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > tbody > tr > td \"Check in\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "tr > td > span > kbd \"N\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > tbody > tr > td \"New task\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "tr > td > span > kbd \"1 to 5\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > tbody > tr > td \"Today, Tasks, Toolkit, Patterns, Shore\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "tr > td > span > kbd \"W\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > tbody > tr > td \"Close the day\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "tr > td > span > kbd \"/\"",
+      "detail": "5/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "table > tbody > tr > td \"Search settings\"",
+      "detail": "4/5 points",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div[setting-shortcuts-enabled] > div > label > span \"Use keyboard shortcuts\"",
+      "detail": "0..27",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div[setting-shortcuts-enabled] > div > label > span \"Single keys on a computer keyboard. They\"",
+      "detail": "27..64",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div[setting-shortcuts-enabled] > div > button[setting-shortcuts-enabled-input]",
+      "detail": "15..49",
+      "state": "settings:shortcuts",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-demo] > section[demo] > h2[demo-heading] \"Demo\"",
+      "detail": "105x27",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-demo] > section[demo] > p \"You're in the demo workspace. Your own d\"",
+      "detail": "105x11",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-demo] > section[demo] > p \"You're in the demo workspace. Your own d\"",
+      "detail": "107x51",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-demo] > section[demo] > h2[demo-heading] \"Demo\"",
+      "detail": "5/5 points",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-demo] > section[demo] > p \"You're in the demo workspace. Your own d\"",
+      "detail": "5/5 points",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div[setting-demo] > section[demo] > div > button[button] \"Restart demo clock\"",
+      "detail": "2/5 points",
+      "state": "settings:demo",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > details > summary \"Live preview\" <> div > div[setting-about] > section[about] > h2[about-heading] \"About\"",
+      "detail": "318x30",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Good afternoon, Maya\" <> div > div[setting-about] > section[about] > p \"Tide is not a medical or mental health s\"",
+      "detail": "220x26",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Thursday, November 5 · 3:40 pm\" <> div > div[setting-about] > section[about] > p \"Tide is not a medical or mental health s\"",
+      "detail": "220x23",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > span \"Still\" <> div > div[setting-about] > section[about] > p \"Tide is not a medical or mental health s\"",
+      "detail": "220x23",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-about] > section[about] > p \"Tide is not a medical or mental health s\"",
+      "detail": "220x11",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "details > div > div > p \"This is how text looks with your choices\" <> div > div[setting-about] > section[about] > p \"Inspired by the circumplex model of emot\"",
+      "detail": "220x21",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"A button\" <> div > div[setting-about] > section[about] > p \"Inspired by the circumplex model of emot\"",
+      "detail": "105x51",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button \"A chip\" <> div > div[setting-about] > section[about] > p \"Built by the Tide team: <team names — to\"",
+      "detail": "107x42",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-about] > section[about] > h2[about-heading] \"About\"",
+      "detail": "5/5 points",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-about] > section[about] > p \"Tide is not a medical or mental health s\"",
+      "detail": "5/5 points",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-about] > section[about] > p \"Inspired by the circumplex model of emot\"",
+      "detail": "5/5 points",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div[setting-about] > section[about] > p \"Built by the Tide team: <team names — to\"",
+      "detail": "5/5 points",
+      "state": "settings:about",
+      "width": 390,
+      "scale": 1
+    }
+  ],
+  "warnings": 30,
+  "statesRun": 20
+}

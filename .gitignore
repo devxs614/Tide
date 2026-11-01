@@ -57,3 +57,8 @@ next-env.d.ts
 
 # Generated voice clips (npm run voice:clips). Remove this line to commit them.
 public/voice/
+
+# Layout audit screenshots and Playwright output (v2.1)
+e2e/__audit__/
+test-results/
+playwright-report/

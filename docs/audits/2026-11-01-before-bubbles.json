@@ -1,0 +1,1217 @@
+{
+  "label": "before-bubbles",
+  "createdAt": "2026-11-01T23:43:28.786Z",
+  "seconds": 27,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "scales": [
+      1,
+      1.5
+    ],
+    "states": [
+      "bubble",
+      "sheet:unstick"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 3
+  },
+  "failures": [
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_22_] > div > div > p \"Stuck happens. Let's try a smaller way i\" <> html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "12x51",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_22_] > div > div > p \"Stuck happens. Let's try a smaller way i\" <> html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "17x49",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_22_] > div > div \"Stuck happens. Let's try a smaller way i\"",
+      "detail": "1/5 points",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "page-overflow-x",
+      "selector": "html",
+      "detail": "343 > 320",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > h1 \"Tasks\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "71x40",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "77x30",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > button[radix-_r_1_] \"Menu\"",
+      "detail": "27x30",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > button \"Drag Chemistry lab report\"",
+      "detail": "77x45",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > h3 \"Chemistry lab report\"",
+      "detail": "104x77",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "7x86",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_22_] > div > div > p \"Stuck happens. Let's try a smaller way i\" <> html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "22x64",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_22_] > div > div > p \"Stuck happens. Let's try a smaller way i\"",
+      "detail": "2/5 points",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_22_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_22_] > div > div \"Stuck happens. Let's try a smaller way i\"",
+      "detail": "2/5 points",
+      "state": "sheet:unstick",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "74 in 65",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "27,-19 256,38",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "3/5 points",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "offscreen-x",
+      "selector": "g > foreignobject > div > button",
+      "detail": "-8..70",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "-8,-18 221,39",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "74 in 65",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "page-overflow-x",
+      "selector": "html",
+      "detail": "394 > 320",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > h1 \"Your Shore\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "76x62",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "77x8",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > button[radix-_r_1_] \"Menu\"",
+      "detail": "27x8",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "7x86",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div > header > div > h1 \"Your Shore\"",
+      "detail": "2/5 points",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "3/5 points",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "offscreen-x",
+      "selector": "div > div > div > a[shore-list] \"List\"",
+      "detail": "253..394",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "offscreen-x",
+      "selector": "g > foreignobject > div > button",
+      "detail": "-8..70",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "-8,-418 221,-334",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "109 in 96",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "62x38 in 62x36",
+      "state": "bubble:studio",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "62x38 in 62x36",
+      "state": "bubble:studio",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "93x57 in 65x54",
+      "state": "bubble:studio",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > button > span \"Headphones\" <> div > div > button > span \"Backpack\"",
+      "detail": "6x27",
+      "state": "bubble:studio",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > button > span \"Headphones\"",
+      "detail": "2/5 points",
+      "state": "bubble:studio",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "111x5",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "52 in 43",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "111x5",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "-19,296 224,339",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "52 in 43",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "147x38",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "-36,268 224,363",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "109 in 96",
+      "state": "bubble:focus",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "74 in 65",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "22..87",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "109,-915 369,-850",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "page-overflow-x",
+      "selector": "html",
+      "detail": "343 > 320",
+      "state": "bubble:today",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > button[radix-_r_1_] \"Menu\"",
+      "detail": "27x30",
+      "state": "bubble:today",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "7x86",
+      "state": "bubble:today",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_j_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_l_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1
+    },
+    {
+      "check": "page-overflow-x",
+      "selector": "html",
+      "detail": "343 > 320",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > button[radix-_r_1_] \"Menu\"",
+      "detail": "27x30",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "7x86",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_l_] > div > div > p \"Mm-hm. Say it however it comes.\" <> html > body > div[radix-_r_l_] > button[sheet-close] \"Close\"",
+      "detail": "22x64",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_l_] > div > div > label \"In your own words\" <> body > div[radix-_r_l_] > div > button[checkin-next] \"Next\"",
+      "detail": "252x7",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_l_] > div > div > textarea[checkin-text] <> body > div[radix-_r_l_] > div > button[checkin-next] \"Next\"",
+      "detail": "252x57",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_l_] > div > div > textarea[checkin-text] <> body > div[radix-_r_l_] > div > button[button] \"Skip to the map\"",
+      "detail": "252x77",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_l_] > div > div > p \"Mm-hm. Say it however it comes.\"",
+      "detail": "2/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_l_] > div > div > label \"In your own words\"",
+      "detail": "5/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_l_] > div > div > textarea[checkin-text]",
+      "detail": "3/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_l_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_l_] > div > div \"Mm-hm. Say it however it comes.\"",
+      "detail": "2/5 points",
+      "state": "bubble:checkin",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "40x30",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> div > section > div > h2[column-in_progress] \"In progress (1)\"",
+      "detail": "215x26",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "4x91",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_23_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_23_] > div > div \"Stuck happens. Let's try a smaller way i\"",
+      "detail": "1/5 points",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > p > span \"Writing\"",
+      "detail": "93x27",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > p > span \"Due tomorrow\"",
+      "detail": "120x26",
+      "state": "sheet:unstick",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_23_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_23_] > div > div \"Stuck happens. Let's try a smaller way i\"",
+      "detail": "1/5 points",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > button \"Drag Read Physics chapter 4\"",
+      "detail": "77x52",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > h3 \"Read Physics chapter 4\"",
+      "detail": "91x52",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > p > span \"Admin\"",
+      "detail": "88x27",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > p > span \"Due today\"",
+      "detail": "86x27",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > button \"Drag Laundry\"",
+      "detail": "77x63",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > div > h3 \"Laundry\"",
+      "detail": "91x63",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_23_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> li > article > p > span \"Admin\"",
+      "detail": "58x6",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > button[button] \"Add task\" <> article > div > div > button[radix-_r_9_] \"Move to… Email TA about lab data\"",
+      "detail": "60x37",
+      "state": "sheet:unstick",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "page-overflow-x",
+      "selector": "html",
+      "detail": "394 > 390",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > h1 \"Your Shore\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "6x62",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > header > div > span \"Demo data: this app is showing example d\" <> div > header > div > a \"Your companion: Lolo\"",
+      "detail": "40x8",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "4x91",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "3/5 points",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "offscreen-x",
+      "selector": "div > div > div > a[shore-list] \"List\"",
+      "detail": "253..394",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "109 in 96",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "27,-334 256,-250",
+      "state": "bubble:shore",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "109 in 96",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "463,-356 704,-268",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "foreignobject > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "74 in 65",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "g > foreignobject > div > div \"Hi again! How's the water today?\"",
+      "detail": "452,-61 708,3",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "93x57 in 93x54",
+      "state": "bubble:studio",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "93x57 in 93x54",
+      "state": "bubble:studio",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "clipped",
+      "selector": "main > div > div > h1 \"Lolo\"",
+      "detail": "62x38 in 62x36",
+      "state": "bubble:studio",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "147x38",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "-1,268 259,363",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "109 in 96",
+      "state": "bubble:focus",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "147x38",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "109 in 96",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > p \"15:00\" <> div > div > div > p \"I'll read next to you. No rush.\"",
+      "detail": "111x5",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "covered",
+      "selector": "div > div > div > p \"15:00\"",
+      "detail": "2/5 points",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"I'll read next to you. No rush.\"",
+      "detail": "52 in 43",
+      "state": "bubble:focus",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > h2 \"Good afternoon, Maya\" <> div > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "153x65",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "4x91",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "109 in 96",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "98,-2123 358,-2027",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div > div > div > h2 \"Good afternoon, Maya\" <> div > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "153x45",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-clipped",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "109 in 96",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "5/5 points",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "hidden-under-bar",
+      "selector": "div > div > div > p \"Hi again! How's the water today?\"",
+      "detail": "83..179",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-offscreen",
+      "selector": "div > div > div > div \"Hi again! How's the water today?\"",
+      "detail": "563,-1837 823,-1741",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "nav > ul > li > a[tab-patterns] \"Patterns\" <> nav > ul > li > a[tab-shore] \"Shore\"",
+      "detail": "4x91",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text] <> body > div[radix-_r_f_] > div > button[checkin-next] \"Next\"",
+      "detail": "322x77",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text] <> body > div[radix-_r_f_] > div > button[button] \"Skip to the map\"",
+      "detail": "322x77",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text]",
+      "detail": "5/5 points",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_f_] > div > div > button[button] \"Dictate\"",
+      "detail": "2/5 points",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_f_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_f_] > div > div \"Mm-hm. Say it however it comes.\"",
+      "detail": "1/5 points",
+      "state": "bubble:checkin",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_f_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text] <> body > div[radix-_r_f_] > div > button[checkin-next] \"Next\"",
+      "detail": "175x69",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text] <> body > div[radix-_r_f_] > div > button[button] \"Skip to the map\"",
+      "detail": "175x69",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > button[button] \"Dictate\" <> body > div[radix-_r_f_] > div > button[checkin-next] \"Next\"",
+      "detail": "175x8",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "overlap",
+      "selector": "div[radix-_r_f_] > div > div > button[button] \"Dictate\" <> body > div[radix-_r_f_] > div > button[button] \"Skip to the map\"",
+      "detail": "175x8",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_f_] > div > div > textarea[checkin-text]",
+      "detail": "3/5 points",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "div[radix-_r_f_] > div > div > button[button] \"Dictate\"",
+      "detail": "3/5 points",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "covered",
+      "selector": "html > body > div[radix-_r_f_] > button[sheet-close] \"Close\"",
+      "detail": "4/5 points",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-covered",
+      "selector": "body > div[radix-_r_f_] > div > div \"Mm-hm. Say it however it comes.\"",
+      "detail": "1/5 points",
+      "state": "bubble:checkin",
+      "width": 1280,
+      "scale": 1.5
+    }
+  ],
+  "warnings": 6,
+  "statesRun": 36
+}

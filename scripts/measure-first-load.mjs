@@ -17,5 +17,5 @@ for (const route of process.argv.slice(2)) {
     raw += buf.length;
     gz += zlib.gzipSync(buf).length;
   }
-  console.log(`${route}  scripts ${srcs.length}  raw ${(raw / 1024).toFixed(0)} KB  gzip ${(gz / 1024).toFixed(0)} KB`);
+  console.log(`${route}  scripts ${srcs.length}  raw ${(raw / 1024).toFixed(0)} KB  gzip ${(gz / 1024).toFixed(1)} KB`);
 }
