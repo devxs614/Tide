@@ -105,6 +105,20 @@ export const STATES: AuditState[] = [
   { id: 'today', route: '/', ws: 'demo' },
   { id: 'today:empty', route: '/', ws: 'empty' },
   { id: 'tasks', route: '/tasks', ws: 'demo' },
+  // v2.1 F-05: the Done column (phones show one column at a time), and the
+  // Completed archive, also in Select mode.
+  {
+    id: 'tasks:done',
+    route: '/tasks',
+    ws: 'demo',
+    open: async (page) => {
+      // Wide screens show all four columns and no picker.
+      const pick = page.locator('button:has-text("Done ("):visible');
+      if ((await pick.count()) > 0) await click(page, 'button:has-text("Done ("):visible');
+    },
+  },
+  { id: 'tasks:completed', route: '/tasks/completed', ws: 'demo' },
+  { id: 'tasks:completed-select', route: '/tasks/completed', ws: 'demo', open: (page) => click(page, 'button:has-text("Select")') },
   { id: 'toolkit', route: '/toolkit', ws: 'demo' },
   { id: 'patterns', route: '/patterns', ws: 'demo' },
   { id: 'shore', route: '/shore', ws: 'demo' },

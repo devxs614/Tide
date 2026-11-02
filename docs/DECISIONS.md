@@ -1093,3 +1093,28 @@ The stub keeps its id, kind and times and stays soft-deleted (hidden).
 Its title becomes "Deleted event"; its place, prep and series go.
 Patterns still count the switch by kind. The Settings count leaves stubs
 out, so the button doesn't stay enabled for nothing.
+
+**D154 — 2026-11-01 — Completed lists every finished task, not only the ones off the board.**
+The archive is one complete place for finished work, today's included,
+so a person never has to wonder which list a task is in. "Completed
+earlier (n)" under the Done column counts only the tasks that aren't
+showing in it.
+
+**D155 — 2026-11-01 — Today needed no change for "done today only".**
+v1's `todaysTasks` already leaves finished tasks off the Tide Line, so
+old finished tasks can never appear on Today. I didn't add a "finished
+today" list there: the shore preview and the wins already show what got
+done.
+
+**D156 — 2026-11-01 — The 30-day cleanup removes the task entry directly.**
+The spec describes a soft delete followed by a purge that keeps history
+and wins. With no Undo involved, that's the same as removing the task
+row, so `runCompletedCleanup` does that in one step. Focus blocks, wins
+and shells stay.
+
+**D157 — 2026-11-01 — The shore opens an item from `?item=`, read once from the URL.**
+The archive links a finished task to its shell. ShoreScreen reads the
+parameter from `window.location` when it mounts, instead of Next's
+`useSearchParams`, which would need a Suspense boundary on a page that's
+otherwise static. The page only renders on the client (after the
+settings load from IndexedDB), so there's no hydration mismatch.

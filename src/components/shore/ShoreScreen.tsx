@@ -43,8 +43,11 @@ export function ShoreScreen() {
   const level = useMotionLevel();
   const scheme = useThemeScheme();
   const svgRef = useRef<SVGSVGElement>(null);
-  const [range, setRange] = useState<ShoreRange>('week');
-  const [selected, setSelected] = useState<ShoreItem | null>(null);
+  // v2.1 F-05: the Completed archive links a finished task to its shell
+  // with ?item=<win id>; the shore opens on "All" with that item's details.
+  const [askedFor, setAskedFor] = useState(() => (typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get('item')));
+  const [range, setRange] = useState<ShoreRange>(askedFor ? 'all' : 'week');
+  const [picked, setSelected] = useState<ShoreItem | null>(null);
   const [writing, setWriting] = useState(false);
   const [opening, setOpening] = useState<Bottle | null>(null);
   const [withName, setWithName] = useState(false);
@@ -56,6 +59,7 @@ export function ShoreScreen() {
 
   const nowTs = now();
   const items = useMemo(() => shoreItems(wins ?? [], settings.firsts, range, nowTs), [wins, settings.firsts, range, nowTs]);
+  const selected = picked ?? (askedFor ? (items.find((i) => i.id === askedFor) ?? null) : null);
   const { placed, overflow } = useMemo(() => placeItems(items), [items]);
   const fresh = placed.filter((p) => p.item.ts > seenAt).sort((a, b) => a.item.ts - b.item.ts);
   const newIds = fresh.slice(-MAX_ARRIVALS).map((p) => p.item.id);
@@ -149,7 +153,13 @@ export function ShoreScreen() {
         {settings.name.trim() && <CheckboxRow id="shore-with-name" label={copy.shore.includeName} checked={withName} onCheckedChange={setWithName} />}
       </div>
 
-      <ItemDetailsSheet item={selected} onClose={() => setSelected(null)} />
+      <ItemDetailsSheet
+        item={selected}
+        onClose={() => {
+          setSelected(null);
+          setAskedFor(null);
+        }}
+      />
       <BottleWriteSheet open={writing} onClose={() => setWriting(false)} />
       <BottleOpenDialog bottle={opening} onClose={() => setOpening(null)} />
     </div>

@@ -34,6 +34,12 @@ Challenge Partner, most urgent first.
   ones, or all of them. A deleted event never brings up a Bridge, and
   Undo brings back the whole batch. Settings → Privacy & data can remove
   deleted events for good.
+- **F-05** Finished tasks leave the board after a day (or 3 days, a
+  week, or never: Settings → Day & planning). "Clear" takes them off
+  right away, with Undo. Everything you've finished rests in Completed,
+  grouped by day, with a search, Move back, Delete, and a link to each
+  task's shell on your shore. An optional setting removes finished tasks
+  after 30 days; their shells stay.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

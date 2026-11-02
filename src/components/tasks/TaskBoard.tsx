@@ -25,7 +25,10 @@ import { StateColumn } from './StateColumn';
 import { useTaskMoves } from './useTaskMoves';
 import { SomedayList } from './SomedayList';
 import { ScreenSkeleton } from '@/components/ui/skeleton';
-import { activeTasks } from '@/lib/repo/taskQueries';
+import { activeTasks, isVisibleInDone } from '@/lib/repo/taskQueries';
+import { now } from '@/lib/clock';
+import { useSettings } from '@/lib/settings';
+import { ClearDoneButton, CompletedLink } from './DoneColumnParts';
 
 function statusOf(id: string, tasks: Task[]): TaskStatus | undefined {
   if (id.startsWith('column:')) return id.slice('column:'.length) as TaskStatus;
@@ -41,12 +44,19 @@ export function TaskBoard() {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
+  // Done shows only recent, uncleared tasks (v2.1 F-05); the rest wait in
+  // Completed. The window is checked against now() whenever the board
+  // draws, so yesterday afternoon's tasks are gone the next time it opens.
+  const doneWindow = useSettings().settings['tasks.doneVisibleFor'];
+  const at = now();
   const columns = useMemo(() => {
     const list = tasks ?? [];
+    const shows = (t: Task, s: TaskStatus) => t.status === s && !t.someday && (s !== 'done' || isVisibleInDone(t, at, doneWindow));
     return Object.fromEntries(
-      STATUS_ORDER.map((s) => [s, list.filter((t) => t.status === s && !t.someday).sort((a, b) => a.order - b.order)]),
+      STATUS_ORDER.map((s) => [s, list.filter((t) => shows(t, s)).sort((a, b) => a.order - b.order)]),
     ) as Record<TaskStatus, Task[]>;
-  }, [tasks]);
+  }, [tasks, at, doneWindow]);
+  const earlierDone = (tasks ?? []).filter((t) => t.status === 'done').length - columns.done.length;
 
   if (!tasks) return <ScreenSkeleton rows={4} rowClassName="h-20" />;
   const titleOf = (id: string | number) => tasks.find((t) => t.id === id)?.title ?? '';
@@ -99,9 +109,21 @@ export function TaskBoard() {
         accessibility={{ announcements, screenReaderInstructions: { draggable: copy.tasks.dragHint } }}
       >
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-4">
-          {STATUS_ORDER.map((s) => (
-            <StateColumn key={s} status={s} tasks={columns[s]} hiddenOnMobile={s !== visible} />
-          ))}
+          {STATUS_ORDER.map((s) =>
+            s === 'done' ? (
+              <StateColumn
+                key={s}
+                status={s}
+                tasks={columns.done}
+                hiddenOnMobile={s !== visible}
+                action={columns.done.length > 0 ? <ClearDoneButton ids={columns.done.map((t) => t.id)} /> : undefined}
+                footer={<CompletedLink earlier={earlierDone} shown={columns.done.length} window={doneWindow} />}
+                quietWhenEmpty={earlierDone > 0}
+              />
+            ) : (
+              <StateColumn key={s} status={s} tasks={columns[s]} hiddenOnMobile={s !== visible} />
+            ),
+          )}
         </div>
       </DndContext>
       <SomedayList tasks={(tasks ?? []).filter((t) => t.someday && t.status !== 'done')} />

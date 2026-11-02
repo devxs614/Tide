@@ -102,6 +102,22 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'switch', key: 'day.showMoved', label: L.showMoved, keywords: ['moved tasks'] },
       { kind: 'switch', key: 'day.morningCard', label: L.morningCard, keywords: ['morning'] },
       { kind: 'switch', key: 'day.wrapCard', label: L.wrapCard, keywords: ['evening', 'close the day'] },
+      {
+        kind: 'choice',
+        key: 'tasks.doneVisibleFor',
+        label: L.doneVisibleFor,
+        help: H.doneVisibleFor,
+        options: (['24h', '3d', '7d', 'forever'] as const).map((v) => ({ value: v, label: settingsCopy.doneWindows[v] })),
+        keywords: ['done', 'finished', 'completed', 'clear', 'board'],
+      },
+      {
+        kind: 'choice',
+        key: 'tasks.autoDeleteCompletedAfter',
+        label: L.autoDeleteCompleted,
+        help: H.autoDeleteCompleted,
+        options: (['never', '30d'] as const).map((v) => ({ value: v, label: settingsCopy.cleanupWindows[v] })),
+        keywords: ['done', 'finished', 'completed', 'delete', 'clean up'],
+      },
     ],
   },
   {

@@ -18,6 +18,7 @@ import dynamic from 'next/dynamic';
 import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { useTaskSheet } from '@/lib/taskSheets';
 import { useEventSheet } from '@/lib/eventSheets';
+import { DAY } from '@/lib/time';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
@@ -106,6 +107,16 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loaded) void import('@/lib/repo/taskEdits').then((m) => m.runPendingPurges());
   }, [loaded]);
+  // "Remove finished tasks after 30 days" (v2.1 F-05, off by default): at
+  // start-up and once a day while Tide stays open.
+  const cleanup = settings['tasks.autoDeleteCompletedAfter'];
+  useEffect(() => {
+    if (!loaded || cleanup !== '30d') return;
+    const run = () => void import('@/lib/repo/taskEdits').then((m) => m.runCompletedCleanup());
+    run();
+    const id = window.setInterval(run, DAY);
+    return () => window.clearInterval(id);
+  }, [loaded, cleanup]);
   if (!loaded || (!settings.onboarded && inDemo)) return <PhoneFrame><Splash /></PhoneFrame>;
   if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
   // Someone who finished v1 onboarding and hasn't met the companions yet.

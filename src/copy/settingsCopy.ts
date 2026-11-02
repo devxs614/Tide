@@ -83,6 +83,8 @@ export const settingsCopy = {
     showMoved: 'Show tasks moved to another day',
     morningCard: 'Morning card',
     wrapCard: 'Evening card',
+    doneVisibleFor: 'Show finished tasks on the board for',
+    autoDeleteCompleted: 'Remove finished tasks after',
     focusMinutes: 'Focus length',
     focusAuto: 'Pick for me',
     companionActivity: 'Companion works alongside me',
@@ -117,9 +119,14 @@ export const settingsCopy = {
     pronouns: 'Shown only on your own profile card.',
     vocabulary: 'Simple shows four common words for each state.',
     dayModeSuggestions: 'A gentle banner on Today; you always choose.',
+    doneVisibleFor: 'After that they rest in Completed, a tap away. Nothing is deleted.',
+    autoDeleteCompleted: 'Their shells stay on your shore. Only the task entries are removed.',
     keepAwake: 'Where your browser allows it.',
     minEvidence: 'A higher number means fewer, surer patterns.',
     shapes: 'So state never depends on color alone.',
     shortcuts: 'Single keys on a computer keyboard. They never fire while you type.',
   },
+  // v2.1 F-05 option labels.
+  doneWindows: { '24h': '1 day', '3d': '3 days', '7d': '7 days', forever: 'Always' },
+  cleanupWindows: { never: 'Never', '30d': '30 days' },
 };

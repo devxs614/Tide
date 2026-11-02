@@ -90,6 +90,8 @@ export const DEFAULT_SETTINGS: Settings = {
   'day.showMoved': true,
   'day.morningCard': true,
   'day.wrapCard': true,
+  'tasks.doneVisibleFor': '24h',
+  'tasks.autoDeleteCompletedAfter': 'never',
   'checkin.defaultPath': 'words',
   'checkin.vocabulary': 'full',
   'checkin.showCauses': true,

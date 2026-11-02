@@ -5,9 +5,25 @@
 // read outside src/lib/repo/. The pattern engine is the one reader that
 // still sees deleted tasks, to know what type a past focus block was.
 import { db } from '../db';
-import type { Task, TaskStatus } from '../types';
+import { DAY } from '../time';
+import type { Settings, Task, TaskStatus } from '../types';
 
 export const isActiveTask = (t: Task): boolean => !t.deletedAt;
+
+// v2.1 F-05: the Done column shows what was finished recently, so a board
+// with three weeks of finished work still looks calm. Older tasks, and ones
+// "Clear" moved off the board, rest in the Completed archive.
+const DONE_WINDOW = { '24h': DAY, '3d': 3 * DAY, '7d': 7 * DAY } as const;
+
+export function isVisibleInDone(task: Task, at: number, window: Settings['tasks.doneVisibleFor']): boolean {
+  if (task.status !== 'done' || task.clearedAt || task.deletedAt) return false;
+  return window === 'forever' || (task.doneAt ?? 0) >= at - DONE_WINDOW[window];
+}
+
+// Every finished task that wasn't deleted, newest first: the archive.
+export function completedTasks(): Promise<Task[]> {
+  return tasksByStatus(['done']).then((list) => list.sort((a, b) => (b.doneAt ?? 0) - (a.doneAt ?? 0)));
+}
 
 // Plain queries, filtered afterwards. Dexie updates a live query on a plain
 // query the moment a write happens in this tab; a query with a JavaScript

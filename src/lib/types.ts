@@ -345,6 +345,10 @@ export interface Settings {
   'day.showMoved': boolean;
   'day.morningCard': boolean;
   'day.wrapCard': boolean;
+  // v2.1 F-05: how long finished tasks stay on the board, and the optional
+  // cleanup of old finished tasks (their wins and history stay).
+  'tasks.doneVisibleFor': '24h' | '3d' | '7d' | 'forever';
+  'tasks.autoDeleteCompletedAfter': 'never' | '30d';
   'checkin.defaultPath': 'words' | 'body' | 'map';
   'checkin.vocabulary': 'simple' | 'full';
   'checkin.showCauses': boolean;

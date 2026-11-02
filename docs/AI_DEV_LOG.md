@@ -2850,3 +2850,63 @@ working.
 F-10), so the Tide Line and the Next card are the ways in. The Repeat
 field for *new* events also waits for F-10, as the spec allows: until
 then, weekday editing exists only for series that already exist.
+
+## F-05 — Done tasks clear themselves from the board (before and after)
+2026-11-01, late evening
+
+**Before.** With the demo seed, the Done column was a wall of three weeks
+of finished tasks. That's chaotic for our users and the first thing a
+judge would see. Plan:
+- one visibility rule (`isVisibleInDone`) with a window setting;
+- "Clear" with Undo (it hides, never deletes);
+- a Completed archive with search, Move back, Delete and Select mode;
+- an optional 30-day cleanup.
+
+Risk: v1 tests that count the Done column.
+
+**After.**
+- Settings → Day & planning:
+  - "Show finished tasks on the board for": 1 day (default), 3 days,
+    7 days, Always;
+  - "Remove finished tasks after": Never (default) or 30 days. Its help
+    says the shells stay on the shore.
+- The Done column (and its "Done (n)" count) shows only tasks finished in
+  the window and not cleared. Under it: "Completed earlier (n)" →
+  `/tasks/completed`. When the column is empty but the archive isn't, it
+  says "Nothing finished in the last day." and links to the archive. On
+  the demo afternoon, one task shows (finished Wednesday at 9 pm).
+- "Clear" (broom icon, visible label) sets `clearedAt` on what's in the
+  column, with a 10-second Undo. Moving a task back out of Done clears
+  `doneAt` and `clearedAt`; its win stays.
+- The archive groups tasks by day ("Today", "Yesterday", "Mon, Nov 2"),
+  showing type, time finished and an "On your shore" link to the task's
+  shell (the shore now opens an item from `?item=`). It has Move back to
+  In progress, Delete, a search field, and Select mode with 48px
+  checkboxes and "Delete selected (n)" using F-03's dialog. When there's
+  nothing to show, the companion rests beside "Finished tasks will rest
+  here."
+- Today's Tide Line already left finished tasks out (a v1 rule), so "done
+  today only" holds without a change (D155).
+
+**How I checked it.**
+- Unit tests:
+  - every window's edges, plus "forever";
+  - cleared, deleted and unfinished tasks stay hidden;
+  - Clear, Undo and moving back, with the wins intact;
+  - the 30-day cleanup removes only the old entry and keeps its win.
+- Flow tests:
+  - the demo board shows "Done (n)" for the last day only, with
+    "Completed earlier (m)";
+  - Clear empties the column and shows the link, and Undo restores it;
+  - the archive searches, moves a task back and bulk-deletes two.
+- Layout audit for the board, the Done column, the archive (also in
+  Select mode), Settings' Day page and the shore: 168 state runs, 0
+  failures (`docs/audits/2026-11-01-f05.json`). My first run "failed" the
+  Done state at 1024px and up, where the column picker doesn't exist; the
+  audit step now only taps it when it's there.
+- `/` is 298.5 KB.
+- Lint, typecheck, 487 tests and the v1 suite (164) are green. The clock
+  guard caught a `Date.now()` in my new test; it uses `now()` now.
+
+**Left open.** The calendar's "Finished that day" section comes with the
+calendar (F-10).

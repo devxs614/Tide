@@ -8,6 +8,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { copy, fill } from '@/copy/en';
 import type { Task, TaskStatus } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -40,15 +41,35 @@ function SortableTask({ task }: { task: Task }) {
   );
 }
 
-export function StateColumn({ status, tasks, hiddenOnMobile }: { status: TaskStatus; tasks: Task[]; hiddenOnMobile: boolean }) {
+// v2.1 F-05: the Done column adds "Clear" beside its heading and the link
+// to Completed under its list (`action`, `footer`); when only that link has
+// something to say, it replaces the "Nothing here" line (`quietWhenEmpty`).
+export function StateColumn({
+  status,
+  tasks,
+  hiddenOnMobile,
+  action,
+  footer,
+  quietWhenEmpty = false,
+}: {
+  status: TaskStatus;
+  tasks: Task[];
+  hiddenOnMobile: boolean;
+  action?: ReactNode;
+  footer?: ReactNode;
+  quietWhenEmpty?: boolean;
+}) {
   const { setNodeRef, isOver } = useDroppable({ id: `column:${status}`, data: { status } });
   const headingId = `column-${status}`;
   return (
     <section aria-labelledby={headingId} className={cn('flex min-w-0 flex-col gap-3', hiddenOnMobile && 'hidden lg:flex')}>
       <div>
-        <h2 id={headingId} className="text-h3 font-bold">
-          {fill(copy.tasks.countLabel, { status: copy.tasks.statuses[status], count: tasks.length })}
-        </h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 id={headingId} className="text-h3 font-bold">
+            {fill(copy.tasks.countLabel, { status: copy.tasks.statuses[status], count: tasks.length })}
+          </h2>
+          {action}
+        </div>
         {status === 'stuck' && <p className="text-ink-soft">{copy.tasks.stuckSubtitle}</p>}
       </div>
       <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
@@ -59,9 +80,10 @@ export function StateColumn({ status, tasks, hiddenOnMobile }: { status: TaskSta
           {tasks.map((t) => (
             <SortableTask key={t.id} task={t} />
           ))}
-          {tasks.length === 0 && <li className="p-3 text-ink-soft">{copy.tasks.emptyColumn}</li>}
+          {tasks.length === 0 && !quietWhenEmpty && <li className="p-3 text-ink-soft">{copy.tasks.emptyColumn}</li>}
         </ul>
       </SortableContext>
+      {footer}
     </section>
   );
 }

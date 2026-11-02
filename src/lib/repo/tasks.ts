@@ -57,7 +57,11 @@ export async function moveTask(id: string, status: TaskStatus, index?: number): 
     }
     // Moving a finished task back clears the stamp but keeps the win:
     // wins never go down.
-    if (status !== 'done' && task.status === 'done') changes.doneAt = undefined;
+    // v2.1: and a task cleared off the board (F-05) comes back onto it.
+    if (status !== 'done' && task.status === 'done') {
+      changes.doneAt = undefined;
+      changes.clearedAt = undefined;
+    }
 
     const column = (await db.tasks.where('status').equals(status).toArray())
       .filter((other) => other.id !== id)

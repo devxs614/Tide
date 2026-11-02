@@ -162,6 +162,11 @@ up during the build. — Claude Code
   time inputs and the stacked choices look different on iOS and Android
   than in the test browser. *By Nov 3.*
 
+- [ ] **Look at the demo board's Done column (F-05).** It should show one
+  task (finished Wednesday evening) and "Completed earlier". Open
+  Completed and try a search. Why: this is what judges see first on the
+  Tasks screen, and only a person can say whether it reads calm. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

@@ -91,6 +91,8 @@ export const SettingsSchema = z.object({
   'day.showMoved': flag,
   'day.morningCard': flag,
   'day.wrapCard': flag,
+  'tasks.doneVisibleFor': z.enum(['24h', '3d', '7d', 'forever']),
+  'tasks.autoDeleteCompletedAfter': z.enum(['never', '30d']),
   'checkin.defaultPath': z.enum(['words', 'body', 'map']),
   'checkin.vocabulary': z.enum(['simple', 'full']),
   'checkin.showCauses': flag,

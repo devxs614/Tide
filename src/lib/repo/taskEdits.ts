@@ -6,6 +6,7 @@
 // If the app closes inside that window, the removal runs at the next start.
 import { db } from '../db';
 import { now } from '../clock';
+import { DAY } from '../time';
 import type { DayPlan, DayWrap, Task, TaskType } from '../types';
 
 export const UNDO_MS = 10_000;
@@ -83,6 +84,30 @@ export async function runPendingPurges(at = now()): Promise<number> {
   const due = await db.tasks.filter((t: Task) => !!t.purgeRequested && !!t.deletedAt && at - t.deletedAt >= UNDO_MS).toArray();
   for (const t of due) await purgeTaskCascade(t.id);
   return due.length;
+}
+
+// v2.1 F-05: "Clear" takes finished tasks off the board without deleting
+// anything; they rest in the Completed archive. Undo puts them back.
+export async function clearDoneTasks(ids: string[]): Promise<void> {
+  const at = now();
+  await db.transaction('rw', db.tasks, async () => {
+    for (const id of ids) await db.tasks.update(id, { clearedAt: at });
+  });
+}
+
+export async function unclearTasks(ids: string[]): Promise<void> {
+  await db.transaction('rw', db.tasks, async () => {
+    for (const id of ids) await db.tasks.update(id, { clearedAt: undefined });
+  });
+}
+
+// "Remove finished tasks after 30 days" (off by default): the task entries
+// go, their focus blocks, wins and shells stay. Runs at start-up and once a
+// day while Tide is open.
+export async function runCompletedCleanup(at = now()): Promise<number> {
+  const old = await db.tasks.filter((t) => t.status === 'done' && !!t.doneAt && at - t.doneAt >= 30 * DAY).toArray();
+  for (const t of old) await removeTaskRow(t.id);
+  return old.length;
 }
 
 // Settings → Privacy & data → "Permanently remove deleted tasks".

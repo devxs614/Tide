@@ -1214,3 +1214,30 @@ re-runs. Delete → `deleteEvents` returns the ids → the toast's Undo calls
   still count the switch. A permanent purge leaves a stub (D153).
 - *Why can't I change the date for "all events"?* A new date only makes
   sense for one event; new weekdays are how a series moves (D149).
+
+## Finished tasks and Completed (v2.1 F-05)
+
+**What it does.** Keeps the Done column short: only tasks finished in the
+chosen window (1 day by default) and not cleared. Everything finished
+rests in the Completed archive.
+
+**Files.**
+- `src/lib/repo/taskQueries.ts`: `isVisibleInDone(task, now, window)`,
+  the one rule, and `completedTasks()`.
+- `src/lib/repo/taskEdits.ts`: `clearDoneTasks`/`unclearTasks` ("Clear"
+  and its Undo) and `runCompletedCleanup` (the 30-day setting; AppShell
+  runs it at start-up and daily).
+- `src/lib/repo/tasks.ts`: moving a task out of Done also clears
+  `clearedAt`.
+- `components/tasks/TaskBoard.tsx` filters the column and passes
+  `ClearDoneButton` and `CompletedLink` (from `DoneColumnParts.tsx`) to
+  `StateColumn`.
+- `components/tasks/CompletedArchive.tsx` at `/tasks/completed`.
+
+**Likely reviewer questions**
+- *Does Clear delete anything?* No. It sets `clearedAt`; the archive still
+  lists the task, and Move back puts it on the board.
+- *What about patterns and the shore?* Neither reads the board: they use
+  focus blocks and wins, which nothing here removes.
+- *Why is "Done (n)" smaller than before?* It counts only what's showing
+  in the column, per the spec.
