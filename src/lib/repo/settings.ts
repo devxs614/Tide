@@ -85,6 +85,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'language.weekStart': 'sunday',
   'calendar.showCheckins': false,
   'calendar.layout': 'auto',
+  'appearance.lookSnapshot': null,
   pronouns: '',
   'day.end': '23:00',
   'day.gentleBudget': 4,

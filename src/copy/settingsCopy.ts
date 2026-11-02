@@ -65,6 +65,7 @@ export const settingsCopy = {
     timeFormats: { '12h': '12-hour', '24h': '24-hour' },
     dateStyle: 'Dates',
     weekStart: 'Weeks start on',
+    looks: 'Try a look',
     calendarCheckins: 'Show check-ins on the calendar',
     dateStyles: { long: 'Thursday, October 29', short: 'Thu, Oct 29' },
     defaultPath: 'Start a check-in with',

@@ -1383,3 +1383,18 @@ Today.
 - *Do repeating events break the Bridge?* No. Each instance is an
   ordinary event; the series row only groups them for edits (F-04).
 - *Is it fast?* A month change draws in under 20 ms with the demo data.
+
+## Try a look (v2.1 F-11)
+
+**What it does.** Eight curated combinations of theme, font, roundness,
+density and motion to try, keep, or undo exactly.
+
+**Files.** `src/data/looks.ts` (the looks), `src/lib/looks.ts` (snapshot
+keys, the day's surprise order), `components/looks/useLooks.ts` (try,
+keep, back, next, surprise), `LookCarousel.tsx`, `LookTryingBar.tsx`.
+
+**Likely reviewer questions**
+- *Can a look change anything personal?* No. It touches only the look
+  keys (`LOOK_KEYS`), never data or the companion.
+- *How is "Back to my look" exact?* The first try saves every look key's
+  own value in `appearance.lookSnapshot`; back writes them all back.

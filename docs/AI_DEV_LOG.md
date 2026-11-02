@@ -3364,3 +3364,52 @@ Constraint: `/` was at 299.2 KB.
 **Left open.** No long-press or "+" on a day cell to add an event: the day
 view's "Add event" covers it (D186). The full tour's calendar step comes
 in R7.
+
+## F-11 — "Try a look" variations (before and after)
+2026-11-02
+
+**Before.** v2's "Try the new look" applied one combination. The team
+wanted a few curated looks to try, compare and undo. Plan:
+- eight looks as data (appearance and motion only);
+- snapshot rules so "Back to my look" is exact;
+- a day-seeded "Surprise me" order;
+- a carousel and a trying bar.
+
+**After.**
+- `src/data/looks.ts`: Lagoon, Sunset, Coral, Midnight, Kelp, Lavender,
+  Sandbar and Deep Sea, as the spec lists them. Each turns off "follow my
+  device", and Motion Off also sets v1's `reduceMotion`.
+- `src/lib/looks.ts`: the snapshot covers every key any look sets. The
+  first try saves the person's own values in `appearance.lookSnapshot`
+  (an internal setting); later tries keep that snapshot. "Surprise me"
+  shuffles by the date, and never picks the look on screen.
+- Settings → Appearance opens with "Try a look":
+  - eight cards, each a small live preview in its own colors (sky and
+    sea, text lines, a raised button in its roundness), with its name,
+    one-liner and "Try it";
+  - the cards scroll sideways and snap, and stack at large text;
+  - the arrow keys move between cards, and "Surprise me" picks one.
+- While trying, a bar says "Trying: Sunset" with Keep it, Back to my look
+  and Next look. Leaving the page keeps the look, with one Undo toast.
+- What's new's look page keeps v2's button (now the Lagoon look, with
+  "Back to my look") and shows the carousel under it (D188).
+
+**How I checked it.**
+- Rule tests: the snapshot holds exactly the look keys (never the
+  companion); the shuffle is stable within a day and different the next
+  day; seven taps of "Surprise me" give seven different looks, never the
+  current one.
+- Flow tests:
+  - try Sunset, Next look to Coral, then Back to my look restores
+    Ink + system font + square corners + auto motion + follow device,
+    exactly;
+  - try and keep Kelp;
+  - Surprise me picks something else;
+  - leaving while trying Midnight keeps it.
+- What's new's v2 test passes unchanged.
+- Layout audit for Appearance, before and while trying: 48 state runs, 0
+  failures. Pressing the second card by scrolling it into view put it
+  under Settings' sticky Live Preview in the test browser, so that audit
+  step presses the button directly.
+- `/` is 299.5 KB. Lint, typecheck, 556 tests and the v1 suite (164) are
+  green.

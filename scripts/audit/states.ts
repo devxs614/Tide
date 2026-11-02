@@ -135,6 +135,18 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'tasks:completed', route: '/tasks/completed', ws: 'demo' },
+  // v2.1 F-11: a look being tried, with the trying bar.
+  {
+    id: 'settings:appearance-trying',
+    route: '/settings/appearance',
+    ws: 'demo',
+    // Pressed directly: scrolled into view by the test browser, the card
+    // lands under the sticky Live Preview, where no person would tap it.
+    open: async (page) => {
+      await page.locator(demo('look-sunset_lively')).first().evaluate((el) => (el as HTMLButtonElement).click());
+      await page.waitForTimeout(600);
+    },
+  },
   // v2.1 F-10: the month (grid and list) and a past and a future day.
   { id: 'calendar', route: '/calendar', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'calendar.layout': 'auto' }) },
   { id: 'calendar:list', route: '/calendar', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'calendar.layout': 'list' }) },

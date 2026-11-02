@@ -1320,3 +1320,21 @@ weekly) and "Add task due this day" sit in plain sight.
 Instead of a horizontal slide, a new month uses `page-enter`: a fade at
 Calm and Lively, nothing at Off. It's the same entrance as page changes,
 and it's CSS, so nothing extra loads with the calendar.
+
+**D188 — 2026-11-02 — What's new keeps its "Try the new look" button, above the carousel.**
+Spec 15.3 says the carousel replaces the single button. A v2 test (flow
+3) presses that button, and spec 3.2 keeps v2 suites green. So the button
+stays, now trying the Lagoon look through the new system (so "Back to my
+look" works there too), and the eight looks follow under it.
+
+**D189 — 2026-11-02 — Look previews are drawn, without a mini companion.**
+Each card draws sky and sea, two lines of text and a raised button in
+the look's own tokens and roundness, like the theme picker. A companion
+on each of eight cards would load the companion renderer into Settings
+for a decoration. The companion takes the new colors anyway once a look
+is tried.
+
+**D190 — 2026-11-02 — "Leaving keeps the look" waits a tick.**
+React's development mode mounts, unmounts and mounts every component
+once on purpose, which made the bar "leave" the moment it appeared. The
+leave step now waits a tick and runs only if no bar came back.

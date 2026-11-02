@@ -341,6 +341,9 @@ export interface Settings {
   'language.weekStart': 'sunday' | 'monday';
   'calendar.showCheckins': boolean;
   'calendar.layout': 'auto' | 'grid' | 'list';
+  // v2.1 F-11 (internal): the person's own look while trying another one,
+  // so "Back to my look" restores it exactly.
+  'appearance.lookSnapshot': { values: Partial<Settings>; trying: string; cursor?: number } | null;
   // Settings 2.0 (spec 15.2). Each one changes something real; the log has
   // the checklist of what and how it was checked.
   pronouns: string;

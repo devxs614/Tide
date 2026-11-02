@@ -23,6 +23,7 @@ const DataSection = load(() => import('./DataSection').then((m) => m.DataSection
 const DemoSection = load(() => import('./DemoSection').then((m) => m.DemoSection));
 const PurgeDeleted = load(() => import('./PurgeDeleted').then((m) => m.PurgeDeleted));
 const PurgeDeletedEvents = load(() => import('./PurgeDeletedEvents').then((m) => m.PurgeDeletedEvents));
+const LookCarousel = load(() => import('@/components/looks/LookCarousel').then((m) => m.LookCarousel));
 const FocusAlertVolume = load(() => import('./FocusAlertVolume').then((m) => m.FocusAlertVolume));
 const FocusNotifyControl = load(() => import('./FocusNotifyControl').then((m) => m.FocusNotifyControl));
 const ShortcutsList = load(() => import('@/components/shell/ShortcutsList').then((m) => m.ShortcutsList));
@@ -82,6 +83,8 @@ export function CustomControl({ id }: { id: CustomId }) {
           <ShortcutsList />
         </Anchored>
       );
+    case 'looks':
+      return <Anchored id={id}><LookCarousel /></Anchored>;
     case 'focusAlertVolume':
       return <Anchored id={id}><FocusAlertVolume /></Anchored>;
     case 'focusNotify':

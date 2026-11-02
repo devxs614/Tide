@@ -17,6 +17,8 @@ import { WaveMark } from '@/components/ui/wave-mark';
 import { Companion } from '@/components/companion/Companion';
 import { cn } from '@/lib/utils';
 import { InstallButton } from '@/components/shell/InstallButton';
+import { LookCarousel } from '@/components/looks/LookCarousel';
+import { useLooks } from '@/components/looks/useLooks';
 
 type PageId = keyof typeof copy.whatsNew.pages;
 const PAGES: Array<{ id: PageId; href: string }> = [
@@ -30,7 +32,8 @@ const PAGES: Array<{ id: PageId; href: string }> = [
 
 export function WhatsNewSheet({ asPage = false, onClose }: { asPage?: boolean; onClose?: () => void }) {
   const router = useRouter();
-  const { update, updateMany } = useSettings();
+  const { update } = useSettings();
+  const looks = useLooks();
   const [index, setIndex] = useState(0);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const page = PAGES[index];
@@ -74,13 +77,14 @@ export function WhatsNewSheet({ asPage = false, onClose }: { asPage?: boolean; o
         </h1>
         <p className="text-ink-soft">{words.body}</p>
         {page.id === 'look' && (
-          <Button
-            variant="secondary"
-            className="self-start"
-            onClick={() => void updateMany({ 'appearance.theme': 'lagoon', 'appearance.followSystem': false, 'appearance.font': 'playful' })}
-          >
-            {copy.whatsNew.tryLook}
-          </Button>
+          <>
+            {/* v2's one button stays (it's the Lagoon look, now with "Back
+                to my look"), and the other looks follow (v2.1 F-11). */}
+            <Button variant="secondary" className="self-start" onClick={() => looks.tryLook('lagoon_playful')}>
+              {copy.whatsNew.tryLook}
+            </Button>
+            <LookCarousel />
+          </>
         )}
         {last && <InstallButton />}
       </section>

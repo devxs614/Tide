@@ -83,6 +83,7 @@ export const SettingsSchema = z.object({
   'language.weekStart': z.enum(['sunday', 'monday']),
   'calendar.showCheckins': flag,
   'calendar.layout': z.enum(['auto', 'grid', 'list']),
+  'appearance.lookSnapshot': z.object({ values: z.record(z.string(), z.unknown()), trying: z.string(), cursor: z.number().optional() }).nullable(),
   pronouns: z.string().max(20),
   'day.start': hhmm,
   'day.end': hhmm,

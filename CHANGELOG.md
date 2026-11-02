@@ -77,6 +77,10 @@ Challenge Partner, most urgent first.
   fully by keyboard and shows a list at large text. Open any day to plan
   ahead or to look back at what happened. Events can now repeat every
   week on the days you choose.
+- **F-11** Eight ready-made looks to try in Settings → Appearance (and in
+  What's new): Lagoon, Sunset, Coral, Midnight, Kelp, Lavender, Sandbar
+  and Deep Sea, each with a live preview. Try one, try the next, keep it,
+  or go back to exactly your own look. "Surprise me" picks one for you.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

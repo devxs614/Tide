@@ -22,7 +22,7 @@ export type Entry =
   | { kind: 'text'; key: Key; label: string; help?: string; max: number; keywords?: string[] }
   | { kind: 'custom'; id: CustomId; label: string; keys?: Key[]; keywords?: string[] };
 
-export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'purgeDeleted' | 'demo' | 'about' | 'focusAlertVolume' | 'focusNotify';
+export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'purgeDeleted' | 'demo' | 'about' | 'focusAlertVolume' | 'focusNotify' | 'looks';
 
 const L = settingsCopy.labels;
 const H = settingsCopy.help;
@@ -40,6 +40,8 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
   {
     id: 'appearance',
     entries: [
+      // v2.1 F-11: ready-made looks first, with Back to my look.
+      { kind: 'custom', id: 'looks', label: L.looks, keys: ['appearance.lookSnapshot'], keywords: ['look', 'try', 'surprise', 'style', 'new look'] },
       { kind: 'custom', id: 'theme', label: copy.settings.theme, keys: ['appearance.theme', 'appearance.followSystem', 'appearance.lightTheme', 'appearance.darkTheme', 'theme'], keywords: ['dark mode', 'night mode', 'light mode', 'colors', 'colours', 'theme', 'contrast'] },
       { kind: 'choice', key: 'appearance.font', label: copy.appearance.font, undo: true, options: Object.entries(copy.appearance.fonts).map(([value, f]) => ({ value, label: f.name })), keywords: ['font', 'dyslexia', 'typeface', 'letters', 'reading'] },
       { kind: 'custom', id: 'textSize', label: copy.settings.textSize, keys: ['textScale'], keywords: ['text size', 'bigger', 'zoom', 'large text'] },
