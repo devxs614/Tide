@@ -40,6 +40,13 @@ Challenge Partner, most urgent first.
   grouped by day, with a search, Move back, Delete, and a link to each
   task's shell on your shore. An optional setting removes finished tasks
   after 30 days; their shells stay.
+- **F-06** The end of a focus block is always signalled: a soft sound
+  (chime, bell, marimba, waves or a gentle rise) even when other sounds
+  are off, a glow and "Time's up" on screen, a vibration, and "Time's up"
+  in the browser tab when Tide is in the background. There's an optional
+  notification, an optional heads-up a minute or two before the end, and
+  the time left can show in the tab. All of it is in Settings → Focus,
+  with a Test sound button.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

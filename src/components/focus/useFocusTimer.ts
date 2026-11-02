@@ -41,7 +41,19 @@ export function useFocusTimer(minutes: number, onFinish: () => void) {
         redraw((n) => n + 1);
       }
     }, 250);
-    return () => clearInterval(id);
+    // v2.1 F-06: a hidden tab's interval can run a minute late, so coming
+    // back to the page checks the clock straight away too.
+    const onVisible = () => {
+      if (!document.hidden && total - elapsed(now()) <= 0) {
+        setState((s) => ({ ...s, phase: 'finished' }));
+        onFinish();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
     // elapsed() only reads state captured in this render; restarting the
     // interval whenever state changes keeps it current.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,6 +75,8 @@ export function useFocusTimer(minutes: number, onFinish: () => void) {
     startedAt: state.startedAt,
     remaining,
     progress: total ? 1 - remaining / total : 0,
+    // When a running block will end (v2.1 F-06, for the audio clock).
+    endsAt: state.phase === 'running' && state.startedAt ? state.startedAt + state.pausedTotal + total : null,
     completed: remaining <= 0,
     start,
     pause,

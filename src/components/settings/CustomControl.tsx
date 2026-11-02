@@ -23,6 +23,8 @@ const DataSection = load(() => import('./DataSection').then((m) => m.DataSection
 const DemoSection = load(() => import('./DemoSection').then((m) => m.DemoSection));
 const PurgeDeleted = load(() => import('./PurgeDeleted').then((m) => m.PurgeDeleted));
 const PurgeDeletedEvents = load(() => import('./PurgeDeletedEvents').then((m) => m.PurgeDeletedEvents));
+const FocusAlertVolume = load(() => import('./FocusAlertVolume').then((m) => m.FocusAlertVolume));
+const FocusNotifyControl = load(() => import('./FocusNotifyControl').then((m) => m.FocusNotifyControl));
 const ShortcutsList = load(() => import('@/components/shell/ShortcutsList').then((m) => m.ShortcutsList));
 const PeopleSection = load(() => import('./PeopleSection').then((m) => m.PeopleSection));
 const ModePicker = load(() => import('./PreferencePickers').then((m) => m.ModePicker));
@@ -80,6 +82,10 @@ export function CustomControl({ id }: { id: CustomId }) {
           <ShortcutsList />
         </Anchored>
       );
+    case 'focusAlertVolume':
+      return <Anchored id={id}><FocusAlertVolume /></Anchored>;
+    case 'focusNotify':
+      return <Anchored id={id}><FocusNotifyControl /></Anchored>;
     case 'about':
       return (
         <Anchored id={id}>

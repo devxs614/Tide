@@ -1118,3 +1118,44 @@ parameter from `window.location` when it mounts, instead of Next's
 `useSearchParams`, which would need a Suspense boundary on a page that's
 otherwise static. The page only renders on the client (after the
 settings load from IndexedDB), so there's no hydration mismatch.
+
+**D158 — 2026-11-02 — `focus.endSound` stays a switch; the sound choice is `focus.endTone`.**
+The spec's settings table uses `focus.endSound` for chime/bell/…, but in
+v2 that key is the boolean "Sound when a block ends", and spec 3.3 says
+existing settings keys don't change. So the choice is a new key,
+`focus.endTone`. "When the timer ends" replaces the v2 switch in
+Settings and sets it in step, the same way Motion Off sets v1's
+`reduceMotion`. Someone who turned the v2 switch off keeps a silent end
+until they choose again. Rejected: retyping the key with a migration.
+That would break the "don't change keys" rule and older backups.
+
+**D159 — 2026-11-02 — Alert volume in five steps, like the sound volume.**
+The spec allows 0.1–1. Settings already sets sound volume with a row of
+percentages, so the alert does the same (20–100%), next to "Test sound".
+A slider would add a second control style for the same idea.
+
+**D160 — 2026-11-02 — Notifications use a plain Notification; Tide has no service worker yet.**
+The code uses a service worker's `showNotification` when one is
+registered, as Android Chrome requires, and `new Notification` otherwise.
+Tide doesn't register one (offline support came from caching headers in
+v2), so on Android the notification won't appear. That's a known gap in
+TEAM_TODO; the sound and the tab signals still work there.
+
+**D161 — 2026-11-02 — Vibration at the end follows `focus.vibrateAtEnd`, on by default.**
+v1 vibrated only if its `vibration` setting (off by default) was on. The
+end alert is something the person asked for by starting a timer, so it
+vibrates by default where the phone can. "When the timer ends: Off" means
+no vibration either.
+
+**D162 — 2026-11-02 — Repeats are scheduled on the audio clock up front.**
+"Up to 3 times" puts all three plays on the audio clock when the block
+starts, 20 seconds apart, instead of using JavaScript timers that a
+background tab slows down. Any key or tap stops what's left, and so does
+answering the outcome question (a tap).
+
+**D163 — 2026-11-02 — The alert has its own small audio engine.**
+v2's engine only plays when "sound" is on and loads only then. The alert
+must play when sound is off, so it has its own AudioContext and limiter
+in `src/lib/focus/alertEngine.ts`, loaded with the Focus screen. It
+respects the same quiet hold as everything else, so the crisis and
+support screens stay silent.

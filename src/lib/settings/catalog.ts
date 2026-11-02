@@ -22,7 +22,7 @@ export type Entry =
   | { kind: 'text'; key: Key; label: string; help?: string; max: number; keywords?: string[] }
   | { kind: 'custom'; id: CustomId; label: string; keys?: Key[]; keywords?: string[] };
 
-export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'purgeDeleted' | 'demo' | 'about';
+export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'purgeDeleted' | 'demo' | 'about' | 'focusAlertVolume' | 'focusNotify';
 
 const L = settingsCopy.labels;
 const H = settingsCopy.help;
@@ -125,7 +125,41 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
     entries: [
       { kind: 'choice', key: 'focus.defaultMinutes', label: L.focusMinutes, options: [{ value: 'auto', label: L.focusAuto }, ...['5', '10', '15', '25'].map((v) => ({ value: v, label: `${v} min` }))], keywords: ['timer', 'pomodoro', 'minutes'] },
       { kind: 'switch', key: 'focus.companionActivity', label: L.companionActivity, keywords: ['body doubling'] },
-      { kind: 'switch', key: 'focus.endSound', label: L.endSound, keywords: ['alarm', 'end sound'] },
+      // v2.1 F-06: "When the timer ends" replaces v2's end-sound switch (the
+      // key stays, kept in step by SettingControl, D158).
+      {
+        kind: 'choice',
+        key: 'focus.endAlert',
+        label: L.endAlert,
+        help: H.endAlert,
+        options: (['sound_visual', 'visual', 'off'] as const).map((v) => ({ value: v, label: settingsCopy.endAlertOptions[v] })),
+        keywords: ['alarm', 'timer sound', 'bell', 'end sound', 'time is up'],
+      },
+      {
+        kind: 'choice',
+        key: 'focus.endTone',
+        label: L.endTone,
+        options: (['chime', 'bell', 'marimba', 'waves', 'rise'] as const).map((v) => ({ value: v, label: settingsCopy.endTones[v] })),
+        keywords: ['alarm', 'timer sound', 'bell', 'chime'],
+      },
+      { kind: 'custom', id: 'focusAlertVolume', label: L.alertVolume, keys: ['focus.alertVolume'], keywords: ['alarm', 'volume', 'test sound'] },
+      {
+        kind: 'choice',
+        key: 'focus.alertRepeat',
+        label: L.alertRepeat,
+        options: (['once', 'gentle_repeat'] as const).map((v) => ({ value: v, label: settingsCopy.alertRepeatOptions[v] })),
+        keywords: ['alarm', 'repeat'],
+      },
+      {
+        kind: 'choice',
+        key: 'focus.warnBeforeEnd',
+        label: L.warnBeforeEnd,
+        options: (['off', '1', '2'] as const).map((v) => ({ value: v, label: settingsCopy.warnOptions[v] })),
+        keywords: ['warning', 'heads-up', 'minute left'],
+      },
+      { kind: 'switch', key: 'focus.vibrateAtEnd', label: L.vibrateAtEnd, help: H.vibrateAtEnd, keywords: ['vibrate', 'buzz', 'alarm'] },
+      { kind: 'custom', id: 'focusNotify', label: L.notifyAtEnd, keys: ['focus.notifyAtEnd'], keywords: ['notification', 'background', 'alarm'] },
+      { kind: 'switch', key: 'focus.titleCountdown', label: L.titleCountdown, keywords: ['tab', 'title', 'countdown'] },
       { kind: 'switch', key: 'focus.keepAwake', label: L.keepAwake, help: H.keepAwake, keywords: ['screen on', 'wake lock', 'sleep'] },
     ],
   },

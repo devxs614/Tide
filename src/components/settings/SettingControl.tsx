@@ -30,8 +30,13 @@ export function SettingControl({ entry }: { entry: Exclude<Entry, { kind: 'custo
   if (entry.kind === 'choice') {
     const choose = (raw: string) => {
       const next = (entry.numeric || (key === 'focus.defaultMinutes' && raw !== 'auto') ? Number(raw) : raw) as Settings[typeof key];
-      // Motion Off also sets v1's reduceMotion, which older parts still read.
-      const values = { [key]: next, ...(key === 'motion.level' && { reduceMotion: next === 'off' }) } as Partial<Settings>;
+      // Motion Off also sets v1's reduceMotion, which older parts still read;
+      // "When the timer ends" keeps v2's end-sound switch in step (D158).
+      const values = {
+        [key]: next,
+        ...(key === 'motion.level' && { reduceMotion: next === 'off' }),
+        ...(key === 'focus.endAlert' && { 'focus.endSound': next === 'sound_visual' }),
+      } as Partial<Settings>;
       if (entry.undo) undoable(values);
       else void updateMany(values);
     };

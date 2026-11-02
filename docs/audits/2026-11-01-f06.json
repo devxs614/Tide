@@ -1,0 +1,39 @@
+{
+  "label": "f06",
+  "createdAt": "2026-11-02T05:37:59.408Z",
+  "seconds": 201,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      320,
+      360,
+      390,
+      768,
+      1024,
+      1280
+    ],
+    "scales": [
+      1,
+      1.15,
+      1.3,
+      1.5
+    ],
+    "states": [
+      "focus",
+      "bubble:focus",
+      "settings:focus",
+      "settings"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 3
+  },
+  "failures": [],
+  "warnings": 437,
+  "statesRun": 480
+}

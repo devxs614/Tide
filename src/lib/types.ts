@@ -365,6 +365,17 @@ export interface Settings {
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;
+  // v2.1 F-06: the end-of-timer alert. `focus.endSound` (v2's switch) stays
+  // and is kept in step by "When the timer ends" (D158); the sound itself
+  // is `focus.endTone`.
+  'focus.endAlert': 'sound_visual' | 'visual' | 'off';
+  'focus.endTone': 'chime' | 'bell' | 'marimba' | 'waves' | 'rise';
+  'focus.alertVolume': number;
+  'focus.alertRepeat': 'once' | 'gentle_repeat';
+  'focus.vibrateAtEnd': boolean;
+  'focus.notifyAtEnd': boolean;
+  'focus.titleCountdown': boolean;
+  'focus.warnBeforeEnd': 'off' | '1' | '2';
   // Desktop keyboard shortcuts (v2 spec 17.1); never while typing.
   'shortcuts.enabled': boolean;
   // "Not tonight" / "Not now" on Today's evening and morning cards hide

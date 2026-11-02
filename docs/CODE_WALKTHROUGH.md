@@ -1241,3 +1241,35 @@ rests in the Completed archive.
   focus blocks and wins, which nothing here removes.
 - *Why is "Done (n)" smaller than before?* It counts only what's showing
   in the column, per the spec.
+
+## The focus end alert (v2.1 F-06)
+
+**What it does.** Makes the end of a focus block impossible to miss,
+gently: a sound even when other sounds are off, a glow and "Time's up",
+vibration, the browser tab, and an optional notification.
+
+**Files.**
+- `src/lib/focus/alertTones.ts`: the synthesized recipes (Appendix C).
+- `src/lib/focus/alertEngine.ts`: its own AudioContext and limiter;
+  `unlockAlertAudio`, `scheduleEndAlert`, `cancelEndAlert`,
+  `settleEndAlert`, the warning, `playTone`.
+- `src/lib/focus/alertPlan.ts`: plain rules (`alertLevel` with the v2
+  switch, repeats, warning lead, tab text).
+- `src/lib/focus/tabSignals.ts` and `notify.ts`.
+- `components/focus/useFocusAlert.ts`: wires it to `useFocusTimer`
+  (which now exposes `endsAt`). `EndGlow.tsx` is the visual pulse.
+
+**Data flow.** Start tap → `prime()` wakes the audio → the timer runs →
+`scheduleEndAlert(secondsUntil(endsAt))` on the audio clock. Pause →
+cancel; resume → schedule again. The interval or a visibility change
+notices the end → `settleEndAlert` (plays only if it didn't) → vibration,
+tab signals and notification if hidden → the outcome sheet.
+
+**Likely reviewer questions**
+- *Why can it play when sound is off?* The person started the timer; an
+  alarm they asked for isn't a decorative sound. The crisis and support
+  screens' quiet still wins.
+- *Why the audio clock?* Background tabs can run timers a minute late;
+  audio scheduled ahead plays on time.
+- *What happened to "Sound when a block ends"?* The key stays and is
+  kept in step (D158).

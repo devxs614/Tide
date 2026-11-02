@@ -25,10 +25,12 @@ import { emitCompanion } from '@/lib/companion/bus';
 import { SIZES } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
-import { useSound } from '@/lib/sound/useSound';
 import { useAmbience } from '@/lib/sound/useAmbience';
 import { useWakeLock } from '@/lib/useWakeLock';
 import { getTask } from '@/lib/repo/taskQueries';
+import { focusAlertCopy } from '@/copy/focusAlertCopy';
+import { useFocusAlert } from './useFocusAlert';
+import { EndGlow } from './EndGlow';
 import { clearFocusRunning, markFocusRunning } from '@/lib/focusRunning';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
@@ -40,24 +42,19 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   const { openUnstick } = useUnstickSheet();
   const task = useLiveQuery(async () => (await getTask(taskId)) ?? null, [taskId]);
   const rewards = useLiveQuery(() => db.rewards.toArray(), []) ?? [];
-  const ruleMinutes = useLiveQuery(async () => {
-    const latest = await recentCheckIn(now());
-    return latest ? BY_STATE[latest.quadrant] : 10;
-  }, []);
+  const latestState = useLiveQuery(async () => (await recentCheckIn(now()))?.quadrant ?? null, []);
+  const ruleMinutes = latestState === undefined ? undefined : latestState ? BY_STATE[latestState] : 10;
   const [chosen, setChosen] = useState<FocusMinutes | null>(null);
   const [asking, setAsking] = useState(false);
   // A fixed length from Settings → Focus wins over the v1 rule ("auto").
   const fixed = settings['focus.defaultMinutes'] === 'auto' ? undefined : settings['focus.defaultMinutes'];
   const minutes = chosen ?? suggestedMinutes ?? recallSuggestion(taskId)?.output.focusMinutes ?? fixed ?? ruleMinutes ?? 10;
 
-  const play = useSound();
-  const endSound = settings['focus.endSound'];
-  const onFinish = useCallback(() => {
-    if (settings.vibration && typeof navigator !== 'undefined') navigator.vibrate?.([200, 100, 200]);
-    if (endSound) play('focus-end');
-    setAsking(true);
-  }, [settings.vibration, endSound, play]);
+  // The sound, vibration and tab signals at the end live in useFocusAlert
+  // (v2.1 F-06); this only opens the "how did it go?" question.
+  const onFinish = useCallback(() => setAsking(true), []);
   const timer = useFocusTimer(minutes, onFinish);
+  const endAlert = useFocusAlert({ phase: timer.phase, endsAt: timer.endsAt, remaining: timer.remaining, completed: timer.completed, taskTitle: task?.title ?? '' });
   useAmbience(timer.phase === 'running');
   useWakeLock(timer.phase === 'running' && settings['focus.keepAwake']);
   const celebrate = useCelebrate();
@@ -153,7 +150,9 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             <CompanionHost
               placement="focus"
               size={SIZES.lg}
-              base={timer.phase === 'finished' || !settings['focus.companionActivity'] ? 'idle' : 'focused'}
+              base={
+                endAlert.timesUp ? (latestState === 'ebb' ? 'soft' : 'proud') : timer.phase === 'finished' || !settings['focus.companionActivity'] ? 'idle' : 'focused'
+              }
               listens={['focusEnded']}
               openingLine="focus_start"
               bubble="left"
@@ -161,13 +160,25 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             />
           </div>
         )}
+        {endAlert.timesUp && <h2 className="text-h2 font-extrabold">{focusAlertCopy.timesUp}</h2>}
         {timer.phase === 'paused' && <p className="text-ink-soft">{copy.focus.paused}</p>}
+        {/* The heads-up before the end (v2.1 F-06), said once, politely. */}
+        <p aria-live="polite" className="text-ink-soft">
+          {endAlert.warning ?? ''}
+        </p>
         <p aria-live="polite" className="sr-only">
           {timer.phase === 'finished' && timer.completed ? copy.focus.finished : ''}
         </p>
         <div className="flex w-full max-w-xs flex-col gap-2">
           {timer.phase === 'ready' && (
-            <Button data-demo-id="focus-start" size="lg" onClick={timer.start}>
+            <Button
+              data-demo-id="focus-start"
+              size="lg"
+              onClick={() => {
+                endAlert.prime();
+                timer.start();
+              }}
+            >
               {copy.focus.start}
             </Button>
           )}
@@ -177,7 +188,13 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             </Button>
           )}
           {timer.phase === 'paused' && (
-            <Button size="lg" onClick={timer.resume}>
+            <Button
+              size="lg"
+              onClick={() => {
+                endAlert.prime();
+                timer.resume();
+              }}
+            >
               {copy.focus.resume}
             </Button>
           )}
@@ -189,6 +206,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
         </div>
       </div>
 
+      {endAlert.timesUp && <EndGlow />}
       <FocusOutcome
         open={asking}
         rewards={rewards.map((r) => r.text)}

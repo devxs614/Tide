@@ -2935,3 +2935,88 @@ Checks at this point:
 
 Next, in priority order: F-06 (focus end alert), F-07 (refocus nudges),
 F-09 (focus sounds), then F-08 (Back and Cancel everywhere).
+
+## F-06 — Focus timer end alert (before and after)
+2026-11-02, after midnight
+
+**Before.** In v2 the end of a focus block only made a sound if global
+sound was on, and that's off by default, so most people got silence. Plan
+(spec 10):
+- an end alert the person opts into by starting a timer;
+- the sound scheduled on the audio clock so a background tab can't make
+  it late;
+- a visual end, an optional notification, the tab's title and favicon,
+  and a heads-up before the end.
+
+Risks: the spec's table reuses the v2 key `focus.endSound` (a boolean)
+for the sound choice, which spec 3.3 forbids; and the tours run a focus
+block.
+
+**After.**
+- Settings → Focus:
+  - "When the timer ends": Sound and visual (default) / Visual only / Off,
+    with the help line saying why it plays when other sounds are off;
+  - "Sound": Chime, Bell, Marimba, Waves, Gentle rise (`focus.endTone`);
+  - "Alert volume" with "Test sound";
+  - "Repeat": Once / Up to 3 times until I respond;
+  - "Warning before the end": Off / 1 / 2 minutes;
+  - "Vibrate at the end";
+  - "Notify me if Tide is in the background", which asks the browser for
+    permission from the tap and says honestly that it can be a minute
+    late, with the iPhone note;
+  - "Show the time left in the browser tab".
+
+  v2's `focus.endSound` stays: "When the timer ends" keeps it in step,
+  and a v2 user who had turned it off keeps a silent end (D158).
+- `src/lib/focus/alertTones.ts` synthesizes Appendix C's recipes (chime,
+  bell, marimba, waves, rise, the warning and F-07's nudge).
+  `alertEngine.ts`:
+  - wakes its own AudioContext from the Start or Resume tap;
+  - schedules the end, and the repeats, on the audio clock behind the
+    spec's limiter;
+  - stops them on pause or an early end;
+  - plays at once if the context slept through the end.
+- `useFocusAlert` ties it to the timer, adding:
+  - vibration;
+  - "Time's up · Tide" alternating with the task in a hidden tab (still
+    at motion Off), plus a favicon with a dot, both reverted when Tide is
+    visible;
+  - the notification;
+  - "9:41 · Lab report · Tide" while running;
+  - "One minute left.";
+  - any key or tap afterwards stops a repeating alert.
+- The Focus screen shows "Time's up", the companion looks proud (soft
+  after an Ebb check-in), and a glow rises and fades twice (a still border
+  at motion Off). The timer now also checks the clock when the tab
+  becomes visible.
+- Presets: Low sensory gets a visual end with Gentle rise; Focused gets
+  the 1-minute warning; Playful gets Marimba; Calm gets Chime.
+
+**How I checked it.**
+- Engine tests with a fake AudioContext:
+  - the end is scheduled at the right audio time;
+  - pause stops both notes and resume schedules again at the new time;
+  - "repeat" plays at 0, 20 and 40 s, never more;
+  - a sound that already played is left alone;
+  - a suspended context is woken and the sound plays now.
+- Rule tests: v2's switch still silences the end, the warning lead, the
+  tab text, and the end time after a pause and resume.
+- Flow tests with the engine as spies and the clock moved by hand:
+  - a 5-minute block with sound off schedules its end sound;
+  - ending while hidden sets the tab title and favicon, plays once and
+    notifies once;
+  - coming back shows "How did it go?" and puts the tab back;
+  - the 1-minute warning;
+  - an early end plays nothing;
+  - a v2 user with the switch off schedules nothing.
+- The v1 focus tests pass unchanged.
+- Layout audit for Focus, the focus bubble and every Settings page: 480
+  state runs, 0 failures (`docs/audits/2026-11-01-f06.json`).
+- `/` is 298.6 KB. The pitch cut runs 28 of 28 steps.
+- Lint, typecheck, 496 tests and the v1 suite (164) are green.
+
+**Left open.** Hearing it is a person's job: a laptop with Tide in a
+background tab (Chrome and Edge), a phone with Tide in front, and the
+notification on a laptop and an installed Android app. Tide registers no
+service worker, so Android Chrome, which needs one for notifications, is
+a known gap (D160, TEAM_TODO).

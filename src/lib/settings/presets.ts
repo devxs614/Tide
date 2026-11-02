@@ -18,6 +18,7 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     'sound.enabled': false,
     'companion.talkativeness': 'some',
     'shore.sky': 'time',
+    'focus.endTone': 'chime',
   },
   lowSensory: {
     'appearance.theme': 'sandbar',
@@ -33,6 +34,9 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     'motion.shoreWaves': false,
     'appearance.density': 'comfortable',
     'appearance.roundness': 'soft',
+    // v2.1: a quiet end, and the softest sound for if they turn it on later.
+    'focus.endAlert': 'visual',
+    'focus.endTone': 'rise',
   },
   focused: {
     'appearance.theme': 'oceanBlue',
@@ -44,6 +48,7 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     // Only plays if sound is on.
     'sound.ambience': 'brown',
     'focus.keepAwake': true,
+    'focus.warnBeforeEnd': '1',
   },
   playful: {
     'appearance.theme': 'bubblegum',
@@ -55,6 +60,7 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     'sound.enabled': true,
     'sound.volume': 0.5,
     'companion.talkativeness': 'chatty',
+    'focus.endTone': 'marimba',
   },
   highContrast: {
     'appearance.followSystem': true,

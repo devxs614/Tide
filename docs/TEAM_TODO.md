@@ -167,6 +167,18 @@ up during the build. — Claude Code
   Completed and try a search. Why: this is what judges see first on the
   Tasks screen, and only a person can say whether it reads calm. *By Nov 3.*
 
+- [ ] **Hear the focus end alert (F-06).** Start a 5-minute block, switch
+  to another tab or app, and check that the chime plays on time on a
+  laptop (Chrome and Edge) and on a phone with Tide in front. Then turn on
+  "Notify me if Tide is in the background" and check the notification on
+  a laptop. Why: browsers treat background audio and notifications
+  differently, and tests can't hear. *By Nov 3.*
+- [ ] **Decide about a service worker (F-06).** Android Chrome only shows
+  notifications from a service worker, and Tide doesn't register one, so
+  the notification won't appear there (the sound and tab signals do). Why:
+  adding one changes how Tide caches pages, which deserves a decision
+  rather than a side effect. *Before release.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the
