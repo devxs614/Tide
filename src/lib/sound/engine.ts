@@ -3,10 +3,10 @@
 // celebrations, companion, ambience). Every sound is synthesized from the
 // recipes in sounds/, at most three play at once, and each one's loudness
 // is capped so nothing is loud even at 100%. It loads only when sound is on.
+// Background sounds moved to ambiencePlayer.ts in v2.1 (F-09).
 import { SOUNDS } from './sounds';
 import { hasUserGesture } from './gesture';
-import { makeAmbienceBuffer } from './ambience';
-import type { Ambience, SoundCategory, SoundName } from './names';
+import type { SoundCategory, SoundName } from './names';
 
 export interface SoundSettings {
   volume: number;
@@ -57,38 +57,4 @@ export function playSound(name: SoundName, settings: SoundSettings): void {
   window.setTimeout(() => {
     playing = Math.max(0, playing - 1);
   }, 1200);
-}
-
-// Ambience for focus and wind-down: a seamless 10-second loop that fades in
-// and out over 1.5 seconds, never starting or stopping abruptly.
-let ambience: { source: AudioBufferSourceNode; gain: GainNode; kind: Ambience } | null = null;
-const FADE = 1.5;
-
-export function startAmbience(kind: Exclude<Ambience, 'none'>, volume: number): void {
-  const context = audio();
-  if (!context) return;
-  if (ambience?.kind === kind) {
-    ambience.gain.gain.linearRampToValueAtTime(volume * 0.5, context.currentTime + FADE);
-    return;
-  }
-  stopAmbience();
-  const source = context.createBufferSource();
-  source.buffer = makeAmbienceBuffer(context, kind);
-  source.loop = true;
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(0.0001, context.currentTime);
-  gain.gain.linearRampToValueAtTime(volume * 0.5, context.currentTime + FADE);
-  source.connect(gain).connect(bus(context, 'ambience'));
-  source.start();
-  ambience = { source, gain, kind };
-}
-
-export function stopAmbience(): void {
-  if (!ambience || !ctx) return;
-  const { source, gain } = ambience;
-  gain.gain.cancelScheduledValues(ctx.currentTime);
-  gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + FADE);
-  source.stop(ctx.currentTime + FADE + 0.1);
-  ambience = null;
 }

@@ -54,6 +54,13 @@ Challenge Partner, most urgent first.
   They're off unless you turn them on (Settings → Focus, or "Focus
   options" on the Focus screen), never in the first or last 2 minutes,
   and never count anything back to you.
+- **F-09** Background sounds for focus and calm: white, pink and brown
+  noise, rain, ocean waves, a fan, a stream, and two binaural sounds (for
+  headphones). They're generated on the device and work offline. Start
+  one from "Sounds" on the Focus screen or from the Toolkit, choose how
+  long it plays (including "until focus ends", which goes quiet just
+  before the end chime), and control it from a small player while you
+  use the rest of Tide. Never loud, and never on the crisis screen.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

@@ -253,6 +253,24 @@ export const STATES: AuditState[] = [
     open: (page) => click(page, demo('focus-start')),
   },
   { id: 'bubble:today', route: '/', ws: 'demo' },
+  // v2.1 F-09: the Sounds sheet in Focus, and the mini player on Today
+  // (a sound started in the Toolkit, then the Today tab).
+  {
+    id: 'sheet:ambience',
+    route: async (page) => `/focus/${await firstTaskId(page)}`,
+    ws: 'demo',
+    open: (page) => click(page, demo('focus-sounds')),
+  },
+  {
+    id: 'mini:ambience',
+    route: '/toolkit',
+    ws: 'demo',
+    open: async (page) => {
+      await click(page, demo('ambience-rain'));
+      await click(page, 'nav a[href="/"]');
+      await page.locator('section[aria-label="Background sound"]').waitFor({ timeout: 8000 });
+    },
+  },
   // v2.1 F-07: a 25-minute block, then 11 minutes pass at once (Playwright's
   // clock, so the app's own live data notices) and the 10-minute nudge comes
   // up; and the one-time hint at the "⋯" menu.

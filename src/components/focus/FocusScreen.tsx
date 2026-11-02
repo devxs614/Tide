@@ -35,6 +35,11 @@ import { useNudges } from './useNudges';
 import { NudgeCard } from './NudgeCard';
 import { BreakPanel } from './BreakPanel';
 import { FocusCoach, FocusMenu } from './FocusMenu';
+import { Headphones } from 'lucide-react';
+import { ambienceCopy } from '@/copy/ambienceCopy';
+import { useAmbienceState } from '@/lib/sound/ambienceState';
+import { AmbienceSheet } from '@/components/ambience/AmbienceSheet';
+import { useAmbienceFocusEnd } from '@/components/ambience/useAmbienceFocusEnd';
 import { MINUTE } from '@/lib/time';
 import { clearFocusRunning, markFocusRunning } from '@/lib/focusRunning';
 
@@ -69,6 +74,11 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
     pause: timer.pause,
     resume: timer.resume,
   });
+  // v2.1 F-09: a background sound chosen here; "until focus ends" fades out
+  // before the end alert.
+  const [soundsOpen, setSoundsOpen] = useState(false);
+  const ambience = useAmbienceState();
+  useAmbienceFocusEnd(timer.phase, timer.endsAt);
   // v2.1 F-07: the first block of 15 minutes or more points at the nudges
   // toggle, once ever.
   const [coach, setCoach] = useState(false);
@@ -225,6 +235,12 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
               {copy.focus.resume}
             </Button>
           )}
+          {/* The ambience player (v2.1 F-09); the button names the sound
+              that's playing. */}
+          <Button variant="secondary" onClick={() => setSoundsOpen(true)} data-demo-id="focus-sounds">
+            <Headphones aria-hidden />
+            {ambience.sound && !ambience.paused ? ambienceCopy.names[ambience.sound] : ambienceCopy.sounds}
+          </Button>
           {(timer.phase === 'running' || timer.phase === 'paused') && (
             <Button variant="quiet" onClick={end}>
               {copy.focus.endEarly}
@@ -234,6 +250,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
       </div>
 
       {endAlert.timesUp && <EndGlow />}
+      <AmbienceSheet open={soundsOpen} onOpenChange={setSoundsOpen} />
       {nudges.card && !asking && (
         <NudgeCard
           kind={nudges.card}

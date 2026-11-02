@@ -3104,3 +3104,74 @@ Default: off, so nothing changes from v2 unless someone turns it on.
 - One flow test hid the page outside `act()`, so React hadn't saved "when
   it was hidden" before the page came back. The test was wrong, not the
   hook.
+
+## F-09 — Focus sounds: noise, rain, waves, binaural (before and after)
+2026-11-02
+
+**Before.** Many neurodivergent students focus or calm down with noise or
+rain in their ears. v2 had three background sounds that played only during
+focus and only with sound turned on. Plan:
+- one ambience player with Appendix C's nine generated sounds, built on
+  v2's ambience code, not next to it;
+- a tiny state store so the shell's mini player costs Today almost
+  nothing;
+- the Sounds sheet in Focus and a section in the Toolkit;
+- "Until focus ends" fading before the end alert;
+- the crisis screen stops it.
+
+Risk: `/` was at 298.8 KB.
+
+**After.**
+- `src/lib/sound/ambience.ts` renders the 10-second loops. Waves, rain
+  and brown are v2's code, unchanged; white, pink (Kellet's filter), fan
+  and stream are new.
+- `ambiencePlayer.ts` replaces the ambience in v2's `engine.ts`:
+  - one sound at a time, 1.5-second fades and crossfades;
+  - a limiter and a soft maximum (the player's 100% is half of full
+    scale);
+  - "Play for" fades out over 5 seconds on the audio clock;
+  - Media Session metadata and play, pause and stop handlers;
+  - binaural is two oscillators panned hard left and right (200/214 Hz,
+    180/186 Hz) over a quiet noise bed.
+- The crisis and support screens' quiet hold now tells listeners, so a
+  playing sound fades out at once and can't start there.
+- Settings remember the last sound, the volume and "Play for"
+  (`ambience.*`), but nothing ever starts on its own.
+- v2's `sound.ambience` still plays during focus and wind-down when sound
+  is on (now through the player), and it's the sound preselected in the
+  player. A sound picked in the player wins and isn't stopped by that
+  path (D170).
+- Screens:
+  - **Focus:** a "Sounds" button (headphones) that shows the playing
+    sound's name, opening a sheet with the tiles, volume, "Play for"
+    (with "Until focus ends") and Stop.
+  - **Toolkit:** a "Background sounds" section at the top. It's not a
+    strategy, so nothing is saved as a strategy use.
+  - **Mini player:** elsewhere, a mini player above the bottom bar shows
+    "Rain · playing" with Pause or Play, Stop and Hide.
+  - **Binaural tiles:** "Use headphones at a low volume." and the factual
+    note that research is mixed.
+- "Until focus ends" ramps to silence half a second before the block
+  ends, so the end alert (F-06) is heard on its own.
+
+**How I checked it.**
+- Player tests on a fake AudioContext (`src/test/fakeAudioContext.ts`,
+  shared):
+  - all nine sounds build;
+  - binaural pitches and panning;
+  - the volume cap;
+  - Stop fades over 1.5 s;
+  - "until focus ends" reaches silence at end − 0.5 s;
+  - the crisis hold stops it and refuses a new start.
+- Flow test: open Sounds in Focus, pick Rain, start the block; Today's
+  mini player says "Rain · playing"; its Stop ends it.
+- Layout audit for Toolkit, the Sounds sheet, the mini player on Today,
+  Focus and Today: 192 state runs, 0 failures. At 130% the mini player
+  wraps to two rows, so it now has card corners instead of a pill's.
+- Both tours: Pitch cut 28/28 in 80 s, Full tour 45/45 in 134 s, no AI.
+- `/` is 299.1 KB (the shell only carries the small state store).
+- Lint, typecheck, 513 tests and the v1 suite (164) are green.
+
+**Left open.** Hearing them is a person's job: does each sound loop
+without a click, is the volume comfortable, and does a phone keep playing
+with the screen locked? The note in the player says it may stop.

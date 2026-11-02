@@ -10,11 +10,14 @@ import type { Settings } from '@/lib/types';
 import type { SoundName } from './names';
 
 let quiet = 0;
+const quietListeners = new Set<() => void>();
 
 // The crisis screen and the support page call this while they're open:
-// no playful sound there, ever.
+// no playful sound there, ever. Since v2.1 (F-09) a background sound that
+// is already playing is told too, so it can fade out at once.
 export function holdQuiet(): () => void {
   quiet += 1;
+  quietListeners.forEach((l) => l());
   return () => {
     quiet = Math.max(0, quiet - 1);
   };
@@ -22,6 +25,11 @@ export function holdQuiet(): () => void {
 
 export function isQuiet(): boolean {
   return quiet > 0;
+}
+
+export function onQuiet(listener: () => void): () => void {
+  quietListeners.add(listener);
+  return () => quietListeners.delete(listener);
 }
 
 export function soundSettingsFrom(settings: Settings) {

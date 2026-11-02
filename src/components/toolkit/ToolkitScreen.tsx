@@ -20,6 +20,8 @@ import { FAMILY_ICONS } from './familyIcons';
 import { StrategyCard } from './StrategyCard';
 import { QuadrantDot } from '@/components/ui/QuadrantDot';
 import { ScreenSkeleton } from '@/components/ui/skeleton';
+import { ambienceCopy } from '@/copy/ambienceCopy';
+import { AmbienceControls } from '@/components/ambience/AmbienceControls';
 
 const href = (id: string) => `/toolkit/${id}?context=toolkit`;
 
@@ -59,6 +61,15 @@ export function ToolkitScreen() {
           </Button>
         )}
       </div>
+
+      {/* v2.1 F-09: background sounds, right here. Not a strategy: nothing
+          is saved as a strategy use. */}
+      <section aria-labelledby="sounds-heading" className="flex flex-col gap-3">
+        <h2 id="sounds-heading" className="text-h3 font-bold">
+          {ambienceCopy.backgroundSounds}
+        </h2>
+        <AmbienceControls />
+      </section>
 
       {worksForYou.length > 0 && (
         <section aria-labelledby="works-heading" className="flex flex-col gap-3">

@@ -65,7 +65,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
   {
     id: 'sound',
     entries: [
-      { kind: 'custom', id: 'sound', label: copy.sound.title, keys: ['sound.enabled', 'sound.volume', 'sound.ui', 'sound.celebrations', 'sound.companion', 'sound.ambience', 'haptics.enabled', 'vibration'], keywords: ['sound', 'audio', 'mute', 'vibrate', 'vibration', 'haptics', 'rain', 'brown noise', 'ambience'] },
+      { kind: 'custom', id: 'sound', label: copy.sound.title, keys: ['sound.enabled', 'sound.volume', 'sound.ui', 'sound.celebrations', 'sound.companion', 'sound.ambience', 'haptics.enabled', 'vibration'], keywords: ['sound', 'audio', 'mute', 'vibrate', 'vibration', 'haptics', 'rain', 'brown noise', 'ambience', 'white noise', 'binaural', 'background sounds'] },
       { kind: 'choice', key: 'sound.ambienceVolume', label: L.ambienceVolume, numeric: true, options: ['0.1', '0.3', '0.5', '0.8'].map((v) => ({ value: v, label: `${Math.round(Number(v) * 100)}%` })), keywords: ['background volume'] },
     ],
   },

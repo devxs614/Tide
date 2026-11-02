@@ -186,6 +186,13 @@ up during the build. — Claude Code
   feels kind is a human judgment, and it's off by default until we're
   sure. *By Nov 3.*
 
+- [ ] **Listen to the nine background sounds (F-09).** With headphones, play
+  each one for half a minute from the Toolkit. Check that none clicks
+  where it loops, none is too loud at 100%, and the binaural ones sound
+  different in each ear. On a phone, start Rain and lock the screen to
+  see whether it keeps playing. Why: only ears can judge sound, and
+  phones differ. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

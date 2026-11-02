@@ -19,6 +19,7 @@ import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { useTaskSheet } from '@/lib/taskSheets';
 import { useEventSheet } from '@/lib/eventSheets';
 import { DAY } from '@/lib/time';
+import { useAmbienceState } from '@/lib/sound/ambienceState';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
@@ -37,6 +38,8 @@ const DayModeSheet = dynamic(
 const TaskSheets = dynamic(() => import('@/components/tasks/TaskSheets').then((m) => m.TaskSheets), { ssr: false });
 // The same for an event's details, edit and delete (v2.1 F-04).
 const EventSheets = dynamic(() => import('@/components/events/EventSheets').then((m) => m.EventSheets), { ssr: false });
+// The background-sound mini player (v2.1 F-09) loads once a sound is on.
+const AmbienceMini = dynamic(() => import('@/components/ambience/AmbienceMini').then((m) => m.AmbienceMini), { ssr: false });
 // Keyboard shortcuts only matter once someone presses a key, so their code
 // loads right after the page instead of with it (`/` sits at its budget).
 const KeyboardShortcuts = dynamic(() => import('./KeyboardShortcuts').then((m) => m.KeyboardShortcuts), { ssr: false });
@@ -91,6 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { settings, loaded } = useSettings();
+  const ambience = useAmbienceState();
   const wide = pathname.startsWith('/tasks');
 
   // First visit goes to onboarding. Nothing renders until settings have
@@ -121,6 +125,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
   // Someone who finished v1 onboarding and hasn't met the companions yet.
   // Never during the demo, which runs its own scripted tour.
+  // Focus and the Toolkit have the full player on screen.
+  const showMiniPlayer = !!ambience.sound && !pathname.startsWith('/focus') && !pathname.startsWith('/toolkit');
   const showWhatsNew = !settings.demoMode && settings['companion.species'] === null && !settings['whatsNew.seen'];
 
   return (
@@ -147,6 +153,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           wide && 'lg:max-w-[1100px]',
         )}
       >
+        {showMiniPlayer && <AmbienceMini />}
         <CheckInFab />
         <TabBar />
       </div>

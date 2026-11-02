@@ -1194,3 +1194,34 @@ when nudges were on, and nothing reads them in v2.1. A possible future
 pattern: "blocks with a 10-minute nudge more often end with Got going".
 That would need enough blocks with and without nudges to say so
 honestly, so it's not built.
+
+**D170 — 2026-11-02 — One ambience player; v2's focus sound goes through it.**
+v2's `sound.ambience` played a sound during focus and wind-down when
+sound was on. That still happens, now through the new player, so there's
+never a second sound on top. The same setting is the sound preselected
+in the player. A sound the person picked in the player is theirs: the v2
+path neither replaces nor stops it. Rejected: dropping v2's automatic
+sound, which would change v2 behavior for people who set it.
+
+**D171 — 2026-11-02 — Noise sounds are pre-rendered loops; binaural tones are live.**
+Appendix C allows looped buffers. Seven sounds render once into a
+10-second buffer with the loop crossfaded, as v2's three did. The two
+binaural sounds use live oscillators, each panned hard left or right, so
+the pitches are exact and the tones never click at a loop point.
+
+**D172 — 2026-11-02 — The mini player sits above the bottom bar, right side.**
+It's part of the bottom chrome, so it never covers the Check in button
+and the page's bottom padding keeps content reachable underneath. It
+doesn't show on Focus or the Toolkit, which have the full player. Hide
+lasts until a different sound starts.
+
+**D173 — 2026-11-02 — Tapping the playing tile stops it.**
+"Tap to play or switch" leaves open what tapping the playing sound does.
+Stopping it is what a person reaching for that tile most likely wants;
+Stop is also a separate button.
+
+**D174 — 2026-11-02 — "Until focus ends" goes silent half a second early.**
+The fade is scheduled on the audio clock, like the end alert, and reaches
+silence at the block's end minus 0.5 s. That way the chime starts into
+quiet even in a slow background tab. A pause cancels the fade, and a
+resume schedules it again.

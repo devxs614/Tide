@@ -1296,3 +1296,29 @@ sound if Tide stays hidden. Off by default.
   "Stop nudges for this block" on every card, and off by default.
 - *Is anything counted against the person?* No. The counts go into the
   focus block for a possible future pattern and are never shown.
+
+## Background sounds (v2.1 F-09)
+
+**What it does.** A player for nine generated sounds (noise, rain, waves,
+fan, stream, binaural), from Focus and the Toolkit, with a mini player
+elsewhere. One sound at a time, never loud, never on the crisis screen.
+
+**Files.**
+- `src/lib/sound/ambience.ts`: renders the 10-second loops (v2's three
+  unchanged, four new).
+- `src/lib/sound/ambiencePlayer.ts`: the audio graph, fades, "Play for",
+  "until focus ends", Media Session, and the crisis stop (through
+  `onQuiet` in `useSound.ts`).
+- `src/lib/sound/ambienceState.ts`: what's playing, as a tiny store the
+  shell can read without loading audio code.
+- `components/ambience/`: `AmbienceControls` (shared), `AmbienceSheet`
+  (Focus), `AmbienceMini` (the shell's mini player),
+  `useAmbienceFocusEnd`.
+
+**Likely reviewer questions**
+- *Why does it play when sound is off?* Starting a background sound is
+  an explicit choice; "sound" in Settings is about interface sounds.
+- *Are binaural beats medical?* No. The copy is factual ("research
+  results are mixed") and makes no claims.
+- *Will it keep playing with the phone locked?* Maybe. Browsers decide,
+  and the player says so.

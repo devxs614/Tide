@@ -3,6 +3,7 @@
 // the repo functions in lib/repo/ are typed against them.
 import type { ThemeId } from './theme/themes';
 import type { AccessoryId, CompanionSpecies, Placement } from './companion/registry';
+import type { AmbienceId } from './sound/names';
 
 export type Quadrant = 'surge' | 'swell' | 'ebb' | 'still';
 export type CommunicationMode = 'gentle' | 'direct' | 'literal';
@@ -382,6 +383,11 @@ export interface Settings {
   'focus.nudgeOnReturn': boolean;
   'focus.nudgeHiddenAfter': 'off' | '1' | '2' | '5';
   'focus.nudgeCoachSeen': boolean;
+  // v2.1 F-09: the ambience player remembers the last sound and volume, but
+  // never starts on its own. `sound.ambience` (v2) is the focus default.
+  'ambience.lastSound': AmbienceId | null;
+  'ambience.volume': number;
+  'ambience.playFor': 'until_stop' | 'focus_end' | '15' | '30' | '60';
   // Desktop keyboard shortcuts (v2 spec 17.1); never while typing.
   'shortcuts.enabled': boolean;
   // "Not tonight" / "Not now" on Today's evening and morning cards hide
