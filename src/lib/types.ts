@@ -63,6 +63,13 @@ export interface Task {
   startedAt?: number;
   doneAt?: number;
   order: number; // ordering within its column
+  // v2.1 (spec 21.1), all optional: deleted (hidden everywhere, undoable for
+  // a few seconds), history removal asked for, last edit, and cleared from
+  // the Done column by "Clear" (still in Completed).
+  deletedAt?: number;
+  purgeRequested?: boolean;
+  updatedAt?: number;
+  clearedAt?: number;
 }
 
 export interface CalendarEvent {
@@ -73,6 +80,26 @@ export interface CalendarEvent {
   end: number;
   place?: string;
   prep?: string[];
+  // v2.1: deleted (soft), the weekly series it belongs to, changed on its
+  // own ("only this event"), last edit.
+  deletedAt?: number;
+  seriesId?: string;
+  detached?: boolean;
+  updatedAt?: number;
+}
+
+// A weekly repeating event (v2.1 F-04/F-10). The instances are real event
+// rows, so every v1/v2 consumer keeps working; this row says what they share.
+export interface EventSeries {
+  id: string;
+  title: string;
+  kind: EventKind;
+  days: number[]; // 0 = Sunday … 6 = Saturday
+  startHHMM: string;
+  endHHMM: string;
+  place?: string;
+  prep?: string[];
+  until: string; // 'YYYY-MM-DD', the last day it repeats
 }
 
 export interface FocusBlock {
@@ -82,6 +109,14 @@ export interface FocusBlock {
   minutes: FocusMinutes;
   completed: boolean; // the timer reached the end (vs ended early)
   outcome?: FocusOutcome;
+  // v2.1, for patterns later (not used by the engine yet): refocus nudges
+  // shown, "I drifted" taps, time the tab was hidden, 2-minute breaks, and
+  // how the block ended.
+  nudgesShown?: number;
+  driftsReported?: number;
+  hiddenMs?: number;
+  breaks?: number;
+  endedBy?: 'timer' | 'early' | 'end' | 'deleted';
 }
 
 export interface StrategyUse {
@@ -93,6 +128,9 @@ export interface StrategyUse {
   taskId?: string;
   transitionId?: string;
   result?: RecheckResult;
+  // v2.1 F-08: stopped with Cancel after the first 15 seconds. Kept so the
+  // history is honest; every pattern rule ignores it.
+  cancelled?: boolean;
 }
 
 export interface Transition {

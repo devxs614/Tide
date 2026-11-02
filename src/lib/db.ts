@@ -10,6 +10,7 @@ import type {
   DayWrap,
   DayPlan,
   DismissedPattern,
+  EventSeries,
   FocusBlock,
   Reward,
   StrategyUse,
@@ -18,6 +19,7 @@ import type {
   Win,
 } from './types';
 import { currentWorkspace } from './workspace';
+import { groupEventsIntoSeries } from './events/series';
 
 export interface SettingRow {
   key: string;
@@ -38,6 +40,7 @@ export class TideDB extends Dexie {
   settings!: Table<SettingRow, string>;
   dayWraps!: Table<DayWrap, string>;
   bottles!: Table<Bottle, string>;
+  eventSeries!: Table<EventSeries, string>;
 
   // The name lets the demo workspace (and tests) open a separate database
   // with the same shape; the app's own data is always 'tide'.
@@ -83,6 +86,28 @@ export class TideDB extends Dexie {
             if (task) w.meta = { taskType: task.type, energyCost: task.energyCost };
           });
       });
+    // v2.1 (spec 21.1): deleted and cleared tasks, weekly event series.
+    // Additive only: the two changed tables restate their full v2 index
+    // lists plus the new ones. Existing weekly events are grouped into
+    // series, so "delete all Physics events" works on data from before v2.1.
+    this.version(3)
+      .stores({
+        tasks: 'id, status, type, due, order, someday, snoozedUntil, anchorDate, deletedAt, clearedAt',
+        events: 'id, start, kind, seriesId, deletedAt',
+        eventSeries: 'id, title',
+      })
+      .upgrade(async (tx) => {
+        const events = await tx.table<CalendarEvent, string>('events').toArray();
+        const { series, assignments } = groupEventsIntoSeries(events);
+        await tx.table<EventSeries, string>('eventSeries').bulkPut(series);
+        await tx
+          .table<CalendarEvent, string>('events')
+          .toCollection()
+          .modify((e) => {
+            const id = assignments.get(e.id);
+            if (id) e.seriesId = id;
+          });
+      });
   }
 }
 
@@ -112,5 +137,7 @@ export function dataTables() {
     // her export and "Delete everything" removes them.
     db.dayWraps,
     db.bottles,
+    // v2.1: weekly event series.
+    db.eventSeries,
   ];
 }

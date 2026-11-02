@@ -2665,3 +2665,34 @@ button's label moving into a pill (D138), the Tide Line's 5em time column
 and a separate row for "Now", the Focus timer's clamp, and a measured
 `--tabbar-h` (D137). Real phones at their largest OS text size are in
 TEAM_TODO.
+
+## R2.4 — Dexie version 3 (before and after)
+2026-11-01
+
+**Before.** F-03 to F-05 need new, optional data: deleted, cleared and
+edited tasks; deleted, detached and edited events; weekly event series;
+cancelled strategy uses; and a few focus-block counters for later. All of
+it must be additive: v2's rows keep their meaning and the planted pattern
+numbers can't move. The risk: the team's own browser (their dev server
+runs from this folder) moves to version 3 as soon as this lands, and v2
+code can't open a version 3 database, so the upgrade has to be right the
+first time.
+
+**After.** `version(3)` restates only the two changed tables (tasks and
+events, with their full v2 index lists plus `deletedAt`/`clearedAt` and
+`seriesId`/`deletedAt`) and adds `eventSeries`. The upgrade groups
+existing events into weekly series with `groupEventsIntoSeries`
+(`src/lib/events/series.ts`): same title, kind, start time and length,
+on any set of weekdays (D140). The demo seed applies the same grouping,
+because a database created fresh at version 3 never runs the upgrade.
+`eventSeries` is in `dataTables()`, so export, import and "Delete
+everything" include it; older backups without it still import.
+
+How I checked it: a new test builds a v2-shaped database with the whole
+demo seed, opens it with the version 3 class, and finds every check-in,
+focus block, strategy use and transition identical, events identical
+apart from their new `seriesId`, exactly six series (Calculus and
+Chemistry lab on Tue/Thu, Groceries on Sat, the library job on Mon/Wed,
+Physics and Programming on Mon/Wed/Fri), and no second upgrade on
+reopening. The v2 upgrade test now accepts "version 2 or later". Lint,
+typecheck, 458 tests and the v1 suite (164) are green.

@@ -38,7 +38,8 @@ describe('Dexie v1 → v2', () => {
 
     const v2 = new TideDB(name);
     await v2.open();
-    expect(v2.verno).toBe(2);
+    // Later versions (v2.1's version 3) build on this one.
+    expect(v2.verno).toBeGreaterThanOrEqual(2);
     expect(await v2.tasks.count()).toBe(1);
     expect(await v2.checkins.count()).toBe(1);
     const wins = await v2.wins.orderBy('ts').toArray();

@@ -6,6 +6,7 @@ import { db, dataTables } from '../db';
 import { DEMO_START, demoClockAt } from '../clock';
 import { buildDemoData } from '@/data/demo/seed';
 import { clearData } from './data';
+import { withSeries } from '../events/series';
 import { setSettings } from './settings';
 import { currentWorkspace } from '../workspace';
 import { DEMO_BOTTLE, DEMO_SETTINGS_V2, demoDayWraps } from '@/data/demo/seedV2';
@@ -22,7 +23,11 @@ export async function loadDemoData(clockBase: number = DEMO_START): Promise<void
     await Promise.all(dataTables().map((t) => t.clear()));
     await db.checkins.bulkAdd(data.checkins);
     await db.tasks.bulkAdd(data.tasks);
-    await db.events.bulkAdd(data.events);
+    // Weekly classes become series here too: a demo database is created at
+    // version 3, so the upgrade that groups old events never runs for it.
+    const grouped = withSeries(data.events);
+    await db.events.bulkAdd(grouped.events);
+    await db.eventSeries.bulkAdd(grouped.series);
     await db.focusBlocks.bulkAdd(data.focusBlocks);
     await db.strategyUses.bulkAdd(data.strategyUses);
     await db.transitions.bulkAdd(data.transitions);

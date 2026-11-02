@@ -991,3 +991,11 @@ other early-paint preferences, so there's no flash). Sticky panels other
 than the bars (Settings' Live Preview, the Tasks toolbar) stop being
 sticky there and on screens shorter than 700px; the Live Preview also
 starts folded. The demo controls fold three toggles behind "More controls".
+
+**D140 — 2026-11-01 — How existing events become series.**
+Events with the same title, kind, start time (local HH:MM) and length
+form one series, on whatever weekdays they fall (one Physics series for
+Mon/Wed/Fri at 9:00). The id is a short FNV-1a hash of that key plus the
+weekday set, so it's the same on every device. A single event stays
+alone. Rejected: one series per weekday, which would make "all Physics
+events" three separate deletes.
