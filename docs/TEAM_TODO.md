@@ -133,6 +133,20 @@ up during the build. — Claude Code
 - [ ] Turn the Wi-Fi off with Tide open and check in: the "Offline" note
   should appear and the suggestions should be the built-in ones. *By Nov 4.*
 
+## Tuesday's partner meeting (Nov 3)
+- [ ] **Bring the notes from the v2.1 spec, Appendix F**: what we fixed,
+  what's new, and the six questions (nudges on or off by default, which
+  end sound, month view or day view, companions for 18–24 and 3D,
+  finished tasks, anything still overwhelming). Why: the answers decide
+  v2.2. *By Nov 3.*
+- [ ] **Show the 3D roadmap note** (`docs/roadmap/3d-companions.md` on the
+  `explore/3d-companions` branch) only if the partner asks about 3D. *By
+  Nov 3.*
+- [ ] **Fill in "Partner feedback, Nov 1 list"** in
+  `docs/research-to-design.md`: which items came from the partner and
+  which from our own testing. Why: I left that column blank instead of
+  guessing. *By Nov 4.*
+
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
 - [ ] **Check Settings, Check-in and Today on a real iPhone and a real
   Android phone** at the phone's largest standard text size plus Tide at

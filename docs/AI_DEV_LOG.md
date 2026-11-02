@@ -3650,3 +3650,94 @@ deleted with its history kept, the Shore back on "auto", the theme back
 to Lagoon. A new test covers the nudge cue. Lint, typecheck, 568 tests
 and v1 (33 files, 164 tests, including the v1 pitch path) are green; `/`
 is still 299.5 KB.
+
+## After R7 — Acceptance, definition of done, and where Tide stands
+2026-11-02
+
+**Final audit.** Every screen and open state on the production build, in
+headless Chrome, with an empty allow list (nothing excused):
+- the full matrix, 6 widths (320 to 1280px) × 4 text sizes (100 to 150%):
+  1,848 state runs, **0 failures** (`docs/audits/2026-11-02-final.json`,
+  21 minutes);
+- 200% zoom (640px at 130%): 77 runs, 0 failures;
+- Hyperlegible + bold text at 360 and 390px, 130 and 150%: 308 runs, 0
+  failures.
+
+The audit also warns (not fails) about controls under 44px: 1,415 in the
+matrix. I listed them at 390px and 100%: 78 warnings, all at least 24×24
+px, so they meet WCAG 2.2 AA's target size. Most are the settings
+switches (52×34) and the checkboxes in Completed and Privacy (26×26),
+which sit in labeled rows like the rest of v1 and v2; two are inline text
+links ("See your proof log", "Open the demo workspace without the
+tour", 27px tall), and one is the checkbox that adds a name to the
+shore image. Our own rule asks for 48px targets. The pattern predates
+v2.1 (the new switches and checkboxes follow it), so making those rows
+fully tappable is an open polish item for v2.2, not a v2.1 regression.
+
+**Acceptance table (spec 23, step 23).**
+
+| Item | Acceptance (spec 2) | How I verified it | Status |
+|---|---|---|---|
+| F-01 | The bubble always shows its full text, never clipped or covered, at any text size, in any placement | Tests: the bubble portals out of clipping and transformed boxes, stays inside sheets, one at a time, Close and Escape. Bubble audit states and every full audit since: 0 failures | Done |
+| F-02 | Every screen works at 115%, 130% and 150% text, 320–1280px, with no overlap, clipping or sideways scroll | Full audit matrix (6 widths × 4 text sizes): 0 failures on Nov 1 and in the final run; Hyperlegible + bold, Lexend + spacing + dark, 200% zoom and WCAG text-spacing runs: 0 | Done; real phones in TEAM_TODO |
+| F-03 | Edit and delete tasks everywhere, with Undo and an option to remove history | Repo tests (edit, soft delete, Undo, purge only that task's records, pending purges at start-up); flow tests (edit from the board, delete with Undo, delete with history gone after 10 s, a running focus block ends); the tour step | Done; phone check in TEAM_TODO |
+| F-04 | Edit and delete events, with "this one / this and future / all" for repeating ones; the Bridge reflects it | 8 repo tests; flow tests; the v3 upgrade groups old weekly events into series (`dbUpgradeV3.test.ts`); a deleted class never brings up the Bridge | Done; phone check in TEAM_TODO |
+| F-05 | Done leaves the board after 24 h (adjustable), plus Completed and "Clear done now" | Window tests (every edge, "forever"); Clear, Undo and moving back with wins intact; the 30-day cleanup; the demo board shows only the last day | Done |
+| F-06 | A reliable end alert (sound, visual, optional notification), also in a background tab | Engine tests on a fake AudioContext (audio-clock timing, pause and resume, repeat at most three times, a suspended context woken); flow tests (ending while hidden sets the tab title and icon, plays once and notifies once; the 1-minute warning; an early end plays nothing) | Done; hearing it on real devices in TEAM_TODO |
+| F-07 | Optional "Earth to {name}" during focus and on returning, with caps and kind copy | Rule tests (edges, spacing, cap of 6); flow tests (10 and 20 min, "I drifted", the break, "Welcome back", off by default); the tour's cue | Done |
+| F-08 | Back and Cancel in every flow; browser back closes sheets; data kept | Flow tests (check-in Back keeps words and picks with no second AI call; browser back closes the check-in; Unstick Back; box breathing cancelled at 5 s and 20 s; cancelled uses never reach patterns); two back-to-close tests; a static check of 14 Backs and 4 Cancels; real-browser checks; both tours twice | Done; Android Back in TEAM_TODO |
+| F-09 | An ambience player in Focus and Toolkit, 9 generated sounds, volume and timer | Player tests on a fake AudioContext (all nine build, binaural pitches and panning, the volume cap, the fade on Stop, silence before the block ends, the crisis hold); a flow test from Focus to Today's mini player; audit states for the sheet and mini player | Done; listening check in TEAM_TODO |
+| F-10 | Month view, any-day view, add and edit on any date, weekly repeats | Grid tests for every month of 2026, both week starts, leap years; repeat caps; flow tests on the demo afternoon; the tour step | Done |
+| F-11 | Curated looks with previews, "Surprise me" and "Back to my look" | Rule tests (the snapshot holds only look keys; a stable daily shuffle; seven different surprises); flow tests (try, next, Back restores exactly; keep; Surprise me; leaving keeps the look); the tour step. Eight looks, as in spec 15.2 | Done |
+| F-12 | A time-of-day picker on the Shore | Sky tests (five skies, a reflection only at sunset, stars at night, the sun and pose per scene; v2's own unchanged); screenshots at night and sunset; audit at night and sunset with the menu open; the tour step | Done |
+| F-13 | An interactive, configurable count back | Rule tests (v2's sequence for 7 from 100, every start and step); flow tests (93 after 100, a near miss shows "Close"); v1's "I'm done" test unchanged | Done |
+| F-14 | The axolotl's details show on the Shore as elsewhere | Screenshots at 3× (six gills on the Shore); companion tests; the real cause found and fixed in F-15 | Done; the meaning of "escamas externas" to confirm (TEAM_TODO) |
+| F-15 | A recognizable sand dollar | Screenshots on the Shore and in the Collection; `ItemArt.test.tsx`; Shore audit 0 failures | Done; over the 30 minutes while fixing the shared cause (logged) |
+| F-16 | A roadmap note on its own branch, no 3D code | `explore/3d-companions` holds only `docs/roadmap/3d-companions.md`, never merged | Done (after the merge) |
+
+**Definition of done (spec 24).**
+- [x] P0: bubble readable; zero audit failures across the matrix; tasks
+  and events edited and deleted with Undo; Done after 24 hours with an
+  archive and "Clear done now".
+- [x] P1: the end alert with default settings, in background tabs, with
+  optional notification and heads-up; nudges off by default with caps;
+  Back and Cancel everywhere; nine sounds with a player and mini player.
+- [x] P2: calendar, eight looks, the Shore's time of day, count back 2–7
+  with two ways to answer.
+- [x] P3: the axolotl's gills on the Shore; the sand dollar.
+- [x] F-16: the roadmap note on its own branch.
+- [x] Nothing broke: lint, typecheck, 568 tests (99 files, the dictation freeze
+  test among them), v1 (33 files, 164 tests, the v1 pitch path among
+  them), the demo reference and seed tests (seed patterns unchanged), and
+  both tours twice in a row at 1× and 2×. `/` is 299.5 KB of 300.
+- [x] Data: Dexie version 3, additive, with the upgrade tested
+  (`dbUpgradeV3.test.ts`); export and import read every table, so the new
+  `eventSeries` table is included (round-trip test).
+- [x] Docs and logs (21.5); TEAM_TODO lists the manual checks and the
+  Tuesday prep; progress reports for Nov 1 and Nov 2.
+- [x] Merged into `main` and tagged `v2.1.0` (below). Not pushed: the team
+  asked to be asked first.
+
+## Where Tide stands after v2.1
+
+v2.1 took the list from the Challenge Partner meeting and worked through
+it in the spec's order. The urgent fixes are in: the companion's bubble
+is always readable, every screen holds up at large text sizes, and tasks
+and events can be edited and deleted with Undo. Focus got the most new
+things: an end alert you notice, optional check-ins, and nine background
+sounds. Every flow has Back and Cancel, and the phone's Back button
+closes the open sheet. There's a month calendar, eight looks to try, a
+time-of-day picker on the Shore, and an adjustable count back. Lolo has
+its gills on the Shore again, and the sand dollar looks like one.
+
+What I'm least sure of is what only people can check: the end alert and
+the sounds on real phones and laptops, Android's Back gesture, large text
+on a real iPhone and Android phone, and whether "escamas externas" meant
+the gills. Those are in TEAM_TODO with dates. The 3D question goes to the
+partner on Tuesday with a roadmap note, and nothing 3D was built.
+
+The first load for Today is 299.5 KB of the 300 KB budget. Anything new
+on Today will need a split like D144 or a cut elsewhere first. Two code
+items are open for v2.2: switch and checkbox rows that are tappable
+across their whole 48px height, and the long tail of small-target
+warnings the audit lists.
