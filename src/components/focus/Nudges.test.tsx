@@ -3,10 +3,12 @@
 // 10:00 and 20:00 and not in the first or last 2 minutes; "I drifted"
 // shows the first step; a 2-minute break pauses and resumes; "Welcome
 // back" after Tide was hidden; the hidden-tab sound is cancelled on
-// return; and with nudges off (the default) nothing appears.
+// return; with nudges off (the default) nothing appears; and the demo
+// tour's cue shows one card.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, screen, waitFor } from '@testing-library/react';
 import { now } from '@/lib/clock';
+import { DEMO_NUDGE_EVENT } from '@/lib/focus/nudgePlan';
 import { MINUTE } from '@/lib/time';
 import { addTask } from '@/lib/repo/tasks';
 import { renderApp, resetApp } from '@/test/utils';
@@ -116,5 +118,13 @@ describe('refocus nudges', () => {
     at(10);
     await tick();
     expect(screen.queryByText(/Still on Lab report\?/)).not.toBeInTheDocument();
+  }, 20_000);
+
+  it("shows one card on the demo tour's cue, even with nudges off, silently", async () => {
+    await block({ 'focus.refocusNudge': 'off' });
+    at(1);
+    act(() => void window.dispatchEvent(new Event(DEMO_NUDGE_EVENT)));
+    await screen.findByText('Earth to Maya! Still on Lab report?');
+    expect(engine.playTone).not.toHaveBeenCalled();
   }, 20_000);
 });

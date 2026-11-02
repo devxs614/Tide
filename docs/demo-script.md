@@ -68,8 +68,8 @@ as it was.
 - Open **`/demo`** (for example `https://<your-url>/demo`), or Menu →
   "Run the demo", or Settings → Demo, or "Watch the demo" on the first
   onboarding screen.
-- Choose **Full tour** (a little over 2 minutes), **Pitch cut** (about 80
-  seconds; measured in V12) or
+- Choose **Full tour** (about 3 minutes since v2.1), **Pitch cut** (about
+  80 seconds, unchanged since V12) or
   **Presenter mode** (pauses at each key moment). Options: read captions
   aloud, show captions, speed 1×, 1.5× or 2×.
 - Every start puts the demo workspace back to the same Thursday afternoon
@@ -77,6 +77,30 @@ as it was.
   Autoplay uses only the saved demo answers and never calls the AI, so it
   plays the same way every time. With no internet, run Tide locally
   (`npm run build` then `npm start`) so the pages themselves can load.
+
+### What the full tour adds in v2.1
+The pitch cut didn't change. The full tour has a few short new steps:
+- **A lighter day**, after the gentle plan: Calendar from Today's header,
+  the month, then Thursday the 12th (Chemistry lab and Calculus), and back
+  to the month. Caption: "A month view for what's coming. The day view is
+  still the heart."
+- **Unstick and focus**, before Stuck: on Tasks, "Reply to group project
+  chat" is renamed "Reply to group chat about slides", and "Laundry" is
+  deleted (history kept); the Undo toast shows. Caption: "Tasks can be
+  edited or deleted anytime, with an undo."
+- **Unstick and focus**, once the block starts: the Sounds panel opens and
+  closes (nothing plays), then one "Earth to Maya!" check-in shows at the
+  sped-up timer and gets "Yes, still on it". When the block ends, the end
+  glow shows on its own (with the chime, if the laptop's sound is on).
+- **Your Shore**: the time of day goes to Sunset for a moment, then back
+  to following the clock. Caption: "Choose the light that feels right."
+- **Comfortable for every brain**, after the low-sensory preset: Settings
+  → Appearance, try the Sunset look, then "Back to my look".
+
+Measured in headless Chrome on the production build: full tour 68 of 68
+steps in 180 s at 1× and 95 s at 2×, pitch cut 28 of 28 in 80 s and 42 s,
+twice each, with no AI requests. To repeat it:
+`npm run tour:check -- full 2` (add `--speed=2` for 2×).
 
 ### Presenter keys (a clicker works)
 - **Next:** → or PageDown · **Back to the previous chapter:** ← or PageUp

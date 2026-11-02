@@ -92,6 +92,7 @@ export function MonthGrid({ grid, month, days, weekdays, today, focused, showChe
                 <button
                   type="button"
                   data-day={iso}
+                  data-demo-id={`calendar-day-${iso}`}
                   tabIndex={iso === focused ? 0 : -1}
                   aria-label={dayLabel(iso, day)}
                   aria-current={isToday ? 'date' : undefined}

@@ -3603,3 +3603,50 @@ corrected F-14, so I kept it rather than revert.
 longer than 38% of the radius and the strokes are a touch thinner than
 2px and 1.5px, because at 28px the spec's proportions merged into one
 blob. The center is a dot rather than a star, which the spec allows.
+
+## Before R7 — Demo, docs, final audit, merge, roadmap branch
+2026-11-02
+
+Every item from F-01 to F-15 is in. R7 (spec 23) is the wrap-up: the
+full tour's new steps (21.4), both tours twice each at 1× and 2×, the
+final audit across the whole matrix, the docs (21.5), the acceptance
+table and the definition of done (24), the merge and tag (3.4), and the
+F-16 roadmap note on its own branch. Re-read: sections 3.4, 7.7, 14.7,
+20, 21.4, 21.5, 23 and 24.
+
+## R7, part 1 — The full tour's new steps
+2026-11-02
+
+**What I built.** Five short additions to the full tour only, from spec
+21.4: the calendar after the gentle plan; renaming one task and deleting
+another before Stuck; the Sounds panel and one "Earth to Maya!" check-in
+during focus (the end glow was already there); Sunset and back on the
+Shore; and trying the Sunset look in Settings, then "Back to my look".
+The pitch cut reuses the shared step lists, which I didn't touch; the
+new steps are spliced in for the full tour only.
+
+**What it needed.**
+- Demo ids on the month's day cells, the day view's back link, the task
+  title field, the sheets' Close, the check-in's "Yes" and the
+  time-of-day items.
+- A `triggerNudge` director action: a window event the nudge hook answers
+  with one card, whatever the setting (D200).
+- The demo's classes now run to Nov 30, or Thursday the 12th would have
+  been empty (D198).
+- A step can put the captions at the top (`hud: 'top'`), because the
+  Undo toast and the check-in card appeared under them (D199). I found
+  that from screenshots of the run, not from the step list, which said
+  "ok" for both.
+- The script-targets test now also sees ids written as
+  `{editing ? 'task-edit-save' : undefined}`; the tour runner takes
+  `--speed=2`.
+
+**How I checked it.** In headless Chrome on the production build, twice
+each: pitch cut 28 of 28 steps in 80 s at 1× and 42 s at 2×; full tour 68
+of 68 in 180 s at 1× and 95 s at 2× (under the 5-minute limit; it was
+134 s). No AI requests in any run. A run with screenshots at the new steps
+and a look at the demo database afterwards: the task renamed, Laundry
+deleted with its history kept, the Shore back on "auto", the theme back
+to Lagoon. A new test covers the nudge cue. Lint, typecheck, 568 tests
+and v1 (33 files, 164 tests, including the v1 pitch path) are green; `/`
+is still 299.5 KB.

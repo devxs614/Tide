@@ -1,7 +1,8 @@
 // Things the tour does that aren't a single tap (v2 spec 16.4): put a
 // chapter in place (route and time), show every companion and a few
-// themes in turn, move a task to Stuck and open Unstick for it, and put the
-// look back after the low-sensory preset.
+// themes in turn, move a task to Stuck and open Unstick for it, put the
+// look back after the low-sensory preset, and (v2.1) cue one refocus
+// check-in during the focus block.
 import { SPECIES } from '@/lib/companion/registry';
 import { setDemoTime } from '@/lib/repo/demo';
 import { setSettings } from '@/lib/repo/settings';
@@ -9,6 +10,7 @@ import { moveTask } from '@/lib/repo/tasks';
 import { presetValues } from '@/lib/settings/presets';
 import { DEMO_SETTINGS_V2 } from '@/data/demo/seedV2';
 import { activeTasks } from '@/lib/repo/taskQueries';
+import { DEMO_NUDGE_EVENT } from '@/lib/focus/nudgePlan';
 
 const sleep = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms));
 
@@ -43,6 +45,9 @@ export async function runCustom(name: string, args: Record<string, unknown> | un
       navigate(`/tasks?unstick=${task.id}`);
       return sleep(700);
     }
+    case 'triggerNudge':
+      window.dispatchEvent(new Event(DEMO_NUDGE_EVENT));
+      return sleep(400);
     case 'restoreCalm':
       await setSettings({ ...presetValues('calm', false), ...DEMO_SETTINGS_V2, 'motion.level': 'lively' });
       return;

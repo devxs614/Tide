@@ -973,6 +973,15 @@ network (D127), and captions hold long enough to read (D128).
 - *Can the demo break my data?* No: it's a different database, chosen at
   load; tested with row counts before and after.
 - *What if the network is down?* Autoplay uses only saved answers.
+- *How do the v2.1 steps stay out of the pitch cut?* (R7) The pitch cut
+  reuses the shared step lists in `scripts/full.ts`; the new steps live in
+  their own lists and are spliced in only when `FULL` is built, with a
+  small `after()` helper.
+- *How does the tour show a check-in without waiting minutes?* The
+  `triggerNudge` action sends a window event (`DEMO_NUDGE_EVENT`) that the
+  Focus screen's nudge hook answers with one card (D200).
+- *Why can a step say `hud: 'top'`?* Toasts and the check-in card appear
+  at the bottom after the step's tap, under the captions (D199).
 
 ## Quality features (V11)
 

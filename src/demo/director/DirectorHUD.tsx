@@ -4,7 +4,9 @@
 // caption, and real buttons for play/pause, back, next, speed, captions,
 // narration and exit, with keyboard shortcuts (Space, arrows, PageUp/Down
 // for clickers, Esc, S, C, N). It moves to the top when the spotlight is in
-// the bottom third of the screen, so it never covers what's being shown.
+// the bottom third of the screen, so it never covers what's being shown,
+// or when a step says so (v2.1: an Undo toast or a check-in card that
+// shows up at the bottom after the step's tap).
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
@@ -37,7 +39,7 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
   const rect = state.target?.getBoundingClientRect();
-  const top = !!rect && rect.top > window.innerHeight * 0.65;
+  const top = (!!rect && rect.top > window.innerHeight * 0.65) || state.script?.steps[state.index]?.hud === 'top';
 
   return (
     <section

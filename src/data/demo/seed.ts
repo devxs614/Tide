@@ -52,6 +52,10 @@ const iso = (ts: number) => {
 
 // Oct 16 (a Friday) to Nov 6.
 const DAYS = Array.from({ length: 22 }, (_, i) => new Date(2026, 9, 16 + i).getTime());
+// Classes go on to the end of November (v2.1 F-10), so the calendar's month
+// view has a real "what's coming" and the tour can open Thursday the 12th.
+// Only events: check-ins and history still stop at demo day.
+const CLASS_DAYS = Array.from({ length: 46 }, (_, i) => new Date(2026, 9, 16 + i).getTime());
 
 function buildEvents(): CalendarEvent[] {
   const events: CalendarEvent[] = [];
@@ -61,7 +65,7 @@ function buildEvents(): CalendarEvent[] {
     const dd = d.getDate();
     events.push({ id: `ev-${iso(day)}-${slug}`, title, kind, start: at(mo, dd, ...from), end: at(mo, dd, ...to), place, prep });
   };
-  for (const day of DAYS) {
+  for (const day of CLASS_DAYS) {
     const wd = new Date(day).getDay();
     if (wd === 1 || wd === 3 || wd === 5) {
       add(day, 'physics', 'Physics', 'class', [9, 0], [10, 30], 'Room 3-110');

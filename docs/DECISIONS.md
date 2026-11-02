@@ -1388,3 +1388,29 @@ origins one by one (more code to keep right, for no visible gain). The
 sand dollar's petals are a little longer and its strokes a little thinner
 than spec 19.2, because at 28px the spec's sizes merged; the center is a
 dot, which the spec allows.
+
+**D198 — 2026-11-02 — The demo's classes go on to the end of November.**
+Spec 14.7 has the tour open Thursday the 12th and find Chemistry lab and
+Calculus, but the seed stopped at Nov 6, so every day after that was
+empty and the month view showed nothing coming. The weekly classes (and
+the Saturday groceries) now run to Nov 30. Only events: check-ins, focus
+blocks and history still stop at demo day, so patterns, the bridge and
+every seed test are unchanged. Rejected: tapping Friday the 6th instead
+(the spec names the 12th, and a month view with three empty weeks makes
+a poor demo).
+
+**D199 — 2026-11-02 — A tour step can ask for the captions at the top.**
+The tour's caption card moves to the top only when the step's spotlight
+is low on screen. The Undo toast and the "Earth to Maya!" card appear at
+the bottom after the step's own action, so the card covered both. A step
+can now say `hud: 'top'`; the delete, the check-in and the Sunset steps
+do. Rejected: moving the card up whenever a toast exists (the HUD only
+re-renders between steps, so it would miss toasts that come mid-step).
+
+**D200 — 2026-11-02 — The tour shows the Sounds panel without playing, and cues one check-in.**
+Spec 21.4 plays Rain only "if the launcher's sound option is on"; the
+launcher has no such option, so the tour opens the panel and closes it.
+For the check-in, the director sends a window event that the Focus
+screen's nudge hook answers with one card, whatever the nudge setting
+(off by default in the demo), and without a sound unless sound nudges
+were chosen. The full tour only; the pitch cut is unchanged.

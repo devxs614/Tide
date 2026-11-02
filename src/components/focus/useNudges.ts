@@ -12,7 +12,7 @@ import { fill } from '@/copy/en';
 import { nudgeCopy as t } from '@/copy/nudgeCopy';
 import { now } from '@/lib/clock';
 import { emitCompanion } from '@/lib/companion/bus';
-import { EMPTY_LOG, hiddenDelayMs, intervalStep, mayNudge, recordNudge, RETURN_AFTER_MS, type NudgeLog } from '@/lib/focus/nudgePlan';
+import { DEMO_NUDGE_EVENT, EMPTY_LOG, hiddenDelayMs, intervalStep, mayNudge, recordNudge, RETURN_AFTER_MS, type NudgeLog } from '@/lib/focus/nudgePlan';
 import { notify } from '@/lib/focus/notify';
 import { useSettings } from '@/lib/settings';
 import { isQuiet } from '@/lib/sound/useSound';
@@ -80,6 +80,15 @@ export function useNudges({ phase, endsAt, totalMs, blocked, taskTitle, pause, r
     // elapsedAt and show read this render's values; the deps restart it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level, running, endsAt, totalMs, log, busy, settings, engine]);
+
+  // The demo tour's cue: one card now, even with nudges off (then silent).
+  useEffect(() => {
+    if (!running) return;
+    const onCue = () => show('interval', recordNudge(log, elapsedAt(now())));
+    window.addEventListener(DEMO_NUDGE_EVENT, onCue);
+    return () => window.removeEventListener(DEMO_NUDGE_EVENT, onCue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [running, endsAt, totalMs, log]);
 
   // Leaving Tide: maybe one soft nudge (and a notification) after a while.
   // Coming back: maybe "Welcome back".

@@ -97,6 +97,7 @@ export function TaskForm({ open, onOpenChange, task, defaultDue }: { open: boole
             </label>
             <input
               id="task-title"
+              data-demo-id="task-title"
               value={title}
               maxLength={120}
               onChange={(e) => setTitle(e.target.value)}

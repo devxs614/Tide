@@ -20,6 +20,10 @@ export interface NudgeLog {
   stopped: boolean;
 }
 
+// The full demo tour shows one check-in card on cue (spec 21.4) instead of
+// waiting minutes for the interval; the director sends this window event.
+export const DEMO_NUDGE_EVENT = 'tide:demo-nudge';
+
 export const EMPTY_LOG: NudgeLog = { shown: 0, last: null, marks: 0, stopped: false };
 
 export function mayNudge(elapsed: number, total: number, log: NudgeLog, blocked: boolean): boolean {

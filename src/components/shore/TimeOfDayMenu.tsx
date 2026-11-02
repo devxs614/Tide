@@ -44,7 +44,7 @@ export function TimeOfDayMenu() {
         <DropdownMenuLabel>{settingsCopy.labels.timeOfDayShort}</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={choice} onValueChange={(v) => void update('shore.timeOfDay', v as TimeOfDay)}>
           {CHOICES.map((c) => (
-            <DropdownMenuRadioItem key={c} value={c} className="min-h-12 gap-2 text-body">
+            <DropdownMenuRadioItem key={c} value={c} className="min-h-12 gap-2 text-body" data-demo-id={`shore-time-${c}`}>
               <span aria-hidden className="size-5 shrink-0 rounded-full border border-line" style={{ background: swatch(c) }} />
               {names[c]}
             </DropdownMenuRadioItem>

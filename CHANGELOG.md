@@ -97,6 +97,10 @@ Challenge Partner, most urgent first.
 - **F-15** The sand dollar looks like one: a cream disc with a rim, a
   five-petal flower of dotted outlines, a small center and five slits near
   the edge. Same item, same name, on the Shore and in the Collection.
+- The full demo tour shows the new things: the calendar, editing and
+  deleting a task with Undo, the sounds panel and one gentle check-in
+  during focus, the shore at sunset, and trying a look. The pitch cut is
+  the same. The demo's classes now continue through November.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

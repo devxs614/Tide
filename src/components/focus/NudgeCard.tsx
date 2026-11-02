@@ -73,7 +73,9 @@ export function NudgeCard({ kind, task, onYes, onDrifted, onPickUp, onBreak, onS
           </>
         ) : (
           <div className="flex flex-col gap-2">
-            <Button onClick={onYes}>{t.yes}</Button>
+            <Button onClick={onYes} data-demo-id="nudge-yes">
+              {t.yes}
+            </Button>
             <Button
               variant="secondary"
               onClick={() => {

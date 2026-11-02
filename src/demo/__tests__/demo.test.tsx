@@ -154,6 +154,8 @@ describe('demo scripts', () => {
       .map((f) => readFileSync(f, 'utf8'))
       .join('\n');
     const literal = new Set([...code.matchAll(/data-demo-id="([^"]+)"/g)].map((m) => m[1]));
+    // Ids that only show in one mode, like {editing ? 'task-edit-save' : undefined}.
+    for (const m of code.matchAll(/data-demo-id=\{[^}]*?'([^'$]+)'/g)) literal.add(m[1]);
     const prefixes = [...code.matchAll(/data-demo-id=\{`([^$`]+)\$\{/g)].map((m) => m[1]);
     const targets = [...FULL.steps, ...PITCH.steps].map((s) => s.target).filter((t): t is string => !!t);
     for (const t of new Set(targets)) expect(literal.has(t) || prefixes.some((p) => t.startsWith(p)), t).toBe(true);

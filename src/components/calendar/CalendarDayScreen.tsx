@@ -49,7 +49,7 @@ export function CalendarDayScreen({ date }: { date: string }) {
       }}
     >
       <Button variant="quiet" size="sm" className="self-start" asChild>
-        <Link href="/calendar" data-nav="back">
+        <Link href="/calendar" data-nav="back" data-demo-id="calendar-back">
           <ArrowLeft aria-hidden />
           {t.backToMonth}
         </Link>

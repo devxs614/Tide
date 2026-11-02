@@ -117,7 +117,7 @@ function SheetContent({
           </div>
           {showCloseButton ? (
             <SheetPrimitive.Close data-slot="sheet-close" asChild>
-              <Button ref={closeRef} variant="quiet" size="sm" className="bg-surface" data-nav="cancel">
+              <Button ref={closeRef} variant="quiet" size="sm" className="bg-surface" data-nav="cancel" data-demo-id="sheet-close">
                 <XIcon aria-hidden />
                 {closeLabel}
               </Button>
