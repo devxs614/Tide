@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Keyboard, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves,
+  Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Keyboard, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves, Wrench,
 } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { settingsCopy } from '@/copy/settingsCopy';
@@ -28,6 +28,7 @@ const ICONS: Record<SectionId, LucideIcon> = {
   checkin: PenLine,
   day: CalendarClock,
   focus: Timer,
+  toolkit: Wrench,
   patterns: Sparkles,
   shore: Shell,
   privacy: ShieldCheck,

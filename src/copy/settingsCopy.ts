@@ -31,6 +31,7 @@ export const settingsCopy = {
     checkin: 'Check-in',
     day: 'Day & planning',
     focus: 'Focus',
+    toolkit: 'Toolkit',
     patterns: 'Patterns',
     shore: 'Shore',
     privacy: 'Privacy & data',
@@ -115,6 +116,9 @@ export const settingsCopy = {
     shoreSky: 'Shore sky',
     timeOfDay: 'Time of day on the shore',
     timeOfDayShort: 'Time of day',
+    countBackStep: 'Count back by',
+    countBackStart: 'Count back from',
+    countBackMode: 'Counting back works by',
     shoreSkies: { time: 'Follows the time of day', theme: 'Theme colors', static: 'Still' },
     shoreLabels: 'Names under things on the shore',
     naturalAllowed: 'Allow natural voices',
@@ -141,6 +145,7 @@ export const settingsCopy = {
     keepAwake: 'Where your browser allows it.',
     endAlert: 'The end-of-timer sound plays even when other sounds are off, because you started the timer.',
     vibrateAtEnd: 'On phones that can vibrate.',
+    countBackStep: 'Smaller steps are easier.',
     refocusNudge: 'A small "Earth to you" card now and then during a focus block. Never in the first or last 2 minutes.',
     minEvidence: 'A higher number means fewer, surer patterns.',
     shapes: 'So state never depends on color alone.',
@@ -166,4 +171,6 @@ export const settingsCopy = {
   weekStarts: { sunday: 'Sunday', monday: 'Monday' },
   // v2.1 F-12: the shore's times of day (also its picker's names).
   timesOfDay: { auto: 'Auto', dawn: 'Dawn', day: 'Day', sunset: 'Sunset', dusk: 'Dusk', night: 'Night' },
+  // v2.1 F-13.
+  countBackModes: { reveal: 'Thinking, then revealing', type: 'Typing each number' },
 };

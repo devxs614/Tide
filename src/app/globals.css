@@ -720,3 +720,15 @@ html[data-shore-waves="false"] :is(.shore-wave-1, .shore-wave-2, .shore-wave-3, 
   0% { outline-color: transparent; }
   30% { outline-color: var(--focus); }
 }
+
+/* v2.1 F-13: the count-back number turns over at Lively and fades at Calm;
+   at Off it simply changes. Transform and opacity only. */
+html[data-motion="lively"] .count-in {
+  animation: count-flip var(--dur-base) var(--ease-out) backwards;
+}
+html[data-motion="calm"] .count-in {
+  animation: tide-fade var(--dur-base) var(--ease-out) backwards;
+}
+@keyframes count-flip {
+  from { opacity: 0; transform: rotateX(80deg); }
+}

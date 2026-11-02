@@ -13,7 +13,8 @@ export type ToolId =
   | 'walk_timer'
   | 'brain_dump'
   | 'message_template'
-  | 'steps_timer';
+  | 'steps_timer'
+  | 'count_back';
 
 export interface Strategy {
   id: string;
@@ -285,7 +286,7 @@ export const STRATEGIES: Strategy[] = [
     sensory: { sound: 'none', movement: 'none', screen: 'none' },
     suits: ['surge'],
     contexts: ALL,
-    tool: 'steps_timer',
+    tool: 'count_back',
   },
   {
     id: 't-spot-blue',

@@ -3460,3 +3460,56 @@ day can lift a heavy evening. Plan:
   also had 0 failures.
 - `/` is 299.5 KB. Lint, typecheck, 558 tests and the v1 suite (164) are
   green.
+
+## F-13 — Count back by 7, 6, 5, 4, 3 or 2 (before and after)
+2026-11-02
+
+**Before.** "Count back by 7" was a plain steps timer. The team wanted an
+interactive tool with a choice of step: 7 pulls attention away from
+racing thoughts, 2 suits a tired moment. Plan:
+- keep the id `t-count-7` and v1's text and test;
+- plain sequence and feedback rules;
+- a `CountBack` tool with reveal and type modes;
+- the choices remembered in Settings.
+
+**After.**
+- `src/lib/countBack.ts`: the numbers from the start by the step, ten
+  times or until zero; a typed answer is either right or "close".
+- The tool:
+  - chips "By 7 … By 2" ("Smaller steps are easier") and "From 100 …
+    From 20", and "Think, then reveal" or "Type it";
+  - the instruction in the person's mode (literal: "Start at 100. Subtract
+    7. Say or type the result. Repeat 10 times.");
+  - a big number that turns over at Lively, fades at Calm and just
+    changes at Off;
+  - "{k} of 10" and read-aloud on demand;
+  - typing: "Yes, 86." or "Close. It's 93. Keep going from there." (never
+    "wrong", never red); "Show me" just reveals;
+  - the end: "Done. Notice your breathing for a moment.", then the usual
+    re-check;
+  - "I'm done" stays for v1's test (D195);
+  - the companion thinks beside it and hops at each step at Lively.
+- The title follows the step ("Count back by 3"); with the default it's
+  v1's "Count back by 7".
+- Settings → Toolkit is a new section with the step, the start and the
+  mode (D194).
+
+**How I checked it.**
+- Rule tests: 100 by 7 is v2's sequence; every start and step stays at
+  zero or above, with at most ten steps; the feedback kinds.
+- Flow tests:
+  - 93 after 100;
+  - typing 92 gives the gentle "Close", then 86 gives "Yes";
+  - by 3 from 20, six Nexts reach the breathing line, and Continue shows
+    the re-check;
+  - the title follows the step.
+- v1's Toolkit test passes unchanged.
+- `/` is 299.5 KB. Lint, typecheck, 565 tests and the v1 suite (164) are
+  green.
+- Layout audit for the tool (type mode with a reply showing), Settings →
+  Toolkit and Appearance while trying a look: 72 state runs, 0 failures
+  (`docs/audits/2026-11-02-f13.json`). Two earlier audit runs crawled for
+  over 20 minutes. Every state took 2–4 seconds alone, and the same run
+  took 56 seconds once the machine was quiet (no leftover headless
+  browsers). I also gave the tool's audit step explicit timeouts, so a
+  missing field can't hang an audit again.

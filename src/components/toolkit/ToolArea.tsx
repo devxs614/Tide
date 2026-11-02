@@ -10,6 +10,7 @@ import type { ToolId } from '@/data/strategies';
 import { copy } from '@/copy/en';
 import { BoxBreathing } from './tools/BoxBreathing';
 import { BrainDump } from './tools/BrainDump';
+import { CountBack } from './tools/CountBack';
 import { Grounding54321 } from './tools/Grounding54321';
 import { MessageTemplate } from './tools/MessageTemplate';
 import { StepsTimer } from './tools/StepsTimer';
@@ -31,6 +32,7 @@ export const TOOLS: Record<ToolId, ComponentType<ToolProps>> = {
   brain_dump: BrainDump,
   message_template: MessageTemplate,
   steps_timer: StepsTimer,
+  count_back: CountBack,
 };
 
 export function ToolArea(props: ToolProps) {

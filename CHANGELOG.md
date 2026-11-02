@@ -86,6 +86,11 @@ Challenge Partner, most urgent first.
   clock. The companion matches: asleep at night, sleepy at dawn. It's in
   the Shore's "Time of day" menu and in Settings → Shore, and Today's
   shore strip follows it.
+- **F-13** "Count back" is now interactive. Pick the step (7 down to 2,
+  smaller is easier) and where to start (100, 50, 30 or 20). Think of the
+  next number and reveal it, or type it; a near miss just shows the right
+  number and carries on. Your choices are remembered in a new Settings →
+  Toolkit section.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

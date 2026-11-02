@@ -1354,3 +1354,15 @@ second. At motion Off it simply appears.
 The spec says the companion stretches at dawn. There's no stretching
 pose, and new companion art is off limits in v2.1, so dawn uses
 "sleepy", the waking-up face that already exists.
+
+**D194 — 2026-11-02 — Settings gets a Toolkit section, for counting back.**
+The spec puts the count-back choices in "Settings → Toolkit", which
+didn't exist. It's a new section after Focus, with a wrench icon and the
+step, the start and the mode. The tool shows the same choices as chips,
+so nobody has to leave the exercise to change them.
+
+**D195 — 2026-11-02 — The count-back tool keeps "I'm done" at all times.**
+A v1 test finishes "Count back by 7" with "I'm done", like the other
+timed tools. The new tool keeps that button (it leads to the re-check,
+like "End early") next to its own Next and Type controls. The default (7
+from 100) reads exactly as before.

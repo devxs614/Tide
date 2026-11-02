@@ -373,6 +373,10 @@ export interface Settings {
   'shore.sky': 'time' | 'theme' | 'static';
   // v2.1 F-12: a time of day chosen by hand; "auto" keeps v2's shore.sky.
   'shore.timeOfDay': 'auto' | 'dawn' | 'day' | 'sunset' | 'dusk' | 'night';
+  // v2.1 F-13: counting back (by 7 from 100 by default, as in v2).
+  'toolkit.countBackStep': 2 | 3 | 4 | 5 | 6 | 7;
+  'toolkit.countBackStart': 100 | 50 | 30 | 20;
+  'toolkit.countBackMode': 'reveal' | 'type';
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;

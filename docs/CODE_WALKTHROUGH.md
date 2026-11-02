@@ -1398,3 +1398,19 @@ keep, back, next, surprise), `LookCarousel.tsx`, `LookTryingBar.tsx`.
   keys (`LOOK_KEYS`), never data or the companion.
 - *How is "Back to my look" exact?* The first try saves every look key's
   own value in `appearance.lookSnapshot`; back writes them all back.
+
+## Count back (v2.1 F-13)
+
+**What it does.** Turns "Count back by 7" into an interactive tool: choose
+the step (7 to 2) and the start (100 to 20), reveal or type each number,
+ten steps, then the re-check.
+
+**Files.** `src/lib/countBack.ts` (sequence and feedback),
+`components/toolkit/tools/CountBack.tsx`, the `count_back` mapping in
+`data/strategies.ts` and `ToolArea.tsx`, Settings → Toolkit.
+
+**Likely reviewer questions**
+- *What happens on a wrong typed answer?* It says "Close. It's 93. Keep
+  going from there." and moves on. Nothing is counted against anyone.
+- *Did v1 data change?* No. The strategy id is still `t-count-7`, and the
+  default reads exactly as before.

@@ -21,7 +21,7 @@ export interface AuditState {
 // (src/test/auditStates.test.ts) fails if a section is missing here.
 export const SETTINGS_SECTIONS = [
   'profile', 'companion', 'appearance', 'motion', 'sound', 'voice', 'language', 'checkin', 'day',
-  'focus', 'patterns', 'shore', 'privacy', 'people', 'shortcuts', 'demo', 'about',
+  'focus', 'toolkit', 'patterns', 'shore', 'privacy', 'people', 'shortcuts', 'demo', 'about',
 ];
 
 const demo = (id: string) => `[data-demo-id="${id}"]`;
@@ -348,5 +348,17 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'bubble:breathing', route: '/toolkit/c-box?context=toolkit', ws: 'demo' },
+  // v2.1 F-13: counting back, in type mode with a reply showing.
+  {
+    id: 'tool:countback',
+    route: '/toolkit/t-count-7?context=toolkit',
+    ws: 'demo',
+    before: (page) => writeSettings(page, 'demo', { 'toolkit.countBackMode': 'type' }),
+    open: async (page) => {
+      await page.locator('#countback-answer').fill('92', { timeout: 8000 });
+      await page.locator('#countback-answer').press('Enter', { timeout: 8000 });
+      await page.waitForTimeout(400);
+    },
+  },
   { id: 'bubble:checkin', route: '/', ws: 'demo', open: (page) => click(page, demo('fab-checkin')) },
 ];

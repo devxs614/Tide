@@ -192,6 +192,15 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'switch', key: 'focus.keepAwake', label: L.keepAwake, help: H.keepAwake, keywords: ['screen on', 'wake lock', 'sleep'] },
     ],
   },
+  // v2.1 F-13: the Toolkit's own settings (so far, counting back).
+  {
+    id: 'toolkit',
+    entries: [
+      { kind: 'choice', key: 'toolkit.countBackStep', label: L.countBackStep, help: H.countBackStep, numeric: true, options: ['7', '6', '5', '4', '3', '2'].map((v) => ({ value: v, label: v })), keywords: ['count', 'count back', 'subtract', 'grounding'] },
+      { kind: 'choice', key: 'toolkit.countBackStart', label: L.countBackStart, numeric: true, options: ['100', '50', '30', '20'].map((v) => ({ value: v, label: v })), keywords: ['count', 'count back'] },
+      { kind: 'choice', key: 'toolkit.countBackMode', label: L.countBackMode, options: opts(settingsCopy.countBackModes), keywords: ['count', 'type', 'reveal'] },
+    ],
+  },
   {
     id: 'patterns',
     entries: [

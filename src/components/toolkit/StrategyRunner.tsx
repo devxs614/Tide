@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRouter } from 'next/navigation';
-import { copy } from '@/copy/en';
+import { copy, fill } from '@/copy/en';
 import { getStrategy } from '@/data/strategies';
 import { db } from '@/lib/db';
 import { recordStrategyUse } from '@/lib/repo/strategies';
@@ -26,6 +26,8 @@ import { getTask } from '@/lib/repo/taskQueries';
 import { toast } from 'sonner';
 import { now } from '@/lib/clock';
 import { navCopy } from '@/copy/navCopy';
+import { toolsCopy } from '@/copy/toolsCopy';
+import { useSettings } from '@/lib/settings';
 import { markStopped } from '@/components/bridge/bridgeDrafts';
 import { RunnerCancel } from './RunnerCancel';
 import type { ToolDraft } from './tools/types';
@@ -56,6 +58,10 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
   const [result, setResult] = useState<RecheckResult | undefined>();
   const [saving, setSaving] = useState(false);
   const celebrate = useCelebrate();
+  // v2.1 F-13: "Count back by {n}" follows the chosen step (7 by default,
+  // the v1 name).
+  const countStep = useSettings().settings['toolkit.countBackStep'];
+  const strategyTitle = strategy?.tool === 'count_back' ? fill(toolsCopy.countBack.name, { n: countStep }) : strategy?.name;
   // v2.1 F-08: Cancel. Under 15 seconds nothing is saved; after that, a use
   // marked cancelled keeps the history honest (patterns ignore it).
   const [startedAt] = useState(() => now());
@@ -109,7 +115,7 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
     <div className="flex flex-col gap-5">
       {phase === 'doing' && <RunnerCancel draft={draft} onLeave={() => void cancel()} />}
       <div className="flex flex-col gap-2">
-        <h2 className="text-h1 font-bold">{strategy.name}</h2>
+        <h2 className="text-h1 font-bold">{strategyTitle}</h2>
         <StrategyMeta strategy={strategy} />
         <p className="text-ink-soft">{strategy.summary}</p>
       </div>

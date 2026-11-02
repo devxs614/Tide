@@ -16,6 +16,7 @@ const BASE: Partial<Record<ToolId, Expression>> = {
   sudoku_4x4: 'thinking',
   message_template: 'waving',
   walk_timer: 'idle',
+  count_back: 'thinking',
 };
 
 export function ToolCompanion({ tool }: { tool: ToolId }) {
