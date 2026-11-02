@@ -3550,3 +3550,56 @@ suite (565) and v1 (164) are green; `/` is 299.5 KB.
 CSS rotation around a point in pixels, which may misplace the gills for
 that second on the Shore only. I didn't chase it inside the timebox
 (TEAM_TODO).
+
+**Correction (found in F-15).** The Chrome quirk above was the wrong
+diagnosis. The real cause was our own CSS: `shore.css` gives every shape
+in the scene `transform-box: fill-box; transform-origin: center`, so the
+items can tilt in place. That rule reached into the companion too, and
+turned each gill around its own middle instead of the drawing's origin.
+The gill fix still stands (it can't be caught by a rule like that again),
+and the rule now skips the companion. That also settles the open item:
+the gill wiggle's pixel origin works on the Shore the same as elsewhere.
+
+## F-15 — Sand dollar redesign (30-minute timebox)
+2026-11-02
+
+**Before.** The sand dollar (the item for a win you add yourself) was a
+plain disc with a faint star and didn't read as a sand dollar. Spec 19
+gives the design; the timebox was a hard 30 minutes.
+
+**What I built.**
+- A new drawing in `ItemArt.tsx`, from the spec's colors (now in
+  `lib/shore/palette.ts`): a cream disc with its outline, a darker rim
+  ring, a light shade on the lower half, nine small specks, five petal
+  outlines at 72 degrees (from the top) with three dots inside each, a
+  center dot, and five short slits near the edge between the petals.
+- The same drawing serves the Shore (about 28px) and the Collection card
+  (96px). The item's id, name and description didn't change.
+
+**What broke.** In the Collection it looked right at once; on the Shore
+all five petals piled up at the top. The petals were turned with
+`rotate()`, and the scene's `fill-box` rule (above) spun each one around
+its own middle instead of the disc's center. That was also the real cause
+of F-14's missing gills. Two changes: the petal, dot and slit points are
+now turned in code (no `transform` attributes), and the scene rule is
+scoped to skip the companion (`:not(.cmp, .cmp *)`). Items keep the rule,
+since their tilt and bob depend on it.
+
+**How I checked it.** Screenshots at 3x on the production build: the
+Shore shows three sand dollars with five centered petals each, and Lolo
+still has all six gills; the Collection card matches. A new test checks
+that the sand dollar draws five petals that fan out with no `transform`
+attributes, and that the scene rule still skips the companion. Layout
+audit for the Shore states: 96 runs, 0 failures (the same small-target
+warnings as in F-12, from the items on the sand, which have a list view).
+Full suite 567, v1 164, lint, typecheck and build are green; `/` is
+unchanged at 299.5 KB (shore code isn't in its first load).
+
+**Timebox.** The drawing itself fit in the 30 minutes; finding the
+`fill-box` rule ran over it. The fix was one selector and it also
+corrected F-14, so I kept it rather than revert.
+
+**Small differences from the spec (D197).** The petals run a little
+longer than 38% of the radius and the strokes are a touch thinner than
+2px and 1.5px, because at 28px the spec's proportions merged into one
+blob. The center is a dot rather than a star, which the spec allows.

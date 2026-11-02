@@ -204,9 +204,12 @@ up during the build. — Claude Code
   axolotl's external gills, which were missing on the Shore; they're back,
   with thin feathery lines and a few soft speckles at bigger sizes. If you
   meant something else (a scale texture, a different color), tell me
-  what. Also, watch Lolo on the Shore for its occasional gill wiggle: if
-  the gills jump for a second, that's the one case I didn't fix inside
-  the 30 minutes. *By Nov 3.*
+  what. *By Nov 3.*
+
+- [ ] **Look at the new sand dollar (F-15)** on the Shore and in the
+  Collection, on a phone. Add a win in the Proof log to get one. If it
+  still doesn't read as a sand dollar to you, say what's off (petals,
+  color, size). *By Nov 3.*
 
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon

@@ -14,6 +14,62 @@ function shade(variant: ItemVariant): string {
   return SHELL_SHADE[variant] ?? C.shell.medium;
 }
 
+// v2.1 F-15: a sand dollar that reads as one: a flat cream disc with a rim,
+// a five-petal flower of dotted outlines in the middle, a little star at
+// the center, five small slits near the edge, and a light speckle. Clear
+// at 28px on the shore and pretty at 96px in the Collection.
+// Points are turned in code, not with `rotate()`: on the shore the scene's
+// CSS spins each shape around its own middle, which piled all five petals
+// at the top.
+const turn = (x: number, y: number, deg: number) => {
+  const a = (deg * Math.PI) / 180;
+  return [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)].map((n) => n.toFixed(2));
+};
+const petal = (deg: number) => {
+  const pt = (x: number, y: number) => turn(x, y, deg).join(' ');
+  return `M${pt(0, -2.6)} C${pt(2.6, -4.6)} ${pt(2.6, -8.4)} ${pt(0, -10.2)} C${pt(-2.6, -8.4)} ${pt(-2.6, -4.6)} ${pt(0, -2.6)} Z`;
+};
+const SPECKS = [
+  [-9, -4],
+  [-5, 9],
+  [8, 8],
+  [10, -6],
+  [-2, -12],
+  [3, 12],
+  [-11, 3],
+  [12, 1],
+  [-6, -10],
+];
+
+function SandDollar({ outline }: { outline: string }) {
+  const p = C.sandDollarParts;
+  return (
+    <g>
+      <circle r={15} fill={C.sandDollar} stroke={outline} strokeWidth={1.6} />
+      <path d="M-13.2 1.5 A13.3 13.3 0 0 0 13.2 1.5 Z" fill={p.shade} />
+      <circle r={13.4} fill="none" stroke={p.rim} strokeWidth={1.6} />
+      {SPECKS.map(([x, y]) => (
+        <circle key={`${x}-${y}`} cx={x} cy={y} r={0.55} fill={p.speck} />
+      ))}
+      {[0, 72, 144, 216, 288].map((a) => {
+        const [s1, s2] = [turn(0, -11.6, a + 36), turn(0, -10, a + 36)];
+        return (
+          <g key={a}>
+            <path d={petal(a)} fill="none" stroke={p.petal} strokeWidth={1.3} strokeLinejoin="round" />
+            {[-4.4, -6.4, -8.4].map((y) => {
+              const [cx, cy] = turn(0, y, a);
+              return <circle key={y} cx={cx} cy={cy} r={0.5} fill={p.petal} />;
+            })}
+            {/* A slit near the edge, between this petal and the next. */}
+            <path d={`M${s1.join(' ')} L${s2.join(' ')}`} stroke={p.petal} strokeWidth={1.1} strokeLinecap="round" />
+          </g>
+        );
+      })}
+      <circle r={1.4} fill={p.petal} />
+    </g>
+  );
+}
+
 export function ItemArt({ type, variant }: { type: ShoreItemType; variant: ItemVariant }) {
   const OUTLINE = useThemeScheme() === 'dark' ? ITEM_OUTLINE.onDark : ITEM_OUTLINE.onLight;
   const line = { stroke: OUTLINE, strokeWidth: 2, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
@@ -93,14 +149,7 @@ export function ItemArt({ type, variant }: { type: ShoreItemType; variant: ItemV
         />
       );
     case 'sandDollar':
-      return (
-        <g>
-          <circle r={14} fill={C.sandDollar} {...line} />
-          {[0, 72, 144, 216, 288].map((a) => (
-            <ellipse key={a} cx={0} cy={-6} rx={1.8} ry={4} fill="none" {...line} strokeWidth={1.3} transform={`rotate(${a})`} />
-          ))}
-        </g>
-      );
+      return <SandDollar outline={OUTLINE} />;
     case 'driftwood':
       return (
         <g>

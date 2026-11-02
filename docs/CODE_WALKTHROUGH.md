@@ -865,6 +865,13 @@ the visit updates `lastSeenAt`.
   it only shows what already happened.
 - *What happened to old v1 wins?* The upgrade gave each a kind, so they're
   on the shore too (tested with a real v1 database).
+- *Why are some drawings' points turned in code instead of with
+  `rotate()`?* (v2.1 F-14, F-15) `shore.css` makes every shape in the
+  scene turn around its own middle so items can tilt in place. A
+  `rotate()` inside a drawing would then spin each part in place: that
+  hid Lolo's gills and piled the sand dollar's petals at the top. The
+  sand dollar turns its points in code, and the rule skips the companion
+  (D197).
 
 ## Close the day (V8)
 

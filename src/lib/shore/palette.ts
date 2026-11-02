@@ -9,7 +9,10 @@ export const ITEM_COLORS = {
   pebble: { grey: '#A7A9AC', slate: '#6E7C87', warm: '#B79E8A' },
   seaGlass: { blue: '#8EC9E8', green: '#9FD9B5' },
   starfish: { move: '#F29A4A', calm: '#6FA8DC', connect: '#F28CB1', create: '#F2C84B', think: '#A98BD9' },
-  sandDollar: '#F3EBDD',
+  // v2.1 F-15: a warm cream disc, a darker rim, a shaded lower half, and
+  // the petal pattern and speckles in deeper sand tones.
+  sandDollar: '#EFE1C2',
+  sandDollarParts: { rim: '#D9C49B', shade: '#E5D3AE', petal: '#C9AF80', speck: '#E0CDA4' },
   wood: '#A9825E',
   bottle: { green: '#7FB89A', blue: '#7FA8D1', clear: '#DCEBEE' },
   cork: '#B98A5A',

@@ -1369,8 +1369,22 @@ from 100) reads exactly as before.
 
 **D196 — 2026-11-02 — "Escamas externas" read as the gills, and the gills were the bug.**
 Axolotls have no scales; their external gills are what makes them read as
-axolotls. On the Shore the gills were missing because of a Chrome quirk
-with `transform` attributes inside a `foreignObject` (F-14 log). The fix
-places the gill points without a transform. Fronds and speckles show
+axolotls. On the Shore the gills were missing. I first blamed a Chrome
+quirk with `transform` inside a `foreignObject`; F-15 found the real
+cause, the scene's `fill-box` CSS rule reaching into the companion (D197).
+The fix places the gill points without a transform. Fronds and speckles show
 from 64px, and the Shore adds a thin outline. The texture reading is
 covered too, lightly, in case that's what the team meant.
+
+**D197 — 2026-11-02 — Shore drawings place their points in code, and the scene's spin-in-place rule skips the companion.**
+`shore.css` gives every shape on the Shore `transform-box: fill-box` and
+a centered origin so items can tilt and bob in place. Any `transform` or
+`rotate()` inside a drawing then turns around that shape's own middle,
+which hid Lolo's gills (F-14) and piled the sand dollar's petals at the
+top (F-15). I scoped the rule with `:not(.cmp, .cmp *)` and turned the
+sand dollar's petals, dots and slits in code. Rejected: removing the rule
+(the items' tilt and bob depend on it) and switching items to explicit
+origins one by one (more code to keep right, for no visible gain). The
+sand dollar's petals are a little longer and its strokes a little thinner
+than spec 19.2, because at 28px the spec's sizes merged; the center is a
+dot, which the spec allows.

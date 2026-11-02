@@ -94,6 +94,9 @@ Challenge Partner, most urgent first.
 - **F-14** Lolo the axolotl has its gills on the Shore again (they were
   missing there), now with feathery fronds and a few soft speckles at
   larger sizes.
+- **F-15** The sand dollar looks like one: a cream disc with a rim, a
+  five-petal flower of dotted outlines, a small center and five slits near
+  the edge. Same item, same name, on the Shore and in the Collection.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

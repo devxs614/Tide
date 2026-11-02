@@ -4,7 +4,10 @@
   and opacity only. Lively moves everything; Calm keeps the waves slow and
   the clouds still; Off is a still picture (the global rule stops it all).
 */
-.shore :is(g, path, circle, ellipse, rect) {
+/* Not inside the companion (v2.1 F-14): its drawing places its parts
+   against its own view box, and this rule had spun Lolo's gills around
+   their own middles, out of sight. */
+.shore :is(g, path, circle, ellipse, rect):not(.cmp, .cmp *) {
   transform-box: fill-box;
   transform-origin: center;
 }

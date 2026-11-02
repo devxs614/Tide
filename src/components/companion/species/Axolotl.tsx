@@ -16,10 +16,10 @@ const FACE: FaceGeometry = {
 const AT = COMPANIONS.axolotl.attach;
 
 // A gill's shape, drawn at its place and angle. v2.1 F-14: the points are
-// placed here rather than with a `transform` attribute. On the Shore the
-// companion sits in a foreignObject, where Chrome resolved that transform
-// against the wrong viewport and the gills ended up outside the clip, so
-// Lolo had none there.
+// placed here rather than with a `transform` attribute. On the Shore a
+// scene-wide CSS rule (transform-box: fill-box) turned each gill around
+// its own middle, out of sight; that rule now skips the companion
+// (shore.css), and gills drawn without a transform can't be caught again.
 type Cmd = [string, ...number[]];
 function placed(cmds: Cmd[], x: number, y: number, angle: number): string {
   const a = (angle * Math.PI) / 180;
