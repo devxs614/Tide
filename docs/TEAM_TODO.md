@@ -200,6 +200,14 @@ up during the build. — Claude Code
   Why: Android's back gesture and installed apps can behave differently
   from the desktop browser we tested. *By Nov 3.*
 
+- [ ] **Confirm what "escamas externas" meant (F-14).** I read it as the
+  axolotl's external gills, which were missing on the Shore; they're back,
+  with thin feathery lines and a few soft speckles at bigger sizes. If you
+  meant something else (a scale texture, a different color), tell me
+  what. Also, watch Lolo on the Shore for its occasional gill wiggle: if
+  the gills jump for a second, that's the one case I didn't fix inside
+  the 30 minutes. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

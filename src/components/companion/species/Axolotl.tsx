@@ -15,17 +15,64 @@ const FACE: FaceGeometry = {
 };
 const AT = COMPANIONS.axolotl.attach;
 
-// One feathery gill: a rounded teardrop with a darker tip.
-function Gill({ x, y, angle, main, tip }: { x: number; y: number; angle: number; main: string; tip: string }) {
+// A gill's shape, drawn at its place and angle. v2.1 F-14: the points are
+// placed here rather than with a `transform` attribute. On the Shore the
+// companion sits in a foreignObject, where Chrome resolved that transform
+// against the wrong viewport and the gills ended up outside the clip, so
+// Lolo had none there.
+type Cmd = [string, ...number[]];
+function placed(cmds: Cmd[], x: number, y: number, angle: number): string {
+  const a = (angle * Math.PI) / 180;
+  const [cos, sin] = [Math.cos(a), Math.sin(a)];
+  return cmds
+    .map(([op, ...n]) => {
+      const pts: string[] = [];
+      for (let i = 0; i < n.length; i += 2) pts.push(`${(n[i] * cos - n[i + 1] * sin + x).toFixed(2)} ${(n[i] * sin + n[i + 1] * cos + y).toFixed(2)}`);
+      return `${op}${pts.join(' ')}`;
+    })
+    .join(' ');
+}
+
+const GILL: Cmd[] = [['M', 0, 0], ['C', -6, -10, -6, -26, 0, -32], ['C', 6, -26, 6, -10, 0, 0], ['Z']];
+const TIP: Cmd[] = [['M', 0, -20], ['C', -4, -24, -4, -30, 0, -32], ['C', 4, -30, 4, -24, 0, -20], ['Z']];
+const FRONDS: Cmd[][] = [
+  [['M', 0, -6], ['Q', -3, -9, -4, -13]],
+  [['M', 0, -11], ['Q', 3, -14, 4, -18]],
+  [['M', 0, -16], ['Q', -3, -19, -3, -22]],
+];
+
+// One feathery gill: a rounded teardrop with a darker tip. At 64px and up,
+// thin frond lines show its feathery texture, and on the Shore a darker
+// outline keeps it clear against the sand (companion.css turns that
+// outline on there; elsewhere it has no width).
+function Gill({ x, y, angle, main, tip, fronds }: { x: number; y: number; angle: number; main: string; tip: string; fronds: boolean }) {
   return (
-    <g transform={`translate(${x} ${y}) rotate(${angle})`}>
-      <path d="M0 0 C-6 -10 -6 -26 0 -32 C6 -26 6 -10 0 0 Z" fill={main} />
-      <path d="M0 -20 C-4 -24 -4 -30 0 -32 C4 -30 4 -24 0 -20 Z" fill={tip} />
+    <g>
+      <path data-gill-outline d={placed(GILL, x, y, angle)} fill={main} stroke={tip} strokeWidth={0} />
+      <path d={placed(TIP, x, y, angle)} fill={tip} />
+      {fronds && (
+        <g fill="none" stroke={tip} strokeWidth={1.4} strokeLinecap="round" opacity={0.75}>
+          {FRONDS.map((f, i) => (
+            <path key={i} d={placed(f, x, y, angle)} />
+          ))}
+        </g>
+      )}
     </g>
   );
 }
 
-export function AxolotlArt({ colors: c, expression, eyesClosed, accessory }: SpeciesArtProps) {
+// A few soft speckles on the head and body, at 64px and up.
+const SPECKLES = [
+  [78, 60, 2.2],
+  [122, 58, 2],
+  [92, 48, 1.6],
+  [140, 74, 1.8],
+  [86, 140, 2],
+  [116, 136, 1.8],
+];
+
+export function AxolotlArt({ colors: c, expression, eyesClosed, accessory, size = 96 }: SpeciesArtProps) {
+  const detail = size >= 64;
   const focused = expression === 'focused';
   const packing = expression === 'packing';
   return (
@@ -39,6 +86,7 @@ export function AxolotlArt({ colors: c, expression, eyesClosed, accessory }: Spe
         <ellipse cx={100} cy={158} rx={22} ry={18} fill={c.light} />
         <ellipse cx={82} cy={180} rx={10} ry={6} fill={c.shade} />
         <ellipse cx={118} cy={180} rx={10} ry={6} fill={c.shade} />
+        {detail && SPECKLES.slice(4).map(([x, y, r]) => <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill={c.shade} opacity={0.35} />)}
       </g>
       {focused && (
         <g data-part="prop" className="axo-book">
@@ -61,17 +109,18 @@ export function AxolotlArt({ colors: c, expression, eyesClosed, accessory }: Spe
       )}
       <g data-part="head" className="cmp-head" style={{ transformOrigin: '100px 128px' }}>
         <g className="axo-gills-left" style={{ transformOrigin: '42px 88px' }}>
-          <Gill x={40} y={70} angle={-55} main={c.accent} tip={c.shade} />
-          <Gill x={34} y={88} angle={-85} main={c.accent} tip={c.shade} />
-          <Gill x={40} y={106} angle={-115} main={c.accent} tip={c.shade} />
+          <Gill x={40} y={70} angle={-55} main={c.accent} tip={c.shade} fronds={detail} />
+          <Gill x={34} y={88} angle={-85} main={c.accent} tip={c.shade} fronds={detail} />
+          <Gill x={40} y={106} angle={-115} main={c.accent} tip={c.shade} fronds={detail} />
         </g>
         <g className="axo-gills-right" style={{ transformOrigin: '158px 88px' }}>
-          <Gill x={160} y={70} angle={55} main={c.accent} tip={c.shade} />
-          <Gill x={166} y={88} angle={85} main={c.accent} tip={c.shade} />
-          <Gill x={160} y={106} angle={115} main={c.accent} tip={c.shade} />
+          <Gill x={160} y={70} angle={55} main={c.accent} tip={c.shade} fronds={detail} />
+          <Gill x={166} y={88} angle={85} main={c.accent} tip={c.shade} fronds={detail} />
+          <Gill x={160} y={106} angle={115} main={c.accent} tip={c.shade} fronds={detail} />
         </g>
         <ellipse cx={100} cy={86} rx={68} ry={48} fill={c.main} />
         <ellipse cx={100} cy={98} rx={44} ry={26} fill={c.light} opacity={0.55} />
+        {detail && SPECKLES.slice(0, 4).map(([x, y, r]) => <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill={c.shade} opacity={0.35} />)}
         <Face geometry={FACE} expression={expression} blush={c.blush} eyesClosed={eyesClosed} />
         <Accessory id={accessory} attach={AT} slots={['head', 'face']} />
       </g>

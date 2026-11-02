@@ -12,4 +12,6 @@ export interface SpeciesArtProps {
   faceStyle: 'dots' | 'none';
   // Luma only: glow color (her own, or her check-in's) and strength 0–1.
   glow: { color: string; strength: number };
+  // v2.1 F-14: the drawn size in px, for details that only read when big.
+  size?: number;
 }

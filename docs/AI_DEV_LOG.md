@@ -3513,3 +3513,40 @@ racing thoughts, 2 suits a tired moment. Plan:
   took 56 seconds once the machine was quiet (no leftover headless
   browsers). I also gave the tool's audit step explicit timeouts, so a
   missing field can't hang an audit again.
+
+## F-14 — Axolotl's external details on the Shore (30-minute timebox)
+2026-11-02
+
+**Before.** The team noticed Lolo looked bare on the Shore and wrote
+"escamas externas". Axolotls have no scales; what makes one recognizable
+is its external gills. The timebox was a hard 30 minutes.
+
+**What I found.** On the Shore, Lolo had no gills at all. It's the same
+drawing as everywhere else (no simplified variant, nothing removed by
+size, nothing hidden). The gills are the only parts drawn with a fixed
+`transform` attribute (`translate` plus `rotate`). The Shore places the
+companion inside the scene's `foreignObject`, and there Chrome resolved
+that transform's origin against the wrong viewport. The gills swung out
+past the edge and were clipped.
+
+**After (about 25 minutes).**
+- Each gill's points are now placed in code, at their position and
+  angle, with no `transform`. They draw the same everywhere, the Shore
+  included.
+- At 64px and up, each gill has three thin frond lines in its darker tip
+  color, and the head and body have a few soft speckles (the "texture"
+  reading of the team's note).
+- On the Shore only, the gills get a 1.5px outline in their tip color
+  (CSS on the existing placement attribute; zero width elsewhere), so
+  they read against the sand.
+- Nothing else in the design changed.
+
+**How I checked it.** Screenshots at 3× on the production build: on the
+Shore, six gills with outlines (none before); in the Studio, the same
+Lolo as before with fronds and speckles. Companion tests (28), the full
+suite (565) and v1 (164) are green; `/` is 299.5 KB.
+
+**Left open.** During the rare "special" idle, the gill wiggle is still a
+CSS rotation around a point in pixels, which may misplace the gills for
+that second on the Shore only. I didn't chase it inside the timebox
+(TEAM_TODO).

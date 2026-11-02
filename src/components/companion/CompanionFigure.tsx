@@ -167,6 +167,7 @@ export default function CompanionFigure(props: CompanionFigureProps) {
                 accessory={accessory}
                 faceStyle={faceStyle}
                 glow={{ color: glowColor ?? colors.accent, strength: glow.strength }}
+                size={size}
               />
             </g>
           </g>

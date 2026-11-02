@@ -1366,3 +1366,11 @@ A v1 test finishes "Count back by 7" with "I'm done", like the other
 timed tools. The new tool keeps that button (it leads to the re-check,
 like "End early") next to its own Next and Type controls. The default (7
 from 100) reads exactly as before.
+
+**D196 — 2026-11-02 — "Escamas externas" read as the gills, and the gills were the bug.**
+Axolotls have no scales; their external gills are what makes them read as
+axolotls. On the Shore the gills were missing because of a Chrome quirk
+with `transform` attributes inside a `foreignObject` (F-14 log). The fix
+places the gill points without a transform. Fronds and speckles show
+from 64px, and the Shore adds a thin outline. The texture reading is
+covered too, lightly, in case that's what the team meant.

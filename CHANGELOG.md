@@ -91,6 +91,9 @@ Challenge Partner, most urgent first.
   next number and reveal it, or type it; a near miss just shows the right
   number and carries on. Your choices are remembered in a new Settings →
   Toolkit section.
+- **F-14** Lolo the axolotl has its gills on the Shore again (they were
+  missing there), now with feathery fronds and a few soft speckles at
+  larger sizes.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

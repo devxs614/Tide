@@ -348,3 +348,10 @@
   from { transform: translateX(0); }
   to { transform: translateX(calc(100cqw - 56px)); }
 }
+
+/* v2.1 F-14: on the Shore the axolotl's gills get a thin darker outline,
+   1.5 screen pixels at any size, so they stay clear against the sand. */
+[data-companion-placement="shore"] [data-gill-outline] {
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+}
