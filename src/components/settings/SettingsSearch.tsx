@@ -30,7 +30,9 @@ export function SettingsSearch() {
           value={q}
           placeholder={copy.set.searchPlaceholder}
           onChange={(e) => setQ(e.target.value)}
-          className="min-h-12 flex-1 bg-transparent text-body outline-none"
+          // min-w-0: a text field has a built-in minimum width that pushed the
+          // page sideways at 150% with Lexend and extra spacing.
+          className="min-h-12 w-full min-w-0 flex-1 bg-transparent text-body outline-none"
         />
       </div>
       {q.trim() && (

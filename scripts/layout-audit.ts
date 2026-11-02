@@ -47,7 +47,9 @@ const report = await runAudit(browser, options, (msg) => console.log(msg));
 await browser.close();
 
 const failures = report.findings.filter((f) => !f.warn && !allow.some((a) => a.check === f.check && f.selector.includes(a.selector) && (!a.state || a.state === f.state)));
-const day = new Date().toISOString().slice(0, 10);
+// The team's local day, not UTC (an evening run shouldn't be filed tomorrow).
+const d = new Date();
+const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 mkdirSync(path.join(root, 'docs', 'audits'), { recursive: true });
 const out = path.join(root, 'docs', 'audits', `${day}-${label}.json`);
 writeFileSync(out, JSON.stringify({ label, createdAt: new Date().toISOString(), seconds: Math.round((Date.now() - started) / 1000), options: { ...options, screenshotDir: undefined }, failures, warnings: report.warningCount, statesRun: report.statesRun }, null, 2));

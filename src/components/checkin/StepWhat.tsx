@@ -21,7 +21,7 @@ export function StepWhat({ text, onText, onNext, onNoWords, onSkipToMap }: Props
   const ready = text.trim().length >= 3;
   return (
     <>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <StepHeader title={copy.checkin.step1Title} stepNumber={1} />
         <CheckInCoach>{copy.ob.coachText}</CheckInCoach>
         <div className="flex flex-col gap-2">
@@ -49,7 +49,7 @@ export function StepWhat({ text, onText, onNext, onNoWords, onSkipToMap }: Props
           {copy.checkin.noWords}
         </Button>
       </div>
-      <div className="flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
         <Button className="sm:flex-1" disabled={!ready} onClick={onNext} data-demo-id="checkin-next">
           {copy.global.next}
         </Button>

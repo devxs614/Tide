@@ -32,7 +32,7 @@ export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
 
   return (
     <>
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-5 px-5 pt-5 pb-4">
         <StepHeader title={copy.checkin.allWordsTitle} stepNumber={2} />
         {QUADRANTS.map((q) => (
           <section key={q} aria-labelledby={`words-${q}`} className="flex flex-col gap-2">
@@ -72,7 +72,7 @@ export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
           </div>
         </div>
       </div>
-      <div className="border-t border-line p-5">
+      <div data-overlay="chrome" className="sheet-footer border-t border-line p-5">
         <Button size="block" onClick={onBack}>
           {copy.global.done}
         </Button>

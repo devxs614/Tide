@@ -11,7 +11,7 @@ const REASONS = Object.entries(copy.unstick.reasons) as Array<[StuckReason, stri
 
 export function UnstickReasons({ task, loading, onChoose }: { task: Task; loading: boolean; onChoose: (r: StuckReason) => void }) {
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto px-5 pt-5 pb-6">
+    <div className="flex flex-col gap-4 px-5 pt-5 pb-6">
       <p className="text-caption text-ink-soft">{task.title}</p>
       <LeftOffNote task={task} />
       <StepHeader title={copy.unstick.title} />

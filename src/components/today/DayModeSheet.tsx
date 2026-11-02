@@ -93,7 +93,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto px-5 pt-5 pb-6">
+    <div className="flex flex-col gap-4 px-5 pt-5 pb-6">
       <StepHeader title={copy.dayMode.title} />
       {loading ? (
         <div className="flex flex-col gap-3" aria-live="polite">

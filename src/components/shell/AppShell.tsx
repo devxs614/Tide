@@ -19,7 +19,6 @@ import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
-import { KeyboardShortcuts } from './KeyboardShortcuts';
 
 // The sheets load the first time they open, so a screen's first load
 // doesn't carry the check-in steps, the AI validation and the Bridge.
@@ -31,6 +30,9 @@ const DayModeSheet = dynamic(
   () => import('@/components/today/DayModeSheet').then((m) => m.DayModeSheet),
   { ssr: false },
 );
+// Keyboard shortcuts only matter once someone presses a key, so their code
+// loads right after the page instead of with it (`/` sits at its budget).
+const KeyboardShortcuts = dynamic(() => import('./KeyboardShortcuts').then((m) => m.KeyboardShortcuts), { ssr: false });
 // v1 users meet v2 here, once (spec 11.3). Loaded only for them.
 const WhatsNewSheet = dynamic(() => import('@/components/whatsnew/WhatsNewSheet').then((m) => m.WhatsNewSheet), { ssr: false });
 const BridgeSheet = dynamic(
@@ -102,7 +104,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <TopBar title={titleFor(pathname)} />
       <OfflinePill />
       <BridgeBanner />
-      <main id="main" tabIndex={-1} className="flex-1 px-5 pb-48 pt-5 outline-none">
+      {/* `isolate`: the page gets its own stacking context, so a z-index
+          inside it (a segmented control's thumb) can never paint over the
+          sticky top bar or the tab bar (v2.1 F-02). */}
+      <main id="main" tabIndex={-1} className="isolate flex-1 px-5 pb-48 pt-5 outline-none">
         {children}
       </main>
       <div

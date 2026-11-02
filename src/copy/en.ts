@@ -1355,6 +1355,8 @@ export const copy = {
     oldDemoData: 'Your main workspace has example data from an older version. Clear it and start fresh?',
     clearOld: 'Clear example data',
     hudLabel: 'Demo controls',
+    moreControls: 'More controls',
+    fewerControls: 'Fewer controls',
     play: 'Play',
     pause: 'Pause',
     next: 'Next',
@@ -1371,6 +1373,18 @@ export const copy = {
     runPitch: 'Run the pitch cut',
     crisisPreview: 'Preview: this is what Tide shows if someone writes about being in danger. Nothing was saved.',
     debugTitle: 'Demo steps',
+  },
+
+  // The text size helper in Settings (v2.1 F-02, spec 6.5).
+  textSize: {
+    note: 'Tide adjusts its layout as text gets bigger. If something looks wrong, tell us.',
+    report: 'Copy layout details for the team',
+    copied: 'Copied. Paste it in a message to the team.',
+    copyFailed: "Couldn't copy here. A screenshot works too.",
+    sampleLabel: 'How a task and a setting look at this size',
+    sampleTask: 'Read chapter 4 for Physics',
+    sampleMeta: 'Studying · Energy 2 of 3 · Due tomorrow',
+    sampleSwitch: 'Read check-ins aloud',
   },
 
   // The companion's speech bubble (v2.1 F-01).

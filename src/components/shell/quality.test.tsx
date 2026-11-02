@@ -43,6 +43,13 @@ describe('shortcut rules', () => {
   });
 });
 
+// The listener's code arrives just after the page; give it a moment so a
+// "nothing happened" really means the listener chose to do nothing.
+const listenerLoaded = () => act(async () => {
+  await import('./KeyboardShortcuts');
+  await new Promise((r) => setTimeout(r, 50));
+});
+
 describe('shortcuts in the app', () => {
   afterEach(() => vi.unstubAllGlobals());
 
@@ -51,8 +58,12 @@ describe('shortcuts in the app', () => {
     await resetApp({ 'whatsNew.seen': true });
     await renderApp(<AppShell>{null}</AppShell>);
     await screen.findByRole('navigation', { name: 'Main' });
-    fireEvent.keyDown(window, { key: '2' });
-    expect(navigation.push).toHaveBeenLastCalledWith('/tasks');
+    // The listener loads just after the page (v2.1), so the first press
+    // retries until it's there.
+    await waitFor(() => {
+      fireEvent.keyDown(window, { key: '2' });
+      expect(navigation.push).toHaveBeenLastCalledWith('/tasks');
+    });
     fireEvent.keyDown(window, { key: 'D', shiftKey: true });
     expect(navigation.push).toHaveBeenLastCalledWith('/demo');
     fireEvent.keyDown(window, { key: '?', shiftKey: true });
@@ -72,6 +83,7 @@ describe('shortcuts in the app', () => {
     await resetApp({ 'shortcuts.enabled': false });
     await renderApp(<AppShell>{null}</AppShell>);
     await screen.findByRole('navigation', { name: 'Main' });
+    await listenerLoaded();
     fireEvent.keyDown(window, { key: '2' });
     expect(navigation.push).not.toHaveBeenCalled();
   });
@@ -81,6 +93,7 @@ describe('shortcuts in the app', () => {
     navigation.pathname = '/support';
     await renderApp(<AppShell>{null}</AppShell>);
     await screen.findByRole('navigation', { name: 'Main' });
+    await listenerLoaded();
     fireEvent.keyDown(window, { key: '1' });
     expect(navigation.push).not.toHaveBeenCalled();
   });

@@ -61,6 +61,19 @@ async function auditState(page: Page, opts: AuditOptions, state: AuditState, wid
     await page.waitForTimeout(120);
     add((await page.evaluate(pageChecks)).filter((f) => f.check !== 'page-overflow-x'));
   }
+  // Inside an open sheet the sheet scrolls, not the page: check the middle
+  // and the very end of it too.
+  const sheetHeight = await page.evaluate(() => document.querySelector('[data-slot="sheet-content"]')?.scrollHeight ?? 0);
+  if (sheetHeight) {
+    for (const where of ['middle', 'end'] as const) {
+      await page.evaluate((w) => {
+        const s = document.querySelector('[data-slot="sheet-content"]')!;
+        s.scrollTop = w === 'end' ? s.scrollHeight : s.scrollHeight / 2 - s.clientHeight / 2;
+      }, where);
+      await page.waitForTimeout(120);
+      add((await page.evaluate(pageChecks)).filter((f) => f.check !== 'page-overflow-x'));
+    }
+  }
   const list = [...found.values()];
   if (opts.screenshotDir && list.some((f) => !f.warn)) {
     mkdirSync(opts.screenshotDir, { recursive: true });

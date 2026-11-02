@@ -170,8 +170,10 @@ export function ShoreScene({
           );
         })}
 
+        {/* x=44, not 4: on a narrow phone the scene is cropped at the sides
+            (it fills the width), and the companion was half cut off. */}
         {companion && (
-          <foreignObject x="4" y="226" width="96" height="96" data-export-skip>
+          <foreignObject x="44" y="226" width="96" height="96" data-export-skip>
             {companion}
           </foreignObject>
         )}

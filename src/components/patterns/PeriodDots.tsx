@@ -48,9 +48,11 @@ export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; now
           );
         })}
       </ul>
-      <dl aria-label={copy.patterns.legend} className="grid grid-cols-1 gap-1 text-caption sm:grid-cols-2">
+      {/* Two columns only when each fits 14em (it went by screen width, and
+          the phone-width column squeezed the meanings into the names). */}
+      <dl aria-label={copy.patterns.legend} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14em),1fr))] gap-1 text-caption">
         {QUADRANTS.map((q) => (
-          <div key={q} className="flex items-center gap-2">
+          <div key={q} className="flex flex-wrap items-center gap-x-2">
             <dt className="flex items-center gap-2 font-bold">
               <QuadrantDot quadrant={q} />
               {copy.quadrants[q].name}

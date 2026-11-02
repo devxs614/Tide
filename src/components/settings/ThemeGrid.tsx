@@ -34,7 +34,7 @@ function ThemeCard({ id, selected, onPick }: { id: ThemeId; selected: boolean; o
         <span className="h-5 rounded-md" style={{ background: `linear-gradient(${c.skyTop}, ${c.sea})` }} />
         <span className="h-1.5 w-4/5 rounded-full" style={{ background: c.ink }} />
         <span className="h-1.5 w-3/5 rounded-full" style={{ background: c.inkSoft }} />
-        <span className="flex items-center justify-between">
+        <span className="flex flex-wrap items-center justify-between gap-1">
           <span
             className="rounded-full px-2.5 py-0.5 font-display text-[0.6471rem] font-extrabold"
             style={{ background: c.primary, color: c.onPrimary, boxShadow: `0 3px 0 ${c.primaryShadow}` }}
@@ -71,7 +71,10 @@ function Grid({ selected, onPick, label }: { selected: ThemeId; onPick: (id: The
         // "Dark" regions. The name says which grid each group belongs to.
         <div key={group} role="group" className="flex flex-col gap-2" aria-label={label ? `${label}, ${copy.themes.groups[group]}` : copy.themes.groups[group]}>
           <h5 className="font-display text-small font-bold text-ink-soft">{copy.themes.groups[group]}</h5>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {/* As many columns as fit cards at least 9em wide: two on a phone
+              at normal text, one at big text, more on a laptop. The em
+              follows the text size, so cards never get too narrow to read. */}
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9em),1fr))] gap-3">
             {THEME_IDS.filter((id) => THEMES[id].group === group).map((id) => (
               <ThemeCard key={id} id={id} selected={selected === id} onPick={() => onPick(id)} />
             ))}

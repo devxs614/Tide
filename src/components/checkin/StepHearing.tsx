@@ -39,7 +39,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
   const pickedFromList = state.selected.filter((id) => !id.startsWith('custom:') && !state.candidates.some((c) => c.id === id));
   return (
     <>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <StepHeader title={byMode(copy.checkin.step2Title, settings.communicationMode)} stepNumber={2} />
         <CheckInCoach>{copy.ob.coachWords}</CheckInCoach>
         <p aria-live="polite" className="text-ink-soft">
@@ -87,7 +87,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
           </>
         )}
       </div>
-      <div className="border-t border-line p-5">
+      <div data-overlay="chrome" className="sheet-footer border-t border-line p-5">
         <Button size="block" disabled={!canLeaveStepTwo(state)} onClick={onNext} data-demo-id="checkin-next">
           {copy.global.next}
         </Button>

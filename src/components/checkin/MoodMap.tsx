@@ -94,7 +94,7 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
           </p>
         </div>
       ) : (
-        <div className="mx-auto w-full max-w-[320px]">
+        <div className="mx-auto w-full max-w-[20em]">
           <p className="text-center text-caption text-ink-soft">{copy.moodMap.moreEnergy}</p>
           <div className="flex items-center gap-1">
             <span className="w-4 shrink-0 -rotate-180 text-caption text-ink-soft [writing-mode:vertical-rl]">{copy.moodMap.unpleasant}</span>
@@ -114,8 +114,12 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
                   <span className={cn('absolute text-caption font-bold text-ink', place)}>{copy.quadrants[q].name}</span>
                 </div>
               ))}
+              {/* The marker goes wherever Maya puts it, so it may rest on a
+                  quadrant's name; the name is also in its value text. For the
+                  layout audit it's an intended overlay. */}
               <div
                 role="slider"
+                data-overlay="marker"
                 tabIndex={0}
                 aria-label={copy.moodMap.dotLabel}
                 aria-valuemin={-5}

@@ -46,13 +46,18 @@ function SwitchRow({
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
 }) {
+  // When the row gets narrow for its text (a phone at 130% and up), the
+  // switch moves under its label instead of squeezing it (v2.1 F-02). The
+  // em-based container query follows the text size, not only the screen.
   return (
-    <div className="flex min-h-12 items-center justify-between gap-4">
-      <label htmlFor={id} className="flex flex-col">
-        <span>{label}</span>
-        {description && <span className="text-caption text-ink-soft">{description}</span>}
-      </label>
-      <Switch id={id} checked={checked} onCheckedChange={onCheckedChange} />
+    <div className="@container">
+      <div data-setting-row className="flex min-h-12 items-center justify-between gap-x-4 gap-y-2 @max-[18em]:flex-col @max-[18em]:items-start">
+        <label htmlFor={id} className="flex min-w-0 flex-col">
+          <span>{label}</span>
+          {description && <span className="text-caption text-ink-soft">{description}</span>}
+        </label>
+        <Switch id={id} checked={checked} onCheckedChange={onCheckedChange} className="shrink-0" />
+      </div>
     </div>
   );
 }

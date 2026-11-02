@@ -134,6 +134,13 @@ up during the build. — Claude Code
   should appear and the suggestions should be the built-in ones. *By Nov 4.*
 
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
+- [ ] **Check Settings, Check-in and Today on a real iPhone and a real
+  Android phone** at the phone's largest standard text size plus Tide at
+  130%: nothing should overlap, sheets should scroll with their buttons
+  in reach, and nothing should scroll sideways. If something looks wrong,
+  Settings → Appearance → Text size → "Copy layout details for the team"
+  copies what we need to fix it. *By Mon, Nov 2.* Why: the audit runs in
+  desktop Chrome; real phones add browser bars and OS text settings.
 - [ ] **Tap the companion on a real phone at 130% text** (Settings →
   Appearance → Text size), on Today, on the Shore, in Focus and in the
   Companion Studio. The whole sentence should show, never under the top

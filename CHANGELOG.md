@@ -13,6 +13,14 @@ Challenge Partner, most urgent first.
   a card, the shore or the top bar, waits while you hover or tap it, and
   stays longer at bigger text sizes. Sheets give their Close button a row
   of its own, so it can't sit on top of anything.
+- **F-02** Tide works at every text size, from a 320px phone to a laptop:
+  nothing overlaps, nothing is cut off and nothing scrolls sideways at
+  115%, 130% or 150%, with any font, bold text or extra spacing. Sheets
+  scroll as a whole with their buttons always in reach; settings rows put
+  the switch under the label when space runs out; long tab labels wrap;
+  Settings' preview folds away at big text; and a new sample under Text
+  size shows the result, with a button that copies layout details for the
+  team.
 - New for the team: a layout audit (`npm run audit:layout`) that checks
   every screen at six widths and four text sizes in a real browser.
 

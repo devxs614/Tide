@@ -28,7 +28,7 @@ export function FocusPicker({ open, onOpenChange }: { open: boolean; onOpenChang
           <SheetTitle>{q.pickTitle}</SheetTitle>
           <SheetDescription>{q.pickBody}</SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col gap-2 overflow-y-auto px-5 pt-3 pb-6">
+        <div className="flex flex-col gap-2 px-5 pt-3 pb-6">
           {tasks?.length === 0 && (
             <p className="text-ink-soft">
               {q.pickNone}{' '}

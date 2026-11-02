@@ -76,7 +76,8 @@ export function OnboardingScreen() {
 
   return (
     <div className="flex min-h-dvh flex-col gap-5 p-5">
-      <div className="flex items-center gap-2">
+      {/* Wraps at big text: "More options" used to run off the screen. */}
+      <div className="flex flex-wrap items-center gap-2">
         {step > 1 ? (
           <Button variant="quiet" size="sm" onClick={() => go(back)}>
             <ArrowLeft aria-hidden />
@@ -85,7 +86,7 @@ export function OnboardingScreen() {
         ) : (
           <span className="min-h-12" />
         )}
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-1">
           <Button variant="quiet" size="sm" onClick={() => void skipStep()}>
             {copy.ob.skip}
           </Button>

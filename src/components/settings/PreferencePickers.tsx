@@ -9,6 +9,7 @@ import type { CommunicationMode, Settings } from '@/lib/types';
 import { THEMES } from '@/lib/theme/themes';
 import { CardButton } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { TextSizeSample } from './TextSizeSample';
 
 function Choice({ pressed, onClick, children, className }: { pressed: boolean; onClick: () => void; children: React.ReactNode; className?: string }) {
   return (
@@ -44,6 +45,7 @@ export function TextSizePicker() {
         ))}
       </div>
       <p className="rounded-card border-2 border-line bg-surface-2 p-3">{copy.settings.textSizePreview}</p>
+      <TextSizeSample />
     </fieldset>
   );
 }

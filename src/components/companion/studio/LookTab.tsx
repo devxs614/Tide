@@ -34,7 +34,8 @@ export function LookTab({ onSpecies }: { onSpecies: (species: CompanionSpecies |
             <h2 id="studio-color" className="font-display font-extrabold">
               {t.studio.color}
             </h2>
-            <div className="grid grid-cols-4 gap-2">
+            {/* As many per row as fit, so names never run into each other at big text. */}
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,5em),1fr))] gap-2">
               {COMPANIONS[species].variants.map((v) => (
                 <CardButton
                   key={v.id}
@@ -53,7 +54,7 @@ export function LookTab({ onSpecies }: { onSpecies: (species: CompanionSpecies |
             <h2 id="studio-accessory" className="font-display font-extrabold">
               {t.studio.accessory}
             </h2>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,6.5em),1fr))] gap-2">
               {ACCESSORIES.map((a) => (
                 <CardButton
                   key={a}

@@ -18,7 +18,9 @@ export function OfflinePill() {
       <span
         aria-hidden
         className={cn(
-          'offline-pill mt-2 rounded-full border-2 border-line bg-surface-2 px-3 py-1 text-caption font-bold whitespace-nowrap text-ink',
+          // It used to be one unbreakable line: invisible, but still wider
+          // than a narrow phone, so every screen scrolled sideways.
+          'offline-pill mt-2 max-w-[calc(100vw-2rem)] rounded-card border-2 border-line bg-surface-2 px-3 py-1 text-center text-caption font-bold text-ink',
           !online && 'is-on',
         )}
       >

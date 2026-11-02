@@ -88,7 +88,7 @@ export function ShoreScreen() {
             <Chip key={r} label={copy.shore.ranges[r]} pressed={range === r} onToggle={() => setRange(r)} />
           ))}
         </div>
-        <div className="ml-auto flex gap-1">
+        <div className="ml-auto flex flex-wrap justify-end gap-1">
           <Button variant="quiet" size="sm" asChild>
             <Link href="/shore/collection" data-demo-id="shore-collection">
               <BookOpen aria-hidden />

@@ -35,8 +35,8 @@ export function PeopleSection() {
     <Section id="people" title={copy.settings.people}>
       <ul className="flex flex-col gap-2">
         {settings.trustedContacts.map((c) => (
-          <li key={c.id} className="flex items-center gap-2 card-flat py-1 pr-1 pl-3">
-            <span className="flex-1 break-words">
+          <li key={c.id} className="flex flex-wrap items-center gap-2 card-flat py-1 pr-1 pl-3">
+            <span className="min-w-0 flex-1 basis-40 break-words">
               {c.name} · {c.value}
             </span>
             <Button variant="quiet" size="sm" aria-label={fill(copy.proof.removeReward, { reward: c.name })} onClick={() => void update('trustedContacts', settings.trustedContacts.filter((x) => x.id !== c.id))}>

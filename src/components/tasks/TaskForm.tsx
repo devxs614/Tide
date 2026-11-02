@@ -61,7 +61,7 @@ export function TaskForm({ open, onOpenChange }: { open: boolean; onOpenChange: 
           <SheetTitle>{copy.taskForm.title}</SheetTitle>
         </SheetHeader>
         <form
-          className="flex flex-col gap-5 overflow-y-auto px-5 pt-4 pb-6"
+          className="flex flex-col gap-5 px-5 pt-4 pb-6"
           onSubmit={(e) => {
             e.preventDefault();
             void save();

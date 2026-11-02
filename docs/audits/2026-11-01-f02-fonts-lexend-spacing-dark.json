@@ -1,0 +1,32 @@
+{
+  "label": "f02-fonts-lexend-spacing-dark",
+  "createdAt": "2026-11-02T00:40:59.629Z",
+  "seconds": 55,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      360,
+      390
+    ],
+    "scales": [
+      1.3,
+      1.5
+    ],
+    "states": [
+      "settings",
+      "today",
+      "sheet"
+    ],
+    "prefs": {
+      "font": "lexend",
+      "theme": "midnightTide",
+      "bold": false,
+      "spacing": true
+    },
+    "textSpacing": false,
+    "workers": 4
+  },
+  "failures": [],
+  "warnings": 33,
+  "statesRun": 112
+}

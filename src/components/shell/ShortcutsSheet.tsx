@@ -15,7 +15,7 @@ export function ShortcutsSheet({ open, onOpenChange }: { open: boolean; onOpenCh
           <SheetTitle>{copy.shortcuts.title}</SheetTitle>
           <SheetDescription>{copy.shortcuts.intro}</SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-5 pt-3 pb-6">
+        <div className="flex flex-col gap-4 px-5 pt-3 pb-6">
           <ShortcutsList />
           <p className="text-ink-soft">{copy.shortcuts.turnOff}</p>
           <Link

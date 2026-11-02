@@ -1,0 +1,32 @@
+{
+  "label": "f02-recheck",
+  "createdAt": "2026-11-02T00:58:45.907Z",
+  "seconds": 11,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      390
+    ],
+    "scales": [
+      1,
+      1.5
+    ],
+    "states": [
+      "today",
+      "tasks",
+      "settings:appearance",
+      "sheet:checkin1"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 2
+  },
+  "failures": [],
+  "warnings": 4,
+  "statesRun": 10
+}

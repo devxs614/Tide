@@ -18,7 +18,7 @@ interface Props {
 export function StepBehind({ causes, onToggle, onNext, onSkip }: Props) {
   return (
     <>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <StepHeader title={copy.checkin.step3Title} stepNumber={3} />
         <p className="text-ink-soft">{copy.checkin.step3Hint}</p>
         <div className="flex flex-wrap gap-2" role="group" aria-label={copy.checkin.step3Title}>
@@ -27,7 +27,7 @@ export function StepBehind({ causes, onToggle, onNext, onSkip }: Props) {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
         <Button className="sm:flex-1" onClick={onNext}>
           {copy.global.next}
         </Button>

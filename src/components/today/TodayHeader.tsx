@@ -25,18 +25,23 @@ export function TodayHeader({ nowTs }: { nowTs: number }) {
   const greeting = copy.today.greeting[dayPart(nowTs)];
   const name = settings.name.trim();
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex min-w-0 flex-1 flex-col">
-        <h2 className="text-h1 font-bold">{name ? fill(copy.today.greetingWithName, { greeting, name }) : greeting}</h2>
-        <p className="text-ink-soft">{formatLongDate(nowTs)}</p>
+    // When the greeting gets cramped (a narrow phone, big text), the
+    // companion moves above it instead of squeezing "afternoon" under its
+    // feet. The em-based size follows the text size, not just the screen.
+    <div className="@container">
+      <div className="flex items-center gap-3 @max-[21em]:flex-col-reverse @max-[21em]:items-stretch">
+        <div className="flex min-w-0 flex-1 flex-col">
+          <h2 className="text-h1 font-bold">{name ? fill(copy.today.greetingWithName, { greeting, name }) : greeting}</h2>
+          <p className="text-ink-soft">{formatLongDate(nowTs)}</p>
+        </div>
+        <CompanionHost
+          placement="today"
+          greet
+          listens={['checkinSaved', 'taskDone', 'celebrate', 'say']}
+          onTap={() => router.push('/companion')}
+          className="shrink-0 @max-[21em]:self-end"
+        />
       </div>
-      <CompanionHost
-        placement="today"
-        greet
-        listens={['checkinSaved', 'taskDone', 'celebrate', 'say']}
-        onTap={() => router.push('/companion')}
-        className="shrink-0"
-      />
     </div>
   );
 }

@@ -14,7 +14,7 @@ const ORDER: Need[] = ['keep', 'adjust', 'regulate', 'talk'];
 
 export function StepNeed({ onChoose, saving }: { onChoose: (need: Need) => void; saving: boolean }) {
   return (
-    <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-6">
+    <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-6">
       <StepHeader title={copy.checkin.step4Title} stepNumber={4} />
       <CheckInCoach>{copy.ob.coachNeed}</CheckInCoach>
       <ul className="flex flex-col gap-3">

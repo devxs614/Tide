@@ -53,6 +53,8 @@ export function paintFor(settings: Settings, systemDark: boolean, motion: Motion
     // quadrant chips, so state never depends on color alone.
     shapes: String(settings['appearance.showQuadrantShapes'] || colorblind || theme.group === 'contrast'),
     spacing: settings.extraSpacing ? 'extra' : 'normal',
+    // 130% and up: some layouts change (the `big-text` variant, v2.1 F-02).
+    textSize: settings.textScale >= 1.3 ? 'large' : 'normal',
     motion,
     reduceMotion: String(motion === 'off'),
     pageTransitions: String(settings['motion.pageTransitions']),

@@ -124,7 +124,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
 
   return (
     <>
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-1 pb-4">
+      <div className="flex flex-1 flex-col gap-5 px-5 pt-1 pb-4">
         <CompanionHost
           placement="bridge"
           size={SIZES.md}
@@ -159,7 +159,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
         />
         <BridgePrep steps={plan?.ai.prepSteps ?? []} draft={draft} />
       </div>
-      <div className="flex flex-col gap-2 border-t border-line p-5">
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5">
         <Button size="block" onClick={() => void leave()} data-demo-id="bridge-done">
           {copy.bridge.doneGoing}
         </Button>

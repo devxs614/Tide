@@ -31,8 +31,9 @@ export function NameRow({
 
   if (draft === null) {
     return (
-      <div className="flex items-center gap-2">
-        <h1 className="min-w-0 truncate text-h1 font-extrabold">{name}</h1>
+      <div className="flex flex-wrap items-center gap-2">
+        {/* It used to be cut off with "…" at big text sizes. */}
+        <h1 className="min-w-0 text-h1 font-extrabold">{name}</h1>
         <Button variant="ghost" size="sm" onClick={() => setDraft(name)}>
           <Pencil aria-hidden />
           {t.editName}

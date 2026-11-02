@@ -32,7 +32,8 @@ export function TabBar() {
       aria-label={copy.shell.tabNavLabel}
       className="border-t-2 border-line bg-surface pb-[env(safe-area-inset-bottom)]"
     >
-      <ul className="relative grid h-[72px] grid-cols-5">
+      {/* min-height, not height: at big text the labels need more room. */}
+      <ul className="relative grid min-h-[72px] grid-cols-5">
         {activeIndex >= 0 && (
           <li
             aria-hidden
@@ -45,20 +46,23 @@ export function TabBar() {
         {TABS.map(({ href, label, icon: Icon }, i) => {
           const active = i === activeIndex;
           return (
-            <li key={href} className="flex">
+            <li key={href} className="flex min-w-0">
               <Link
                 data-demo-id={`tab-${href === "/" ? "today" : href.slice(1)}`}
                 href={href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'relative flex flex-1 flex-col items-center justify-center gap-1 pb-2 font-display text-[0.8235rem] font-bold max-[359px]:text-[0.7059rem]',
+                  // A long label at big text ("Patterns" at 150% on a 320px
+                  // phone) may break inside the word rather than run into
+                  // the next tab.
+                  'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-0.5 pt-1.5 pb-2 text-center font-display text-[0.8235rem] leading-tight font-bold [overflow-wrap:anywhere] max-[359px]:text-[0.7059rem]',
                   active ? 'text-primary' : 'text-ink-soft hover:text-ink',
                 )}
               >
                 {/* The key restarts the little bounce each time a tab becomes active. */}
                 <Icon
                   key={active ? 'on' : 'off'}
-                  className={cn('size-6 stroke-[2.5]', active && 'tab-bounce fill-primary/20')}
+                  className={cn('size-6 shrink-0 stroke-[2.5] big-text:size-5', active && 'tab-bounce fill-primary/20')}
                   aria-hidden
                 />
                 {label}

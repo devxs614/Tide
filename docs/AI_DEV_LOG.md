@@ -2580,3 +2580,88 @@ how much room to leave (`pr-28`); at big text sizes Close grew past it.
 (a new line simply replaces the old one, with the usual pop). The other
 findings in the same audit runs (top bar, sheet footers, Studio chips,
 page overflow) belong to F-02.
+
+## Before F-02 — Large text and responsive layout; Settings overlap (P0)
+2026-11-01
+
+What the person experiences: with text at 130% (and more so at 150%, with
+Lexend, bold text or extra spacing, on a narrow phone), parts of Tide
+overlap, labels collide with switches, text is cut off and some screens
+scroll sideways; Settings was the worst. For an app built for
+accessibility that's a contradiction (WCAG 1.4.4 Resize text, 1.4.10
+Reflow). Fixed means: at 115%, 130% and 150%, from 320 to 1280px, no
+overlapping, clipped or covered text anywhere and no sideways scrolling.
+What could break: v1 layouts people know (the tab bar, Today, sheets),
+the demo tour's taps, and the first-load budget (0.3 KB left).
+
+## After F-02 — Large text and responsive layout; Settings overlap
+2026-11-01
+
+**Reproduction.** The "before" audit (`2026-11-01-before.json`) had 21,156
+findings over the 6 × 4 matrix; a focused run at 320/390px × 130/150%
+after F-01 still had 474. I looked at screenshots for the worst cases
+(Today and the check-in sheet at 320–390px, 150%).
+
+**Root causes** (one or two sentences each):
+- *Everything scrolled sideways at 320–390px:* the offline pill is
+  invisible but was one unbreakable line wider than a narrow phone.
+- *Settings overlap:* the segmented controls' `z-10` and the sticky Live
+  Preview shared the top bar's layer, so settings painted over the top bar
+  and the preview slid over the settings as you scrolled; at 130%+ the
+  preview also took half the screen.
+- *Sheets at big text:* a fixed header (Close row 96px), a fixed
+  companion row (149px) and a fixed footer (231px) left 275px for the
+  step on a 390×800 phone, the companion row overflowed into "Step 1", and
+  "Skip to the map" was pushed off the bottom, unreachable.
+- *The top bar:* the "Demo data" badge couldn't wrap and the title
+  couldn't shrink, so they ran into the companion head and Menu.
+- *Tab labels:* "Patterns" at 150% is wider than a 64px tab.
+- *Rows with a label and a button* (People, Proof rewards, the onboarding
+  header, the Shore's buttons, the onboarding carousel, the Settings
+  search field): labels with no `min-w-0` and rows that couldn't wrap
+  pushed buttons off the side.
+- *Fixed grids* (theme cards in 2 columns, Studio colors in 4 and
+  accessories in 3, the Patterns legend switching on screen width) were
+  too narrow for their text; the Studio's name was truncated.
+- *Today's greeting* ran under the companion; the Shore companion was cut
+  by the scene's crop at 320px; the mood map's marker could sit on a
+  quadrant's name.
+
+**Fix.** The structural rules from spec 6.2 and the component table 6.3,
+as listed in `docs/CODE_WALKTHROUGH.md` ("Large text and responsive
+layout"): long words break; rows wrap and labels shrink; container
+queries in em (switch rows, the Today header); auto-fill grids; the
+segmented control turns into a vertical radio list when a label doesn't
+fit; sheets scroll as a whole with a sticky Close row and sticky buttons
+(D136); `main` is isolated so nothing inside it rises above the bars; a
+`big-text` variant (D139) unsticks the Live Preview and the Tasks toolbar,
+folds the preview and the demo controls, and drops the top bar's
+companion head on phones; tab labels may break inside a word (D138); the
+mood map grows with text (20em); toasts sit 10rem up so they clear the
+bars at any size; demo captions show three lines. The text size picker
+shows a live task card and setting row, the note from spec 6.5, and
+"Copy layout details for the team" (clipboard only).
+
+**How I checked it.**
+- Final audit, `docs/audits/2026-11-01-after.json`: 1,296 state runs (61
+  screens and states × 6 widths × 4 text sizes), **0 failures**; plus
+  Hyperlegible + bold and Lexend + extra spacing + Midnight Tide at
+  360/390 × 1.3/1.5 (0), 200% zoom as a 640px viewport at 1.3 (0), and the
+  WCAG 1.4.12 text-spacing overrides on Today, the check-in steps and
+  Settings (0). 653 small-target warnings remain (mostly inline links and
+  the shore's items); they're warnings by the spec's rules.
+- New tests: the segmented control stacks when a label overflows and
+  keeps its radios; the switch row carries its container query.
+- I fixed one flaky v2 test along the way: the Companion Studio flow test
+  clicked "the last Undo button", which was a timing guess; it now clicks
+  the Undo in the toast it means (it failed 2 of 3 runs even before F-02).
+- Lint, typecheck, 456 tests (74 files) and the v1 suite (33 files, 164
+  tests) green. `/` is 299.6 KB: the keyboard shortcuts' listener now
+  loads just after the page to stay under 300.
+
+**Left open (honest list):** spec 6.3 items the audit didn't need and I
+didn't build: preset-row arrow buttons and "See all", the Check in
+button's label moving into a pill (D138), the Tide Line's 5em time column
+and a separate row for "Now", the Focus timer's clamp, and a measured
+`--tabbar-h` (D137). Real phones at their largest OS text size are in
+TEAM_TODO.

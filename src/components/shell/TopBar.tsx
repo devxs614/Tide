@@ -43,10 +43,10 @@ export function TopBar({ title }: { title: string }) {
       {/* At 130% and 150% text there isn't room for all three in one row; the
           badge drops under the title so the menu never gets pushed off screen. */}
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
-        <h1 className="text-h2 font-extrabold text-ink">{title}</h1>
+        <h1 className="min-w-0 text-h2 font-extrabold text-ink">{title}</h1>
         {(settings.demoMode || inDemo) && (
           <span
-            className="rounded-full border border-line bg-surface-2 px-3 py-0.5 text-caption whitespace-nowrap text-ink-soft"
+            className="max-w-full rounded-full border border-line bg-surface-2 px-3 py-0.5 text-caption text-ink-soft"
             aria-label={copy.global.demoBadgeLabel}
           >
             {copy.global.demoBadge}
@@ -58,7 +58,9 @@ export function TopBar({ title }: { title: string }) {
           <Link
             href="/companion"
             aria-label={fill(copy.shell.companion, { name: companion.name })}
-            className="flex size-12 items-center justify-center rounded-full hover:bg-surface-2"
+            // At big text on a phone the title needs the room more than the
+            // head does (the head is a shortcut; the menu has the same link).
+            className="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-surface-2 big-text:max-[480px]:hidden"
           >
             <Companion size={HEAD_SIZE} decorative />
           </Link>

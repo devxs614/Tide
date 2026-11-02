@@ -2,7 +2,7 @@
 // species, name, color and accessory; each is saved at once, and Undo puts
 // the species and the name back.
 import { beforeEach, describe, expect, it } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import { getSettings } from '@/lib/repo/settings';
 import { renderApp, resetApp } from '@/test/utils';
 import { CompanionStudio } from './CompanionStudio';
@@ -34,8 +34,11 @@ describe('Companion Studio', () => {
     await user.type(field, 'Biscuit{Enter}');
     await waitFor(async () => expect((await getSettings())['companion.name']).toBe('Biscuit'));
     expect(screen.getByRole('heading', { level: 1, name: 'Biscuit' })).toBeInTheDocument();
-    const undos = await screen.findAllByRole('button', { name: 'Undo' });
-    await user.click(undos[undos.length - 1]);
+    // The Undo in the "Name changed." toast itself: the species toast from a
+    // moment ago may still be on its way out, so "the last Undo" was a
+    // timing guess that broke once the bubble got busier (v2.1).
+    const nameToast = (await screen.findByText('Name changed.')).closest('[data-sonner-toast]') as HTMLElement;
+    await user.click(within(nameToast).getByRole('button', { name: 'Undo' }));
     await waitFor(async () => expect((await getSettings())['companion.name']).toBe(''));
 
     // Color and accessory save straight away.

@@ -90,7 +90,7 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
             <ChevronLeft aria-hidden />
           </Button>
         </WithTooltip>
-        <div key={choice} className="stagger-in card flex flex-1 flex-col items-center gap-2 p-4 text-center" aria-live="polite">
+        <div key={choice} className="stagger-in card flex min-w-0 flex-1 flex-col items-center gap-2 p-4 text-center" aria-live="polite">
           <div ref={setFigure} className="relative flex h-36 items-end">
             {hello && choice !== 'none' && <CompanionSay text={hello.text} lineKey={hello.key} tapped anchor={figure} onDone={() => setHello(null)} />}
             {choice === 'none' ? <NoneCompanion size={SIZES.lg} /> : <Companion override={{ species: choice }} size={SIZES.lg} />}

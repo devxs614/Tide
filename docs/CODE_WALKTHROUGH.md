@@ -1090,3 +1090,38 @@ Floating UI package that Radix already ships.
 - *How long does it stay?* max(3.5s, words × 0.45s × text size + 1.5s),
   paused while hovered, focused or touched; a tap keeps it.
 
+## Large text and responsive layout (v2.1 F-02)
+
+**What it does.** Keeps every screen readable at 115–150% text, at
+320–1280px, with any font, bold text or extra spacing, and under the
+WCAG 1.4.12 text-spacing overrides.
+
+**The rules, and where they live.**
+- Long words break instead of pushing the page sideways (`overflow-wrap`
+  on `body`); nothing is hyphenated (dyslexia).
+- Rows that hold a label and a control wrap, and the label can shrink
+  (`min-w-0`); switch rows stack under an em-based container query
+  (`ui/switch.tsx`, 18em).
+- Grids of cards use `repeat(auto-fill, minmax(min(100%, Nem), 1fr))`, so
+  they lose columns as text grows (themes, Studio colors and accessories,
+  the Patterns legend).
+- Segmented controls measure themselves and become a vertical radio list
+  when a label doesn't fit (`ui/segmented-control.tsx`).
+- Sheets scroll as a whole; the Close row and the `sheet-footer` buttons
+  stick (`ui/sheet.tsx`, D136).
+- `html[data-text-size="large"]` (130%+) drives the `big-text` variant:
+  sticky panels stop sticking, the Live Preview starts folded, the top bar
+  drops the companion head on phones, the demo controls fold.
+- `main` is `isolate`, so no z-index inside a page can rise above the bars.
+
+**Likely reviewer questions**
+- *How do you know it works?* `docs/audits/2026-11-01-after.json`: the full
+  matrix (6 widths × 4 text sizes × 61 screens and states) with zero
+  failures, plus Hyperlegible+bold, Lexend+spacing+dark, 200% zoom (640px
+  at 130%) and text-spacing passes.
+- *Why em in container queries?* Because the text size changes em; a row
+  should stack when its text no longer fits, not at a fixed screen width.
+- *Why does a tab label sometimes break inside a word?* At 150% on a 320px
+  phone "Patterns" is wider than its tab; breaking it is better than
+  shrinking it or letting labels overlap (D138).
+

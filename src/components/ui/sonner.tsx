@@ -17,7 +17,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={scheme}
       position="bottom-center"
       offset={{ bottom: 168 }}
-      mobileOffset={{ bottom: 168 }}
+      // In rem, so toasts stay clear of the tab bar and Check in button as
+      // they grow with the text size (168px fixed sat on them at 150%).
+      mobileOffset={{ bottom: '10rem' }}
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-5" aria-hidden />,

@@ -11,6 +11,9 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Text at 130% or more (v2.1 F-02): layouts that only work at normal
+   sizes (sticky panels, side-by-side rows) switch to calmer versions. */
+@custom-variant big-text (&:where([data-text-size="large"], [data-text-size="large"] *));
 
 :root {
   --bg: #f7f5f0;
@@ -278,6 +281,11 @@ html[data-motion="off"] {
   body {
     @apply bg-surface-2 text-ink;
     text-align: left;
+    /* A word too long for its box breaks instead of pushing the page
+       sideways (v2.1 F-02). Ordinary words still wrap between words, and
+       nothing is hyphenated: hyphenation is harder for many dyslexic
+       readers. */
+    overflow-wrap: break-word;
   }
   p {
     max-width: 60ch;
@@ -323,6 +331,17 @@ html[data-bold="true"] :is(h1, h2, h3, h4) {
   border-radius: var(--radius-lg);
   box-shadow: 0 var(--ledge) 0 var(--line);
 }
+/* A sheet's action buttons (v2.1 F-02): the whole sheet scrolls, and the
+   buttons stay pinned to its bottom. At big text the old layout (a fixed
+   header, a small scrolling middle, a fixed footer) left a few lines of
+   room for the step itself and pushed buttons off the screen. */
+@utility sheet-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background-color: var(--surface);
+}
+
 @utility card-flat {
   background-color: var(--surface);
   border: 2px solid var(--line);

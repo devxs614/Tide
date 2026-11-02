@@ -38,7 +38,9 @@ export function TasksScreen({ resumeUnstickId, startNew = false }: { resumeUnsti
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="sticky top-16 z-(--z-sticky) -mx-5 bg-bg/95 px-5 py-2 backdrop-blur">
+      {/* Sticky at normal sizes; at big text or on a short screen it scrolls
+          away, so it never takes a big slice of the screen (v2.1 F-02). */}
+      <div data-overlay="chrome" className="sticky top-16 z-(--z-sticky) -mx-5 bg-bg/95 px-5 py-2 backdrop-blur big-text:static [@media(max-height:700px)]:static">
         <Button onClick={() => setFormOpen(true)}>
           <Plus aria-hidden />
           {copy.tasks.addTask}

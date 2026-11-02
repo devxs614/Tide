@@ -135,7 +135,9 @@ function FloatingBubble({ anchor, lineKey, children }: { anchor: Element; lineKe
     middleware: [
       offset(10),
       flip({ padding: 12 }),
-      shift({ padding: 12 }),
+      // Both ways: even when the companion is half below the fold, the
+      // words stay on screen.
+      shift({ padding: 12, crossAxis: true }),
       size({
         padding: 12,
         apply({ availableWidth, availableHeight, elements }) {
@@ -226,6 +228,7 @@ function BubbleBody({
       {closable && (
         <button
           type="button"
+          data-overlay="bubble-close"
           aria-label={copy.companionBubble.close}
           onClick={(e) => {
             e.stopPropagation();

@@ -42,7 +42,7 @@ export function BottleWriteSheet({ open, onClose, fromWrapDate }: { open: boolea
           <SheetTitle>{copy.bottle.writeTitle}</SheetTitle>
         </SheetHeader>
         <form
-          className="flex flex-col gap-3 overflow-y-auto px-5 pt-2 pb-6"
+          className="flex flex-col gap-3 px-5 pt-2 pb-6"
           onSubmit={(e) => {
             e.preventDefault();
             void save();

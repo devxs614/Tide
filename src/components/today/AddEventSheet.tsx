@@ -51,7 +51,7 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
           <SheetTitle>{copy.eventForm.title}</SheetTitle>
         </SheetHeader>
         <form
-          className="flex flex-col gap-4 overflow-y-auto px-5 pt-4 pb-6"
+          className="flex flex-col gap-4 px-5 pt-4 pb-6"
           onSubmit={(e) => {
             e.preventDefault();
             void save();

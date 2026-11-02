@@ -35,7 +35,7 @@ export function pageChecks(): PageFinding[] {
     const r = el.getBoundingClientRect();
     if (r.width <= 1 || r.height <= 1) return false;
     const cs = getComputedStyle(el);
-    if (cs.clip.startsWith('rect(0') || cs.clipPath.includes('inset(50%)')) return false;
+    if (cs.clip.startsWith('rect(0') || cs.clipPath.includes('inset(50%)') || el.closest('.sr-only')) return false;
     // A closed <details> keeps its contents laid out but not shown.
     const details = el.closest('details');
     if (details && !details.open && !el.closest('summary')) return false;
@@ -141,6 +141,9 @@ export function pageChecks(): PageFinding[] {
   // companion off screen.
   for (const bubble of Array.from(document.querySelectorAll('[data-companion-bubble], [data-companion-placement] [role="status"]'))) {
     if (!visible(bubble) || window.scrollY > 1) continue;
+    // Same inside a sheet that has been scrolled.
+    const sheetOf = bubble.closest('[data-slot="sheet-content"]');
+    if (sheetOf && sheetOf.scrollTop > 1) continue;
     const r = bubble.getBoundingClientRect();
     // Entirely past the edge: it's next to a companion that is itself off
     // screen (below the fold), where the person will find both together.
@@ -160,28 +163,44 @@ export function pageChecks(): PageFinding[] {
       // Its own container counts: the corners are rounded, so a point just
       // inside a corner can fall on the box around the bubble.
       if (hit && (bubble.contains(hit) || hit.contains(bubble))) return false;
+      // A sheet opened over a page's bubble: the sheet is on top, as it should be.
+      const sheet = hit?.closest('[data-overlay="sheet"]');
+      if (sheet && !sheet.contains(bubble)) return false;
       by = hit ? describe(hit) : 'nothing';
       return true;
     });
     if (hidden.length > 0) out.push({ check: 'bubble-covered', selector: describe(bubble), detail: `${hidden.length}/5 points, by ${by}` });
   }
 
-  // 7. Scrolled to the very end, nothing may still sit under the tab bar
-  // and Check in button; at the very top, nothing under the top bar. Content
-  // there could never be seen or tapped. (Mid-scroll, content passing under
-  // the sticky bars is just scrolling.)
-  const atEnd = window.scrollY + vh >= document.documentElement.scrollHeight - 2;
-  const atTop = window.scrollY <= 1;
-  if (atEnd || atTop) {
-    const chrome = Array.from(document.querySelectorAll('[data-overlay="chrome"]'))
-      .filter(visible)
-      .map((c) => c.getBoundingClientRect())
-      .filter((c) => (c.top + c.bottom) / 2 > vh / 2 ? atEnd : atTop);
+  // 7. Scrolled to the very end, nothing may still sit under a bar at the
+  // bottom (the tab bar, a sheet's buttons); at the very top, nothing under
+  // a bar at the top. Content there could never be seen or tapped.
+  // (Mid-scroll, content passing under a sticky bar is just scrolling.)
+  // Each bar is judged by the box that scrolls it: the page, or its sheet.
+  const scrollerOf = (el: Element): Element => {
+    for (let e = el.parentElement; e; e = e.parentElement) {
+      const oy = getComputedStyle(e).overflowY;
+      if ((oy === 'auto' || oy === 'scroll') && e.scrollHeight > e.clientHeight + 1) return e;
+    }
+    return document.documentElement;
+  };
+  for (const bar of Array.from(document.querySelectorAll('[data-overlay="chrome"]')).filter(visible)) {
+    const s = scrollerOf(bar);
+    const page = s === document.documentElement;
+    const top = page ? window.scrollY : s.scrollTop;
+    const view = page ? { top: 0, bottom: vh } : s.getBoundingClientRect();
+    const c = bar.getBoundingClientRect();
+    const isBottom = (c.top + c.bottom) / 2 > (view.top + view.bottom) / 2;
+    const atEdge = isBottom ? top + s.clientHeight >= s.scrollHeight - 2 : top <= 1;
+    if (!atEdge) continue;
+    const barLayer = layer(bar.parentElement ?? bar);
     for (let i = 0; i < boxes.length; i++) {
-      if (layer(boxes[i])) continue;
+      const b = boxes[i];
+      if (bar.contains(b) || !s.contains(b) || layer(b) !== barLayer) continue;
       const r = rects[i];
-      const under = chrome.some((c) => Math.min(r.right, c.right) - Math.max(r.left, c.left) > 4 && Math.min(r.bottom, c.bottom) - Math.max(r.top, c.top) > 4);
-      if (under) out.push({ check: 'hidden-under-bar', selector: describe(boxes[i]), detail: `${Math.round(r.top)}..${Math.round(r.bottom)}` });
+      if (Math.min(r.right, c.right) - Math.max(r.left, c.left) > 4 && Math.min(r.bottom, c.bottom) - Math.max(r.top, c.top) > 4) {
+        out.push({ check: 'hidden-under-bar', selector: describe(b), detail: `${Math.round(r.top)}..${Math.round(r.bottom)} under ${describe(bar)}` });
+      }
     }
   }
 

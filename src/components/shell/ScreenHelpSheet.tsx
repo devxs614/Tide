@@ -29,7 +29,7 @@ export function ScreenHelpSheet({ pathname, open, onOpenChange }: { pathname: st
           <SheetTitle>{copy.screenHelp.title}</SheetTitle>
           <SheetDescription>{screen.name}</SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col gap-3 overflow-y-auto px-5 pt-3 pb-6">
+        <div className="flex flex-col gap-3 px-5 pt-3 pb-6">
           {screen.body.map((line) => (
             <p key={line}>{line}</p>
           ))}

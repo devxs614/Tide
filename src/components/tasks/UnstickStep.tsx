@@ -35,7 +35,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
 
   return (
     <>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <p className="text-caption text-ink-soft">{task.title}</p>
         <LeftOffNote task={task} />
         <StepHeader title={copy.unstick.firstStepTitle} />
@@ -69,7 +69,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
         )}
         <p className="text-ink-soft">{output.why}</p>
       </div>
-      <div className="flex flex-col gap-2 border-t border-line p-5">
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5">
         <Button size="block" onClick={onStart} disabled={loading} data-demo-id="unstick-start">
           {fill(copy.unstick.start, { n })}
         </Button>

@@ -91,7 +91,7 @@ function SheetContent({
         data-overlay="sheet"
         data-overlay-root
         className={cn(
-          'fixed inset-x-0 bottom-0 z-(--z-sheet) mx-auto flex max-h-[94dvh] w-full max-w-[430px] flex-col rounded-t-[var(--radius-xl)] border-2 border-b-0 border-line bg-surface text-body text-ink shadow-sheet outline-none data-open:animate-in data-open:slide-in-from-bottom-full data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:slide-out-to-bottom-full data-closed:duration-(--dur-base) data-closed:ease-in',
+          'fixed inset-x-0 bottom-0 z-(--z-sheet) mx-auto flex max-h-[92dvh] w-full max-w-[430px] flex-col overflow-y-auto overscroll-contain rounded-t-[var(--radius-xl)] border-2 border-b-0 border-line bg-surface text-body text-ink shadow-sheet outline-none data-open:animate-in data-open:slide-in-from-bottom-full data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:slide-out-to-bottom-full data-closed:duration-(--dur-base) data-closed:ease-in',
           className,
         )}
         style={dy ? { ...style, transform: `translateY(${dy}px)` } : style}
@@ -104,7 +104,7 @@ function SheetContent({
             of titles and the companion's words. Now it has its own row.
             It comes last in the DOM, so focus still starts in the content,
             and `order-first` draws it at the top. */}
-        <div className="relative order-first flex min-h-6 shrink-0 justify-end px-3 pt-3">
+        <div data-overlay="chrome" className="relative sticky top-0 z-10 order-first flex min-h-6 shrink-0 justify-end bg-surface px-3 pt-3">
           <div
             aria-hidden
             className="absolute top-0 left-1/2 flex h-6 w-16 -translate-x-1/2 cursor-grab touch-none items-center justify-center active:cursor-grabbing"

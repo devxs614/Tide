@@ -955,3 +955,39 @@ and D122): there it can't be clipped, and it can't cover the sheet's title
 the way a floating one would for several seconds. Everywhere else it
 floats in a portal with Floating UI (`@floating-ui/react-dom`, the
 positioning-only package Radix already ships, so `/` doesn't grow).
+
+**D135 — 2026-11-01 — Rows stack at 18em, not the spec's 26em.**
+Container queries in em follow the text size. At 17px × 26em = 442px every
+phone would stack its switch rows even at normal text; at 18em (306px at
+100%) a normal phone keeps label and switch side by side, and at 130% and
+up (398px+) they stack. The Today header uses 21em for the same reason.
+
+**D136 — 2026-11-01 — The whole sheet scrolls; header and footer stick.**
+Each sheet scrolls as one, with its Close row sticky at the top and its
+action buttons sticky at the bottom (`sheet-footer`). Before, a fixed
+header, a fixed footer and a small scrolling middle left 275px for the
+step at 150% text on a 390×800 phone, and pushed "Skip to the map" off
+the screen. The companion row now scrolls away with the content.
+
+**D137 — 2026-11-01 — Bottom padding in rem, not a measured --tabbar-h.**
+The spec suggests a ResizeObserver writing the tab bar's height. The
+page's bottom padding (12rem) and the toasts' offset (10rem) already
+grow with the text size, and the audit's "hidden under the bar at the end
+of the page" check passes everywhere, so I skipped the extra script: `/`
+has 0.2 KB of budget left.
+
+**D138 — 2026-11-01 — Tab labels may break inside a word.**
+"Patterns" at 150% on a 320px phone is wider than its tab. The label may
+break inside the word (`overflow-wrap: anywhere`) and icons shrink at big
+text, rather than shrinking the text or letting labels overlap. Nothing
+in Tide is hyphenated: hyphenation is harder for many dyslexic readers.
+The Check in button's label stays under its circle; the bar is one
+column, so it never collides with the tab labels (the spec's pill is not
+needed).
+
+**D139 — 2026-11-01 — A `big-text` variant from a `data-text-size` attribute.**
+`html[data-text-size="large"]` is set at 130% and up (saved with the
+other early-paint preferences, so there's no flash). Sticky panels other
+than the bars (Settings' Live Preview, the Tasks toolbar) stop being
+sticky there and on screens shorter than 700px; the Live Preview also
+starts folded. The demo controls fold three toggles behind "More controls".

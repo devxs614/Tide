@@ -46,7 +46,7 @@ export function BodyPath({ state, onToggle, onHints, onSubmit, onBack }: Props) 
   const { bodyPlaces, bodyFeelings, energySlider, comfortSlider } = copy.checkin;
   return (
     <>
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5 pb-4">
+      <div className="flex flex-1 flex-col gap-5 px-5 pt-5 pb-4">
         <StepHeader title={copy.checkin.bodyTitle} />
         <fieldset className="flex flex-col gap-2">
           <legend className="mb-2 font-bold">{copy.checkin.bodyWhere}</legend>
@@ -81,7 +81,7 @@ export function BodyPath({ state, onToggle, onHints, onSubmit, onBack }: Props) 
           onChange={(comfortHint) => onHints({ comfortHint })}
         />
       </div>
-      <div className="flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
         <Button className="sm:flex-1" onClick={onSubmit}>
           {copy.checkin.bodyCta}
         </Button>

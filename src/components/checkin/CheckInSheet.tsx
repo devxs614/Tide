@@ -139,7 +139,7 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
   return (
     <>
       <Sheet open={open} onOpenChange={(next) => (next ? undefined : requestClose())}>
-        <SheetContent className="h-[94dvh]" aria-describedby={undefined}>
+        <SheetContent className="h-[92dvh]" aria-describedby={undefined}>
           <CoachContext value={coach}>
           <CompanionHost
             placement="checkin"

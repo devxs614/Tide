@@ -23,7 +23,7 @@ export function ItemDetailsSheet({ item, onClose }: { item: ShoreItem | null; on
             <SheetHeader>
               <SheetTitle>{info.name}</SheetTitle>
             </SheetHeader>
-            <div className="flex flex-col items-center gap-3 overflow-y-auto px-5 pt-2 pb-6 text-center">
+            <div className="flex flex-col items-center gap-3 px-5 pt-2 pb-6 text-center">
               <svg aria-hidden viewBox="-24 -24 48 48" className="size-28">
                 <ItemArt type={item.type} variant={item.variant} />
               </svg>

@@ -5,7 +5,7 @@
 // narration and exit, with keyboard shortcuts (Space, arrows, PageUp/Down
 // for clickers, Esc, S, C, N). It moves to the top when the spotlight is in
 // the bottom third of the screen, so it never covers what's being shown.
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ const SPEEDS = [1, 1.5, 2];
 
 export function DirectorHUD({ state }: { state: DirectorState }) {
   const total = state.script?.steps.length ?? 1;
+  const [more, setMore] = useState(false);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const typing = (e.target as HTMLElement | null)?.matches?.('input, textarea');
@@ -48,11 +49,13 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
     >
       <div className="flex items-center gap-2">
         <span className="rounded-full bg-primary px-2 py-0.5 text-caption font-bold text-on-primary">{copy.demo.pill}</span>
-        <span className="truncate font-display font-extrabold">{state.chapterTitle}</span>
+        <span className="min-w-0 font-display font-extrabold">{state.chapterTitle}</span>
       </div>
       <ProgressBar value={state.index} max={total} label={state.chapterTitle || copy.demo.pill} />
       {state.captions && (
-        <p aria-live="polite" className="line-clamp-2 min-h-12 text-[1.0625rem]">
+        // Three lines on screen at most, so the controls never get pushed
+        // away; screen readers still hear the whole caption.
+        <p aria-live="polite" data-allow-clip className="line-clamp-3 min-h-12 text-[1.0625rem]">
           {state.caption}
         </p>
       )}
@@ -72,15 +75,22 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
             <ChevronRight aria-hidden />
           </Button>
         </WithTooltip>
-        <Button variant="quiet" size="sm" onClick={() => director.setSpeed(SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length])}>
-          {fill(copy.demo.speed, { x: state.speed })}
+        {/* At big text the three toggles fold behind "More controls", so the
+            bar stays small enough to show what the tour is pointing at. */}
+        <Button variant="quiet" size="sm" aria-expanded={more} className="hidden big-text:inline-flex" onClick={() => setMore(!more)}>
+          {more ? copy.demo.fewerControls : copy.demo.moreControls}
         </Button>
-        <Button variant="quiet" size="sm" onClick={director.toggleCaptions}>
-          {state.captions ? copy.demo.captionsOn : copy.demo.captionsOff}
-        </Button>
-        <Button variant="quiet" size="sm" onClick={director.toggleNarration}>
-          {state.narration ? copy.demo.narrationOn : copy.demo.narrationOff}
-        </Button>
+        <span className={cn('contents', !more && 'big-text:hidden')}>
+          <Button variant="quiet" size="sm" onClick={() => director.setSpeed(SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length])}>
+            {fill(copy.demo.speed, { x: state.speed })}
+          </Button>
+          <Button variant="quiet" size="sm" onClick={director.toggleCaptions}>
+            {state.captions ? copy.demo.captionsOn : copy.demo.captionsOff}
+          </Button>
+          <Button variant="quiet" size="sm" onClick={director.toggleNarration}>
+            {state.narration ? copy.demo.narrationOn : copy.demo.narrationOff}
+          </Button>
+        </span>
         <WithTooltip label={copy.demo.exit}>
           <Button variant="quiet" size="icon" className="ml-auto" aria-label={copy.demo.exit} onClick={director.exit}>
             <X aria-hidden />
