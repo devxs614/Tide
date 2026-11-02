@@ -7,7 +7,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { addTask } from '@/lib/repo/tasks';
 import { detectCrisis } from '@/lib/safety/detect';
 import { Button } from '@/components/ui/button';
@@ -36,14 +37,14 @@ export function BrainDump({ onDone }: ToolProps) {
 
   const addChosen = async () => {
     for (const i of chosen) await addTask({ title: lines[i].slice(0, 120), type: 'other', energyCost: 1 });
-    toast(copy.tools.brainDump.added);
+    toast(toolsCopy.brainDump.added);
     onDone();
   };
 
   if (picking) {
     return (
       <div className="flex flex-col gap-3">
-        <p>{copy.tools.brainDump.pickLines}</p>
+        <p>{toolsCopy.brainDump.pickLines}</p>
         <div className="flex flex-col">
           {lines.map((line, i) => (
             <CheckboxRow
@@ -56,10 +57,10 @@ export function BrainDump({ onDone }: ToolProps) {
           ))}
         </div>
         <Button disabled={chosen.length === 0} onClick={() => void addChosen()}>
-          {chosen.length === 1 ? copy.tools.brainDump.addOneTask : fill(copy.tools.brainDump.addTasks, { n: chosen.length })}
+          {chosen.length === 1 ? toolsCopy.brainDump.addOneTask : fill(toolsCopy.brainDump.addTasks, { n: chosen.length })}
         </Button>
         <Button variant="quiet" onClick={onDone}>
-          {copy.tools.brainDump.keepHere}
+          {toolsCopy.brainDump.keepHere}
         </Button>
       </div>
     );
@@ -69,7 +70,7 @@ export function BrainDump({ onDone }: ToolProps) {
     <div className="flex flex-col gap-3">
       <SoftTimer seconds={120} />
       <label htmlFor="brain-dump" className="font-bold">
-        {copy.tools.brainDump.label}
+        {toolsCopy.brainDump.label}
       </label>
       <textarea
         id="brain-dump"
@@ -80,10 +81,10 @@ export function BrainDump({ onDone }: ToolProps) {
       />
       <DictateButton value={text} onChange={setText} />
       <Button disabled={lines.length === 0} onClick={() => safe() && setPicking(true)}>
-        {copy.tools.brainDump.turnIntoTasks}
+        {toolsCopy.brainDump.turnIntoTasks}
       </Button>
       <Button variant="secondary" onClick={() => safe() && onDone()}>
-        {copy.tools.brainDump.keepHere}
+        {toolsCopy.brainDump.keepHere}
       </Button>
     </div>
   );

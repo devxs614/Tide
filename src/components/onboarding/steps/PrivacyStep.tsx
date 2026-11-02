@@ -6,6 +6,7 @@
 // Tide is not a medical service.
 import { useEffect, useState } from 'react';
 import { copy, fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useSettings } from '@/lib/settings';
 import { ttsStatus, type TtsStatus } from '@/lib/voice/cloudEngine';
 import { SwitchRow } from '@/components/ui/switch';
@@ -23,9 +24,9 @@ export function PrivacyStep({ onNext }: StepProps) {
     };
   }, []);
   return (
-    <StepFrame title={copy.ob.privacyTitle} action={copy.ob.next} onAction={onNext}>
+    <StepFrame title={onboardingCopy.privacyTitle} action={onboardingCopy.next} onAction={onNext}>
       <p>{copy.onboarding.privacyBody}</p>
-      <p className="font-bold">{copy.ob.privacyBullets}</p>
+      <p className="font-bold">{onboardingCopy.privacyBullets}</p>
       <SwitchRow id="ob-ai" label={copy.settings.useAi} checked={settings.aiEnabled} onCheckedChange={(v) => void update('aiEnabled', v)} />
       {cloud?.available && (
         <div className="flex flex-col gap-1">

@@ -8,6 +8,7 @@ import { now } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { endOfDay } from '@/lib/time';
 import type { CalendarEvent, CheckIn, DayPlan, Task } from '@/lib/types';
+import { activeTasks } from '@/lib/repo/taskQueries';
 
 export interface TodayData {
   tasks: Task[];
@@ -20,7 +21,7 @@ export function useTodayData(today: string, dayStart: number): TodayData | undef
   return useLiveQuery(async () => {
     const at = now();
     const [tasks, events, plan, latest] = await Promise.all([
-      db.tasks.toArray(),
+      activeTasks(),
       db.events.where('start').between(dayStart, endOfDay(dayStart), true, true).sortBy('start'),
       db.dayPlans.get(today),
       // Open-ended on purpose: Dexie only re-runs a live query for changes

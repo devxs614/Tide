@@ -38,9 +38,9 @@ export async function addTask(input: NewTask): Promise<Task> {
   return task;
 }
 
-export async function getTask(id: string): Promise<Task | undefined> {
-  return db.tasks.get(id);
-}
+// Reads live in taskQueries.ts (deleted tasks left out); kept here too for
+// the callers that import it from this file.
+export { getTask } from './taskQueries';
 
 // Moves a task to another column (at the end, unless an index is given) and
 // applies the side effects for the new status.

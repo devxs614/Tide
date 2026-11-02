@@ -6,7 +6,8 @@
 // move between cards; the dots show where you are.
 import { useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
 import { ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { companionLine } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { now } from '@/lib/clock';
@@ -67,26 +68,26 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
     else onNext();
   };
 
-  const name = choice === 'none' ? copy.ob.noCompanion : COMPANIONS[choice].defaultName;
+  const name = choice === 'none' ? onboardingCopy.noCompanion : COMPANIONS[choice].defaultName;
   return (
     <StepFrame
-      title={copy.ob.companionTitle}
-      sub={copy.ob.companionSub}
-      action={choice === 'none' ? copy.ob.chooseNone : fill(copy.ob.choose, { name })}
+      title={onboardingCopy.companionTitle}
+      sub={onboardingCopy.companionSub}
+      action={choice === 'none' ? onboardingCopy.chooseNone : fill(onboardingCopy.choose, { name })}
       onAction={() => void choose()}
     >
       <div
         role="group"
         aria-roledescription="carousel"
-        aria-label={copy.ob.carouselLabel}
+        aria-label={onboardingCopy.carouselLabel}
         tabIndex={0}
         onKeyDown={onKey}
         onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
         onTouchEnd={onTouchEnd}
         className="flex items-center gap-2 rounded-card"
       >
-        <WithTooltip label={copy.ob.previous}>
-          <Button variant="quiet" size="icon" aria-label={copy.ob.previous} onClick={() => move(-1)}>
+        <WithTooltip label={onboardingCopy.previous}>
+          <Button variant="quiet" size="icon" aria-label={onboardingCopy.previous} onClick={() => move(-1)}>
             <ChevronLeft aria-hidden />
           </Button>
         </WithTooltip>
@@ -97,17 +98,17 @@ export function CompanionStep({ onNext, goTo }: StepProps) {
           </div>
           <h2 className="text-h2 font-extrabold">{name}</h2>
           <p className="text-ink-soft">
-            {choice === 'none' ? copy.ob.noCompanionSub : `${COMPANION_COPY.species[choice].kind}. ${COMPANION_COPY.species[choice].personality}.`}
+            {choice === 'none' ? onboardingCopy.noCompanionSub : `${COMPANION_COPY.species[choice].kind}. ${COMPANION_COPY.species[choice].personality}.`}
           </p>
           {choice !== 'none' && (
             <Button variant="secondary" size="sm" onClick={() => sayHi(choice)}>
               <MessageCircle aria-hidden />
-              {copy.ob.sayHi}
+              {onboardingCopy.sayHi}
             </Button>
           )}
         </div>
-        <WithTooltip label={copy.ob.nextCompanion}>
-          <Button variant="quiet" size="icon" aria-label={copy.ob.nextCompanion} onClick={() => move(1)}>
+        <WithTooltip label={onboardingCopy.nextCompanion}>
+          <Button variant="quiet" size="icon" aria-label={onboardingCopy.nextCompanion} onClick={() => move(1)}>
             <ChevronRight aria-hidden />
           </Button>
         </WithTooltip>

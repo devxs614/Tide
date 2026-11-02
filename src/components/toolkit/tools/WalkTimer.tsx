@@ -4,7 +4,7 @@
 // vibration at the end if she turned that on, so the phone can stay in her
 // pocket. "I'm back" works at any time.
 import { useEffect, useRef } from 'react';
-import { copy } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { emitCompanion } from '@/lib/companion/bus';
 import { useSettings } from '@/lib/settings';
 import { useCountdown } from '@/lib/useCountdown';
@@ -23,5 +23,5 @@ export function WalkTimer({ strategy, onDone }: ToolProps) {
     if (settings.vibration && typeof navigator !== 'undefined') navigator.vibrate?.([200, 100, 200]);
   }, [timer.finished, settings.vibration]);
 
-  return <TimerControls timer={timer} doneLabel={copy.tools.walk.imBack} onDone={onDone} />;
+  return <TimerControls timer={timer} doneLabel={toolsCopy.walk.imBack} onDone={onDone} />;
 }

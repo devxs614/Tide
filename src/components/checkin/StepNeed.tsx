@@ -5,6 +5,7 @@
 // strategy, or people she can reach. Choosing one saves the check-in.
 import { ArrowRight, HeartHandshake, Leaf, SlidersHorizontal } from 'lucide-react';
 import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import type { Need } from '@/lib/types';
 import { StepHeader } from './StepHeader';
 import { CheckInCoach } from './CheckInCoach';
@@ -16,7 +17,7 @@ export function StepNeed({ onChoose, saving }: { onChoose: (need: Need) => void;
   return (
     <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-6">
       <StepHeader title={copy.checkin.step4Title} stepNumber={4} />
-      <CheckInCoach>{copy.ob.coachNeed}</CheckInCoach>
+      <CheckInCoach>{onboardingCopy.coachNeed}</CheckInCoach>
       <ul className="flex flex-col gap-3">
         {ORDER.map((need) => {
           const Icon = ICONS[need];

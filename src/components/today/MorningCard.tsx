@@ -6,7 +6,6 @@
 import Link from 'next/link';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { copy, fill } from '@/copy/en';
-import { db } from '@/lib/db';
 import { getWrap } from '@/lib/repo/dayWraps';
 import { useSettings } from '@/lib/settings';
 import { addDays, toISODate } from '@/lib/time';
@@ -14,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { LazyCompanion } from '@/components/companion/LazyCompanion';
 import { SIZES } from '@/lib/companion/registry';
 import { useCompanionShown } from '@/lib/companion/useCompanion';
+import { getTask } from '@/lib/repo/taskQueries';
 
 export function MorningCard({ nowTs }: { nowTs: number }) {
   const { settings, update } = useSettings();
@@ -24,7 +24,7 @@ export function MorningCard({ nowTs }: { nowTs: number }) {
   const anchor = useLiveQuery(async () => {
     const wrap = await getWrap(yesterday);
     if (!wrap?.completedAt || !wrap.anchorTaskId) return null;
-    const task = await db.tasks.get(wrap.anchorTaskId);
+    const task = await getTask(wrap.anchorTaskId);
     return task && task.status !== 'done' ? { task, step: wrap.anchorFirstStep ?? task.firstStep } : null;
   }, [yesterday]);
   const [h, m] = settings['day.start'].split(':').map(Number);

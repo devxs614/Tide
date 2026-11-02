@@ -11,6 +11,7 @@ import {
   Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Keyboard, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves,
 } from 'lucide-react';
 import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { SECTIONS, sectionById, type SectionId } from '@/lib/settings/catalog';
 import { CompanionSection } from './CompanionSection';
 import { PresetsRow } from './PresetsRow';
@@ -57,7 +58,7 @@ export function SettingsScreen() {
               <li key={id}>
                 <Link href={`/settings/${id}`} className="press-3d card flex min-h-14 items-center gap-3 px-4 py-3 [--ledge-color:var(--line)] hover:bg-surface-2">
                   <Icon aria-hidden className="size-5 text-primary" />
-                  <span className="flex-1 font-display font-extrabold">{copy.set.sections[id]}</span>
+                  <span className="flex-1 font-display font-extrabold">{settingsCopy.sections[id]}</span>
                   <ChevronRight aria-hidden className="size-5 text-ink-soft" />
                 </Link>
               </li>

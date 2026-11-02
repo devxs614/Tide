@@ -22,6 +22,7 @@ import { ToolArea } from './ToolArea';
 import { SIZES, type Expression } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
+import { getTask } from '@/lib/repo/taskQueries';
 
 export function returnPath(context: StrategyContext, refId?: string): string {
   if (context === 'unstick' && refId) return `/tasks?unstick=${refId}`;
@@ -42,7 +43,7 @@ const AFTER: Record<RecheckResult, string> = {
 export function StrategyRunner({ id, context, refId }: { id: string; context: StrategyContext; refId?: string }) {
   const router = useRouter();
   const strategy = getStrategy(id);
-  const task = useLiveQuery(async () => (context === 'unstick' && refId ? ((await db.tasks.get(refId)) ?? null) : null), [context, refId]);
+  const task = useLiveQuery(async () => (context === 'unstick' && refId ? ((await getTask(refId)) ?? null) : null), [context, refId]);
   const [phase, setPhase] = useState<'doing' | 'recheck' | 'after'>('doing');
   const [result, setResult] = useState<RecheckResult | undefined>();
   const [saving, setSaving] = useState(false);

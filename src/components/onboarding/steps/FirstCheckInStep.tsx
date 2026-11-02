@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { SIZES } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useSettings } from '@/lib/settings';
@@ -48,7 +49,7 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
 
   if (stage === 'trusted') {
     return (
-      <StepFrame title={copy.ob.trustedTitle} sub={copy.onboarding.addTrusted} action={copy.ob.next} onAction={() => void saveContact()}>
+      <StepFrame title={onboardingCopy.trustedTitle} sub={copy.onboarding.addTrusted} action={onboardingCopy.next} onAction={() => void saveContact()}>
         <label htmlFor="ob-contact-name" className="font-bold">
           {copy.settings.contactName}
         </label>
@@ -63,7 +64,7 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
 
   if (stage === 'checkin') {
     return (
-      <StepFrame title={copy.ob.firstCheckinTitle} sub={copy.ob.firstCheckinSub} action={copy.ob.tryIt} onAction={openCheckIn}>
+      <StepFrame title={onboardingCopy.firstCheckinTitle} sub={onboardingCopy.firstCheckinSub} action={onboardingCopy.tryIt} onAction={openCheckIn}>
         {profile.species && (
           <div className="flex justify-center">
             <Companion size={SIZES.lg} expression="happy" />
@@ -75,7 +76,7 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
   }
 
   return (
-    <StepFrame title={copy.ob.welcomeShell} sub={copy.ob.shoreStarts} action={copy.ob.goToDay} onAction={onFinish}>
+    <StepFrame title={onboardingCopy.welcomeShell} sub={onboardingCopy.shoreStarts} action={onboardingCopy.goToDay} onAction={onFinish}>
       <WelcomeShore>
         <Shell />
       </WelcomeShore>

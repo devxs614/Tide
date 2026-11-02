@@ -97,6 +97,8 @@ const openCheckIn = async (page: Page) => {
   await page.locator(demo('checkin-text')).first().fill('Tired and behind on the lab report. Annoyed at myself.');
 };
 
+const openTaskDetail = (page: Page) => click(page, '[data-demo-id^="task-open-"]:visible');
+
 export const STATES: AuditState[] = [
   // Main screens with Maya's data.
   { id: 'today', route: '/', ws: 'demo' },
@@ -166,6 +168,26 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'sheet:taskform', route: '/tasks', ws: 'demo', open: (page) => click(page, 'button:has-text("Add task")') },
+  // v2.1 F-03: a task's details, its edit form and the delete question.
+  { id: 'sheet:taskdetail', route: '/tasks', ws: 'demo', open: openTaskDetail },
+  {
+    id: 'sheet:taskedit',
+    route: '/tasks',
+    ws: 'demo',
+    open: async (page) => {
+      await openTaskDetail(page);
+      await click(page, demo('task-detail-edit'));
+    },
+  },
+  {
+    id: 'dialog:taskdelete',
+    route: '/tasks',
+    ws: 'demo',
+    open: async (page) => {
+      await openTaskDetail(page);
+      await click(page, demo('task-detail-delete'));
+    },
+  },
   { id: 'sheet:eventform', route: '/', ws: 'demo', open: (page) => click(page, 'button:has-text("Add an event")') },
   {
     id: 'sheet:bridge',

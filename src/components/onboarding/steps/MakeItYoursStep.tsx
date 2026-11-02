@@ -2,7 +2,7 @@
 
 // Step 5, "Make it yours" (v2 spec 11.2): color and accessory, with the
 // companion previewing every change live. Everything is unlocked.
-import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { ACCESSORIES, COMPANIONS, SIZES } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
@@ -20,7 +20,7 @@ export function MakeItYoursStep({ onNext }: StepProps) {
   const variants = COMPANIONS[species].variants;
   const variant = variants.find((v) => v.id === profile.variant)?.id ?? variants[0].id;
   return (
-    <StepFrame title={copy.ob.makeItYours} action={copy.ob.looksGood} onAction={onNext}>
+    <StepFrame title={onboardingCopy.makeItYours} action={onboardingCopy.looksGood} onAction={onNext}>
       <div className="flex justify-center">
         <Companion size={SIZES.lg} expression="happy" />
       </div>

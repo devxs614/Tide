@@ -5,6 +5,7 @@
 // mood map. Maya can pick up to two words, move the dot, or open the full
 // list with "None of these". The title follows the communication mode.
 import { byMode, copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { getEmotion } from '@/data/emotions';
 import { useSettings } from '@/lib/settings';
 import { Button } from '@/components/ui/button';
@@ -41,7 +42,7 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
     <>
       <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <StepHeader title={byMode(copy.checkin.step2Title, settings.communicationMode)} stepNumber={2} />
-        <CheckInCoach>{copy.ob.coachWords}</CheckInCoach>
+        <CheckInCoach>{onboardingCopy.coachWords}</CheckInCoach>
         <p aria-live="polite" className="text-ink-soft">
           {state.loading ? copy.checkin.loadingLabel : ''}
         </p>

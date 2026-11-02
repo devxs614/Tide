@@ -4,6 +4,7 @@
 // show updates as Maya types, so she sees where her name goes.
 import { useState } from 'react';
 import { copy, fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { now } from '@/lib/clock';
 import { useSettings } from '@/lib/settings';
 import { dayPart } from '@/lib/time';
@@ -18,9 +19,9 @@ export function NameStep({ onNext }: StepProps) {
   const greeting = copy.today.greeting[dayPart(now())];
   const name = draft.trim();
   return (
-    <StepFrame title={copy.ob.nameTitle} sub={copy.ob.nameHint} action={copy.ob.next} onAction={onNext}>
+    <StepFrame title={onboardingCopy.nameTitle} sub={onboardingCopy.nameHint} action={onboardingCopy.next} onAction={onNext}>
       <label htmlFor="ob-name" className="font-bold">
-        {copy.ob.nameLabel}
+        {onboardingCopy.nameLabel}
       </label>
       <input
         id="ob-name"
@@ -33,8 +34,8 @@ export function NameStep({ onNext }: StepProps) {
         }}
         className="min-h-12 rounded-input border-2 border-line bg-surface px-3 text-body"
       />
-      <div className="card flex flex-col p-4" aria-label={copy.ob.namePreview}>
-        <span className="text-caption text-ink-soft">{copy.ob.namePreview}</span>
+      <div className="card flex flex-col p-4" aria-label={onboardingCopy.namePreview}>
+        <span className="text-caption text-ink-soft">{onboardingCopy.namePreview}</span>
         <span className="text-h2 font-bold">{name ? fill(copy.today.greetingWithName, { greeting, name }) : greeting}</span>
       </div>
     </StepFrame>

@@ -3,7 +3,8 @@
 // Step 10, "Your day" (v2 spec 11.2): when the day usually starts, when
 // Maya likes to close it, how early to warn before a switch (15 minutes, as
 // in v1, unless she picks less), and a 12- or 24-hour clock.
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useSettings } from '@/lib/settings';
 import type { Settings } from '@/lib/types';
 import { SegmentedControl } from '@/components/ui/segmented-control';
@@ -32,27 +33,27 @@ function TimeField({ id, label, value, onChange }: { id: string; label: string; 
 export function DayStep({ onNext }: StepProps) {
   const { settings, update } = useSettings();
   return (
-    <StepFrame title={copy.ob.dayTitle} action={copy.ob.next} onAction={onNext}>
-      <TimeField id="ob-day-start" label={copy.ob.dayStart} value={settings['day.start']} onChange={(v) => void update('day.start', v)} />
-      <TimeField id="ob-wrap-time" label={copy.ob.wrapTime} value={settings['day.wrapTime']} onChange={(v) => void update('day.wrapTime', v)} />
+    <StepFrame title={onboardingCopy.dayTitle} action={onboardingCopy.next} onAction={onNext}>
+      <TimeField id="ob-day-start" label={onboardingCopy.dayStart} value={settings['day.start']} onChange={(v) => void update('day.start', v)} />
+      <TimeField id="ob-wrap-time" label={onboardingCopy.wrapTime} value={settings['day.wrapTime']} onChange={(v) => void update('day.wrapTime', v)} />
       <div className="flex flex-col gap-2">
-        <span className="font-display font-extrabold">{copy.ob.transitionLead}</span>
+        <span className="font-display font-extrabold">{onboardingCopy.transitionLead}</span>
         <SegmentedControl
-          label={copy.ob.transitionLead}
+          label={onboardingCopy.transitionLead}
           value={String(settings['day.transitionLead'])}
           onChange={(v) => void update('day.transitionLead', Number(v) as Settings['day.transitionLead'])}
-          options={LEADS.map((n) => ({ value: String(n), label: fill(copy.ob.minutes, { n }) }))}
+          options={LEADS.map((n) => ({ value: String(n), label: fill(onboardingCopy.minutes, { n }) }))}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="font-display font-extrabold">{copy.ob.clock}</span>
+        <span className="font-display font-extrabold">{onboardingCopy.clock}</span>
         <SegmentedControl
-          label={copy.ob.clock}
+          label={onboardingCopy.clock}
           value={settings['language.timeFormat']}
           onChange={(v) => void update('language.timeFormat', v)}
           options={[
-            { value: '12h', label: copy.ob.clocks['12h'] },
-            { value: '24h', label: copy.ob.clocks['24h'] },
+            { value: '12h', label: onboardingCopy.clocks['12h'] },
+            { value: '24h', label: onboardingCopy.clocks['24h'] },
           ]}
         />
       </div>

@@ -1125,3 +1125,48 @@ WCAG 1.4.12 text-spacing overrides.
   phone "Patterns" is wider than its tab; breaking it is better than
   shrinking it or letting labels overlap (D138).
 
+
+## Editing and deleting tasks (v2.1 F-03)
+
+**What it does.** Lets people fix or remove any task, with a 10-second
+Undo. A plain delete keeps the task's history, so the shore and patterns
+still have it. Deleting with history removes everything that hangs off
+the task.
+
+**Files.**
+- `src/lib/repo/taskQueries.ts`: every task read (`activeTasks`,
+  `tasksByStatus`, `getTask`, counts). Deleted tasks are dropped in
+  JavaScript after a plain query, so live queries update straight away
+  (D142). The pattern engine alone gets every task
+  (`allTasksForPatterns`), for the types of past focus blocks.
+- `src/lib/repo/taskEdits.ts`: `editTask`, soft delete and Undo,
+  `purgeTaskCascade` (one transaction over seven tables),
+  `runPendingPurges` (at start-up, from AppShell) and
+  `purgeAllDeletedTasks` (Settings).
+- `src/lib/taskSheets.ts`: a tiny store for which task sheet is open.
+  `TaskCard` opens it, and `components/tasks/TaskSheets.tsx` shows it. That
+  file is lazy-loaded by AppShell the first time a sheet opens.
+- `TaskDetailSheet.tsx`, `DeleteTaskDialog.tsx` (with
+  `deleteTasksWithUndo`), edit mode in `TaskForm.tsx`.
+- `src/lib/focusRunning.ts`: the "a focus block is running for this task"
+  mark the delete dialog reads (D143).
+- `src/test/repoReads.test.ts`: fails on a `db.tasks` read outside
+  `src/lib/repo/`.
+
+**Data flow.** Title tap → `openTaskDetail(id)` → the sheet reads
+`getTask(id)` live. Delete → `softDeleteTasks` sets `deletedAt` (and
+`purgeRequested` when the box is checked) → every screen's live query
+drops the task → a toast offers Undo. With history, a timer runs
+`purgeTaskCascade` after 10 seconds unless Undo was pressed. If the app
+closes first, `runPendingPurges` runs the purge at the next start.
+
+**Likely reviewer questions**
+- *Why aren't Edit and Delete in the "Move to…" menu?* A frozen v1 test
+  checks that menu's exact items. The detail sheet holds them instead
+  (D141).
+- *Can a deleted task come back by accident?* Reads go through the
+  helpers, and a guard test keeps it that way. Backups still include
+  deleted tasks with their flag, so a restore is complete.
+- *What does "remove its history" keep?* Strategy uses and transitions
+  stay, with the task link cleared, because they describe the strategy
+  and the switch, not the task.

@@ -6,6 +6,7 @@
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { copy, fill } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { exportSettingsFile, parseBackup, parseSettingsFile, restoreBackup, type ParsedBackup } from '@/lib/repo/backup';
 import { useSettings } from '@/lib/settings';
 import { clearVoiceCache } from '@/lib/voice/cloudEngine';
@@ -34,7 +35,7 @@ export function BackupControls() {
   const backupInput = useRef<HTMLInputElement>(null);
   const settingsInput = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<ParsedBackup | null>(null);
-  const L = copy.set.labels;
+  const L = settingsCopy.labels;
 
   const pickBackup = async (file?: File) => {
     const parsed = file ? parseBackup(await readJson(file)) : null;

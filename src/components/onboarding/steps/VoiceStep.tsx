@@ -6,6 +6,7 @@
 // suggestions and the companion's lines without being asked.
 import { Volume2 } from 'lucide-react';
 import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useSettings } from '@/lib/settings';
 import { cleanVoiceName } from '@/lib/voice/voiceRanking';
 import { useDeviceVoices } from '@/lib/voice/useDeviceVoices';
@@ -29,12 +30,12 @@ export function VoiceStep({ onNext }: StepProps) {
   };
   return (
     <StepFrame
-      title={copy.ob.voiceTitle}
-      action={copy.ob.yesVoice}
+      title={onboardingCopy.voiceTitle}
+      action={onboardingCopy.yesVoice}
       onAction={yes}
       footer={
         <Button variant="secondary" onClick={onNext}>
-          {copy.ob.noThanks}
+          {onboardingCopy.noThanks}
         </Button>
       }
     >

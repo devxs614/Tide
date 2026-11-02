@@ -11,12 +11,12 @@ import { copy } from '@/copy/en';
 import { companionLine } from '@/copy/companions';
 import { strategyName } from '@/data/strategies';
 import { useAi } from '@/lib/ai/useAi';
-import { db } from '@/lib/db';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useSettings } from '@/lib/settings';
 import { wrapupInput } from '@/lib/wrap/facts';
 import { ReadAloudButton } from '@/components/ui/ReadAloudButton';
 import type { WrapStepProps } from '../WrapStep';
+import { getTask } from '@/lib/repo/taskQueries';
 
 function label(id: string): string {
   const [kind, key] = id.split(':');
@@ -35,7 +35,7 @@ export function SummaryStep({ wrap, facts, save }: WrapStepProps) {
     if (summary || asked.current) return;
     asked.current = true;
     void (async () => {
-      const anchor = wrap.anchorTaskId ? await db.tasks.get(wrap.anchorTaskId) : undefined;
+      const anchor = wrap.anchorTaskId ? await getTask(wrap.anchorTaskId) : undefined;
       const input = wrapupInput(facts, wrap, { helped: wrap.helped.map(label), hard: wrap.hard.map(label) }, {
         mode: settings.communicationMode,
         readingLevel: settings['language.readingLevel'],

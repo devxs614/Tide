@@ -4,9 +4,10 @@
 // this, "Reset this section" resets these keys, and search indexes the
 // labels plus the words people actually type ("dark mode", "pet", "font").
 import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import type { Settings } from '@/lib/types';
 
-export type SectionId = keyof typeof copy.set.sections;
+export type SectionId = keyof typeof settingsCopy.sections;
 type Key = keyof Settings;
 
 export interface Option {
@@ -21,10 +22,10 @@ export type Entry =
   | { kind: 'text'; key: Key; label: string; help?: string; max: number; keywords?: string[] }
   | { kind: 'custom'; id: CustomId; label: string; keys?: Key[]; keywords?: string[] };
 
-export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'demo' | 'about';
+export type CustomId = 'companion' | 'theme' | 'textSize' | 'sound' | 'voice' | 'mode' | 'showDismissed' | 'ai' | 'data' | 'backup' | 'people' | 'shortcutsList' | 'purgeDeleted' | 'demo' | 'about';
 
-const L = copy.set.labels;
-const H = copy.set.help;
+const L = settingsCopy.labels;
+const H = settingsCopy.help;
 const opts = (labels: Record<string, string>): Option[] => Object.entries(labels).map(([value, label]) => ({ value, label }));
 
 export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
@@ -35,7 +36,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'text', key: 'pronouns', label: L.pronouns, help: H.pronouns, max: 20, keywords: ['pronouns', 'she', 'he', 'they'] },
     ],
   },
-  { id: 'companion', entries: [{ kind: 'custom', id: 'companion', label: copy.set.sections.companion, keywords: ['companion', 'mascot', 'pet', 'animal', 'buddy', 'otter', 'axolotl', 'capybara', 'gecko', 'jellyfish', 'crab'] }] },
+  { id: 'companion', entries: [{ kind: 'custom', id: 'companion', label: settingsCopy.sections.companion, keywords: ['companion', 'mascot', 'pet', 'animal', 'buddy', 'otter', 'axolotl', 'capybara', 'gecko', 'jellyfish', 'crab'] }] },
   {
     id: 'appearance',
     entries: [
@@ -135,6 +136,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'switch', key: 'privacy.naturalVoiceAllowed', label: L.naturalAllowed, keywords: ['cloud voice'] },
       { kind: 'custom', id: 'data', label: copy.settings.yourData, keywords: ['export', 'delete', 'download', 'data'] },
       { kind: 'custom', id: 'backup', label: L.importBackup, keywords: ['import', 'backup', 'restore', 'settings file'] },
+      { kind: 'custom', id: 'purgeDeleted', label: copy.taskEdit.purge, keywords: ['deleted', 'remove', 'purge', 'clean up', 'tasks', 'events'] },
     ],
   },
   { id: 'people', entries: [{ kind: 'custom', id: 'people', label: copy.settings.people, keywords: ['contacts', 'trusted', 'campus', 'support', 'counselor'] }] },

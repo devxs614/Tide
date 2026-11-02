@@ -4,7 +4,8 @@
 // came with, or give it a new one (same gentle rules as the Studio). It
 // hops when the name is settled, then the next step follows.
 import { useState } from 'react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { cleanCompanionName, companionNameProblem } from '@/lib/companion/name';
 import { COMPANIONS, SIZES } from '@/lib/companion/registry';
@@ -36,14 +37,14 @@ export function NameCompanionStep({ onNext }: StepProps) {
 
   return (
     <StepFrame
-      title={copy.ob.nameCompanionTitle}
-      action={draft === null ? fill(copy.ob.keepName, { name: profile.name }) : COMPANION_COPY.studio.saveName}
+      title={onboardingCopy.nameCompanionTitle}
+      action={draft === null ? fill(onboardingCopy.keepName, { name: profile.name }) : COMPANION_COPY.studio.saveName}
       actionDisabled={!!problem}
       onAction={() => void settle(draft === null ? profile.name : cleanCompanionName(draft))}
       footer={
         draft === null && (
           <Button variant="secondary" onClick={() => setDraft(profile.name)}>
-            {copy.ob.rename}
+            {onboardingCopy.rename}
           </Button>
         )
       }

@@ -8,6 +8,7 @@
 // breathing cues" on (v2), a voice says each phase as it begins.
 import { useEffect, useRef, useState } from 'react';
 import { copy, fill } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { now } from '@/lib/clock';
 import { useReducedMotionPref, useSettings } from '@/lib/settings';
 import { useSound } from '@/lib/sound/useSound';
@@ -23,7 +24,7 @@ import { holdCelebrations } from '@/lib/celebrate/store';
 
 const SIDE_MS = 4000;
 const TOTAL_MS = 120_000;
-const PHASES = [copy.tools.breathe.in, copy.tools.breathe.holdIn, copy.tools.breathe.out, copy.tools.breathe.holdOut];
+const PHASES = [toolsCopy.breathe.in, toolsCopy.breathe.holdIn, toolsCopy.breathe.out, toolsCopy.breathe.holdOut];
 const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
 // Device voices take a moment to start; speaking a little early keeps the
 // word on the beat (v2 spec 7.9).
@@ -73,14 +74,14 @@ export function BoxBreathing({ onDone }: ToolProps) {
   const phase = Math.floor(elapsed / SIDE_MS) % 4;
   const count = 4 - Math.floor(inSide / 1000);
   const dot = dotPosition(phase, inSide / SIDE_MS);
-  const label = startedAt === null ? copy.tools.breathe.ready : finished ? copy.tools.breathe.finished : fill(copy.tools.breathe.phase, { phase: PHASES[phase], count });
+  const label = startedAt === null ? toolsCopy.breathe.ready : finished ? toolsCopy.breathe.finished : fill(toolsCopy.breathe.phase, { phase: PHASES[phase], count });
 
   return (
     <div className="flex flex-col items-center gap-5">
       {/* With a companion, it sits in the middle of the square and breathes
           exactly with the phases (v2 spec 9): the square grows a little to
           fit it, and the words move under it. Without one, this is v1. */}
-      <div role="img" aria-label={copy.tools.breathe.label} className={cn('relative rounded-md border-4 border-primary/40', withCompanion ? 'size-[240px]' : 'size-[200px]')}>
+      <div role="img" aria-label={toolsCopy.breathe.label} className={cn('relative rounded-md border-4 border-primary/40', withCompanion ? 'size-[240px]' : 'size-[200px]')}>
         {!reduce && startedAt !== null && !finished && (
           <span
             aria-hidden
@@ -110,13 +111,13 @@ export function BoxBreathing({ onDone }: ToolProps) {
         )}
       </div>
       <p aria-live="polite" className="sr-only">
-        {startedAt === null ? '' : finished ? copy.tools.breathe.finished : PHASES[phase]}
+        {startedAt === null ? '' : finished ? toolsCopy.breathe.finished : PHASES[phase]}
       </p>
       <div className="flex w-full max-w-xs flex-col gap-2">
-        {startedAt === null && <Button onClick={() => setStartedAt(now())}>{copy.tools.timerStart}</Button>}
+        {startedAt === null && <Button onClick={() => setStartedAt(now())}>{toolsCopy.timerStart}</Button>}
         {startedAt !== null && !finished && (
           <Button variant="secondary" onClick={onDone}>
-            {copy.tools.stop}
+            {toolsCopy.stop}
           </Button>
         )}
         {finished && <Button onClick={onDone}>{copy.toolkit.continue}</Button>}

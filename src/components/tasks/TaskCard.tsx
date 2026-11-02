@@ -3,14 +3,19 @@
 // One task: title, type with its icon, energy cost, due date and the "Move
 // to…" menu. In progress it offers "I'm stuck" and "Focus"; in Stuck it
 // shows why, when Maya said. Nothing here is ever red or says "overdue".
+// Since v2.1 the title opens the task's details, and with keyboard shortcuts
+// on, E edits and Delete asks to delete the focused card.
 import Link from 'next/link';
-import { Timer } from 'lucide-react';
+import { ChevronRight, Timer } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { copy, fill } from '@/copy/en';
 import { getTaskType } from '@/data/taskTypes';
 import { now } from '@/lib/clock';
 import { dueLabel, toISODate } from '@/lib/time';
 import { useUnstickSheet } from '@/lib/ui';
+import { useSettings } from '@/lib/settings';
+import { isTypingTarget } from '@/lib/shortcuts';
+import { openTaskDelete, openTaskDetail, openTaskEdit } from '@/lib/taskSheets';
 import type { Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { EnergyDots } from '@/components/ui/Dots';
@@ -19,14 +24,38 @@ import { cn } from '@/lib/utils';
 
 export function TaskCard({ task, handle, compact = false }: { task: Task; handle?: ReactNode; compact?: boolean }) {
   const { openUnstick } = useUnstickSheet();
+  const { settings } = useSettings();
   const type = getTaskType(task.type);
   const Icon = type.icon;
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (!settings['shortcuts.enabled'] || e.ctrlKey || e.metaKey || e.altKey || isTypingTarget(e.target)) return;
+    if (e.key === 'e') {
+      e.preventDefault();
+      openTaskEdit(task.id);
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault();
+      openTaskDelete([task.id]);
+    }
+  };
 
   return (
-    <article className={cn('flex flex-col gap-2 card p-4', compact && 'p-3')}>
+    <article onKeyDown={onKeyDown} className={cn('flex flex-col gap-2 card p-4', compact && 'p-3')}>
       <div className="flex items-start gap-2">
         {handle}
-        <h3 className="min-w-0 flex-1 text-body font-bold break-words text-ink">{task.title}</h3>
+        <h3 className="min-w-0 flex-1 text-body font-bold break-words text-ink">
+          <button
+            type="button"
+            onClick={() => openTaskDetail(task.id)}
+            data-small-target-ok
+            data-demo-id={`task-open-${task.id}`}
+            className="flex w-full items-start justify-between gap-1 rounded-md text-left hover:underline hover:underline-offset-4"
+          >
+            <span className="min-w-0 break-words">{task.title}</span>
+            {/* The way to the details, where Edit and Delete live. The v1
+                "Move to…" menu stays columns only (a v1 test checks it). */}
+            <ChevronRight aria-hidden className="mt-0.5 size-5 shrink-0 text-ink-soft" />
+          </button>
+        </h3>
       </div>
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-ink-soft">
         <span className="inline-flex items-center gap-1">

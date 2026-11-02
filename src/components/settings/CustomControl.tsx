@@ -6,6 +6,7 @@
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { db } from '@/lib/db';
 import type { CustomId } from '@/lib/settings/catalog';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ const BackupControls = load(() => import('./BackupControls').then((m) => m.Backu
 const CompanionSection = load(() => import('./CompanionSection').then((m) => m.CompanionSection));
 const DataSection = load(() => import('./DataSection').then((m) => m.DataSection));
 const DemoSection = load(() => import('./DemoSection').then((m) => m.DemoSection));
+const PurgeDeleted = load(() => import('./PurgeDeleted').then((m) => m.PurgeDeleted));
 const ShortcutsList = load(() => import('@/components/shell/ShortcutsList').then((m) => m.ShortcutsList));
 const PeopleSection = load(() => import('./PeopleSection').then((m) => m.PeopleSection));
 const ModePicker = load(() => import('./PreferencePickers').then((m) => m.ModePicker));
@@ -56,6 +58,8 @@ export function CustomControl({ id }: { id: CustomId }) {
       return <Anchored id={id}><DataSection /></Anchored>;
     case 'backup':
       return <BackupControls />;
+    case 'purgeDeleted':
+      return <Anchored id={id}><PurgeDeleted /></Anchored>;
     case 'people':
       return <Anchored id={id}><PeopleSection /></Anchored>;
     case 'demo':
@@ -73,15 +77,15 @@ export function CustomControl({ id }: { id: CustomId }) {
         <Anchored id={id}>
           <AboutSection />
           <Link href="/whats-new" className="mt-2 inline-block font-bold text-primary underline underline-offset-4">
-            {copy.set.labels.whatsNewLink}
+            {settingsCopy.labels.whatsNewLink}
           </Link>
         </Anchored>
       );
     case 'showDismissed':
       return (
         <Anchored id={id}>
-          <Button variant="secondary" onClick={() => void db.dismissedPatterns.clear().then(() => toast(copy.set.labels.dismissedCleared))}>
-            {copy.set.labels.showDismissed}
+          <Button variant="secondary" onClick={() => void db.dismissedPatterns.clear().then(() => toast(settingsCopy.labels.dismissedCleared))}>
+            {settingsCopy.labels.showDismissed}
           </Button>
         </Anchored>
       );

@@ -16,6 +16,7 @@ import { useBridgeSheet } from '@/lib/ui';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { BridgeSteps, type BridgeData } from './BridgeSteps';
 import { draftFor } from './bridgeDrafts';
+import { tasksByStatus } from '@/lib/repo/taskQueries';
 
 export function BridgeSheet() {
   const { eventId, closeBridge } = useBridgeSheet();
@@ -34,7 +35,7 @@ function BridgeBody({ eventId, onClose }: { eventId: string; onClose: () => void
     if (!to) return null;
     const [events, tasks, uses] = await Promise.all([
       db.events.where('start').between(at - DAY, at + DAY, true, true).toArray(),
-      db.tasks.where('status').anyOf(['in_progress', 'stuck']).toArray(),
+      tasksByStatus(['in_progress', 'stuck']),
       db.strategyUses.toArray(),
     ]);
     const { fromEvent, fromTask } = resolveFrom(at, events, tasks, to);

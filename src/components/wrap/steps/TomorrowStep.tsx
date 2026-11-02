@@ -10,7 +10,6 @@ import { toast } from 'sonner';
 import { copy, fill } from '@/copy/en';
 import { useAi } from '@/lib/ai/useAi';
 import { now } from '@/lib/clock';
-import { db } from '@/lib/db';
 import { loadPatternInput } from '@/lib/patterns/data';
 import { hardSwitchFor } from '@/lib/patterns/rules/hardTransition';
 import { setAnchor, setFirstStep } from '@/lib/repo/tasks';
@@ -20,13 +19,14 @@ import { tomorrowOf } from '@/lib/wrap/facts';
 import { Button } from '@/components/ui/button';
 import { CardButton } from '@/components/ui/card';
 import type { WrapStepProps } from '../WrapStep';
+import { activeTasks } from '@/lib/repo/taskQueries';
 
 export function TomorrowStep({ wrap, facts, save }: WrapStepProps) {
   const { settings } = useSettings();
   const unstick = useAi('unstick');
   const [step, setStep] = useState(wrap.anchorFirstStep ?? '');
   const tasks = useLiveQuery(
-    () => db.tasks.filter((t) => t.status !== 'done' && !t.someday).toArray().then((list) => list.sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999') || a.energyCost - b.energyCost)),
+    () => activeTasks().then((all) => all.filter((t) => t.status !== 'done' && !t.someday)).then((list) => list.sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999') || a.energyCost - b.energyCost)),
     [],
   ) ?? [];
   const hint = useLiveQuery(async () => {

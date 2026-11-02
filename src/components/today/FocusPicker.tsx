@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { ChevronRight } from 'lucide-react';
 import { copy } from '@/copy/en';
-import { db } from '@/lib/db';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { activeTasks } from '@/lib/repo/taskQueries';
 
 const RANK = { in_progress: 0, not_started: 1 } as const;
 
 export function FocusPicker({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const tasks = useLiveQuery(
     async () =>
-      (await db.tasks.toArray())
+      (await activeTasks())
         .filter((t) => (t.status === 'in_progress' || t.status === 'not_started') && !t.someday)
         .sort((a, b) => RANK[a.status as keyof typeof RANK] - RANK[b.status as keyof typeof RANK] || a.order - b.order),
     [],

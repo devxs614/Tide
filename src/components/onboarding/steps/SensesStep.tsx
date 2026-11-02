@@ -6,6 +6,7 @@
 // underneath, with a sample.
 import { useState } from 'react';
 import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { hapticsSupported } from '@/lib/haptics';
 import { PRESET_IDS, presetValues, type PresetId } from '@/lib/settings/presets';
 import { useSettings } from '@/lib/settings';
@@ -21,7 +22,7 @@ export function SensesStep({ onNext }: StepProps) {
   const play = useSound();
   const [picked, setPicked] = useState<PresetId | 'later' | null>(null);
   return (
-    <StepFrame title={copy.ob.sensesTitle} sub={copy.ob.sensesSub} action={copy.ob.next} onAction={onNext}>
+    <StepFrame title={onboardingCopy.sensesTitle} sub={onboardingCopy.sensesSub} action={onboardingCopy.next} onAction={onNext}>
       <div className="flex flex-col gap-2">
         {PRESET_IDS.map((id) => (
           <CardButton
@@ -32,18 +33,18 @@ export function SensesStep({ onNext }: StepProps) {
               void updateMany(presetValues(id, hapticsSupported()));
             }}
           >
-            <span className="font-display font-extrabold">{copy.ob.presets[id].name}</span>
-            <span className="text-small text-ink-soft">{copy.ob.presets[id].summary}</span>
+            <span className="font-display font-extrabold">{onboardingCopy.presets[id].name}</span>
+            <span className="text-small text-ink-soft">{onboardingCopy.presets[id].summary}</span>
           </CardButton>
         ))}
         <CardButton selected={picked === 'later'} onClick={() => setPicked('later')}>
-          <span className="font-display font-extrabold">{copy.ob.customizeLater}</span>
+          <span className="font-display font-extrabold">{onboardingCopy.customizeLater}</span>
         </CardButton>
       </div>
       <SwitchRow
         id="ob-sounds"
         label={copy.sound.enabled}
-        description={settings['sound.enabled'] ? undefined : copy.ob.soundsOff}
+        description={settings['sound.enabled'] ? undefined : onboardingCopy.soundsOff}
         checked={settings['sound.enabled']}
         onCheckedChange={(v) => void update('sound.enabled', v)}
       />

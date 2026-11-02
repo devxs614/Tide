@@ -7,7 +7,8 @@
 // the top right) applies sensible defaults and goes straight to Today.
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, MoreHorizontal } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useSettings } from '@/lib/settings';
 import { SKIP_SETUP_DEFAULTS } from '@/lib/settings/presets';
 import { createWelcomeWin } from '@/lib/repo/wins';
@@ -45,7 +46,7 @@ export function OnboardingScreen() {
       schemaVersion: 2,
       'onboarding.step': 1,
     });
-    await createWelcomeWin(copy.ob.welcomeShell);
+    await createWelcomeWin(onboardingCopy.welcomeShell);
     router.replace('/');
   };
 
@@ -81,31 +82,31 @@ export function OnboardingScreen() {
         {step > 1 ? (
           <Button variant="quiet" size="sm" onClick={() => go(back)}>
             <ArrowLeft aria-hidden />
-            {copy.ob.back}
+            {onboardingCopy.back}
           </Button>
         ) : (
           <span className="min-h-12" />
         )}
         <div className="ml-auto flex flex-wrap items-center justify-end gap-1">
           <Button variant="quiet" size="sm" onClick={() => void skipStep()}>
-            {copy.ob.skip}
+            {onboardingCopy.skip}
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="quiet" size="sm">
                 <MoreHorizontal aria-hidden />
-                {copy.ob.moreOptions}
+                {onboardingCopy.moreOptions}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onSelect={skipSetup}>{copy.ob.skipSetup}</DropdownMenuItem>
+              <DropdownMenuItem onSelect={skipSetup}>{onboardingCopy.skipSetup}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
-      <ProgressBar value={step} max={TOTAL_STEPS} label={fill(copy.ob.stepOf, { n: step, total: TOTAL_STEPS })} />
+      <ProgressBar value={step} max={TOTAL_STEPS} label={fill(onboardingCopy.stepOf, { n: step, total: TOTAL_STEPS })} />
       <p className="sr-only" aria-live="polite">
-        {fill(copy.ob.stepOf, { n: step, total: TOTAL_STEPS })}
+        {fill(onboardingCopy.stepOf, { n: step, total: TOTAL_STEPS })}
       </p>
       <div key={step} className="flow-enter flex flex-1 flex-col">
         <OnboardingStep step={step} onNext={() => go(step + 1)} goTo={go} onFinish={() => void finish()} />

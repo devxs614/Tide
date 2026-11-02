@@ -7,6 +7,7 @@ import { db } from '@/lib/db';
 import type { WrapupInputT } from '@/lib/ai/schemas';
 import { addDays, formatTime, toISODate } from '@/lib/time';
 import type { CalendarEvent, CheckIn, CommunicationMode, DayWrap, FocusBlock, StrategyUse, Task, Transition } from '@/lib/types';
+import { activeTasks } from '../repo/taskQueries';
 
 export interface DayFacts {
   date: string;
@@ -31,7 +32,7 @@ export async function loadDayFacts(date: string): Promise<DayFacts> {
   const inDay = (ts?: number) => ts !== undefined && ts >= start && ts < end;
   const [checkins, tasks, focusBlocks, transitions, strategies, events] = await Promise.all([
     db.checkins.where('ts').between(start, end).filter((c) => !c.safetyTriggered).sortBy('ts'),
-    db.tasks.toArray(),
+    activeTasks(),
     db.focusBlocks.where('ts').between(start, end).toArray(),
     db.transitions.where('ts').between(start, end).toArray(),
     db.strategyUses.where('ts').between(start, end).toArray(),

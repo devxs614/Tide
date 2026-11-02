@@ -16,7 +16,7 @@ import { WrapScreen } from '@/components/wrap/WrapScreen';
 import { SettingsScreen } from '@/components/settings/SettingsScreen';
 import { SectionPage } from '@/components/settings/SectionPage';
 import { SECTIONS } from '@/lib/settings/catalog';
-import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { DemoLauncher } from '@/demo/DemoLauncher';
 import { WhatsNewSheet } from '@/components/whatsnew/WhatsNewSheet';
 import { ShortcutsSheet } from '@/components/shell/ShortcutsSheet';
@@ -64,7 +64,7 @@ const SCREENS: Array<[string, () => ReactElement, string | RegExp]> = [
   ['close the day', () => <WrapScreen />, /day/i],
   ['settings index', () => <SettingsScreen />, 'Appearance'],
   // Every Settings page, each found by its own title.
-  ...SECTIONS.map(({ id }): [string, () => ReactElement, string] => [`settings: ${id}`, () => <SectionPage id={id} />, copy.set.sections[id]]),
+  ...SECTIONS.map(({ id }): [string, () => ReactElement, string] => [`settings: ${id}`, () => <SectionPage id={id} />, settingsCopy.sections[id]]),
   ['demo launcher', () => <DemoLauncher />, /Full tour/],
   ["what's new", () => <WhatsNewSheet asPage />, /What's new/],
   ['shortcuts sheet', () => <ShortcutsSheet open onOpenChange={() => {}} />, 'Check in'],

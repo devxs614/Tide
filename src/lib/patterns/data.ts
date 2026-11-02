@@ -3,11 +3,12 @@
 // can accidentally learn from them.
 import { db } from '@/lib/db';
 import type { PatternInput } from './types';
+import { allTasksForPatterns } from '../repo/taskQueries';
 
 export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Promise<PatternInput> {
   const [checkins, tasks, events, focusBlocks, strategyUses, transitions, dismissed, dayWraps] = await Promise.all([
     db.checkins.toArray(),
-    db.tasks.toArray(),
+    allTasksForPatterns(),
     db.events.toArray(),
     db.focusBlocks.toArray(),
     db.strategyUses.toArray(),

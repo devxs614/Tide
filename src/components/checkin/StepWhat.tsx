@@ -4,6 +4,7 @@
 // messy, with dictation where the browser supports it. Two ways out if words
 // won't come: start from the body, or skip straight to the map.
 import { copy, fill } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { Button } from '@/components/ui/button';
 import { DictateButton } from '@/components/ui/DictateButton';
 import { StepHeader } from './StepHeader';
@@ -23,7 +24,7 @@ export function StepWhat({ text, onText, onNext, onNoWords, onSkipToMap }: Props
     <>
       <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
         <StepHeader title={copy.checkin.step1Title} stepNumber={1} />
-        <CheckInCoach>{copy.ob.coachText}</CheckInCoach>
+        <CheckInCoach>{onboardingCopy.coachText}</CheckInCoach>
         <div className="flex flex-col gap-2">
           <label htmlFor="checkin-text" className="font-bold">
             {copy.checkin.step1Label}

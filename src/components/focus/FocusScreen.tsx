@@ -4,7 +4,7 @@
 // on screen. Maya picks a length (preselected from Unstick or from how she
 // feels), starts, can pause, and ends whenever she wants. The timer never
 // rolls into a new task by itself; at the end it only asks how it went.
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRouter } from 'next/navigation';
 import { copy, fill } from '@/copy/en';
@@ -28,6 +28,8 @@ import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 import { useSound } from '@/lib/sound/useSound';
 import { useAmbience } from '@/lib/sound/useAmbience';
 import { useWakeLock } from '@/lib/useWakeLock';
+import { getTask } from '@/lib/repo/taskQueries';
+import { clearFocusRunning, markFocusRunning } from '@/lib/focusRunning';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
 const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15, swell: 25 };
@@ -36,7 +38,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   const router = useRouter();
   const { settings } = useSettings();
   const { openUnstick } = useUnstickSheet();
-  const task = useLiveQuery(async () => (await db.tasks.get(taskId)) ?? null, [taskId]);
+  const task = useLiveQuery(async () => (await getTask(taskId)) ?? null, [taskId]);
   const rewards = useLiveQuery(() => db.rewards.toArray(), []) ?? [];
   const ruleMinutes = useLiveQuery(async () => {
     const latest = await recentCheckIn(now());
@@ -59,6 +61,20 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   useAmbience(timer.phase === 'running');
   useWakeLock(timer.phase === 'running' && settings['focus.keepAwake']);
   const celebrate = useCelebrate();
+
+  // v2.1 F-03: a delete in another tab can say "this will also end the focus
+  // timer" while a block is going, and once the task is gone the block ends
+  // quietly, with no "how did it go?" about a task that isn't there.
+  const active = timer.phase === 'running' || timer.phase === 'paused';
+  const stopTimer = timer.stop;
+  useEffect(() => {
+    if (!active) return;
+    markFocusRunning(taskId);
+    return () => clearFocusRunning(taskId);
+  }, [active, taskId]);
+  useEffect(() => {
+    if (task === null && active) stopTimer();
+  }, [task, active, stopTimer]);
 
   if (task === undefined) return null;
   if (task === null) {

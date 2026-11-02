@@ -148,6 +148,13 @@ up during the build. — Claude Code
   this in Chrome; a real phone's browser bars and text settings are the
   last word.
 
+- [ ] **Edit and delete a task on a phone (F-03).** Tap a task's title on
+  Today and on the board, edit it, delete it, and press Undo in the
+  toast. Then delete one with "Also remove what washed up on my shore"
+  checked, wait 10 seconds, and check that its shell is gone from Your
+  Shore. Why: the tests use a fake database and a desktop browser, and
+  the toast and the sheet need a real thumb. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

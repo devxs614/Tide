@@ -4,6 +4,7 @@
 // Literal, each shown with its example line, said by the companion when
 // there is one. Then the reading level the AI suggestions aim for.
 import { copy } from '@/copy/en';
+import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useSettings } from '@/lib/settings';
 import type { CommunicationMode } from '@/lib/types';
@@ -19,9 +20,9 @@ export function TalkStep({ onNext }: StepProps) {
   const { settings, update } = useSettings();
   const profile = useCompanion();
   return (
-    <StepFrame title={copy.ob.talkTitle} action={copy.ob.next} onAction={onNext}>
+    <StepFrame title={onboardingCopy.talkTitle} action={onboardingCopy.next} onAction={onNext}>
       <fieldset className="flex flex-col gap-2">
-        <legend className="sr-only">{copy.ob.talkTitle}</legend>
+        <legend className="sr-only">{onboardingCopy.talkTitle}</legend>
         {MODES.map((m) => (
           <CardButton key={m} selected={settings.communicationMode === m} onClick={() => void update('communicationMode', m)} className="flex-row items-center gap-3">
             {profile.species && <Companion size={44} expression={settings.communicationMode === m ? 'happy' : 'idle'} decorative />}
@@ -33,14 +34,14 @@ export function TalkStep({ onNext }: StepProps) {
         ))}
       </fieldset>
       <div className="flex flex-col gap-2">
-        <span className="font-display font-extrabold">{copy.ob.readingLevel}</span>
+        <span className="font-display font-extrabold">{onboardingCopy.readingLevel}</span>
         <SegmentedControl
-          label={copy.ob.readingLevel}
+          label={onboardingCopy.readingLevel}
           value={settings['language.readingLevel']}
           onChange={(v) => void update('language.readingLevel', v)}
           options={[
-            { value: 'standard', label: copy.ob.readingLevels.standard },
-            { value: 'simple', label: copy.ob.readingLevels.simple },
+            { value: 'standard', label: onboardingCopy.readingLevels.standard },
+            { value: 'simple', label: onboardingCopy.readingLevels.simple },
           ]}
         />
       </div>

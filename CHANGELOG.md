@@ -21,6 +21,15 @@ Challenge Partner, most urgent first.
   Settings' preview folds away at big text; and a new sample under Text
   size shows the result, with a button that copies layout details for the
   team.
+- **F-03** Any task can be edited or deleted. Tap its title (on the board
+  or on Today) to see its details, with Edit, Focus and Delete; with
+  keyboard shortcuts on, E edits and Delete removes the focused card.
+  Deleting asks first and offers Undo for 10 seconds. By default the
+  task's shells stay on your shore; a checkbox removes them and the
+  task's pattern history too. Settings → Privacy & data can remove
+  deleted tasks for good.
+- Fixed: after a reset, Patterns could reuse wording written for slightly
+  different numbers (it now matches every number, not just "k of n").
 - New for the team: a layout audit (`npm run audit:layout`) that checks
   every screen at six widths and four text sizes in a real browser.
 

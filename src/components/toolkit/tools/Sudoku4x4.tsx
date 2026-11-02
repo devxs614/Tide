@@ -6,6 +6,7 @@
 // number keys 1–4 fill a cell, Backspace clears it.
 import { useEffect, useState, type KeyboardEvent } from 'react';
 import { copy, fill } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { SUDOKU_PUZZLES } from '@/data/sudoku';
 import { Button } from '@/components/ui/button';
 import { emitCompanion } from '@/lib/companion/bus';
@@ -57,12 +58,12 @@ export function Sudoku4x4({ onDone }: ToolProps) {
     flagged === null
       ? ''
       : flagged.length === 1
-        ? copy.tools.sudoku.oneToLookAt
+        ? toolsCopy.sudoku.oneToLookAt
         : flagged.length > 1
-          ? fill(copy.tools.sudoku.toLookAt, { n: flagged.length })
+          ? fill(toolsCopy.sudoku.toLookAt, { n: flagged.length })
           : complete
-            ? copy.tools.sudoku.allGood
-            : copy.tools.sudoku.soFarSoGood;
+            ? toolsCopy.sudoku.allGood
+            : toolsCopy.sudoku.soFarSoGood;
 
   const newPuzzle = () => {
     const i = takePuzzle();
@@ -74,21 +75,21 @@ export function Sudoku4x4({ onDone }: ToolProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <p className="text-caption text-ink-soft">{copy.tools.sudoku.keyboardHint}</p>
-      <div role="grid" aria-label={copy.tools.sudoku.gridLabel} className="grid w-64 grid-cols-1 overflow-hidden rounded-md border-2 border-ink">
+      <p className="text-caption text-ink-soft">{toolsCopy.sudoku.keyboardHint}</p>
+      <div role="grid" aria-label={toolsCopy.sudoku.gridLabel} className="grid w-64 grid-cols-1 overflow-hidden rounded-md border-2 border-ink">
         {[0, 1, 2, 3].map((row) => (
           <div role="row" key={row} className="grid grid-cols-4">
             {[0, 1, 2, 3].map((col) => {
               const i = row * 4 + col;
               const value = values[i];
-              const valueText = isGiven(i) ? `${value}, ${copy.tools.sudoku.cellFixed}` : value ? String(value) : copy.tools.sudoku.cellEmpty;
+              const valueText = isGiven(i) ? `${value}, ${toolsCopy.sudoku.cellFixed}` : value ? String(value) : toolsCopy.sudoku.cellEmpty;
               return (
                 <div
                   key={col}
                   role="gridcell"
                   tabIndex={i === selected ? 0 : -1}
                   aria-selected={i === selected}
-                  aria-label={fill(copy.tools.sudoku.cellLabel, { row: row + 1, col: col + 1, value: valueText })}
+                  aria-label={fill(toolsCopy.sudoku.cellLabel, { row: row + 1, col: col + 1, value: valueText })}
                   onClick={() => setSelected(i)}
                   onKeyDown={(e) => onKeyDown(e, i)}
                   className={cn(
@@ -107,26 +108,26 @@ export function Sudoku4x4({ onDone }: ToolProps) {
           </div>
         ))}
       </div>
-      <div role="group" aria-label={copy.tools.sudoku.numberPad} className="flex gap-2">
+      <div role="group" aria-label={toolsCopy.sudoku.numberPad} className="flex gap-2">
         {[1, 2, 3, 4].map((n) => (
-          <Button key={n} variant="secondary" size="icon" aria-label={fill(copy.tools.sudoku.put, { n })} onClick={() => put(n)}>
+          <Button key={n} variant="secondary" size="icon" aria-label={fill(toolsCopy.sudoku.put, { n })} onClick={() => put(n)}>
             {n}
           </Button>
         ))}
         <Button variant="secondary" onClick={() => put(0)}>
-          {copy.tools.sudoku.erase}
+          {toolsCopy.sudoku.erase}
         </Button>
       </div>
       <p aria-live="polite" className="min-h-6 text-center">
         {message}
       </p>
       <div className="flex flex-wrap justify-center gap-2">
-        <Button onClick={check}>{copy.tools.sudoku.check}</Button>
+        <Button onClick={check}>{toolsCopy.sudoku.check}</Button>
         <Button variant="secondary" onClick={() => setValues([...puzzle.solution])}>
-          {copy.tools.sudoku.showSolution}
+          {toolsCopy.sudoku.showSolution}
         </Button>
         <Button variant="quiet" onClick={newPuzzle}>
-          {copy.tools.sudoku.newPuzzle}
+          {toolsCopy.sudoku.newPuzzle}
         </Button>
       </div>
       <Button variant={complete ? 'default' : 'quiet'} onClick={onDone}>

@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react';
 import { Wind } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
 import { useSound } from '@/lib/sound/useSound';
@@ -16,7 +17,7 @@ import { Companion } from '../Companion';
 import type { BreathPhase } from '../CompanionFigure';
 
 const PHASES: BreathPhase[] = ['in', 'hold-in', 'out', 'hold-out'];
-const WORDS = [copy.tools.breathe.in, copy.tools.breathe.holdIn, copy.tools.breathe.out, copy.tools.breathe.holdOut];
+const WORDS = [toolsCopy.breathe.in, toolsCopy.breathe.holdIn, toolsCopy.breathe.out, toolsCopy.breathe.holdOut];
 const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
 const SIDE_S = 4;
 

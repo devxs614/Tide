@@ -7,11 +7,12 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Copy } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { Button } from '@/components/ui/button';
 import type { ToolProps } from './types';
 
 export function MessageTemplate({ strategy, taskTitle, onDone }: ToolProps) {
-  const [text, setText] = useState(() => fill(strategy.template ?? '', { task: taskTitle ?? copy.tools.message.thisTask }));
+  const [text, setText] = useState(() => fill(strategy.template ?? '', { task: taskTitle ?? toolsCopy.message.thisTask }));
 
   const copyText = async () => {
     try {
@@ -27,7 +28,7 @@ export function MessageTemplate({ strategy, taskTitle, onDone }: ToolProps) {
   return (
     <div className="flex flex-col gap-3">
       <label htmlFor="message-text" className="font-bold">
-        {copy.tools.message.label}
+        {toolsCopy.message.label}
       </label>
       <textarea
         id="message-text"

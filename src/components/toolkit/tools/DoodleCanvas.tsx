@@ -5,15 +5,16 @@
 // from Tide's tokens at draw time, so they follow light and dark mode.
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { copy } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { SoftTimer } from './SoftTimer';
 import type { ToolProps } from './types';
 
 const PENS = [
-  { id: 'ink', token: '--ink', label: copy.tools.doodle.ink, swatch: 'bg-ink' },
-  { id: 'teal', token: '--primary', label: copy.tools.doodle.teal, swatch: 'bg-primary' },
-  { id: 'warm', token: '--q-surge', label: copy.tools.doodle.warm, swatch: 'bg-surge' },
+  { id: 'ink', token: '--ink', label: toolsCopy.doodle.ink, swatch: 'bg-ink' },
+  { id: 'teal', token: '--primary', label: toolsCopy.doodle.teal, swatch: 'bg-primary' },
+  { id: 'warm', token: '--q-surge', label: toolsCopy.doodle.warm, swatch: 'bg-surge' },
 ];
 
 function tokenColor(token: string): string {
@@ -73,14 +74,14 @@ export function DoodleCanvas({ onDone }: ToolProps) {
       <canvas
         ref={canvasRef}
         role="img"
-        aria-label={copy.tools.doodle.label}
+        aria-label={toolsCopy.doodle.label}
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerUp={() => (drawing.current = false)}
         onPointerCancel={() => (drawing.current = false)}
         className="h-72 w-full touch-none card"
       />
-      <div role="group" aria-label={copy.tools.doodle.colors} className="flex flex-wrap gap-2">
+      <div role="group" aria-label={toolsCopy.doodle.colors} className="flex flex-wrap gap-2">
         {PENS.map((p) => (
           <Button key={p.id} variant="secondary" size="sm" aria-pressed={pen.id === p.id} onClick={() => setPen(p)} className={cn(pen.id === p.id && 'border-primary')}>
             <span aria-hidden className={cn('size-4 rounded-full', p.swatch)} />
@@ -88,7 +89,7 @@ export function DoodleCanvas({ onDone }: ToolProps) {
           </Button>
         ))}
         <Button variant="quiet" size="sm" onClick={clear}>
-          {copy.tools.doodle.clear}
+          {toolsCopy.doodle.clear}
         </Button>
       </div>
       <Button onClick={onDone}>{copy.toolkit.imDone}</Button>

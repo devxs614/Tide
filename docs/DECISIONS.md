@@ -999,3 +999,59 @@ Mon/Wed/Fri at 9:00). The id is a short FNV-1a hash of that key plus the
 weekday set, so it's the same on every device. A single event stays
 alone. Rejected: one series per weekday, which would make "all Physics
 events" three separate deletes.
+
+**D141 — 2026-11-01 — Edit and Delete live in the task's detail sheet, not the "Move to…" menu.**
+The spec puts Edit and Delete in a card's "⋯" menu next to "Move to…".
+Tide's only card menu is v1's "Move to…", and a frozen v1 test checks that
+it lists exactly the other columns. So the title opens a detail sheet with
+Edit, Focus, Delete and the columns, and E or Delete work on a focused
+card. Rejected: a second "⋯" button on every card. It would be one more
+small control on cards that already wrap at large text, and it would do
+the same thing the title already does.
+
+**D142 — 2026-11-01 — Task reads are plain Dexie queries, filtered afterwards.**
+Dexie 4 updates a live query the moment a write happens in the same tab,
+but only for plain queries (`toArray()`, `where().anyOf()`). A query with
+`.filter()` waits for the commit and runs again. That made the board lag a
+render behind a move, and v1 flow 5 caught it. So `taskQueries.ts` reads
+plainly and drops deleted tasks in JavaScript. Rejected: an index on
+`deletedAt`. IndexedDB doesn't index missing values, so "not deleted"
+can't be a key range.
+
+**D143 — 2026-11-01 — Deleting a task mid-focus: a localStorage mark, and no saved block.**
+A focus block runs on its own full screen, so its task can only be
+deleted from another tab. The block marks its task in localStorage (marks
+older than four hours count as a tab that closed), the delete dialog adds
+"This will also end the focus timer.", and the focus screen stops the
+timer without the outcome question. The partial block isn't saved: the
+person just said the task shouldn't be in their history.
+
+**D144 — 2026-11-01 — Copy for screens Today never shows moves to its own files.**
+`en.ts` loads whole with Today, and each v2.1 item adds strings. F-03 took
+`/` to 301.8 KB. Settings 2.0, onboarding, screen help and the Toolkit
+tools now keep their words in `src/copy/settingsCopy.ts`,
+`onboardingCopy.ts`, `screenHelpCopy.ts` and `toolsCopy.ts`, following the
+v2 split of companion lines. The copy guard test scans all of them.
+Today is at 297.9 KB. From here on, strings for a screen or sheet that
+loads lazily go in that area's file. Rejected: lazy-loading more of
+Today's cards. That saves component code, but the copy would still load
+with `en.ts`.
+
+**D145 — 2026-11-01 — Pattern wording is cached by every fact, not only k and n.**
+The narrate answer can quote the baseline ("usually 25%"). Keying the
+in-memory cache on key + k + n reused words written for different facts.
+In the v1 demo test, a fallback worded against the real clock was reused
+for the demo's numbers. The key now includes `JSON.stringify(facts)`.
+A pattern still gets new words only when its numbers change.
+
+**D146 — 2026-11-01 — Deleting today's anchor task hides the morning card; the purge clears the anchor.**
+The spec says the anchor is cleared on delete. The morning card reads the
+anchor through `getTask`, so a soft-deleted anchor already hides the card.
+The wrap-up's `anchorTaskId` is only removed by the history purge. That
+way, Undo brings the morning card back exactly as it was.
+
+**D147 — 2026-11-01 — No "a deleted task" label in pattern evidence.**
+The spec asks evidence rows to show "a deleted task" when the title is
+gone. Tide's evidence rows name the strategy and the task *type*, never a
+title, so a deleted task can't show up by name. I left the label out
+rather than add a string nothing uses.

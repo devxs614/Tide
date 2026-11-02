@@ -3,7 +3,7 @@
 // The big countdown and Start / Pause / Resume buttons shared by the walk
 // and steps timers. When time is up it says so kindly and waits; nothing
 // moves on until Maya chooses.
-import { copy } from '@/copy/en';
+import { toolsCopy } from '@/copy/toolsCopy';
 import { formatCountdown } from '@/lib/time';
 import type { useCountdown } from '@/lib/useCountdown';
 import { Button } from '@/components/ui/button';
@@ -15,16 +15,16 @@ export function TimerControls({ timer, doneLabel, onDone }: { timer: ReturnType<
         {formatCountdown(timer.remaining)}
       </p>
       <p aria-live="polite" className="text-ink-soft">
-        {timer.finished ? copy.tools.timeUp : ''}
+        {timer.finished ? toolsCopy.timeUp : ''}
       </p>
       <div className="flex w-full max-w-xs flex-col gap-2">
-        {!timer.started && <Button onClick={timer.start}>{copy.tools.timerStart}</Button>}
+        {!timer.started && <Button onClick={timer.start}>{toolsCopy.timerStart}</Button>}
         {timer.running && (
           <Button variant="secondary" onClick={timer.pause}>
-            {copy.tools.timerPause}
+            {toolsCopy.timerPause}
           </Button>
         )}
-        {timer.paused && <Button onClick={timer.resume}>{copy.tools.timerResume}</Button>}
+        {timer.paused && <Button onClick={timer.resume}>{toolsCopy.timerResume}</Button>}
         <Button variant={timer.finished ? 'default' : 'quiet'} onClick={onDone}>
           {doneLabel}
         </Button>

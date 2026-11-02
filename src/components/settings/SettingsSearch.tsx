@@ -6,7 +6,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { searchSettings } from '@/lib/settings/searchIndex';
 
 export function SettingsSearch() {
@@ -19,7 +20,7 @@ export function SettingsSearch() {
   return (
     <div role="search" className="flex flex-col gap-2">
       <label htmlFor="settings-search" className="sr-only">
-        {copy.set.searchLabel}
+        {settingsCopy.searchLabel}
       </label>
       <div className="flex items-center gap-2 rounded-input border-2 border-line bg-surface px-3">
         <Search aria-hidden className="size-5 text-ink-soft" />
@@ -28,7 +29,7 @@ export function SettingsSearch() {
           id="settings-search"
           type="search"
           value={q}
-          placeholder={copy.set.searchPlaceholder}
+          placeholder={settingsCopy.searchPlaceholder}
           onChange={(e) => setQ(e.target.value)}
           // min-w-0: a text field has a built-in minimum width that pushed the
           // page sideways at 150% with Lexend and extra spacing.
@@ -37,7 +38,7 @@ export function SettingsSearch() {
       </div>
       {q.trim() && (
         <ul aria-live="polite" className="flex flex-col gap-1">
-          {hits.length === 0 && <li className="text-ink-soft">{fill(copy.set.noResults, { q: q.trim() })}</li>}
+          {hits.length === 0 && <li className="text-ink-soft">{fill(settingsCopy.noResults, { q: q.trim() })}</li>}
           {hits.map((hit) => (
             <li key={hit.anchor}>
               <Link href={`/settings/${hit.section}#${hit.anchor}`} className="card-flat flex min-h-12 flex-col justify-center px-3 py-2 hover:bg-surface-2">

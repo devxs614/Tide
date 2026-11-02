@@ -7,6 +7,10 @@ import { describe, expect, it } from 'vitest';
 import { copy } from '@/copy/en';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import * as companions from '@/copy/companions';
+import { onboardingCopy } from '@/copy/onboardingCopy';
+import { settingsCopy } from '@/copy/settingsCopy';
+import { screenHelpCopy } from '@/copy/screenHelpCopy';
+import { toolsCopy } from '@/copy/toolsCopy';
 
 function strings(value: unknown): string[] {
   if (typeof value === 'string') return [value];
@@ -15,7 +19,7 @@ function strings(value: unknown): string[] {
   return [];
 }
 
-const ALL = [...strings(copy), ...strings(COMPANION_COPY), ...strings(companions)];
+const ALL = [...strings(copy), ...strings(onboardingCopy), ...strings(settingsCopy), ...strings(screenHelpCopy), ...strings(toolsCopy), ...strings(COMPANION_COPY), ...strings(companions)];
 const GUILT = [/missed you/i, /you failed/i, /\bstreak/i, /overdue/i, /\blazy\b/i, /should have/i, /fall(ing|en)? behind/i, /don't break/i, /\bfailure\b/i];
 const ALLOWED = ['Stuck is information, not failure.'];
 

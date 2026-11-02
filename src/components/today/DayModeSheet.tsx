@@ -20,6 +20,7 @@ import type { Task } from '@/lib/types';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { StepHeader } from '@/components/checkin/StepHeader';
 import { DayModeProposal } from './DayModeProposal';
+import { activeTasks } from '@/lib/repo/taskQueries';
 
 const MODES: LighterMode[] = ['gentle', 'minimum'];
 
@@ -47,7 +48,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
     setLoading(true);
     const at = now();
     const [tasks, events, latest] = await Promise.all([
-      db.tasks.toArray(),
+      activeTasks(),
       db.events.where('start').between(startOfDay(at), endOfDay(at)).sortBy('start'),
       recentCheckIn(at),
     ]);

@@ -18,7 +18,6 @@ import {
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { copy, fill } from '@/copy/en';
-import { db } from '@/lib/db';
 import type { Task, TaskStatus } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { STATUS_ORDER } from './MoveToMenu';
@@ -26,6 +25,7 @@ import { StateColumn } from './StateColumn';
 import { useTaskMoves } from './useTaskMoves';
 import { SomedayList } from './SomedayList';
 import { ScreenSkeleton } from '@/components/ui/skeleton';
+import { activeTasks } from '@/lib/repo/taskQueries';
 
 function statusOf(id: string, tasks: Task[]): TaskStatus | undefined {
   if (id.startsWith('column:')) return id.slice('column:'.length) as TaskStatus;
@@ -33,7 +33,7 @@ function statusOf(id: string, tasks: Task[]): TaskStatus | undefined {
 }
 
 export function TaskBoard() {
-  const tasks = useLiveQuery(() => db.tasks.toArray(), []);
+  const tasks = useLiveQuery(() => activeTasks(), []);
   const [visible, setVisible] = useState<TaskStatus>('not_started');
   const move = useTaskMoves();
   const sensors = useSensors(

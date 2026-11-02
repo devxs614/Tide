@@ -1,7 +1,7 @@
 // Settings search (v2 spec 15.4): every control's label, help and the words
 // people actually type ("dark mode", "pet", "dyslexia"), scored on whole
 // words, then prefixes, then parts of words. Small on purpose; no library.
-import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { SECTIONS, anchorFor, type SectionId } from './catalog';
 
 export interface SearchHit {
@@ -20,7 +20,7 @@ const tokens = (text: string) => text.toLowerCase().split(/[^a-z0-9]+/).filter(B
 
 const DOCS: Doc[] = SECTIONS.flatMap((section) =>
   section.entries.map((entry) => {
-    const sectionLabel = copy.set.sections[section.id];
+    const sectionLabel = settingsCopy.sections[section.id];
     const help = 'help' in entry && entry.help ? entry.help : '';
     const keywords = entry.keywords ?? [];
     return {

@@ -104,8 +104,12 @@ Next 16 removed `next lint`; `npm run lint` runs `eslint .`.
 ## Code rules
 - Colors: tokens only (`bg-surface`, `text-ink`, `bg-ebb-tint`…). No raw
   hex in `src/components/` (a guard test enforces this).
-- Copy: every user-facing string comes from `src/copy/en.ts`. Mode variants
-  use `{ gentle, direct, literal }` and `byMode()`.
+- Copy: every user-facing string comes from `src/copy/`. `en.ts` holds what
+  Today and the shell show. A screen Today never shows keeps its words in
+  its area's file (`settingsCopy.ts`, `onboardingCopy.ts`,
+  `screenHelpCopy.ts`, `toolsCopy.ts`, the companion files), so they stay
+  out of `/`'s first load (D144). Mode variants use
+  `{ gentle, direct, literal }` and `byMode()`.
 - Time: `now()` from `src/lib/clock.ts` only. `Date.now(` anywhere else in
   `src/` fails the guard test.
 - Data: components read with `useLiveQuery`; every write goes through

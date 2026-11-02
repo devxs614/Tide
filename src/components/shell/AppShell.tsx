@@ -16,6 +16,7 @@ import { CheckInFab } from './CheckInFab';
 import { Splash } from './Splash';
 import dynamic from 'next/dynamic';
 import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
+import { useTaskSheet } from '@/lib/taskSheets';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
@@ -30,6 +31,8 @@ const DayModeSheet = dynamic(
   () => import('@/components/today/DayModeSheet').then((m) => m.DayModeSheet),
   { ssr: false },
 );
+// Task details, edit and delete (v2.1 F-03) load the first time one opens.
+const TaskSheets = dynamic(() => import('@/components/tasks/TaskSheets').then((m) => m.TaskSheets), { ssr: false });
 // Keyboard shortcuts only matter once someone presses a key, so their code
 // loads right after the page instead of with it (`/` sits at its budget).
 const KeyboardShortcuts = dynamic(() => import('./KeyboardShortcuts').then((m) => m.KeyboardShortcuts), { ssr: false });
@@ -41,6 +44,7 @@ const BridgeSheet = dynamic(
 );
 
 function Sheets() {
+  const taskSheet = useTaskSheet();
   const checkIn = useCheckInSheet();
   const dayMode = useDayModeSheet();
   const bridge = useBridgeSheet();
@@ -54,6 +58,9 @@ function Sheets() {
       </WhenOpened>
       <WhenOpened open={!!bridge.eventId}>
         <BridgeSheet />
+      </WhenOpened>
+      <WhenOpened open={!!taskSheet}>
+        <TaskSheets />
       </WhenOpened>
     </>
   );
@@ -87,6 +94,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loaded && !settings.onboarded && !inDemo) router.replace('/onboarding');
   }, [loaded, settings.onboarded, inDemo, router]);
+  // A "remove its history" whose Undo window ran out while Tide was closed
+  // finishes now (v2.1 F-03). Loaded on its own so `/` stays light.
+  useEffect(() => {
+    if (loaded) void import('@/lib/repo/taskEdits').then((m) => m.runPendingPurges());
+  }, [loaded]);
   if (!loaded || (!settings.onboarded && inDemo)) return <PhoneFrame><Splash /></PhoneFrame>;
   if (!settings.onboarded) return <PhoneFrame>{null}</PhoneFrame>;
   // Someone who finished v1 onboarding and hasn't met the companions yet.

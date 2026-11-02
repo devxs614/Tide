@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import { copy } from '@/copy/en';
 import { useAi } from '@/lib/ai/useAi';
 import { now } from '@/lib/clock';
-import { db } from '@/lib/db';
 import { recentCheckIn } from '@/lib/latestState';
 import { loadPatternInput } from '@/lib/patterns/data';
 import { helpfulStrategiesFor } from '@/lib/patterns/rules/strategyBeforeTask';
@@ -28,10 +27,11 @@ import { UnstickReasons } from './UnstickReasons';
 import { UnstickStep } from './UnstickStep';
 import { recallSuggestion, rememberSuggestion, type UnstickSuggestion } from './unstickCache';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
+import { getTask, countTasksWithFirstStep } from '@/lib/repo/taskQueries';
 
 export function UnstickSheet() {
   const { request, closeUnstick } = useUnstickSheet();
-  const task = useLiveQuery(() => (request ? db.tasks.get(request.taskId) : undefined), [request?.taskId]);
+  const task = useLiveQuery(() => (request ? getTask(request.taskId) : undefined), [request?.taskId]);
   const key = request
     ? `${request.taskId}:${request.reason ?? ''}:${request.previousStep ?? ''}:${request.resume ? 'resume' : ''}`
     : 'closed';
@@ -108,7 +108,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
     await setFirstStep(task.id, suggestion.output.firstStep);
     if (task.status !== 'in_progress') await moveTask(task.id, 'in_progress');
     // The first small first step ever taken gets a pearl.
-    if ((await db.tasks.filter((t) => !!t.firstStep).count()) === 1) void celebrate('firstTime', { feature: 'unstick' });
+    if ((await countTasksWithFirstStep()) === 1) void celebrate('firstTime', { feature: 'unstick' });
     onClose();
     router.push(`/focus/${task.id}?minutes=${suggestion.output.focusMinutes}`);
   };

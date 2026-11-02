@@ -1,7 +1,7 @@
 'use client';
 
 // Words for the computed patterns. Only each pattern's facts go to the
-// narrate route; the answers are cached in memory by key + k + n + mode, so
+// narrate route; the answers are cached in memory by key + facts + mode, so
 // switching tabs or periods doesn't ask again, and a pattern only gets new
 // wording when its numbers change. With AI off, the template answers.
 import { useEffect, useState } from 'react';
@@ -11,7 +11,10 @@ import type { PatternResult } from '@/lib/patterns/types';
 import type { CommunicationMode } from '@/lib/types';
 
 const cache = new Map<string, NarrateCard>();
-const cacheKey = (p: PatternResult, mode: CommunicationMode) => `${p.key}:${p.k}:${p.n}:${mode}`;
+// Every fact, not only k and n (v2.1): the words can quote the baseline, and
+// a card worded for "4 of 5, usually 33%" was being reused for "4 of 5,
+// usually 25%" after a reset, offline fallback wording included.
+const cacheKey = (p: PatternResult, mode: CommunicationMode) => `${p.key}:${p.k}:${p.n}:${JSON.stringify(p.facts)}:${mode}`;
 
 export function useNarration(patterns: PatternResult[], mode: CommunicationMode): Array<NarrateCard | null> {
   const { run } = useAi('narrate');

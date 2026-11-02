@@ -7,7 +7,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { copy } from '@/copy/en';
+import { settingsCopy } from '@/copy/settingsCopy';
 import { DEFAULT_SETTINGS } from '@/lib/repo/settings';
 import { keysOf, sectionById, type SectionId } from '@/lib/settings/catalog';
 import { useUndoableUpdate } from '@/lib/settings/useUndoableUpdate';
@@ -34,7 +34,7 @@ export function SectionPage({ id }: { id: SectionId }) {
   const reset = () => {
     const keys = keysOf(id);
     const values = Object.fromEntries(keys.map((k) => [k, DEFAULT_SETTINGS[k]])) as Partial<Settings>;
-    undoable(values, copy.set.resetDone);
+    undoable(values, settingsCopy.resetDone);
   };
 
   return (
@@ -42,10 +42,10 @@ export function SectionPage({ id }: { id: SectionId }) {
       <Button variant="quiet" size="sm" className="self-start" asChild>
         <Link href="/settings">
           <ArrowLeft aria-hidden />
-          {copy.set.backToSettings}
+          {settingsCopy.backToSettings}
         </Link>
       </Button>
-      <h2 className="text-h1 font-extrabold">{copy.set.sections[id]}</h2>
+      <h2 className="text-h1 font-extrabold">{settingsCopy.sections[id]}</h2>
       <LivePreview />
       <div className="flex flex-col gap-5">
         {section.entries.map((entry) =>
@@ -54,7 +54,7 @@ export function SectionPage({ id }: { id: SectionId }) {
       </div>
       {keysOf(id).length > 0 && (
         <Button variant="secondary" className="self-start" onClick={reset}>
-          {copy.set.resetSection}
+          {settingsCopy.resetSection}
         </Button>
       )}
     </div>

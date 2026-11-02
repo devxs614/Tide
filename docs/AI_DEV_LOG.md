@@ -2696,3 +2696,81 @@ Chemistry lab on Tue/Thu, Groceries on Sat, the library job on Mon/Wed,
 Physics and Programming on Mon/Wed/Fri), and no second upgrade on
 reopening. The v2 upgrade test now accepts "version 2 or later". Lint,
 typecheck, 458 tests and the v1 suite (164) are green.
+
+## Resumed (v2.1)
+2026-11-01, evening
+
+I picked the fix pack up again from a fresh session: re-read CLAUDE.md, the
+v2.1 spec and the end of this log, and checked `git status` on
+`v2.1-partner-ready`. F-01, F-02 and Dexie version 3 were committed; F-03
+was half done in the working tree (the repo helpers, the detail sheet, the
+delete dialog and the edit form, no flow tests, no docs). Running every
+check found two red tests:
+- v1 flow 5 ("In progress (1)" not found after a move). I had routed the
+  board's read through a helper that used Dexie's `filter()`, and Dexie 4
+  only updates a live query straight away for plain queries. A filtered
+  query waits for the commit and runs again, so the board lagged one
+  render behind. The helpers now run a plain query and filter afterwards.
+- v1 demo script, second run in a row offline: the walk card showed the
+  template's title instead of the saved answer. This one also failed
+  without my F-03 changes, and only late in the day. The Patterns screen
+  from the first run was still mounted while the second run reset the
+  app, so for a moment it counted Maya's data against the real clock
+  (Sunday), with a different baseline but the same "4 of 5". The word
+  cache keyed only on k and n, so that fallback wording stuck. The cache
+  key now includes every fact (D145). The v1 test is unchanged.
+
+## F-03 — Edit and delete tasks (before and after)
+2026-11-01
+
+**Before.** People couldn't fix a typo or remove a task they no longer
+needed, and a cluttered board is exactly what overwhelms our users. Plan:
+read-helpers in `src/lib/repo/taskQueries.ts` that hide deleted tasks, a
+guard test against direct `db.tasks` reads, soft delete with a 10-second
+Undo, the history purge as one transaction, a detail sheet, TaskForm in
+edit mode, keyboard shortcuts, and "Permanently remove deleted tasks" in
+Settings. Risk: the v1 "Move to…" menu test asserts the exact menu items,
+so Edit and Delete can't go in that menu.
+
+**After.**
+- Tapping a task's title (board, Today's Tide Line, anywhere a task card
+  shows) opens its details: type, energy, due date, first step, where you
+  left off, the columns as buttons, and Edit, Focus and Delete (D141).
+  With shortcuts on, E edits the focused card and Delete or Backspace asks
+  to delete it.
+- Edit reuses TaskForm ("Edit task", Save, a first-step field, the neutral
+  "Add a few words so you can recognize it." when the title is empty).
+- Delete asks first: "Keep it" has focus, "Delete" uses the notice style.
+  A plain delete hides the task everywhere and keeps its history; "Also
+  remove what washed up on my shore…" removes the task, its focus blocks
+  and wins, unlinks strategy uses and transitions, and cleans day plans
+  and wrap-ups, but only after the Undo window. If the app closes first,
+  it finishes at the next start.
+- A task deleted while its focus block runs (only possible from another
+  tab) ends the block quietly, and the dialog says so first (D143).
+- Settings → Privacy & data: "Permanently remove deleted tasks".
+- Every task read outside the repo goes through the helpers; a guard test
+  fails on a direct `db.tasks` read.
+- The F-03 code pushed Today's first load to 301.8 KB. I moved the copy
+  groups that Today never shows (Settings, onboarding, screen help, the
+  Toolkit tools) into their own files in `src/copy/`. `/` is now 297.9 KB
+  (D144).
+
+**How I checked it.** Repo tests: edit in place; soft delete hides the
+task from every read and Undo restores it; the purge removes only that
+task's records; pending purges run at start-up. Flow tests: edit from the
+board and see the new title on Today; an empty title gets the neutral
+message; delete with Undo; delete with history, and after 10 seconds the
+win is gone from the database and the shore is empty; a running focus
+block ends without the outcome question when its task is deleted. Layout
+audit for the detail sheet, the edit form and the delete dialog (plus the
+board and the add form) at every width and text size: 120 state runs, 0
+failures (`docs/audits/2026-11-01-f03.json`). Lint, typecheck, the full
+suite and the v1 suite are green.
+
+**Left open.**
+- The swipe gesture (optional in the spec). I skipped it because it would
+  fight the board's drag-and-drop on phones.
+- The demo tour step from spec 7.7 comes with the other tour additions
+  in R7. The `data-demo-id`s it needs are in place.
+- Bulk delete arrives with the Completed archive in F-05.
