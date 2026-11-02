@@ -89,6 +89,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
         onToggle={(id) => setKeep((k) => (k.includes(id) ? k.filter((x) => x !== id) : [...k, id]))}
         onApply={() => void apply()}
         onKeepAsIs={onClose}
+        onBack={() => setRequested(null)}
       />
     );
   }

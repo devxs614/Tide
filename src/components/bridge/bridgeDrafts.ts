@@ -7,6 +7,9 @@ export interface BridgeDraft {
   eventId: string;
   note?: string;
   checked: string[];
+  // v2.1 F-08: the last strategy started from here was stopped with Cancel,
+  // so the Shift step offers the other ones.
+  stopped?: boolean;
 }
 
 const byEvent = new Map<string, BridgeDraft>();
@@ -25,7 +28,12 @@ export function eventForTransition(transitionId: string): string | undefined {
   return undefined;
 }
 
-export function updateDraft(eventId: string, changes: Partial<Pick<BridgeDraft, 'note' | 'checked'>>): void {
+export function markStopped(transitionId: string): void {
+  const eventId = eventForTransition(transitionId);
+  if (eventId) byEvent.set(eventId, { ...draftFor(eventId), stopped: true });
+}
+
+export function updateDraft(eventId: string, changes: Partial<Pick<BridgeDraft, 'note' | 'checked' | 'stopped'>>): void {
   byEvent.set(eventId, { ...draftFor(eventId), ...changes });
 }
 

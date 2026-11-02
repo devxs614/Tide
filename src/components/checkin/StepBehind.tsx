@@ -13,9 +13,10 @@ interface Props {
   onToggle: (cause: Cause) => void;
   onNext: () => void;
   onSkip: () => void;
+  onBack: () => void;
 }
 
-export function StepBehind({ causes, onToggle, onNext, onSkip }: Props) {
+export function StepBehind({ causes, onToggle, onNext, onSkip, onBack }: Props) {
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-4">
@@ -33,6 +34,9 @@ export function StepBehind({ causes, onToggle, onNext, onSkip }: Props) {
         </Button>
         <Button variant="secondary" className="sm:flex-1" onClick={onSkip} data-demo-id="checkin-skip">
           {copy.global.skip}
+        </Button>
+        <Button variant="secondary" className="sm:flex-1" onClick={onBack} data-nav="back">
+          {copy.global.back}
         </Button>
       </div>
     </>

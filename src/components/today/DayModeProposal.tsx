@@ -20,6 +20,8 @@ interface Props {
   onToggle: (id: string) => void;
   onApply: () => void;
   onKeepAsIs: () => void;
+  // v2.1 F-08: back to the three modes, to pick another.
+  onBack: () => void;
 }
 
 function Side({ title, tasks, kept, onToggle }: { title: string; tasks: Task[]; kept: boolean; onToggle: (id: string) => void }) {
@@ -46,7 +48,7 @@ function Side({ title, tasks, kept, onToggle }: { title: string; tasks: Task[]; 
   );
 }
 
-export function DayModeProposal({ tasks, keep, budget, rationale, onToggle, onApply, onKeepAsIs }: Props) {
+export function DayModeProposal({ tasks, keep, budget, rationale, onToggle, onApply, onKeepAsIs, onBack }: Props) {
   const keepSet = new Set(keep);
   const kept = tasks.filter((t) => keepSet.has(t.id));
   const moved = tasks.filter((t) => !keepSet.has(t.id));
@@ -79,6 +81,9 @@ export function DayModeProposal({ tasks, keep, budget, rationale, onToggle, onAp
         )}
         <Button variant="secondary" size="block" onClick={onKeepAsIs}>
           {copy.dayMode.keepAsIs}
+        </Button>
+        <Button variant="quiet" className="self-start" onClick={onBack} data-nav="back">
+          {copy.global.back}
         </Button>
       </div>
     </>

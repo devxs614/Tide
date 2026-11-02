@@ -7,40 +7,56 @@ import { ArrowRight, HeartHandshake, Leaf, SlidersHorizontal } from 'lucide-reac
 import { copy } from '@/copy/en';
 import { onboardingCopy } from '@/copy/onboardingCopy';
 import type { Need } from '@/lib/types';
+import { Button } from '@/components/ui/button';
 import { StepHeader } from './StepHeader';
 import { CheckInCoach } from './CheckInCoach';
 
 const ICONS = { keep: ArrowRight, adjust: SlidersHorizontal, regulate: Leaf, talk: HeartHandshake };
 const ORDER: Need[] = ['keep', 'adjust', 'regulate', 'talk'];
 
-export function StepNeed({ onChoose, saving }: { onChoose: (need: Need) => void; saving: boolean }) {
+export function StepNeed({
+  onChoose,
+  saving,
+  onBack,
+}: {
+  onChoose: (need: Need) => void;
+  saving: boolean;
+  onBack: () => void;
+}) {
   return (
-    <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-6">
-      <StepHeader title={copy.checkin.step4Title} stepNumber={4} />
-      <CheckInCoach>{onboardingCopy.coachNeed}</CheckInCoach>
-      <ul className="flex flex-col gap-3">
-        {ORDER.map((need) => {
-          const Icon = ICONS[need];
-          const { title, body } = copy.checkin.needs[need];
-          return (
-            <li key={need}>
-              <button
-                type="button"
-                disabled={saving}
-                onClick={() => onChoose(need)}
-                data-demo-id={`need-${need}`}
-                className="flex w-full items-center gap-4 press-3d card [--ledge-color:var(--line)] p-4 text-left hover:bg-surface-2 disabled:opacity-60"
-              >
-                <Icon className="size-6 shrink-0 text-primary" aria-hidden />
-                <span className="flex flex-col">
-                  <span className="text-lead font-bold">{title}</span>
-                  <span className="text-ink-soft">{body}</span>
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <>
+      <div className="flex flex-1 flex-col gap-4 px-5 pt-5 pb-6">
+        <StepHeader title={copy.checkin.step4Title} stepNumber={4} />
+        <CheckInCoach>{onboardingCopy.coachNeed}</CheckInCoach>
+        <ul className="flex flex-col gap-3">
+          {ORDER.map((need) => {
+            const Icon = ICONS[need];
+            const { title, body } = copy.checkin.needs[need];
+            return (
+              <li key={need}>
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() => onChoose(need)}
+                  data-demo-id={`need-${need}`}
+                  className="flex w-full items-center gap-4 press-3d card [--ledge-color:var(--line)] p-4 text-left hover:bg-surface-2 disabled:opacity-60"
+                >
+                  <Icon className="size-6 shrink-0 text-primary" aria-hidden />
+                  <span className="flex flex-col">
+                    <span className="text-lead font-bold">{title}</span>
+                    <span className="text-ink-soft">{body}</span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div data-overlay="chrome" className="sheet-footer flex border-t border-line p-5">
+        <Button variant="secondary" onClick={onBack} data-nav="back">
+          {copy.global.back}
+        </Button>
+      </div>
+    </>
   );
 }

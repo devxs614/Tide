@@ -24,7 +24,8 @@ export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Pr
     tasks,
     events,
     focusBlocks,
-    strategyUses,
+    // Cancelled uses (v2.1 F-08) are history, not evidence: no rule counts them.
+    strategyUses: strategyUses.filter((u) => !u.cancelled),
     transitions,
     dismissedKeys: new Set(dismissed.map((d) => d.key)),
     dayWraps: dayWraps.filter((w) => w.completedAt),

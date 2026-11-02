@@ -35,6 +35,7 @@ import { useNudges } from './useNudges';
 import { NudgeCard } from './NudgeCard';
 import { BreakPanel } from './BreakPanel';
 import { FocusCoach, FocusMenu } from './FocusMenu';
+import { EndFocusDialog } from './EndFocusDialog';
 import { Headphones } from 'lucide-react';
 import { ambienceCopy } from '@/copy/ambienceCopy';
 import { useAmbienceState } from '@/lib/sound/ambienceState';
@@ -77,6 +78,8 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   // v2.1 F-09: a background sound chosen here; "until focus ends" fades out
   // before the end alert.
   const [soundsOpen, setSoundsOpen] = useState(false);
+  // v2.1 F-08: "End the focus block?" after the first minute.
+  const [confirmEnd, setConfirmEnd] = useState(false);
   const ambience = useAmbienceState();
   useAmbienceFocusEnd(timer.phase, timer.endsAt);
   // v2.1 F-07: the first block of 15 minutes or more points at the nudges
@@ -118,16 +121,33 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
     );
   }
 
-  const end = () => {
-    if (timer.phase === 'ready') return router.push('/tasks');
+  // The nudge counts go with the block for patterns later (v2.1 F-07).
+  const nudgeCounts = () => (settings['focus.refocusNudge'] === 'off' ? {} : nudges.counts);
+
+  // "I'm done early": stop, then "How did it go?" (v1).
+  const doneEarly = () => {
     timer.stop();
     setAsking(true);
   };
 
+  // "End" (v2.1 F-08): ask first after a minute; keep the time so far, and
+  // no outcome question. A block under a minute just ends.
+  const elapsed = minutes * MINUTE - timer.remaining;
+  const end = () => {
+    if (timer.phase === 'ready' || timer.phase === 'finished') return router.push('/tasks');
+    if (elapsed > MINUTE) return setConfirmEnd(true);
+    timer.stop();
+    router.push('/tasks');
+  };
+  const endNow = async () => {
+    setConfirmEnd(false);
+    timer.stop();
+    await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: false, endedBy: 'end', ...nudgeCounts() });
+    router.push('/tasks');
+  };
+
   const answer = async (outcome: Outcome) => {
-    // The nudge counts go with the block for patterns later (v2.1 F-07).
-    const counts = settings['focus.refocusNudge'] === 'off' ? {} : nudges.counts;
-    await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome, ...counts });
+    await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome, ...nudgeCounts() });
     emitCompanion({ type: 'focusEnded', outcome });
     if (outcome === 'didnt_start') return;
     // Getting going on a task that was stuck is the big one (v2 spec 10.2);
@@ -242,7 +262,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             {ambience.sound && !ambience.paused ? ambienceCopy.names[ambience.sound] : ambienceCopy.sounds}
           </Button>
           {(timer.phase === 'running' || timer.phase === 'paused') && (
-            <Button variant="quiet" onClick={end}>
+            <Button variant="quiet" onClick={doneEarly}>
               {copy.focus.endEarly}
             </Button>
           )}
@@ -251,6 +271,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
 
       {endAlert.timesUp && <EndGlow />}
       <AmbienceSheet open={soundsOpen} onOpenChange={setSoundsOpen} />
+      <EndFocusDialog open={confirmEnd} onKeep={() => setConfirmEnd(false)} onEnd={() => void endNow()} />
       {nudges.card && !asking && (
         <NudgeCard
           kind={nudges.card}

@@ -25,6 +25,11 @@ export interface CheckInState {
   point: MapPoint;
   mapMoved: boolean; // once Maya moves the dot herself, picks stop moving it
   causes: Cause[];
+  // v2.1 F-08: where step 2 was reached from (Back goes there), and what the
+  // suggestions were made for, so going forward again with the same words
+  // reuses them instead of asking the AI twice.
+  cameFrom: 'what' | 'body';
+  candidatesFor: string | null;
 }
 
 export const initialState: CheckInState = {
@@ -42,6 +47,8 @@ export const initialState: CheckInState = {
   point: { energy: 0, pleasantness: 0 },
   mapMoved: false,
   causes: [],
+  cameFrom: 'what',
+  candidatesFor: null,
 };
 
 export type Action =
@@ -49,7 +56,7 @@ export type Action =
   | { type: 'text'; text: string }
   | { type: 'toggleBody'; field: 'bodyPlaces' | 'bodyFeelings'; value: string }
   | { type: 'hints'; energyHint?: number; comfortHint?: number }
-  | { type: 'loading' }
+  | { type: 'loading'; from?: 'what' | 'body'; key?: string }
   | { type: 'candidates'; output: LabelOutputT; aiUsed: boolean }
   | { type: 'skipToMap' }
   | { type: 'select'; ids: string[] }
@@ -90,7 +97,16 @@ export function reducer(state: CheckInState, action: Action): CheckInState {
         comfortHint: action.comfortHint ?? state.comfortHint,
       };
     case 'loading':
-      return { ...state, step: 'hearing', loading: true, candidates: [], selected: [], mapMoved: false };
+      return {
+        ...state,
+        step: 'hearing',
+        loading: true,
+        candidates: [],
+        selected: [],
+        mapMoved: false,
+        cameFrom: action.from ?? state.cameFrom,
+        candidatesFor: action.key ?? null,
+      };
     case 'candidates':
       return {
         ...state,
@@ -101,7 +117,7 @@ export function reducer(state: CheckInState, action: Action): CheckInState {
         point: pointFor([], action.output.candidates) ?? state.point,
       };
     case 'skipToMap':
-      return { ...state, step: 'hearing', loading: false, candidates: [], followUp: '', aiUsed: false, selected: [], mapMoved: false };
+      return { ...state, step: 'hearing', loading: false, candidates: [], followUp: '', aiUsed: false, selected: [], mapMoved: false, cameFrom: 'what', candidatesFor: null };
     case 'select': {
       const point = state.mapMoved ? state.point : (pointFor(action.ids, state.candidates) ?? state.point);
       return { ...state, selected: action.ids, point };
@@ -130,6 +146,13 @@ export function canLeaveStepTwo(state: CheckInState): boolean {
   return state.selected.length > 0 || state.mapMoved;
 }
 
+// Anything Maya entered: words, picked feelings, body cues, causes (v2.1
+// F-08 added the last three, so leaving after picking asks first too).
 export function isDirty(state: CheckInState): boolean {
-  return state.text.trim().length > 0;
+  return state.text.trim().length > 0 || state.selected.length > 0 || state.bodyPlaces.length > 0 || state.bodyFeelings.length > 0 || state.causes.length > 0;
 }
+
+// The key the suggestions were made for: the same words (or the same body
+// cues) going forward again reuse them.
+export const suggestionKey = (state: CheckInState, from: 'what' | 'body') =>
+  from === 'what' ? `text:${state.text.trim()}` : `body:${bodyCues(state).join(',')}:${state.energyHint}:${state.comfortHint}`;

@@ -76,7 +76,7 @@ export function WrapScreen({ reopen = false }: { reopen?: boolean }) {
     <div className="flow-enter flex min-h-dvh flex-col" style={{ '--wrap-top': sky.top, '--wrap-bottom': sky.bottom } as CSSProperties}>
       <div className="flex flex-col gap-3 bg-linear-to-b from-(--wrap-top) to-(--wrap-bottom) px-5 pt-4 pb-6">
         <div className="flex items-center gap-2">
-          <Button variant="quiet" size="sm" onClick={() => router.push('/')}>
+          <Button variant="quiet" size="sm" onClick={() => router.push('/')} data-nav="cancel">
             <X aria-hidden />
             {copy.wrap.close}
           </Button>
@@ -106,7 +106,7 @@ export function WrapScreen({ reopen = false }: { reopen?: boolean }) {
       </div>
       {!own && (
         <div className="flex gap-2 border-t-2 border-line p-5">
-          <Button variant="secondary" className="flex-1" onClick={() => go(step - 1)}>
+          <Button variant="secondary" className="flex-1" onClick={() => go(step - 1)} data-nav="back">
             {copy.wrap.back}
           </Button>
           <Button className="flex-1" onClick={() => go(step + 1)}>

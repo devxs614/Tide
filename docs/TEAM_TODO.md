@@ -193,6 +193,13 @@ up during the build. — Claude Code
   see whether it keeps playing. Why: only ears can judge sound, and
   phones differ. *By Nov 3.*
 
+- [ ] **Use the back button on an Android phone (F-08).** Open the check-in,
+  Unstick and a task's details, and press the phone's back button or
+  swipe back each time: the sheet should close and you should stay on
+  the same page. With text typed in the check-in, it should ask first.
+  Why: Android's back gesture and installed apps can behave differently
+  from the desktop browser we tested. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

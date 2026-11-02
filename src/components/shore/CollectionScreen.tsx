@@ -32,7 +32,7 @@ export function CollectionScreen() {
   return (
     <div className="flex flex-col gap-6">
       <Button variant="quiet" size="sm" className="self-start" asChild>
-        <Link href="/shore">
+        <Link href="/shore" data-nav="back">
           <ArrowLeft aria-hidden />
           {copy.shore.backToShore}
         </Link>

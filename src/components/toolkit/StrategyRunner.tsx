@@ -23,6 +23,14 @@ import { SIZES, type Expression } from '@/lib/companion/registry';
 import { CompanionHost } from '@/components/companion/CompanionHost';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 import { getTask } from '@/lib/repo/taskQueries';
+import { toast } from 'sonner';
+import { now } from '@/lib/clock';
+import { navCopy } from '@/copy/navCopy';
+import { markStopped } from '@/components/bridge/bridgeDrafts';
+import { RunnerCancel } from './RunnerCancel';
+import type { ToolDraft } from './tools/types';
+
+export const CANCEL_GRACE_MS = 15_000;
 
 export function returnPath(context: StrategyContext, refId?: string): string {
   if (context === 'unstick' && refId) return `/tasks?unstick=${refId}`;
@@ -48,6 +56,24 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
   const [result, setResult] = useState<RecheckResult | undefined>();
   const [saving, setSaving] = useState(false);
   const celebrate = useCelebrate();
+  // v2.1 F-08: Cancel. Under 15 seconds nothing is saved; after that, a use
+  // marked cancelled keeps the history honest (patterns ignore it).
+  const [startedAt] = useState(() => now());
+  const [draft, setDraft] = useState<ToolDraft | null>(null);
+  const cancel = async () => {
+    if (strategy && now() - startedAt >= CANCEL_GRACE_MS) {
+      await recordStrategyUse({
+        strategyId: strategy.id,
+        context,
+        taskId: context === 'unstick' ? refId : undefined,
+        transitionId: context === 'bridge' ? refId : undefined,
+        cancelled: true,
+      });
+    }
+    if (context === 'bridge' && refId) markStopped(refId);
+    toast(navCopy.stopped);
+    router.push(returnPath(context, refId));
+  };
 
   if (!strategy) {
     return (
@@ -81,6 +107,7 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
 
   return (
     <div className="flex flex-col gap-5">
+      {phase === 'doing' && <RunnerCancel draft={draft} onLeave={() => void cancel()} />}
       <div className="flex flex-col gap-2">
         <h2 className="text-h1 font-bold">{strategy.name}</h2>
         <StrategyMeta strategy={strategy} />
@@ -107,7 +134,7 @@ export function StrategyRunner({ id, context, refId }: { id: string; context: St
       {/* Wait for the task (when there is one) so the message tool can put
           its title into the template on first render. */}
       {phase === 'doing' && task !== undefined && (
-        <ToolArea strategy={strategy} context={context} taskTitle={task?.title} onDone={() => setPhase('recheck')} />
+        <ToolArea strategy={strategy} context={context} taskTitle={task?.title} onDone={() => setPhase('recheck')} onDraft={setDraft} />
       )}
       {phase === 'recheck' && <ReCheck onAnswer={(r) => void answer(r)} saving={saving} />}
       {phase === 'after' && result && (

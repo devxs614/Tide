@@ -12,6 +12,9 @@ export interface AuditState {
   open?: (page: Page) => Promise<void>;
   // Runs before the route loads (resetting a wrap, choosing an onboarding step).
   before?: (page: Page) => Promise<void>;
+  // Gets a page of its own: Playwright's clock, once installed, stays on a
+  // page for good and would slow every later state on it.
+  isolate?: boolean;
 }
 
 // Keep in sync with SECTIONS in src/lib/settings/catalog.ts; a unit test
@@ -55,7 +58,18 @@ const resetTodayWrap = (page: Page) =>
     db.close();
   });
 
-const firstTaskId = (page: Page) =>
+// Waits for the demo seed: a fresh page (an isolated state) can ask before
+// its database is filled.
+const firstTaskId = async (page: Page): Promise<string> => {
+  for (let i = 0; i < 20; i++) {
+    const id = await taskIdNow(page);
+    if (id) return id;
+    await page.waitForTimeout(250);
+  }
+  throw new Error('No demo tasks');
+};
+
+const taskIdNow = (page: Page) =>
   page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((res, rej) => {
       const r = indexedDB.open('tide-demo');
@@ -67,7 +81,7 @@ const firstTaskId = (page: Page) =>
       req.onsuccess = () => res(req.result);
     });
     db.close();
-    return (tasks.find((t) => t.status === 'not_started') ?? tasks[0]).id;
+    return (tasks.find((t) => t.status === 'not_started') ?? tasks[0])?.id;
   });
 
 const wrapStep = (n: number): AuditState => ({
@@ -99,6 +113,9 @@ const openCheckIn = async (page: Page) => {
 
 const openTaskDetail = (page: Page) => click(page, '[data-demo-id^="task-open-"]:visible');
 const openEventDetail = (page: Page) => click(page, '[data-demo-id^="event-open-"]:visible');
+// Event states run at 3:40 pm, whatever an earlier state did to the demo
+// clock (the wrap-up runs at 9 pm, when every event has folded away).
+const atDemoStart = (page: Page) => setDemoTime(page, 15, 40);
 
 export const STATES: AuditState[] = [
   // Main screens with Maya's data.
@@ -205,11 +222,12 @@ export const STATES: AuditState[] = [
   },
   { id: 'sheet:eventform', route: '/', ws: 'demo', open: (page) => click(page, 'button:has-text("Add an event")') },
   // v2.1 F-04: an event's details, its edit form, "which events?" and delete.
-  { id: 'sheet:eventdetail', route: '/', ws: 'demo', open: openEventDetail },
+  { id: 'sheet:eventdetail', route: '/', ws: 'demo', before: atDemoStart, open: openEventDetail },
   {
     id: 'sheet:eventedit',
     route: '/',
     ws: 'demo',
+    before: atDemoStart,
     open: async (page) => {
       await openEventDetail(page);
       await click(page, demo('event-detail-edit'));
@@ -219,6 +237,7 @@ export const STATES: AuditState[] = [
     id: 'dialog:eventscope',
     route: '/',
     ws: 'demo',
+    before: atDemoStart,
     open: async (page) => {
       await openEventDetail(page);
       await click(page, demo('event-detail-edit'));
@@ -229,6 +248,7 @@ export const STATES: AuditState[] = [
     id: 'dialog:eventdelete',
     route: '/',
     ws: 'demo',
+    before: atDemoStart,
     open: async (page) => {
       await openEventDetail(page);
       await click(page, demo('event-detail-delete'));
@@ -278,6 +298,7 @@ export const STATES: AuditState[] = [
     id: 'focus:nudge',
     route: async (page) => `/focus/${await firstTaskId(page)}`,
     ws: 'demo',
+    isolate: true,
     before: async (page) => {
       await writeSettings(page, 'demo', { 'focus.refocusNudge': 'visual', 'focus.nudgeCoachSeen': true });
       await page.clock.install();

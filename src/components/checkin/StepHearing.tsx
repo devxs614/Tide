@@ -22,6 +22,7 @@ interface Props {
   onMove: (p: MapPoint) => void;
   onNoneOfThese: () => void;
   onNext: () => void;
+  onBack: () => void;
 }
 
 function Skeleton() {
@@ -34,7 +35,7 @@ function Skeleton() {
   );
 }
 
-export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onNext }: Props) {
+export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onNext, onBack }: Props) {
   const { settings } = useSettings();
   const customWords = state.selected.filter((id) => id.startsWith('custom:'));
   const pickedFromList = state.selected.filter((id) => !id.startsWith('custom:') && !state.candidates.some((c) => c.id === id));
@@ -88,9 +89,13 @@ export function StepHearing({ state, onToggleEmotion, onMove, onNoneOfThese, onN
           </>
         )}
       </div>
-      <div data-overlay="chrome" className="sheet-footer border-t border-line p-5">
-        <Button size="block" disabled={!canLeaveStepTwo(state)} onClick={onNext} data-demo-id="checkin-next">
+      {/* Back keeps the words and picks (v2.1 F-08). */}
+      <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5 sm:flex-row-reverse">
+        <Button className="sm:flex-1" disabled={!canLeaveStepTwo(state)} onClick={onNext} data-demo-id="checkin-next">
           {copy.global.next}
+        </Button>
+        <Button variant="secondary" className="sm:flex-1" onClick={onBack} data-nav="back">
+          {copy.global.back}
         </Button>
       </div>
     </>

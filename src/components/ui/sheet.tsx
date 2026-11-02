@@ -11,8 +11,11 @@ import { Dialog as SheetPrimitive } from 'radix-ui';
 import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { copy } from '@/copy/en';
+import { useBackToClose } from '@/lib/backToClose';
 
+// v2.1 F-08: browser and Android back close an open sheet (lib/backToClose).
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+  useBackToClose(props.open, props.onOpenChange && (() => props.onOpenChange?.(false)));
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
@@ -114,7 +117,7 @@ function SheetContent({
           </div>
           {showCloseButton ? (
             <SheetPrimitive.Close data-slot="sheet-close" asChild>
-              <Button ref={closeRef} variant="quiet" size="sm" className="bg-surface">
+              <Button ref={closeRef} variant="quiet" size="sm" className="bg-surface" data-nav="cancel">
                 <XIcon aria-hidden />
                 {closeLabel}
               </Button>

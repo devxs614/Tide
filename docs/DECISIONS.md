@@ -1225,3 +1225,62 @@ The fade is scheduled on the audio clock, like the end alert, and reaches
 silence at the block's end minus 0.5 s. That way the chime starts into
 quiet even in a slow background tab. A pause cancels the fade, and a
 resume schedules it again.
+
+**D175 — 2026-11-02 — Browser back closes overlays through the shared Sheet and Dialog.**
+Every Tide sheet and dialog uses `components/ui/sheet.tsx` or
+`dialog.tsx`, so `useBackToClose` lives there instead of being added to
+each overlay one by one (spec 12.4's list, and the rest).
+- While anything is open, one same-URL marker entry (carrying the
+  router's own state) sits above the page.
+- Back asks the top overlay to close through its `onOpenChange`, so each
+  flow's "Leave without saving?" still decides, and the marker goes
+  straight back.
+- A capture listener keeps these pops from the Next.js router.
+
+Rejected: `?sheet=` search parameters, which would need every overlay
+rewritten around the URL.
+
+**D176 — 2026-11-02 — Closing never steps back through history by itself.**
+My first version removed an overlay's entry with `history.back()` as it
+closed. Many flows close a sheet and navigate in the same breath
+(Unstick's Start goes to Focus). In a real browser that back step undid
+the navigation, and both demo tours lost their focus steps. Delaying it
+by 400 ms fixed the tours, but left a small window (one of four pitch
+runs stalled). Now a closed overlay simply leaves its marker. Maya's next
+Back from the marker, or into an old marker from a later page, carries on
+to the page she meant, because it's the same page underneath. The only
+`history.back()` calls continue a press she made.
+
+**D177 — 2026-11-02 — The sheet's Close row is the Cancel control; it stays top right.**
+Spec 12.2 puts a "Cancel ×" at the top left. Since F-01, every sheet has
+a sticky "× Close" row at the top right, and moving it would undo layout
+work audited at every width and text size. Close does exactly what
+Cancel should (with each flow's confirmation rule), so it keeps its place
+and wording and carries `data-nav="cancel"`. The strategy runner, which
+isn't a sheet, has its own "× Cancel" at the top left.
+
+**D178 — 2026-11-02 — "End early" on timed tools is the existing "I'm done" button.**
+The walk and steps timers already show "I'm back" / "I'm done", and box
+breathing shows "Stop", at any time, and each one leads to the normal
+re-check. That's exactly what spec 12.5 means by "End early" (finishing,
+not cancelling), so the labels stay as v1 and v2 tests know them.
+
+**D179 — 2026-11-02 — Focus "End" keeps the time so far, without the outcome question.**
+More than a minute in, End asks "End the focus block?". Ending saves the
+block (`completed: false`, `endedBy: 'end'`, no outcome) and goes to
+Tasks. Under a minute, nothing is saved. "I'm done early" keeps v1's
+outcome sheet.
+
+**D180 — 2026-11-02 — Leaving the check-in after picking feelings asks first too.**
+`isDirty` used to mean "typed words". Picked feelings, body cues and
+causes now count as input as well, per the spec's "typing text or making
+selections". The v1 test that asks before throwing away typed words
+still passes unchanged.
+
+**D181 — 2026-11-02 — The Check in button lost every tap after the first; fixed.**
+Found while testing back-to-close in a real browser. The button's ripple
+span sits on top of it and is replaced on each `pointerdown` (keyed by a
+counter). A press that starts on an element that then disappears never
+becomes a click in Chrome, so every tap after the first did nothing until
+a reload. The tests and the demo use programmatic clicks, so neither
+could see it. The ripple is now `pointer-events-none`.

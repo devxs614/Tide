@@ -31,11 +31,15 @@ export function CheckInFab() {
         <span ref={pauseRef} className="fab-breath relative">
           <span className="press-3d relative flex size-[68px] items-center justify-center overflow-hidden rounded-full bg-primary text-on-primary [--ledge-color:var(--primary-shadow)] [--press-depth:5px] group-active:translate-y-[5px] group-active:shadow-none">
             <WavesHorizontal className="size-8 stroke-[2.5]" aria-hidden />
+            {/* pointer-events-none: each tap swaps this span for a new one,
+                and a press that starts on an element that then disappears
+                never becomes a click. Every tap after the first was lost
+                (v2.1, found while testing F-08). */}
             {ripple > 0 && (
               <span
                 key={ripple}
                 aria-hidden
-                className="absolute inset-0 rounded-full bg-on-primary/40 [animation:tide-ripple_600ms_var(--ease-out)_forwards]"
+                className="pointer-events-none absolute inset-0 rounded-full bg-on-primary/40 [animation:tide-ripple_600ms_var(--ease-out)_forwards]"
               />
             )}
           </span>

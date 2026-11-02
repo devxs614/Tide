@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
+import { navCopy } from '@/copy/navCopy';
 import { getStrategy } from '@/data/strategies';
 import type { BridgeOutputT } from '@/lib/ai/schemas';
 import type { RankedStrategy } from '@/lib/strategyRank';
@@ -16,6 +17,8 @@ interface Props {
   plan: { ai: BridgeOutputT; candidates: RankedStrategy[] } | null;
   doneNames: string[];
   onStart: (strategyId: string) => void;
+  // v2.1 F-08: back from a stopped strategy, the others are already open.
+  tryElse?: boolean;
 }
 
 function Option({ id, onStart, better, n }: { id: string; onStart: (id: string) => void; better?: number; n?: number }) {
@@ -34,8 +37,8 @@ function Option({ id, onStart, better, n }: { id: string; onStart: (id: string) 
   );
 }
 
-export function BridgeShift({ plan, doneNames, onStart }: Props) {
-  const [others, setOthers] = useState(false);
+export function BridgeShift({ plan, doneNames, onStart, tryElse = false }: Props) {
+  const [others, setOthers] = useState(tryElse);
   const chosen = plan?.ai.strategyId;
   const chosenStats = plan?.candidates.find((c) => c.strategy.id === chosen);
   return (
@@ -43,6 +46,7 @@ export function BridgeShift({ plan, doneNames, onStart }: Props) {
       <h3 id="bridge-shift" className="text-h3 font-bold">
         2 · {copy.bridge.shift}
       </h3>
+      {tryElse && <p className="font-bold">{navCopy.trySomethingElse}</p>}
       {doneNames.map((name) => (
         <p key={name} className="flex items-center gap-2">
           <Check className="size-4 text-primary" aria-hidden />

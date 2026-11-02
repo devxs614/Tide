@@ -76,7 +76,7 @@ export function CompanionStudio() {
 
   return (
     <div className="flow-enter flex flex-col gap-5 px-4 pt-3 pb-10">
-      <Button variant="quiet" size="sm" className="self-start" onClick={goBack} aria-label={t.backLabel}>
+      <Button variant="quiet" size="sm" className="self-start" onClick={goBack} aria-label={t.backLabel} data-nav="back">
         <ArrowLeft aria-hidden />
         {copy.global.back}
       </Button>

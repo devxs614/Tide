@@ -9,4 +9,11 @@ export interface ToolProps {
   context: StrategyContext;
   taskTitle?: string;
   onDone: () => void;
+  // v2.1 F-08: a tool with typed input says so, and how to keep it, so the
+  // runner's Cancel can ask "Leave without saving?" (the brain dump).
+  onDraft?: (draft: ToolDraft | null) => void;
+}
+
+export interface ToolDraft {
+  save: () => Promise<void>;
 }

@@ -73,7 +73,7 @@ export function AllWords({ selected, onToggleEmotion, onBack }: Props) {
         </div>
       </div>
       <div data-overlay="chrome" className="sheet-footer border-t border-line p-5">
-        <Button size="block" onClick={onBack}>
+        <Button size="block" onClick={onBack} data-nav="back">
           {copy.global.done}
         </Button>
       </div>

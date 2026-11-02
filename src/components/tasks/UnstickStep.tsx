@@ -21,13 +21,15 @@ interface Props {
   onStart: () => void;
   onDifferent: () => void;
   onNotNow: () => void;
+  // v2.1 F-08: back to "why does it feel hard?", to pick another reason.
+  onBack: () => void;
   onDoFirst: (strategyId: string) => void;
   // True when Maya is back from the strategy she was offered. Asking her to
   // do it first again would read as if Tide forgot she just did it.
   backFromStrategy?: boolean;
 }
 
-export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, onNotNow, onDoFirst, backFromStrategy }: Props) {
+export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, onNotNow, onDoFirst, backFromStrategy, onBack }: Props) {
   const [skipStrategy, setSkipStrategy] = useState(!!backFromStrategy);
   const { output, helpful } = suggestion;
   const strategy = output.strategyId ? helpful.find((h) => h.id === output.strategyId) : undefined;
@@ -73,7 +75,7 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
         <Button size="block" onClick={onStart} disabled={loading} data-demo-id="unstick-start">
           {fill(copy.unstick.start, { n })}
         </Button>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button variant="secondary" className="flex-1" onClick={onDifferent} disabled={loading}>
             {copy.unstick.differentStep}
           </Button>
@@ -81,6 +83,9 @@ export function UnstickStep({ task, suggestion, loading, onStart, onDifferent, o
             {copy.global.notNow}
           </Button>
         </div>
+        <Button variant="quiet" className="self-start" onClick={onBack} disabled={loading} data-nav="back">
+          {copy.global.back}
+        </Button>
       </div>
     </>
   );

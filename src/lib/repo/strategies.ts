@@ -16,6 +16,8 @@ export interface NewStrategyUse {
   taskId?: string;
   transitionId?: string;
   result?: RecheckResult;
+  // v2.1 F-08: stopped with Cancel after the first 15 seconds.
+  cancelled?: boolean;
 }
 
 export async function recordStrategyUse(input: NewStrategyUse): Promise<StrategyUse> {
@@ -29,6 +31,7 @@ export async function recordStrategyUse(input: NewStrategyUse): Promise<Strategy
     taskId: input.taskId,
     transitionId: input.transitionId,
     result: input.result,
+    ...(input.cancelled && { cancelled: true }),
   };
   await db.transaction('rw', db.strategyUses, db.wins, async () => {
     await db.strategyUses.add(use);

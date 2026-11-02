@@ -40,7 +40,7 @@ export function SectionPage({ id }: { id: SectionId }) {
   return (
     <div className="flex flex-col gap-5">
       <Button variant="quiet" size="sm" className="self-start" asChild>
-        <Link href="/settings">
+        <Link href="/settings" data-nav="back">
           <ArrowLeft aria-hidden />
           {settingsCopy.backToSettings}
         </Link>

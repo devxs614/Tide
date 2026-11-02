@@ -97,7 +97,7 @@ export function CompletedArchive() {
   return (
     <div className="flex flex-col gap-5">
       <Button variant="quiet" size="sm" className="self-start" asChild>
-        <Link href="/tasks">
+        <Link href="/tasks" data-nav="back">
           <ArrowLeft aria-hidden />
           {t.back}
         </Link>

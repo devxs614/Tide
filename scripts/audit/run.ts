@@ -102,10 +102,15 @@ export async function runAudit(browser: Browser, opts: AuditOptions, log: (msg: 
     }
     for (const { width, scale } of slice) {
       for (const state of states) {
-        const page = pages[state.ws]!;
+        let page = pages[state.ws]!;
+        if (state.isolate) {
+          page = await (await browser.newContext({ viewport: { width: 390, height: 800 }, reducedMotion: 'reduce' })).newPage();
+          await openWorkspace(page, opts.base, state.ws);
+        }
         const list = await auditState(page, opts, state, width, scale).catch((e) => [
           { check: 'state-failed', selector: state.id, detail: String(e).split('\n')[0].slice(0, 160), state: state.id, width, scale },
         ]);
+        if (state.isolate) await page.context().close();
         findings.push(...list);
         statesRun++;
       }

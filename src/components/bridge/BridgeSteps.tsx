@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { byMode, copy, fill } from '@/copy/en';
+import { navCopy } from '@/copy/navCopy';
 import { strategyName } from '@/data/strategies';
 import type { BridgeOutputT } from '@/lib/ai/schemas';
 import { useAi } from '@/lib/ai/useAi';
@@ -101,13 +102,14 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
 
   const startStrategy = async (id: string) => {
     if (!(await keepNote(false))) return;
+    updateDraft(draft.eventId, { stopped: false });
     onClose();
     router.push(`/toolkit/${id}?context=bridge&ref=${draft.transitionId}`);
   };
 
   const leave = async () => {
     if (!(await keepNote(false))) return;
-    const latestUse = [...data.usedHere].sort((a, b) => b.ts - a.ts)[0];
+    const latestUse = data.usedHere.filter((u) => !u.cancelled).sort((a, b) => b.ts - a.ts)[0];
     await saveTransition({
       id: draft.transitionId,
       fromEventId: data.fromEvent?.id,
@@ -148,13 +150,19 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
         <BridgeClose
           prompt={plan?.ai.parkingPrompt ?? byMode(copy.bridge.parkingFallback, settings.communicationMode)}
           note={note}
-          onNote={setNote}
+          // Kept in the draft as it's typed (v2.1 F-08), so closing or
+          // skipping and coming back within the same switch keeps it.
+          onNote={(next) => {
+            setNote(next);
+            updateDraft(draft.eventId, { note: next });
+          }}
           onSave={() => void keepNote(true)}
         />
         <BridgeShift
           plan={plan}
           // Doing box breathing twice in one Bridge still reads as one line.
-          doneNames={[...new Set(data.usedHere.map((u) => strategyName(u.strategyId)))]}
+          doneNames={[...new Set(data.usedHere.filter((u) => !u.cancelled).map((u) => strategyName(u.strategyId)))]}
+          tryElse={!!draft.stopped}
           onStart={(id) => void startStrategy(id)}
         />
         <BridgePrep steps={plan?.ai.prepSteps ?? []} draft={draft} />
@@ -162,6 +170,10 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
       <div data-overlay="chrome" className="sheet-footer flex flex-col gap-2 border-t border-line p-5">
         <Button size="block" onClick={() => void leave()} data-demo-id="bridge-done">
           {copy.bridge.doneGoing}
+        </Button>
+        {/* Closes without recording a switch (v2.1 F-08). */}
+        <Button variant="link" size="inline" className="self-center" onClick={onClose} data-nav="cancel">
+          {navCopy.skipSwitch}
         </Button>
         <TalkToAPersonButton />
       </div>

@@ -35,7 +35,17 @@ export function Grounding54321({ onDone }: ToolProps) {
           />
         ))}
       </div>
-      <Button onClick={() => (last ? onDone() : nextCard())}>{last ? copy.global.done : copy.global.next}</Button>
+      <div className="flex flex-col gap-2 sm:flex-row-reverse">
+        <Button className="sm:flex-1" onClick={() => (last ? onDone() : nextCard())}>
+          {last ? copy.global.done : copy.global.next}
+        </Button>
+        {/* Back to the previous sense (v2.1 F-08). */}
+        {card > 0 && (
+          <Button variant="secondary" className="sm:flex-1" onClick={() => setCard(card - 1)} data-nav="back">
+            {copy.global.back}
+          </Button>
+        )}
+      </div>
     </section>
   );
 }

@@ -3175,3 +3175,103 @@ Risk: `/` was at 298.8 KB.
 **Left open.** Hearing them is a person's job: does each sound loop
 without a click, is the volume comfortable, and does a phone keep playing
 with the screen locked? The note in the player says it may stop.
+
+## F-08 — Back and Cancel everywhere (before and after)
+2026-11-02
+
+**Before.** In a toolkit activity the only way out was finishing it, and
+the check-in couldn't go back a step. Feeling trapped during emotional
+regulation raises exactly the anxiety Tide is for. Plan (spec 12):
+- Back on every step after the first, keeping what was entered;
+- Cancel everywhere, asking only when something would be lost;
+- browser and Android back closing the top overlay;
+- the runner's Cancel with honest history;
+- a static check that every flow has its controls.
+
+Risk: history entries under the Next.js App Router.
+
+**After.**
+- **Browser and Android back** (`src/lib/backToClose.ts`, wired into the
+  shared Sheet and Dialog) close the top overlay through its own close
+  rule. Verified on the production build in Chrome:
+  - Back closes the check-in and the URL stays;
+  - with text typed, Back asks "Leave without saving?", and Back again
+    keeps editing with the text intact;
+  - after closing with Close, one Back goes to the previous page;
+  - a check-in that ends in "Regulate" lands on the Toolkit and stays.
+- **Check-in:** Back on steps 2, 3 and 4 (and the body path) keeps
+  words, picks and the map dot. Going forward again with the same words
+  reuses the suggestions without a second AI call. Leaving after picking
+  asks first, too (D180).
+- **Unstick:** Back to the reasons, the last one marked; another reason
+  asks again. **Day Mode:** Back to the three modes. **Grounding:** Back
+  to the previous sense. **Bridge:** "Skip this switch" closes without
+  recording one, and the parking note is kept as it's typed.
+- **Strategy runner:** "× Cancel" (and Escape) at the top left.
+  - In the first 15 seconds nothing is saved.
+  - After that, a use marked `cancelled` is saved, with no re-check and
+    no "you didn't finish", then a quiet "Okay, stopped." and back to where
+    Maya came from.
+  - The pattern engine drops cancelled uses.
+  - Back in the Bridge, the Shift step says "Try something else?" with the
+    other choices open.
+  - The brain dump asks first if lines were typed, offering "Save as
+    tasks".
+  - Timed tools already had "I'm done" / "Stop" leading to the re-check;
+    that's "End early" (D178).
+- **Focus:** End asks "End the focus block?" after the first minute and
+  keeps the time without the outcome question; "I'm done early" is as
+  before (D179).
+- **Task and event forms:** they ask before closing with changes.
+- **Static check:** `data-nav="back"` / `"cancel"` markers on every flow
+  in the spec's table, with a test that checks them.
+
+**What broke, and what I found.**
+- My first back-to-close removed an overlay's history entry as it closed.
+  In the real browser that undid navigations that follow a close
+  (Unstick → Focus), and both tours lost their focus steps. A 400 ms
+  delay fixed the tours but still stalled one of four pitch runs. The
+  final version never steps back through history by itself; a closed
+  overlay leaves its marker, and the next Back carries on (D176). After
+  that, both tours ran twice in a row, clean.
+- Testing Back by hand showed the round Check in button ignored every
+  tap after the first: its ripple span is replaced on each press, and a
+  press whose element disappears never becomes a click. That bug came
+  from v2. Tests and the demo use programmatic clicks and couldn't see
+  it. Fixed with `pointer-events-none` (D181).
+- In the audit, the nudge state's Playwright clock stayed on the page it
+  shared with later states and slowed them, so the event-edit state
+  timed out. States that install the clock now get a page of their own.
+- The event-edit state also failed in a long audit run because the
+  wrap-up state had moved the shared page's demo clock to 9 pm, when
+  every event is folded under "Earlier today". The event states now set
+  3:40 pm themselves, and a fresh page waits for the demo seed before
+  looking for a task.
+
+**How I checked it.**
+- Flow tests:
+  - check-in: Back keeps words and picks, no second AI call, and Close
+    asks first;
+  - browser back closes the check-in;
+  - Unstick Back with another reason;
+  - box breathing cancelled at 5 s (nothing saved) and at 20 s (a
+    cancelled use, no re-check);
+  - the pattern input never contains a cancelled use.
+- Two back-to-close tests (closes and reopens; stays open when the flow
+  asks, and asks again).
+- The static `data-nav` check covers 14 Backs and 4 Cancels.
+- Real-browser checks of Back on the production build, as listed above.
+- Both tours twice in a row: Pitch cut 28/28 in 79 s, Full tour 45/45 in
+  133–134 s, no AI.
+- Layout audit:
+  - check-in steps 2 and 4, Day Mode, Unstick, Bridge, the task form,
+    the event sheets, Focus with its nudge and hint, box breathing,
+    wrap-up and onboarding: 360 state runs, 1 failure, which was the
+    audit harness's seed race, since fixed and re-run with 0 failures
+    (`docs/audits/2026-11-02-f08.json`, `…-f08-nudge.json`,
+    `…-f08-events.json`).
+- `/` is 299.2 KB.
+- Lint, typecheck, 540 tests and the v1 suite (164) are green.
+
+**Left open.** Android's back gesture in an installed app needs a phone
+(TEAM_TODO).

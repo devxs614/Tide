@@ -4,7 +4,7 @@
 // Nothing is kept by default. If Maya wants, she ticks the lines that should
 // become tasks. Because this is free text, the safety check runs before
 // anything else happens with it.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { fill } from '@/copy/en';
@@ -17,7 +17,7 @@ import { DictateButton } from '@/components/ui/DictateButton';
 import { SoftTimer } from './SoftTimer';
 import type { ToolProps } from './types';
 
-export function BrainDump({ onDone }: ToolProps) {
+export function BrainDump({ onDone, onDraft }: ToolProps) {
   const router = useRouter();
   const [text, setText] = useState('');
   const [picking, setPicking] = useState(false);
@@ -27,6 +27,26 @@ export function BrainDump({ onDone }: ToolProps) {
     .map((l) => l.trim())
     .filter(Boolean)
     .slice(0, 20);
+
+  // Typed lines make Cancel ask first, offering to keep them as tasks
+  // (v2.1 F-08). The safety check still comes before anything is saved.
+  const dirty = lines.length > 0;
+  useEffect(() => {
+    if (!onDraft) return;
+    onDraft(
+      dirty
+        ? {
+            save: async () => {
+              if (detectCrisis(text)) return void router.push('/support?crisis=1');
+              for (const line of lines) await addTask({ title: line.slice(0, 120), type: 'other', energyCost: 1 });
+              toast(toolsCopy.brainDump.added);
+            },
+          }
+        : null,
+    );
+    // `lines` comes from `text`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dirty, text, onDraft]);
 
   // Returns false (and opens the support screen) if the text sounds like a crisis.
   const safe = () => {

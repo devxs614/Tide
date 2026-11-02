@@ -55,6 +55,8 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
   // but the reason she gave is saved on the task, so she isn't asked twice.
   const knownReason = request.reason ?? (request.resume ? task.stuckReason : undefined);
   const [suggestion, setSuggestion] = useState<UnstickSuggestion | null>(resumed ?? null);
+  // The reason before going Back (v2.1 F-08).
+  const [lastReason, setLastReason] = useState<StuckReason | undefined>(undefined);
   // Loading from the start when the reason is already known, so the first
   // paint shows "Finding a small first step…" instead of the reason list.
   const [loading, setLoading] = useState(!resumed && !!knownReason);
@@ -131,7 +133,7 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
         noneAlt="nothing"
         className="shrink-0 px-5 pt-1"
       />
-      {!suggestion && <UnstickReasons task={task} loading={loading} onChoose={(reason) => ask(reason)} />}
+      {!suggestion && <UnstickReasons task={task} loading={loading} chosen={lastReason} onChoose={(reason) => ask(reason)} />}
       {suggestion && (
         <UnstickStep
           task={task}
@@ -142,6 +144,10 @@ function UnstickBody({ request, task, onClose }: { request: UnstickRequest; task
           onNotNow={onClose}
           onDoFirst={doFirst}
           backFromStrategy={!!request.resume}
+          onBack={() => {
+            setLastReason(suggestion.reason);
+            setSuggestion(null);
+          }}
         />
       )}
       <p aria-live="polite" className="sr-only">

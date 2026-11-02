@@ -9,7 +9,9 @@ import { LeftOffNote } from './LeftOffNote';
 
 const REASONS = Object.entries(copy.unstick.reasons) as Array<[StuckReason, string]>;
 
-export function UnstickReasons({ task, loading, onChoose }: { task: Task; loading: boolean; onChoose: (r: StuckReason) => void }) {
+// `chosen` is the reason picked before going Back (v2.1 F-08), marked so
+// Maya sees where she was; any reason, that one too, asks again.
+export function UnstickReasons({ task, loading, onChoose, chosen }: { task: Task; loading: boolean; onChoose: (r: StuckReason) => void; chosen?: StuckReason }) {
   return (
     <div className="flex flex-col gap-4 px-5 pt-5 pb-6">
       <p className="text-caption text-ink-soft">{task.title}</p>
@@ -27,8 +29,9 @@ export function UnstickReasons({ task, loading, onChoose }: { task: Task; loadin
               <button
                 type="button"
                 onClick={() => onChoose(reason)}
+                aria-current={chosen === reason ? 'true' : undefined}
                 data-demo-id={`unstick-reason-${reason}`}
-                className="flex min-h-14 w-full items-center press-3d card [--ledge-color:var(--line)] px-4 py-3 text-left hover:bg-surface-2"
+                className={`flex min-h-14 w-full items-center press-3d card [--ledge-color:var(--line)] px-4 py-3 text-left hover:bg-surface-2 ${chosen === reason ? 'border-primary' : ''}`}
               >
                 {label}
               </button>

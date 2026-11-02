@@ -1322,3 +1322,32 @@ elsewhere. One sound at a time, never loud, never on the crisis screen.
   results are mixed") and makes no claims.
 - *Will it keep playing with the phone locked?* Maybe. Browsers decide,
   and the player says so.
+
+## Back and Cancel everywhere (v2.1 F-08)
+
+**What it does.** Nobody is trapped in a flow. Multi-step flows have
+Back that keeps what was entered. Every flow has Cancel or Close, which
+asks first only when something would be lost. Browser and Android back
+close the top sheet.
+
+**Files.**
+- `src/lib/backToClose.ts`: the history marker and the popstate rules,
+  used by `components/ui/sheet.tsx` and `dialog.tsx`, so every overlay
+  gets it (D175, D176).
+- Check-in: `checkInState.ts` remembers where step 2 came from and what
+  the suggestions were for; each step has Back; `isDirty` counts picks.
+- `toolkit/RunnerCancel.tsx`: Cancel and Escape in the strategy runner,
+  with the brain dump's "Save as tasks". A use cancelled after 15 seconds
+  is saved with `cancelled: true`, and `loadPatternInput` drops it.
+- `focus/EndFocusDialog.tsx`; `UnstickStep`, `DayModeProposal`,
+  `Grounding54321` Back; "Skip this switch" in `BridgeSteps`.
+- `src/test/navControls.test.ts` checks the `data-nav` markers in every
+  flow of the spec's table.
+
+**Likely reviewer questions**
+- *Does Back ever change the URL?* No. The marker has the same URL, and
+  its pops never reach the router.
+- *What if a flow navigates right after closing?* Closing never steps
+  back through history by itself, so there is nothing to race (D176).
+- *Do cancelled strategies count against anyone?* No. No re-check, no
+  message, and no pattern counts them.

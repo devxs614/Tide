@@ -20,6 +20,7 @@ import { ToggleChip } from '@/components/checkin/ToggleChip';
 import { EventFields, PrepFields, type EventFieldValues } from './EventFields';
 import { weekdayLabel } from './EventDetailSheet';
 import { ScopeDialog, type ScopeChoice } from './ScopeDialog';
+import { LeaveConfirm } from '@/components/checkin/LeaveConfirm';
 
 const PROBLEMS = {
   nameNeeded: copy.eventForm.nameNeeded,
@@ -58,6 +59,9 @@ function EditEventForm({ event, series, onClose }: { event: CalendarEvent; serie
   const dateChanged = values.date !== initial.date;
   const daysChanged = !!series && !sameDays(days, series.days);
   const timeChanged = values.start !== initial.start || values.end !== initial.end;
+  // v2.1 F-08: closing with changes asks first.
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const dirty = daysChanged || (Object.keys(initial) as Array<keyof EventFieldValues>).some((k) => JSON.stringify(values[k]) !== JSON.stringify(initial[k]));
 
   const apply = async (scope: SeriesScope) => {
     await editEvent(event.id, { ...values, days: daysChanged ? days : undefined }, scope, { changePast });
@@ -81,7 +85,7 @@ function EditEventForm({ event, series, onClose }: { event: CalendarEvent; serie
   ];
 
   return (
-    <Sheet open onOpenChange={(open) => !open && onClose()}>
+    <Sheet open onOpenChange={(open) => !open && (dirty ? setConfirmLeave(true) : onClose())}>
       <SheetContent aria-describedby={undefined}>
         <SheetHeader>
           <SheetTitle>{t.editTitle}</SheetTitle>
@@ -137,6 +141,7 @@ function EditEventForm({ event, series, onClose }: { event: CalendarEvent; serie
             )}
           </ScopeDialog>
         )}
+        <LeaveConfirm open={confirmLeave} onKeep={() => setConfirmLeave(false)} onLeave={onClose} />
       </SheetContent>
     </Sheet>
   );

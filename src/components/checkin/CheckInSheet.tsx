@@ -33,7 +33,7 @@ import { StepBehind } from './StepBehind';
 import { StepHearing } from './StepHearing';
 import { StepNeed } from './StepNeed';
 import { StepWhat } from './StepWhat';
-import { bodyCues, initialState, isDirty, reducer } from './checkInState';
+import { bodyCues, initialState, isDirty, reducer, suggestionKey } from './checkInState';
 import type { LabelInputT } from '@/lib/ai/schemas';
 import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 import { db } from '@/lib/db';
@@ -85,8 +85,12 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
     router.push('/support?crisis=1');
   };
 
-  const findWords = async (input: Omit<LabelInputT, 'mode' | 'localTime' | 'vocabulary'>) => {
-    dispatch({ type: 'loading' });
+  const findWords = async (input: Omit<LabelInputT, 'mode' | 'localTime' | 'vocabulary'>, from: 'what' | 'body') => {
+    const key = suggestionKey(state, from);
+    // Back and forward again with the same words: the same suggestions,
+    // and Maya's picks, without asking the AI twice (v2.1 F-08).
+    if (state.candidatesFor === key && state.candidates.length) return dispatch({ type: 'go', step: 'hearing' });
+    dispatch({ type: 'loading', from, key });
     const result = await label.run({ ...input, mode, localTime: localTimeLabel(now()), vocabulary: settings['checkin.vocabulary'] === 'simple' ? SIMPLE_EMOTION_IDS : EMOTION_IDS });
     if (result.safetyTriggered) return crisis();
     dispatch({ type: 'candidates', output: result.data, aiUsed: result.source !== 'fallback' });
@@ -94,11 +98,11 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
 
   const onNextFromWords = () => {
     if (detectCrisis(state.text)) return void crisis();
-    void findWords({ text: state.text.trim() });
+    void findWords({ text: state.text.trim() }, 'what');
   };
 
   const onBodySubmit = () =>
-    void findWords({ bodyCues: bodyCues(state), energyHint: state.energyHint, pleasantnessHint: state.comfortHint });
+    void findWords({ bodyCues: bodyCues(state), energyHint: state.energyHint, pleasantnessHint: state.comfortHint }, 'body');
 
   const toggleEmotion = (id: string) => {
     if (state.selected.includes(id)) return dispatch({ type: 'select', ids: state.selected.filter((s) => s !== id) });
@@ -178,6 +182,7 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
               onMove={(point) => dispatch({ type: 'move', point })}
               onNoneOfThese={() => dispatch({ type: 'go', step: 'all-words' })}
               onNext={() => dispatch({ type: 'go', step: settings['checkin.showCauses'] ? 'behind' : 'need' })}
+              onBack={() => dispatch({ type: 'go', step: state.cameFrom })}
             />
           )}
           {state.step === 'all-words' && (
@@ -193,9 +198,16 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
               onToggle={(cause) => dispatch({ type: 'toggleCause', cause })}
               onNext={() => dispatch({ type: 'go', step: 'need' })}
               onSkip={() => dispatch({ type: 'go', step: 'need' })}
+              onBack={() => dispatch({ type: 'go', step: 'hearing' })}
             />
           )}
-          {state.step === 'need' && <StepNeed onChoose={(need) => void save(need)} saving={saving} />}
+          {state.step === 'need' && (
+            <StepNeed
+              onChoose={(need) => void save(need)}
+              saving={saving}
+              onBack={() => dispatch({ type: 'go', step: settings['checkin.showCauses'] ? 'behind' : 'hearing' })}
+            />
+          )}
           </CoachContext>
         </SheetContent>
       </Sheet>

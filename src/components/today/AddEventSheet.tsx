@@ -13,6 +13,7 @@ import { toISODate } from '@/lib/time';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { EventFields, PrepFields, type EventFieldValues } from '@/components/events/EventFields';
+import { LeaveConfirm } from '@/components/checkin/LeaveConfirm';
 
 const blank = (dayStart: number): EventFieldValues => ({
   title: '',
@@ -27,6 +28,9 @@ const blank = (dayStart: number): EventFieldValues => ({
 export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean; onOpenChange: (o: boolean) => void; dayStart: number }) {
   const [values, setValues] = useState<EventFieldValues>(() => blank(dayStart));
   const [problem, setProblem] = useState<string | null>(null);
+  // v2.1 F-08: closing with a name typed asks first.
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const dirty = values.title.trim().length > 0;
 
   const save = async () => {
     if (!values.title.trim()) return setProblem(copy.eventForm.nameNeeded);
@@ -42,7 +46,7 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={(next) => (next || !dirty ? onOpenChange(next) : setConfirmLeave(true))}>
       <SheetContent aria-describedby={undefined}>
         <SheetHeader>
           <SheetTitle>{copy.eventForm.title}</SheetTitle>
@@ -66,6 +70,15 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
             {copy.eventForm.save}
           </Button>
         </form>
+        <LeaveConfirm
+          open={confirmLeave}
+          onKeep={() => setConfirmLeave(false)}
+          onLeave={() => {
+            setConfirmLeave(false);
+            setValues(blank(dayStart));
+            onOpenChange(false);
+          }}
+        />
       </SheetContent>
     </Sheet>
   );

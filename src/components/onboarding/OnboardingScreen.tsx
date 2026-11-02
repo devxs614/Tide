@@ -80,7 +80,7 @@ export function OnboardingScreen() {
       {/* Wraps at big text: "More options" used to run off the screen. */}
       <div className="flex flex-wrap items-center gap-2">
         {step > 1 ? (
-          <Button variant="quiet" size="sm" onClick={() => go(back)}>
+          <Button variant="quiet" size="sm" onClick={() => go(back)} data-nav="back">
             <ArrowLeft aria-hidden />
             {onboardingCopy.back}
           </Button>

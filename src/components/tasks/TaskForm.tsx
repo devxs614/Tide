@@ -18,6 +18,7 @@ import type { Task, TaskType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { CheckboxRow } from '@/components/ui/checkbox';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { LeaveConfirm } from '@/components/checkin/LeaveConfirm';
 import { ToggleChip } from '@/components/checkin/ToggleChip';
 
 type DueChoice = 'none' | 'today' | 'tomorrow' | 'pick';
@@ -40,6 +41,11 @@ export function TaskForm({ open, onOpenChange, task }: { open: boolean; onOpenCh
   const [firstStep, setFirstStep] = useState(task?.firstStep ?? '');
   const [breakDown, setBreakDown] = useState(false);
   const [showError, setShowError] = useState(false);
+  // v2.1 F-08: closing with changes asks first; untouched, it just closes.
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const dirty = task
+    ? title !== task.title || type !== task.type || energy !== task.energyCost || firstStep !== (task.firstStep ?? '') || due !== initialDue(task)
+    : title.trim().length > 0;
 
   const reset = () => {
     setTitle('');
@@ -72,7 +78,7 @@ export function TaskForm({ open, onOpenChange, task }: { open: boolean; onOpenCh
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={(next) => (next || !dirty ? onOpenChange(next) : setConfirmLeave(true))}>
       <SheetContent aria-describedby={undefined}>
         <SheetHeader>
           <SheetTitle>{editing ? copy.taskEdit.editTitle : copy.taskForm.title}</SheetTitle>
@@ -170,6 +176,15 @@ export function TaskForm({ open, onOpenChange, task }: { open: boolean; onOpenCh
             {editing ? copy.global.save : copy.taskForm.save}
           </Button>
         </form>
+        <LeaveConfirm
+          open={confirmLeave}
+          onKeep={() => setConfirmLeave(false)}
+          onLeave={() => {
+            setConfirmLeave(false);
+            if (!editing) reset();
+            onOpenChange(false);
+          }}
+        />
       </SheetContent>
     </Sheet>
   );

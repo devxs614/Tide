@@ -61,6 +61,17 @@ Challenge Partner, most urgent first.
   long it plays (including "until focus ends", which goes quiet just
   before the end chime), and control it from a small player while you
   use the rest of Tide. Never loud, and never on the crisis screen.
+- **F-08** Nobody gets stuck in a flow:
+  - Every step of the check-in, Unstick, Day Mode and Grounding has Back,
+    and nothing you entered is lost.
+  - Every flow has a way out. The strategy runner has Cancel (nothing is
+    saved in the first 15 seconds), the Bridge has "Skip this switch", and
+    Focus's End asks first after a minute.
+  - Leaving a form or check-in with something typed or picked asks
+    "Leave without saving?" first.
+  - The browser's or phone's back button closes the sheet on top instead
+    of leaving the page.
+- Fixed: the round Check in button ignored every tap after the first.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

@@ -85,7 +85,7 @@ export function BodyPath({ state, onToggle, onHints, onSubmit, onBack }: Props) 
         <Button className="sm:flex-1" onClick={onSubmit}>
           {copy.checkin.bodyCta}
         </Button>
-        <Button variant="secondary" className="sm:flex-1" onClick={onBack}>
+        <Button variant="secondary" className="sm:flex-1" onClick={onBack} data-nav="back">
           {copy.global.back}
         </Button>
       </div>
