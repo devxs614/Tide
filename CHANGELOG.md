@@ -28,6 +28,14 @@ Challenge Partner, most urgent first.
   task's shells stay on your shore; a checkbox removes them and the
   task's pattern history too. Settings → Privacy & data can remove
   deleted tasks for good.
+- **F-04** Events can be edited or deleted too. Tap one in the Tide Line,
+  or the "Next" card, to see its details, how it repeats, and Edit and
+  Delete. For a weekly class you choose only this one, this and future
+  ones, or all of them. A deleted event never brings up a Bridge, and
+  Undo brings back the whole batch. Settings → Privacy & data can remove
+  deleted events for good.
+- Fixed: late in the evening, Today didn't show an event coming up just
+  after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly
   different numbers (it now matches every number, not just "k of n").
 - New for the team: a layout audit (`npm run audit:layout`) that checks

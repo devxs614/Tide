@@ -10,6 +10,7 @@ import { getPendingRating } from '@/lib/bridge';
 import { now } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { rateTransition, transitionLabels } from '@/lib/repo/transitions';
+import { eventsBetween } from '@/lib/repo/eventQueries';
 import { DAY } from '@/lib/time';
 import type { TransitionRating as Rating } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -24,7 +25,7 @@ export function TransitionRating({ nowTs }: { nowTs: number }) {
     const at = now();
     const [transitions, events] = await Promise.all([
       db.transitions.toArray(),
-      db.events.where('start').between(at - 2 * DAY, at, true, true).toArray(),
+      eventsBetween(at - 2 * DAY, at),
     ]);
     const t = getPendingRating(at, transitions, events);
     return t ? { t, labels: await transitionLabels(t) } : null;

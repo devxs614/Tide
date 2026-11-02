@@ -8,6 +8,7 @@ import type { WrapupInputT } from '@/lib/ai/schemas';
 import { addDays, formatTime, toISODate } from '@/lib/time';
 import type { CalendarEvent, CheckIn, CommunicationMode, DayWrap, FocusBlock, StrategyUse, Task, Transition } from '@/lib/types';
 import { activeTasks } from '../repo/taskQueries';
+import { eventsBetween, eventTitles } from '../repo/eventQueries';
 
 export interface DayFacts {
   date: string;
@@ -36,9 +37,9 @@ export async function loadDayFacts(date: string): Promise<DayFacts> {
     db.focusBlocks.where('ts').between(start, end).toArray(),
     db.transitions.where('ts').between(start, end).toArray(),
     db.strategyUses.where('ts').between(start, end).toArray(),
-    db.events.where('start').between(end, addDays(end, 1)).sortBy('start'),
+    eventsBetween(end, addDays(end, 1) - 1),
   ]);
-  const titles = new Map((await db.events.toArray()).map((e) => [e.id, e.title]));
+  const titles = await eventTitles();
   const plan = await db.dayPlans.get(date);
   const kept = new Set(plan?.keptTaskIds ?? []);
   return {

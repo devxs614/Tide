@@ -17,6 +17,7 @@ import { Splash } from './Splash';
 import dynamic from 'next/dynamic';
 import { useBridgeSheet, useCheckInSheet, useDayModeSheet } from '@/lib/ui';
 import { useTaskSheet } from '@/lib/taskSheets';
+import { useEventSheet } from '@/lib/eventSheets';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
@@ -33,6 +34,8 @@ const DayModeSheet = dynamic(
 );
 // Task details, edit and delete (v2.1 F-03) load the first time one opens.
 const TaskSheets = dynamic(() => import('@/components/tasks/TaskSheets').then((m) => m.TaskSheets), { ssr: false });
+// The same for an event's details, edit and delete (v2.1 F-04).
+const EventSheets = dynamic(() => import('@/components/events/EventSheets').then((m) => m.EventSheets), { ssr: false });
 // Keyboard shortcuts only matter once someone presses a key, so their code
 // loads right after the page instead of with it (`/` sits at its budget).
 const KeyboardShortcuts = dynamic(() => import('./KeyboardShortcuts').then((m) => m.KeyboardShortcuts), { ssr: false });
@@ -45,6 +48,7 @@ const BridgeSheet = dynamic(
 
 function Sheets() {
   const taskSheet = useTaskSheet();
+  const eventSheet = useEventSheet();
   const checkIn = useCheckInSheet();
   const dayMode = useDayModeSheet();
   const bridge = useBridgeSheet();
@@ -61,6 +65,9 @@ function Sheets() {
       </WhenOpened>
       <WhenOpened open={!!taskSheet}>
         <TaskSheets />
+      </WhenOpened>
+      <WhenOpened open={!!eventSheet}>
+        <EventSheets />
       </WhenOpened>
     </>
   );

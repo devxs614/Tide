@@ -98,6 +98,7 @@ const openCheckIn = async (page: Page) => {
 };
 
 const openTaskDetail = (page: Page) => click(page, '[data-demo-id^="task-open-"]:visible');
+const openEventDetail = (page: Page) => click(page, '[data-demo-id^="event-open-"]:visible');
 
 export const STATES: AuditState[] = [
   // Main screens with Maya's data.
@@ -189,6 +190,36 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'sheet:eventform', route: '/', ws: 'demo', open: (page) => click(page, 'button:has-text("Add an event")') },
+  // v2.1 F-04: an event's details, its edit form, "which events?" and delete.
+  { id: 'sheet:eventdetail', route: '/', ws: 'demo', open: openEventDetail },
+  {
+    id: 'sheet:eventedit',
+    route: '/',
+    ws: 'demo',
+    open: async (page) => {
+      await openEventDetail(page);
+      await click(page, demo('event-detail-edit'));
+    },
+  },
+  {
+    id: 'dialog:eventscope',
+    route: '/',
+    ws: 'demo',
+    open: async (page) => {
+      await openEventDetail(page);
+      await click(page, demo('event-detail-edit'));
+      await click(page, demo('event-edit-save'));
+    },
+  },
+  {
+    id: 'dialog:eventdelete',
+    route: '/',
+    ws: 'demo',
+    open: async (page) => {
+      await openEventDetail(page);
+      await click(page, demo('event-detail-delete'));
+    },
+  },
   {
     id: 'sheet:bridge',
     route: '/',

@@ -155,6 +155,13 @@ up during the build. — Claude Code
   Shore. Why: the tests use a fake database and a desktop browser, and
   the toast and the sheet need a real thumb. *By Nov 3.*
 
+- [ ] **Edit and delete a repeating class on a phone (F-04).** In the
+  demo, tap Calculus in the Tide Line and change only this event's time.
+  Then delete it "only this" at 4:41 pm (Settings → Demo → jump to the
+  Bridge), check that the Bridge card goes away, and press Undo. Why: the
+  time inputs and the stacked choices look different on iOS and Android
+  than in the test browser. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

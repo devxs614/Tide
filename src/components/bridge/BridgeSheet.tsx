@@ -5,7 +5,10 @@
 // she's going, how this kind of switch has gone before) and then hands the
 // steps to BridgeSteps. One Bridge per event; the draft survives a trip to
 // the strategy runner and back.
+import { useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { toast } from 'sonner';
+import { eventEditCopy } from '@/copy/eventEditCopy';
 import { now } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { resolveFrom } from '@/lib/bridge';
@@ -17,6 +20,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { BridgeSteps, type BridgeData } from './BridgeSteps';
 import { draftFor } from './bridgeDrafts';
 import { tasksByStatus } from '@/lib/repo/taskQueries';
+import { eventsBetween, getEvent } from '@/lib/repo/eventQueries';
 
 export function BridgeSheet() {
   const { eventId, closeBridge } = useBridgeSheet();
@@ -27,14 +31,24 @@ export function BridgeSheet() {
   );
 }
 
+// v2.1 F-04: the event was deleted while its Bridge was open (from another
+// tab, or by Undo running out). Close, and say why.
+function EventGone({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    toast(eventEditCopy.bridgeGone);
+    onClose();
+  }, [onClose]);
+  return null;
+}
+
 function BridgeBody({ eventId, onClose }: { eventId: string; onClose: () => void }) {
   const draft = draftFor(eventId);
   const data = useLiveQuery(async (): Promise<BridgeData | null> => {
     const at = now();
-    const to = await db.events.get(eventId);
+    const to = await getEvent(eventId);
     if (!to) return null;
     const [events, tasks, uses] = await Promise.all([
-      db.events.where('start').between(at - DAY, at + DAY, true, true).toArray(),
+      eventsBetween(at - DAY, at + DAY),
       tasksByStatus(['in_progress', 'stuck']),
       db.strategyUses.toArray(),
     ]);
@@ -44,6 +58,7 @@ function BridgeBody({ eventId, onClose }: { eventId: string; onClose: () => void
     return { to, fromEvent, fromTask, fromKind, hard, uses, usedHere: uses.filter((u) => u.transitionId === draft.transitionId) };
   }, [eventId]);
 
+  if (data === null) return <EventGone onClose={onClose} />;
   if (!data) return null;
   return <BridgeSteps data={data} draft={draft} onClose={onClose} />;
 }

@@ -10,7 +10,6 @@ import { copy } from '@/copy/en';
 import { useAi } from '@/lib/ai/useAi';
 import { now } from '@/lib/clock';
 import { buildDayModeInput, plannableTasks, type LighterMode } from '@/lib/daymode';
-import { db } from '@/lib/db';
 import { recentCheckIn } from '@/lib/latestState';
 import { applyDayPlan, undoDayPlan } from '@/lib/repo/dayPlans';
 import { useSettings } from '@/lib/settings';
@@ -21,6 +20,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { StepHeader } from '@/components/checkin/StepHeader';
 import { DayModeProposal } from './DayModeProposal';
 import { activeTasks } from '@/lib/repo/taskQueries';
+import { eventsBetween } from '@/lib/repo/eventQueries';
 
 const MODES: LighterMode[] = ['gentle', 'minimum'];
 
@@ -49,7 +49,7 @@ function DayModeBody({ onClose }: { onClose: () => void }) {
     const at = now();
     const [tasks, events, latest] = await Promise.all([
       activeTasks(),
-      db.events.where('start').between(startOfDay(at), endOfDay(at)).sortBy('start'),
+      eventsBetween(startOfDay(at), endOfDay(at)),
       recentCheckIn(at),
     ]);
     const input = buildDayModeInput({ mode: settings.communicationMode, requested: mode, now: at, latest, tasks, events, budgets });

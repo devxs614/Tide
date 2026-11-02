@@ -22,6 +22,7 @@ const CompanionSection = load(() => import('./CompanionSection').then((m) => m.C
 const DataSection = load(() => import('./DataSection').then((m) => m.DataSection));
 const DemoSection = load(() => import('./DemoSection').then((m) => m.DemoSection));
 const PurgeDeleted = load(() => import('./PurgeDeleted').then((m) => m.PurgeDeleted));
+const PurgeDeletedEvents = load(() => import('./PurgeDeletedEvents').then((m) => m.PurgeDeletedEvents));
 const ShortcutsList = load(() => import('@/components/shell/ShortcutsList').then((m) => m.ShortcutsList));
 const PeopleSection = load(() => import('./PeopleSection').then((m) => m.PeopleSection));
 const ModePicker = load(() => import('./PreferencePickers').then((m) => m.ModePicker));
@@ -59,7 +60,14 @@ export function CustomControl({ id }: { id: CustomId }) {
     case 'backup':
       return <BackupControls />;
     case 'purgeDeleted':
-      return <Anchored id={id}><PurgeDeleted /></Anchored>;
+      return (
+        <Anchored id={id}>
+          <div className="flex flex-col gap-6">
+            <PurgeDeleted />
+            <PurgeDeletedEvents />
+          </div>
+        </Anchored>
+      );
     case 'people':
       return <Anchored id={id}><PeopleSection /></Anchored>;
     case 'demo':

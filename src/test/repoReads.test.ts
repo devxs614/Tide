@@ -1,6 +1,7 @@
-// Deleted tasks (v2.1 F-03) only stay hidden everywhere if every screen
-// reads tasks through src/lib/repo/ (taskQueries.ts filters them out). This
-// fails on a direct `db.tasks` read anywhere else. src/lib/db.ts only lists
+// Deleted tasks and events (v2.1 F-03, F-04) only stay hidden everywhere if
+// every screen reads them through src/lib/repo/ (taskQueries.ts and
+// eventQueries.ts filter them out). This fails on a direct `db.tasks`,
+// `db.events` or `db.eventSeries` read anywhere else. src/lib/db.ts only lists
 // the table, and tests may set data up directly.
 import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
@@ -19,9 +20,12 @@ function filesUnder(dir: string): string[] {
 const allowed = (file: string) => file.includes(`${path.sep}lib${path.sep}repo${path.sep}`) || file.endsWith(path.join('lib', 'db.ts'));
 
 describe('reads go through the repo', () => {
-  it('reads tasks only in src/lib/repo/', () => {
+  it.each([
+    ['tasks', /\bdb\.tasks\b/],
+    ['events', /\bdb\.(events|eventSeries)\b/],
+  ])('reads %s only in src/lib/repo/', (_, pattern) => {
     const offenders = filesUnder(SRC)
-      .filter((f) => !allowed(f) && /\bdb\.tasks\b/.test(fs.readFileSync(f, 'utf8')))
+      .filter((f) => !allowed(f) && pattern.test(fs.readFileSync(f, 'utf8')))
       .map((f) => path.relative(SRC, f));
     expect(offenders).toEqual([]);
   });

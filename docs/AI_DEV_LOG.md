@@ -2774,3 +2774,79 @@ suite and the v1 suite are green.
 - The demo tour step from spec 7.7 comes with the other tour additions
   in R7. The `data-demo-id`s it needs are in place.
 - Bulk delete arrives with the Completed archive in F-05.
+
+## F-04 — Edit and delete events, including weekly series (before and after)
+2026-11-01, late evening
+
+**Before.** A cancelled class kept sitting in the Tide Line and kept
+bringing up a Bridge for a switch that wasn't going to happen. Plan:
+- read-helpers in `src/lib/repo/eventQueries.ts` and a guard against
+  direct `db.events` reads;
+- `src/lib/repo/eventEdits.ts` for edits and soft deletes across a series
+  ("only this", "this and future", "all"), with one Undo per batch;
+- an event detail sheet, an edit sheet that shares its fields with v1's
+  Add form, the "which events?" dialog, and the Bridge reacting at once.
+Risks: v1's Add form is tested, and the demo's Calculus Bridge must keep
+working.
+
+**After.**
+- Tapping an event in the Tide Line, or the "Next" card, opens its
+  details: kind (icon and label), date, time, place, what to bring and
+  "Repeats every Tue and Thu until …". It has Edit, Delete, and "Get
+  ready" when the switch is near.
+- Edit has the Add form's fields (now shared, `EventFields.tsx`) plus the
+  date, five prep slots and, for a series, the days it repeats on. Saving
+  an event in a series asks which events to change. A new date only moves
+  this event; new days start a new series from this date on; "all" leaves
+  past times alone unless "Also change the time of past events" is
+  checked (D148–D150). An end before the start says "Events can't cross
+  midnight yet. Split it into two." (D151).
+- Delete asks "Delete "Calculus" on Thursday, November 5?". For a series
+  it offers only this, this and future, or all. "Keep it" has focus and
+  the toast's Undo restores the whole batch.
+- A deleted event never reaches the Tide Line, the Bridge, Day Mode or the
+  wrap-up. `getUpcomingTransition` also skips one if a caller passes it.
+  An open Bridge for an event that gets deleted closes with "That event
+  was deleted."
+- Settings → Privacy & data: "Permanently remove deleted events". One
+  that a past switch refers to stays as a stub with only its kind (D153).
+
+**What broke and how I fixed it.**
+- v1's "shows the next event within three hours" failed tonight on the
+  committed code too: after 10:50 pm, "now + 70 minutes" is tomorrow, and
+  Today only looked among today's events. The Next card now also sees the
+  first three hours after midnight (D152). The v1 test is unchanged and
+  passes at any hour.
+- My new flow tests leaked an open sheet into the next test, because the
+  sheet stores live outside React. `resetApp` now closes the task and
+  event sheets.
+
+**How I checked it.**
+- Repo tests (8):
+  - edit and delete one event with Undo;
+  - "only this" detaches the event, and later series edits skip it;
+  - "this and future" moves each date's time;
+  - "all" keeps past times unless asked;
+  - new weekdays start a new series and end the old one the day before;
+  - the three delete scopes, detached events included only with "all";
+  - a deleted event never reaches the Bridge;
+  - the purge keeps a stub where a switch points.
+
+  The seed's six series are checked in the version 3 upgrade test.
+- Flow tests on the demo afternoon:
+  - change Calculus to 5:00–6:30 pm "only this", and the Tide Line shows
+    it while Tuesday's class keeps 4:50;
+  - the midnight note;
+  - delete Calculus "only this" at 4:41 pm, and the Bridge card goes
+    away; Undo brings both back;
+  - an open Bridge closes with its note.
+- Layout audit for Today, the add and edit forms, the detail sheet, the
+  "which events?" and delete dialogs and Settings' privacy page: 192
+  state runs, 0 failures (`docs/audits/2026-11-01-f04.json`).
+- `/` is 298.3 KB.
+- Lint, typecheck, 480 tests and the v1 suite (164) are green.
+
+**Left open.** Tide has no calendar views yet (month or any-day view is
+F-10), so the Tide Line and the Next card are the ways in. The Repeat
+field for *new* events also waits for F-10, as the spec allows: until
+then, weekday editing exists only for series that already exist.

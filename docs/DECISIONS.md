@@ -1055,3 +1055,41 @@ The spec asks evidence rows to show "a deleted task" when the title is
 gone. Tide's evidence rows name the strategy and the task *type*, never a
 title, so a deleted task can't show up by name. I left the label out
 rather than add a string nothing uses.
+
+**D148 — 2026-11-01 — An event changed on its own edits and deletes as a single event.**
+After "Change only this event", the instance is `detached`. Opening it
+again offers no series choices: it already left the pattern. Series edits
+skip it; deleting "all" from any other instance includes it, as the spec
+says.
+
+**D149 — 2026-11-01 — A new date moves only this event; new weekdays apply only from here on.**
+The scope dialog only offers the choices that make sense. A changed date
+offers "only this event". Changed weekdays offer "this and future",
+which ends the old series the day before and writes a new one out to the
+old end date. Both at once asks to change one, then the other. Rejected:
+guessing what "all events" means for a new date.
+
+**D150 — 2026-11-01 — "Also change past events" is a checkbox in the scope dialog.**
+The spec asks for a confirmation when "all" changes the time. A checkbox
+under the choices, unchecked by default, shows only when the time changed.
+It does the same job without a second dialog on top of the first.
+
+**D151 — 2026-11-01 — Overnight events get their own message in Edit; Add keeps v1's.**
+An end earlier than the start in Edit says "Events can't cross midnight
+yet. Split it into two." This is a known limitation. The Add form keeps
+v1's "The end time needs to be after the start time." because v1 tests
+cover it.
+
+**D152 — 2026-11-01 — The Next card looks three hours past midnight.**
+v1's next-event test adds a class "70 minutes from now". After 10:50 pm
+that class is tomorrow, and Today only searched today's events, so the
+test failed late at night on the committed code. Today now reads its
+events through midnight plus three hours: the Tide Line still shows only
+today, while "Next: … in 70 min" can be after midnight. The v1 test is
+unchanged.
+
+**D153 — 2026-11-01 — Purged events that a switch refers to become stubs titled "Deleted event".**
+The stub keeps its id, kind and times and stays soft-deleted (hidden).
+Its title becomes "Deleted event"; its place, prep and series go.
+Patterns still count the switch by kind. The Settings count leaves stubs
+out, so the button doesn't stay enabled for nothing.

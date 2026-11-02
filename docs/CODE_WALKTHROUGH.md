@@ -1170,3 +1170,47 @@ closes first, `runPendingPurges` runs the purge at the next start.
 - *What does "remove its history" keep?* Strategy uses and transitions
   stay, with the task link cleared, because they describe the strategy
   and the switch, not the task.
+
+## Editing and deleting events (v2.1 F-04)
+
+**What it does.** Any event, single or weekly, can be edited or deleted
+from the Tide Line or the "Next" card. For a series it asks: only this,
+this and future, or all. Deletes are soft, with one Undo per batch, and
+the Bridge always follows what's left.
+
+**Files.**
+- `src/lib/repo/eventQueries.ts`: every event read (`eventsBetween`,
+  `getEvent`, `getSeries`, `seriesEvents`, `eventTitles`,
+  `allEventsForPatterns`). It drops deleted events, except for patterns
+  and past switches' titles.
+- `src/lib/repo/eventEdits.ts`: `eventProblem` (validation), `editEvent`
+  with a scope (and `restartSeries` when the weekdays change),
+  `deleteEvents`/`undoDeleteEvents`, `purgeDeletedEvents` (stubs where a
+  switch points).
+- `src/lib/eventSheets.ts`: which event sheet is open. The Tide Line and
+  the Next card open it; `components/events/EventSheets.tsx` (lazy, in
+  AppShell) shows it.
+- `components/events/`:
+  - `EventFields.tsx`, shared with v1's Add form;
+  - `EventDetailSheet.tsx`;
+  - `EditEventSheet.tsx`;
+  - `ScopeDialog.tsx`;
+  - `DeleteEventDialog.tsx`, with `deleteEventsWithUndo`.
+- `src/copy/eventEditCopy.ts`: the words for the above. They load only
+  with the sheets (D144).
+
+**Data flow.** Tap → `openEventDetail(id)` → the sheet reads `getEvent`
+and `getSeries` live. Edit → Save → `eventProblem` → for a series, the
+scope dialog → `editEvent` → every live query on Today and the Bridge
+re-runs. Delete → `deleteEvents` returns the ids → the toast's Undo calls
+`undoDeleteEvents(ids)`.
+
+**Likely reviewer questions**
+- *How do old events become series?* The Dexie version 3 upgrade groups
+  them by title, kind, start time and length (D140); the demo seed does
+  the same.
+- *What happens to past switches when an event is deleted?* Their
+  records stay. The event is soft-deleted and keeps its kind, so patterns
+  still count the switch. A permanent purge leaves a stub (D153).
+- *Why can't I change the date for "all events"?* A new date only makes
+  sense for one event; new weekdays are how a series moves (D149).

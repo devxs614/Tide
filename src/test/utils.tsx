@@ -14,6 +14,8 @@ import { setDemoClock } from '@/lib/clock';
 import { resetNarrationCacheForTests } from '@/components/patterns/useNarration';
 import { resetCelebrationCapsForTests } from '@/lib/celebrate/caps';
 import { useSettings } from '@/lib/settings';
+import { closeTaskSheet } from '@/lib/taskSheets';
+import { closeEventSheet } from '@/lib/eventSheets';
 import type { Settings } from '@/lib/types';
 
 export const navigation = (globalThis as unknown as {
@@ -27,6 +29,10 @@ export async function resetApp(settings: Partial<Settings> = {}): Promise<void> 
   resetAiClientStateForTests();
   resetNarrationCacheForTests();
   resetCelebrationCapsForTests();
+  // The task and event sheet stores live outside React (v2.1), so a sheet a
+  // test left open would still be open in the next one.
+  closeTaskSheet();
+  closeEventSheet();
   setDemoClock(null);
   navigation.push.mockReset();
   navigation.replace.mockReset();

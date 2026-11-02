@@ -136,7 +136,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'switch', key: 'privacy.naturalVoiceAllowed', label: L.naturalAllowed, keywords: ['cloud voice'] },
       { kind: 'custom', id: 'data', label: copy.settings.yourData, keywords: ['export', 'delete', 'download', 'data'] },
       { kind: 'custom', id: 'backup', label: L.importBackup, keywords: ['import', 'backup', 'restore', 'settings file'] },
-      { kind: 'custom', id: 'purgeDeleted', label: copy.taskEdit.purge, keywords: ['deleted', 'remove', 'purge', 'clean up', 'tasks', 'events'] },
+      { kind: 'custom', id: 'purgeDeleted', label: copy.taskEdit.purgeSection, keywords: ['deleted', 'remove', 'purge', 'clean up', 'tasks', 'events'] },
     ],
   },
   { id: 'people', entries: [{ kind: 'custom', id: 'people', label: copy.settings.people, keywords: ['contacts', 'trusted', 'campus', 'support', 'counselor'] }] },

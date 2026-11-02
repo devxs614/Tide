@@ -1,0 +1,56 @@
+// The words for seeing, editing and deleting events (v2.1 F-04), including
+// the "only this / this and future / all" choices for weekly series. These
+// sheets load only when someone opens an event, so their words live here,
+// outside en.ts (D144). Same rules as en.ts: short sentences, no guilt.
+export const eventEditCopy = {
+  edit: 'Edit',
+  delete: 'Delete',
+  getReady: 'Get ready',
+  kindRow: 'Kind',
+  dateRow: 'Date',
+  timeRow: 'Time',
+  placeRow: 'Place',
+  prepRow: 'To bring or prepare',
+  timeRange: '{start}–{end}',
+  repeats: 'Repeats every {days} until {until}',
+  and: 'and',
+
+  editTitle: 'Edit event',
+  save: 'Save',
+  dateLabel: 'Date',
+  dateSeriesHelp: 'A new date moves only this event.',
+  repeatsOn: 'Repeats on',
+  repeatsHelp: 'New days start a new weekly pattern from this date on.',
+  prepLabel: 'Things to bring or prepare (optional, up to 5)',
+  crossesMidnight: "Events can't cross midnight yet. Split it into two.",
+  oneAtATime: 'Change the date or the repeat days, one at a time.',
+  noDays: 'Pick at least one day.',
+
+  scopeTitle: 'Change which events?',
+  scopeBody: 'This event repeats every week.',
+  scopeOne: 'Change only this event',
+  scopeFuture: 'This and future events',
+  scopeAll: 'All events in the series',
+  changePast: 'Also change the time of past events',
+  keepEditing: 'Keep editing',
+
+  deleteTitle: 'Delete "{title}" on {date}?',
+  deleteBody: 'It will disappear from your day, and no Bridge will come up for it.',
+  deleteSeriesBody: 'This event repeats every week.',
+  deleteOne: 'Delete only this event',
+  deleteFuture: 'This and future events',
+  deleteAll: 'All events in the series',
+  keepIt: 'Keep it',
+  deleted: 'Event deleted',
+  deletedMany: '{n} events deleted',
+  bridgeGone: 'That event was deleted.',
+
+  // Kept in place of a deleted event's title when a past switch refers to it.
+  stubTitle: 'Deleted event',
+  purge: 'Permanently remove deleted events',
+  purgeHelp: 'Deleted events stay hidden in your data, so a backup is complete. This removes them for good. One that a past switch refers to keeps only its kind.',
+  purgeConfirm: 'Remove {n} deleted events for good?',
+  purgeNone: 'There are no deleted events.',
+  purgeDone: 'Deleted events removed.',
+  remove: 'Remove',
+};

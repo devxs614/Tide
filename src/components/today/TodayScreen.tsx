@@ -72,7 +72,7 @@ export function TodayScreen({ bridgeRef }: { bridgeRef?: string }) {
   if (!data) return <div className="min-h-dvh" aria-hidden />;
 
   const banner = shouldShowBanner({ latestToday: data.latest, plan: data.plan, dismissedFor: settings.dayModeBannerDismissedFor });
-  const next = data.events.find((e) => e.start > nowTs && e.start - nowTs <= 3 * HOUR);
+  const next = data.soon.find((e) => e.start > nowTs && e.start - nowTs <= 3 * HOUR);
 
   return (
     <div className="flex flex-col gap-5">

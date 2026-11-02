@@ -14,6 +14,7 @@ import { hardSwitchFor } from '@/lib/patterns/rules/hardTransition';
 import { useSettings } from '@/lib/settings';
 import { DAY } from '@/lib/time';
 import { tasksByStatus } from '@/lib/repo/taskQueries';
+import { eventsBetween } from '@/lib/repo/eventQueries';
 
 export interface UpcomingBridge extends UpcomingTransition {
   fromKind: string;
@@ -26,7 +27,7 @@ export function useUpcomingBridge(nowTs: number): UpcomingBridge | null | undefi
   return useLiveQuery(async () => {
     const at = now();
     const [events, transitions, tasks] = await Promise.all([
-      db.events.where('start').between(at - DAY, at + DAY, true, true).toArray(),
+      eventsBetween(at - DAY, at + DAY),
       db.transitions.toArray(),
       tasksByStatus(['in_progress', 'stuck']),
     ]);

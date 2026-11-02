@@ -8,6 +8,8 @@ import { copy, fill } from '@/copy/en';
 import { bringBackToday } from '@/lib/repo/dayPlans';
 import { useSettings } from '@/lib/settings';
 import { formatTime } from '@/lib/time';
+import { openEventDetail } from '@/lib/eventSheets';
+import { ChevronRight } from 'lucide-react';
 import type { CalendarEvent, Quadrant, Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { TaskCard } from '@/components/tasks/TaskCard';
@@ -24,10 +26,21 @@ interface Props {
   onAddTask: () => void;
 }
 
+// Since v2.1 (F-04) the title opens the event's details, where Edit and
+// Delete live.
 function EventBlock({ event }: { event: CalendarEvent }) {
   return (
     <li className="flex flex-col border-l-4 border-line bg-surface py-2 pr-3 pl-4">
-      <span className="font-bold break-words">{event.title}</span>
+      <button
+        type="button"
+        onClick={() => openEventDetail(event.id)}
+        data-small-target-ok
+        data-demo-id={`event-open-${event.id}`}
+        className="flex items-start justify-between gap-1 rounded-md text-left font-bold break-words hover:underline hover:underline-offset-4"
+      >
+        <span className="min-w-0 break-words">{event.title}</span>
+        <ChevronRight aria-hidden className="mt-0.5 size-5 shrink-0 text-ink-soft" />
+      </button>
       <span className="text-caption text-ink-soft">
         {fill(copy.today.eventTime, { start: formatTime(event.start), end: formatTime(event.end) })}
         {event.place && ` · ${event.place}`}

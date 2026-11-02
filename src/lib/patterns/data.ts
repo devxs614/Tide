@@ -4,12 +4,13 @@
 import { db } from '@/lib/db';
 import type { PatternInput } from './types';
 import { allTasksForPatterns } from '../repo/taskQueries';
+import { allEventsForPatterns } from '../repo/eventQueries';
 
 export async function loadPatternInput(now: number, windowDays: 7 | 28 = 28): Promise<PatternInput> {
   const [checkins, tasks, events, focusBlocks, strategyUses, transitions, dismissed, dayWraps] = await Promise.all([
     db.checkins.toArray(),
     allTasksForPatterns(),
-    db.events.toArray(),
+    allEventsForPatterns(),
     db.focusBlocks.toArray(),
     db.strategyUses.toArray(),
     db.transitions.toArray(),

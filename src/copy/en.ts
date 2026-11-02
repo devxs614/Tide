@@ -1133,6 +1133,7 @@ export const copy = {
     deleted: 'Task deleted',
     deletedMany: '{n} tasks deleted',
     purge: 'Permanently remove deleted tasks',
+    purgeSection: 'Deleted tasks and events',
     purgeHelp: 'Deleted tasks stay in your data, hidden, so a backup is complete. This removes them for good.',
     purgeHistory: 'Also remove their shells and pattern history',
     purgeConfirm: 'Remove {n} deleted tasks for good?',

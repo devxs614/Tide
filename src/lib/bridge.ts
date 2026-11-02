@@ -27,7 +27,8 @@ export function getUpcomingTransition(
 ): UpcomingTransition | null {
   const bridged = new Set(transitions.map((t) => t.toEventId));
   const to = events
-    .filter((e) => e.start > nowTs && e.start - nowTs <= leadMinutes * MINUTE && !bridged.has(e.id))
+    // v2.1: a deleted event never gets a Bridge, even if a caller passes one.
+    .filter((e) => !e.deletedAt && e.start > nowTs && e.start - nowTs <= leadMinutes * MINUTE && !bridged.has(e.id))
     .sort((a, b) => a.start - b.start)[0];
   if (!to) return null;
   return { to, ...resolveFrom(nowTs, events, tasks, to), minutesUntil: Math.max(1, Math.ceil((to.start - nowTs) / MINUTE)) };
