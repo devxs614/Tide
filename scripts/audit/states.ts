@@ -253,6 +253,35 @@ export const STATES: AuditState[] = [
     open: (page) => click(page, demo('focus-start')),
   },
   { id: 'bubble:today', route: '/', ws: 'demo' },
+  // v2.1 F-07: a 25-minute block, then 11 minutes pass at once (Playwright's
+  // clock, so the app's own live data notices) and the 10-minute nudge comes
+  // up; and the one-time hint at the "⋯" menu.
+  {
+    id: 'focus:nudge',
+    route: async (page) => `/focus/${await firstTaskId(page)}`,
+    ws: 'demo',
+    before: async (page) => {
+      await writeSettings(page, 'demo', { 'focus.refocusNudge': 'visual', 'focus.nudgeCoachSeen': true });
+      await page.clock.install();
+    },
+    open: async (page) => {
+      await click(page, 'button:has-text("25 min")');
+      await click(page, demo('focus-start'));
+      await page.clock.fastForward('11:00');
+      await page.locator('button:has-text("Yes, still on it")').waitFor({ timeout: 8000 });
+      await page.waitForTimeout(800);
+    },
+  },
+  {
+    id: 'focus:coach',
+    route: async (page) => `/focus/${await firstTaskId(page)}`,
+    ws: 'demo',
+    before: (page) => writeSettings(page, 'demo', { 'focus.refocusNudge': 'off', 'focus.nudgeCoachSeen': false }),
+    open: async (page) => {
+      await click(page, 'button:has-text("25 min")');
+      await click(page, demo('focus-start'));
+    },
+  },
   { id: 'bubble:breathing', route: '/toolkit/c-box?context=toolkit', ws: 'demo' },
   { id: 'bubble:checkin', route: '/', ws: 'demo', open: (page) => click(page, demo('fab-checkin')) },
 ];

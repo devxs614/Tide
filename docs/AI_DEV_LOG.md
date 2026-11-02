@@ -3020,3 +3020,87 @@ background tab (Chrome and Edge), a phone with Tide in front, and the
 notification on a laptop and an installed Android app. Tide registers no
 service worker, so Android Chrome, which needs one for notifications, is
 a known gap (D160, TEAM_TODO).
+
+## F-07 — Refocus nudge "Earth to {name}" (before and after)
+2026-11-02
+
+**Before.** During a focus block, attention drifts and nothing gently
+brings it back. The team calls it "Tierra llamando a…". It has to be
+optional and easy to switch off, because surprise sounds can overwhelm
+people with auditory sensitivity. Plan:
+- plain scheduling rules (2-minute edges, 5-minute spacing, 6 a block,
+  stop for the block);
+- a hook for the interval, hidden-tab and return nudges;
+- a small card that shrinks to a pill if unanswered, and a 2-minute
+  break;
+- a quick toggle in a "⋯" menu with a one-time hint;
+- counts saved with the block for later.
+
+Default: off, so nothing changes from v2 unless someone turns it on.
+
+**After.**
+- Settings → Focus:
+  - "Refocus nudges": Off (default), Visual, Visual and sound;
+  - "Check in every" 5/10/15/20 min;
+  - "Welcome me back when I return to Tide";
+  - "Nudge me if I leave Tide for" off/1/2/5 minutes.
+
+  The Low sensory preset keeps them off; Focused turns on Visual.
+- The Focus screen has "Focus options" (the "⋯" menu, with a visible
+  label) with Nudges: Off / Visual / Visual + sound. The first block of 15
+  minutes or more shows a one-time hint under the header, in the page's
+  flow so it never covers the timer.
+- The card slides up from the bottom (no movement at motion Off) with
+  the companion peeking in:
+  - the title follows the mode: "Earth to Maya! Still on Lab report?",
+    "Still on Lab report?", or "Are you still working on Lab report?";
+    without a name, "Earth to you!…";
+  - "Yes, still on it" gets a small hop from the companion;
+  - "I drifted" shows the first step and where you left off, with "Pick
+    up from here";
+  - "Take a 2-minute break" pauses the block, counts down two minutes and
+    suggests "Shake it out", then "Back to it";
+  - "Stop nudges for this block".
+
+  Unanswered for a minute, the card becomes a "Still on it?" pill.
+- With sound on, a hidden tab gets one soft two-note nudge after the
+  chosen time, scheduled on the audio clock and cancelled if Tide comes
+  back first, plus a notification if those are on. Coming back after 30
+  seconds or more brings "Welcome back! Still on {task}?", with no sound.
+- The block saves `nudgesShown`, `driftsReported`, `hiddenMs` and `breaks`
+  (only when nudges were on). Nothing shows them to anyone; the pattern
+  idea is logged in DECISIONS.
+
+**How I checked it.**
+- Rule tests:
+  - every N minutes, minus the edges (10 and 20 in a 25-minute block, no
+    20 in a 21-minute one);
+  - 5-minute spacing after a nudge of another kind;
+  - the cap of 6;
+  - stopped and sheet-open blocks stay quiet, and a skipped mark isn't
+    saved for later.
+- Flow tests with the clock moved by hand:
+  - nothing at 1:00; a nudge at 10:00 and at 20:00; nothing at 23:30;
+  - "I drifted" shows the first step;
+  - the break pauses, and "Back to it" resumes;
+  - after 45 seconds away, the hidden-tab sound is cancelled and "Welcome
+    back" shows;
+  - "Stop nudges for this block" works;
+  - with nudges off, nothing appears.
+- Copy test: no "distracted", "lost focus", "fail" or "again?", and three
+  different mode variants for both titles.
+- Layout audit with a real nudge on screen: Playwright's clock jumps 11
+  minutes into a 25-minute block. Also the hint and Settings → Focus: 96
+  state runs, 0 failures.
+- `/` is 298.8 KB. Lint, typecheck, 506 tests and the v1 suite (164) are
+  green.
+
+**What broke.**
+- The first hint floated over the timer and off the left edge at 390px.
+  It's in the page flow now.
+- In the audit, Playwright's clock also freezes framer-motion, so the
+  card sat invisible mid-slide. The card now uses the app's CSS entrance
+  (`flow-enter`), which also makes motion Off simpler.
+- One flow test hid the page outside `act()`, so React hadn't saved "when
+  it was hidden" before the page came back. The test was wrong, not the
+  hook.

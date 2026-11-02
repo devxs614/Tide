@@ -37,6 +37,7 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     // v2.1: a quiet end, and the softest sound for if they turn it on later.
     'focus.endAlert': 'visual',
     'focus.endTone': 'rise',
+    'focus.refocusNudge': 'off',
   },
   focused: {
     'appearance.theme': 'oceanBlue',
@@ -49,6 +50,7 @@ export const PRESETS: Record<PresetId, Partial<Settings>> = {
     'sound.ambience': 'brown',
     'focus.keepAwake': true,
     'focus.warnBeforeEnd': '1',
+    'focus.refocusNudge': 'visual',
   },
   playful: {
     'appearance.theme': 'bubblegum',

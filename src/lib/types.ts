@@ -376,6 +376,12 @@ export interface Settings {
   'focus.notifyAtEnd': boolean;
   'focus.titleCountdown': boolean;
   'focus.warnBeforeEnd': 'off' | '1' | '2';
+  // v2.1 F-07: optional "Earth to {name}" refocus nudges (off by default).
+  'focus.refocusNudge': 'off' | 'visual' | 'visual_sound';
+  'focus.nudgeEvery': 5 | 10 | 15 | 20;
+  'focus.nudgeOnReturn': boolean;
+  'focus.nudgeHiddenAfter': 'off' | '1' | '2' | '5';
+  'focus.nudgeCoachSeen': boolean;
   // Desktop keyboard shortcuts (v2 spec 17.1); never while typing.
   'shortcuts.enabled': boolean;
   // "Not tonight" / "Not now" on Today's evening and morning cards hide

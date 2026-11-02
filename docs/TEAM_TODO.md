@@ -179,6 +179,13 @@ up during the build. — Claude Code
   adding one changes how Tide caches pages, which deserves a decision
   rather than a side effect. *Before release.*
 
+- [ ] **Try refocus nudges for one real study session (F-07).** Turn on
+  Visual in "Focus options", start a 25-minute block, and see whether the
+  10-minute "Earth to you" card feels like help or like an interruption.
+  Ask our Challenge Partner the same about the wording. Why: whether this
+  feels kind is a human judgment, and it's off by default until we're
+  sure. *By Nov 3.*
+
 ## Demo (v2)
 - [ ] **Rehearse the guided tour on the presenting laptop** at 1×, Lagoon
   theme: `/demo` → Full tour, then Pitch cut, then Presenter mode with the

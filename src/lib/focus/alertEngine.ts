@@ -18,6 +18,7 @@ let ctx: AudioContext | null = null;
 let input: GainNode | null = null;
 let end: { nodes: AudioScheduledSourceNode[]; at: number } | null = null;
 let warn: AudioScheduledSourceNode[] = [];
+let nudge: AudioScheduledSourceNode[] = [];
 
 function context(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -94,6 +95,21 @@ export function cancelWarning(): void {
   warn = [];
 }
 
+// The hidden-tab nudge (F-07): two soft notes, scheduled for "hidden this
+// long" and cancelled if Tide comes back first.
+export function scheduleNudgeSound(inSeconds: number, volume: number): void {
+  cancelNudgeSound();
+  const c = context();
+  if (!c || !input) return;
+  input.gain.value = clampVolume(volume);
+  nudge = TONES.nudge(c, input, c.currentTime + Math.max(0.05, inSeconds));
+}
+
+export function cancelNudgeSound(): void {
+  silence(nudge);
+  nudge = [];
+}
+
 // "Test sound" in Settings, and the refocus nudge (F-07).
 export function playTone(tone: AlertTone, volume: number): void {
   const c = context();
@@ -108,4 +124,5 @@ export function resetAlertEngineForTests(): void {
   input = null;
   end = null;
   warn = [];
+  nudge = [];
 }

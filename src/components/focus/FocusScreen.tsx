@@ -31,6 +31,11 @@ import { getTask } from '@/lib/repo/taskQueries';
 import { focusAlertCopy } from '@/copy/focusAlertCopy';
 import { useFocusAlert } from './useFocusAlert';
 import { EndGlow } from './EndGlow';
+import { useNudges } from './useNudges';
+import { NudgeCard } from './NudgeCard';
+import { BreakPanel } from './BreakPanel';
+import { FocusCoach, FocusMenu } from './FocusMenu';
+import { MINUTE } from '@/lib/time';
 import { clearFocusRunning, markFocusRunning } from '@/lib/focusRunning';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
@@ -38,7 +43,7 @@ const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15,
 
 export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; suggestedMinutes?: FocusMinutes }) {
   const router = useRouter();
-  const { settings } = useSettings();
+  const { settings, update } = useSettings();
   const { openUnstick } = useUnstickSheet();
   const task = useLiveQuery(async () => (await getTask(taskId)) ?? null, [taskId]);
   const rewards = useLiveQuery(() => db.rewards.toArray(), []) ?? [];
@@ -55,6 +60,26 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   const onFinish = useCallback(() => setAsking(true), []);
   const timer = useFocusTimer(minutes, onFinish);
   const endAlert = useFocusAlert({ phase: timer.phase, endsAt: timer.endsAt, remaining: timer.remaining, completed: timer.completed, taskTitle: task?.title ?? '' });
+  const nudges = useNudges({
+    phase: timer.phase,
+    endsAt: timer.endsAt,
+    totalMs: minutes * MINUTE,
+    blocked: asking,
+    taskTitle: task?.title ?? '',
+    pause: timer.pause,
+    resume: timer.resume,
+  });
+  // v2.1 F-07: the first block of 15 minutes or more points at the nudges
+  // toggle, once ever.
+  const [coach, setCoach] = useState(false);
+  const start = () => {
+    endAlert.prime();
+    timer.start();
+    if (!settings['focus.nudgeCoachSeen'] && minutes >= 15 && settings['focus.refocusNudge'] === 'off') {
+      setCoach(true);
+      void update('focus.nudgeCoachSeen', true);
+    }
+  };
   useAmbience(timer.phase === 'running');
   useWakeLock(timer.phase === 'running' && settings['focus.keepAwake']);
   const celebrate = useCelebrate();
@@ -90,7 +115,9 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   };
 
   const answer = async (outcome: Outcome) => {
-    await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome });
+    // The nudge counts go with the block for patterns later (v2.1 F-07).
+    const counts = settings['focus.refocusNudge'] === 'off' ? {} : nudges.counts;
+    await saveFocusBlock({ taskId, ts: timer.startedAt ?? now(), minutes, completed: timer.completed, outcome, ...counts });
     emitCompanion({ type: 'focusEnded', outcome });
     if (outcome === 'didnt_start') return;
     // Getting going on a task that was stuck is the big one (v2 spec 10.2);
@@ -109,12 +136,14 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
 
   return (
     <div className="flow-enter flex min-h-dvh flex-col gap-5 p-5">
-      <header className="flex items-start gap-3">
-        <h1 className="flex-1 text-h2 font-bold break-words">{task.title}</h1>
+      <header className="flex flex-wrap items-start gap-3">
+        <h1 className="min-w-0 flex-1 basis-48 text-h2 font-bold break-words">{task.title}</h1>
+        <FocusMenu onOpen={() => setCoach(false)} />
         <Button variant="secondary" onClick={end}>
           {copy.focus.end}
         </Button>
       </header>
+      {coach && <FocusCoach onDone={() => setCoach(false)} />}
       <LeftOffNote task={task} />
       {task.firstStep && (
         <section className="card p-4">
@@ -153,7 +182,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
               base={
                 endAlert.timesUp ? (latestState === 'ebb' ? 'soft' : 'proud') : timer.phase === 'finished' || !settings['focus.companionActivity'] ? 'idle' : 'focused'
               }
-              listens={['focusEnded']}
+              listens={['focusEnded', 'nudge']}
               openingLine="focus_start"
               bubble="left"
               noneAlt="waves"
@@ -161,6 +190,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
           </div>
         )}
         {endAlert.timesUp && <h2 className="text-h2 font-extrabold">{focusAlertCopy.timesUp}</h2>}
+        {nudges.breakUntil && timer.phase === 'paused' && <BreakPanel until={nudges.breakUntil} onBack={nudges.backToIt} />}
         {timer.phase === 'paused' && <p className="text-ink-soft">{copy.focus.paused}</p>}
         {/* The heads-up before the end (v2.1 F-06), said once, politely. */}
         <p aria-live="polite" className="text-ink-soft">
@@ -174,10 +204,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
             <Button
               data-demo-id="focus-start"
               size="lg"
-              onClick={() => {
-                endAlert.prime();
-                timer.start();
-              }}
+              onClick={start}
             >
               {copy.focus.start}
             </Button>
@@ -207,6 +234,17 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
       </div>
 
       {endAlert.timesUp && <EndGlow />}
+      {nudges.card && !asking && (
+        <NudgeCard
+          kind={nudges.card}
+          task={task}
+          onYes={nudges.yes}
+          onDrifted={nudges.drifted}
+          onPickUp={nudges.pickUp}
+          onBreak={nudges.takeBreak}
+          onStop={nudges.stop}
+        />
+      )}
       <FocusOutcome
         open={asking}
         rewards={rewards.map((r) => r.text)}

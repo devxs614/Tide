@@ -47,6 +47,13 @@ Challenge Partner, most urgent first.
   notification, an optional heads-up a minute or two before the end, and
   the time left can show in the tab. All of it is in Settings → Focus,
   with a Test sound button.
+- **F-07** Optional refocus nudges ("Earth to Maya! Still on your lab
+  report?") during a focus block: every few minutes, or when you come
+  back to Tide. "I drifted" shows your first step again, "Take a 2-minute
+  break" pauses the timer, and "Stop nudges for this block" ends them.
+  They're off unless you turn them on (Settings → Focus, or "Focus
+  options" on the Focus screen), never in the first or last 2 minutes,
+  and never count anything back to you.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

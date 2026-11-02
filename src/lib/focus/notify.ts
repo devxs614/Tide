@@ -3,6 +3,12 @@
 // Chrome needs a service worker's showNotification; Tide doesn't register
 // one yet, so elsewhere a plain Notification does it.
 export async function notifyTimesUp(title: string, body: string): Promise<void> {
+  await notify(title, body);
+}
+
+// Shared with the hidden-tab refocus nudge (F-07). Same tag, so a nudge and
+// a "Time's up" never stack up as two separate notifications.
+export async function notify(title: string, body: string): Promise<void> {
   if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
   const registration = await navigator.serviceWorker?.getRegistration?.().catch(() => undefined);
   if (registration) {

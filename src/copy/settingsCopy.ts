@@ -98,6 +98,10 @@ export const settingsCopy = {
     vibrateAtEnd: 'Vibrate at the end',
     notifyAtEnd: 'Notify me if Tide is in the background',
     titleCountdown: 'Show the time left in the browser tab',
+    refocusNudge: 'Refocus nudges',
+    nudgeEvery: 'Check in every',
+    nudgeOnReturn: 'Welcome me back when I return to Tide',
+    nudgeHiddenAfter: 'Nudge me if I leave Tide for',
     patternsEnabled: 'Show patterns',
     minEvidence: 'Show a pattern after',
     minEvidences: { '3': '3 times', '5': '5 times' },
@@ -132,6 +136,7 @@ export const settingsCopy = {
     keepAwake: 'Where your browser allows it.',
     endAlert: 'The end-of-timer sound plays even when other sounds are off, because you started the timer.',
     vibrateAtEnd: 'On phones that can vibrate.',
+    refocusNudge: 'A small "Earth to you" card now and then during a focus block. Never in the first or last 2 minutes.',
     minEvidence: 'A higher number means fewer, surer patterns.',
     shapes: 'So state never depends on color alone.',
     shortcuts: 'Single keys on a computer keyboard. They never fire while you type.',
@@ -149,4 +154,7 @@ export const settingsCopy = {
   notifyIos: 'On iPhone, notifications only work after adding Tide to your Home Screen.',
   notifyUnsupported: "This browser can't show notifications.",
   notifyBlocked: 'Notifications are blocked for Tide in your browser settings.',
+  // v2.1 F-07 option labels.
+  nudgeOptions: { off: 'Off', visual: 'Visual', visual_sound: 'Visual and sound' },
+  hiddenAfterOptions: { off: 'Off', '1': '1 minute', '2': '2 minutes', '5': '5 minutes' },
 };

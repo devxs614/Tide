@@ -1273,3 +1273,26 @@ tab signals and notification if hidden → the outcome sheet.
   audio scheduled ahead plays on time.
 - *What happened to "Sound when a block ends"?* The key stays and is
   kept in step (D158).
+
+## Refocus nudges (v2.1 F-07)
+
+**What it does.** Optional "Earth to {name}! Still on {task}?" check-ins
+during a focus block, a welcome back after leaving Tide, and one soft
+sound if Tide stays hidden. Off by default.
+
+**Files.**
+- `src/lib/focus/nudgePlan.ts`: the rules (edges, spacing, cap, stop),
+  as plain functions.
+- `components/focus/useNudges.ts`: checks once a second while the block
+  runs, watches visibility for the hidden-tab and return nudges, and
+  keeps the counts saved with the block.
+- `NudgeCard.tsx` (the card, the drift view, the pill),
+  `BreakPanel.tsx`, `FocusMenu.tsx` (the toggle and the one-time hint).
+- `src/copy/nudgeCopy.ts`, with a copy test for kind wording.
+
+**Likely reviewer questions**
+- *Could this feel like nagging?* At most one every 5 minutes and 6 a
+  block, never at the start or the end, never while a sheet is open,
+  "Stop nudges for this block" on every card, and off by default.
+- *Is anything counted against the person?* No. The counts go into the
+  focus block for a possible future pattern and are never shown.

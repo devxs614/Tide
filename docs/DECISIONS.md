@@ -1159,3 +1159,38 @@ must play when sound is off, so it has its own AudioContext and limiter
 in `src/lib/focus/alertEngine.ts`, loaded with the Focus screen. It
 respects the same quiet hold as everything else, so the crisis and
 support screens stay silent.
+
+**D164 — 2026-11-02 — The demo never nudges because nudges are off by default.**
+Spec 11.4 says no nudges during the demo's autoplay. The demo's settings
+don't turn them on, so a tour never nudges, without the Focus screen
+needing to know whether the director is running. A tour step that shows
+a nudge on purpose can turn the setting on for that step (R7).
+
+**D165 — 2026-11-02 — The hidden-tab nudge counts only if Tide stayed hidden that long.**
+It's scheduled on the audio clock and cancelled on return, so the code
+only knows it played once the page is visible again and was hidden at
+least as long as the delay. It then counts toward the block's 6 and the
+5-minute spacing. By the spec's "one per 5 minutes of any kind", a quick
+return right after it doesn't also get "Welcome back".
+
+**D166 — 2026-11-02 — The "⋯" menu says "Focus options".**
+Tide's rule is that icons always come with visible text, so the trigger
+shows the dots and the words. It's a quiet button next to End.
+
+**D167 — 2026-11-02 — The nudge card enters with CSS, not framer-motion.**
+`flow-enter` already slides up at Calm and Lively and stays still at
+Off, the same entrance the app's flows use. Under Playwright's clock (the
+audit's way to reach minute 10), framer-motion's frame loop froze the card
+mid-slide. A CSS animation doesn't depend on the JavaScript clock.
+
+**D168 — 2026-11-02 — The 2-minute break suggests a strategy inline.**
+Opening the strategy runner would leave the Focus screen and end the
+block. The break panel names "Shake it out" with its one-line summary
+instead, and the block waits, paused, for "Back to it".
+
+**D169 — 2026-11-02 — Nudge counts on the focus block, for later.**
+`nudgesShown`, `driftsReported`, `hiddenMs` and `breaks` are saved only
+when nudges were on, and nothing reads them in v2.1. A possible future
+pattern: "blocks with a 10-minute nudge more often end with Got going".
+That would need enough blocks with and without nudges to say so
+honestly, so it's not built.
