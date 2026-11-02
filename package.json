@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "voice:clips": "node scripts/generate-voice-clips.mjs",
     "audit:layout": "node scripts/layout-audit.ts",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "tour:check": "node scripts/run-tour.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

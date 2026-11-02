@@ -2910,3 +2910,28 @@ Risk: v1 tests that count the Done column.
 
 **Left open.** The calendar's "Finished that day" section comes with the
 calendar (F-10).
+
+## P0 complete (v2.1)
+2026-11-01, near midnight
+
+All five P0 items are in: F-01 (the speech bubble), F-02 (large text and
+every width), F-03 (edit and delete tasks), F-04 (edit and delete events
+and series) and F-05 (finished tasks leave the board). Dexie version 3
+carries the new fields.
+
+Checks at this point:
+- Lint, typecheck, 487 tests and the v1 suite (33 files, 164 tests),
+  including the dictation freeze test, are green; the build is clean.
+- `/` is 298.5 KB gzipped (budget 300).
+- The guided tour in headless Chrome against the production build, fresh
+  profile, twice in a row each: Pitch cut 28 of 28 steps in 79 s, twice;
+  Full tour 45 of 45 steps in 133–134 s, twice; no AI requests. The same
+  numbers as at the end of v2. The run is now a script,
+  `npm run tour:check -- [pitch|full] [runs]`, so it can be repeated
+  instead of driven by hand.
+- The v1 pitch path (`demoScript.test.tsx`) passes, also twice in a row
+  offline, which needed D145.
+- Layout audits for every state F-03 to F-05 added: 0 failures.
+
+Next, in priority order: F-06 (focus end alert), F-07 (refocus nudges),
+F-09 (focus sounds), then F-08 (Back and Cancel everywhere).
