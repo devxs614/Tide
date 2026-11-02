@@ -8,6 +8,7 @@ export type ShortcutAction =
   | { kind: 'newTask' }
   | { kind: 'tab'; href: string }
   | { kind: 'wrap' }
+  | { kind: 'calendar' }
   | { kind: 'searchSettings' }
   | { kind: 'help' }
   | { kind: 'demo' };
@@ -46,6 +47,8 @@ export function shortcutFor(e: KeyLike): ShortcutAction | null {
       return { kind: 'newTask' };
     case 'w':
       return { kind: 'wrap' };
+    case 'm':
+      return { kind: 'calendar' };
     case '/':
       return { kind: 'searchSettings' };
   }

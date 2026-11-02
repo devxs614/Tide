@@ -72,6 +72,11 @@ Challenge Partner, most urgent first.
   - The browser's or phone's back button closes the sheet on top instead
     of leaving the page.
 - Fixed: the round Check in button ignored every tap after the first.
+- **F-10** A calendar. Tap the date (or "Calendar") on Today, or press M,
+  to see the month, with classes, tasks due and closed days. It works
+  fully by keyboard and shows a list at large text. Open any day to plan
+  ahead or to look back at what happened. Events can now repeat every
+  week on the days you choose.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

@@ -20,6 +20,15 @@ export function isVisibleInDone(task: Task, at: number, window: Settings['tasks.
   return window === 'forever' || (task.doneAt ?? 0) >= at - DONE_WINDOW[window];
 }
 
+// Tasks due between two days, inclusive (v2.1 F-10, the calendar).
+export function tasksDueBetween(from: string, to: string): Promise<Task[]> {
+  return db.tasks
+    .where('due')
+    .between(from, to, true, true)
+    .toArray()
+    .then((list) => list.filter(isActiveTask));
+}
+
 // Every finished task that wasn't deleted, newest first: the archive.
 export function completedTasks(): Promise<Task[]> {
   return tasksByStatus(['done']).then((list) => list.sort((a, b) => (b.doneAt ?? 0) - (a.doneAt ?? 0)));

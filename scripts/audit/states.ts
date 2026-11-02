@@ -135,6 +135,11 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'tasks:completed', route: '/tasks/completed', ws: 'demo' },
+  // v2.1 F-10: the month (grid and list) and a past and a future day.
+  { id: 'calendar', route: '/calendar', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'calendar.layout': 'auto' }) },
+  { id: 'calendar:list', route: '/calendar', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'calendar.layout': 'list' }) },
+  { id: 'calendar:past', route: '/calendar/2026-11-03', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'calendar.layout': 'auto' }) },
+  { id: 'calendar:future', route: '/calendar/2026-11-12', ws: 'demo' },
   { id: 'tasks:completed-select', route: '/tasks/completed', ws: 'demo', open: (page) => click(page, 'button:has-text("Select")') },
   { id: 'toolkit', route: '/toolkit', ws: 'demo' },
   { id: 'patterns', route: '/patterns', ws: 'demo' },

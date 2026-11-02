@@ -8,7 +8,10 @@ import { useState } from 'react';
 import { Info } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { addEvent } from '@/lib/repo/events';
-import { atTime } from '@/lib/repo/eventEdits';
+import { addWeeklyEvent, atTime } from '@/lib/repo/eventEdits';
+import { defaultUntil } from '@/lib/calendar/repeat';
+import { calendarCopy } from '@/copy/calendarCopy';
+import { RepeatFields, type RepeatValue } from '@/components/events/RepeatFields';
 import { toISODate } from '@/lib/time';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -28,6 +31,9 @@ const blank = (dayStart: number): EventFieldValues => ({
 export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean; onOpenChange: (o: boolean) => void; dayStart: number }) {
   const [values, setValues] = useState<EventFieldValues>(() => blank(dayStart));
   const [problem, setProblem] = useState<string | null>(null);
+  // v2.1 F-10: every week on chosen days, starting with this day's.
+  const from = toISODate(dayStart);
+  const [repeat, setRepeat] = useState<RepeatValue>(() => ({ weekly: false, days: [new Date(dayStart).getDay()], until: defaultUntil(from) }));
   // v2.1 F-08: closing with a name typed asks first.
   const [confirmLeave, setConfirmLeave] = useState(false);
   const dirty = values.title.trim().length > 0;
@@ -38,7 +44,12 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
     const startTs = atTime(date, values.start);
     const endTs = atTime(date, values.end);
     if (endTs <= startTs) return setProblem(copy.eventForm.endBeforeStart);
-    await addEvent({ title: values.title, kind: values.kind, start: startTs, end: endTs, place: values.place, prep: values.prep });
+    if (repeat.weekly) {
+      if (!repeat.days.length) return setProblem(calendarCopy.noDays);
+      await addWeeklyEvent({ ...values, date, days: repeat.days, until: repeat.until });
+    } else {
+      await addEvent({ title: values.title, kind: values.kind, start: startTs, end: endTs, place: values.place, prep: values.prep });
+    }
     // Kind and times stay as they were, so a second class is quick to add.
     setValues({ ...values, title: '', place: '', prep: ['', '', ''] });
     setProblem(null);
@@ -60,6 +71,7 @@ export function AddEventSheet({ open, onOpenChange, dayStart }: { open: boolean;
         >
           <EventFields value={values} onChange={setValues} />
           <PrepFields legend={copy.eventForm.prepLabel} items={values.prep} onChange={(prep) => setValues({ ...values, prep })} />
+          <RepeatFields value={repeat} onChange={setRepeat} from={from} />
           {problem && (
             <p className="flex items-center gap-2 text-notice" role="status">
               <Info className="size-4 shrink-0" aria-hidden />

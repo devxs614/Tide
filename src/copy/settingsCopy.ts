@@ -64,6 +64,8 @@ export const settingsCopy = {
     timeFormat: 'Clock',
     timeFormats: { '12h': '12-hour', '24h': '24-hour' },
     dateStyle: 'Dates',
+    weekStart: 'Weeks start on',
+    calendarCheckins: 'Show check-ins on the calendar',
     dateStyles: { long: 'Thursday, October 29', short: 'Thu, Oct 29' },
     defaultPath: 'Start a check-in with',
     defaultPaths: { words: 'My words', body: 'My body', map: 'The map' },
@@ -157,4 +159,6 @@ export const settingsCopy = {
   // v2.1 F-07 option labels.
   nudgeOptions: { off: 'Off', visual: 'Visual', visual_sound: 'Visual and sound' },
   hiddenAfterOptions: { off: 'Off', '1': '1 minute', '2': '2 minutes', '5': '5 minutes' },
+  // v2.1 F-10 option labels.
+  weekStarts: { sunday: 'Sunday', monday: 'Monday' },
 };

@@ -87,6 +87,7 @@ function titleFor(pathname: string): string {
   if (pathname.startsWith('/settings')) return t.settings;
   if (pathname.startsWith('/support')) return t.support;
   if (pathname.startsWith('/shore')) return t.shore;
+  if (pathname.startsWith('/calendar')) return t.calendar;
   return t.today;
 }
 
@@ -95,7 +96,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { settings, loaded } = useSettings();
   const ambience = useAmbienceState();
-  const wide = pathname.startsWith('/tasks');
+  // The board and the calendar use the width of a laptop (v2.1 F-10).
+  const wide = pathname.startsWith('/tasks') || pathname.startsWith('/calendar');
 
   // First visit goes to onboarding. Nothing renders until settings have
   // loaded, so the demo clock and preferences are right on the first paint.

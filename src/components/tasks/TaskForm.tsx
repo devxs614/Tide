@@ -30,14 +30,15 @@ function initialDue(task?: Task): DueChoice {
   return 'pick';
 }
 
-export function TaskForm({ open, onOpenChange, task }: { open: boolean; onOpenChange: (open: boolean) => void; task?: Task }) {
+// `defaultDue` (v2.1 F-10): "Add task due this day" from a calendar day.
+export function TaskForm({ open, onOpenChange, task, defaultDue }: { open: boolean; onOpenChange: (open: boolean) => void; task?: Task; defaultDue?: string }) {
   const { openUnstick } = useUnstickSheet();
   const editing = !!task;
   const [title, setTitle] = useState(task?.title ?? '');
   const [type, setType] = useState<TaskType>(task?.type ?? 'other');
   const [energy, setEnergy] = useState<1 | 2 | 3>(task?.energyCost ?? 1);
-  const [due, setDue] = useState<DueChoice>(initialDue(task));
-  const [picked, setPicked] = useState(task?.due ?? '');
+  const [due, setDue] = useState<DueChoice>(task || !defaultDue ? initialDue(task) : 'pick');
+  const [picked, setPicked] = useState(task?.due ?? defaultDue ?? '');
   const [firstStep, setFirstStep] = useState(task?.firstStep ?? '');
   const [breakDown, setBreakDown] = useState(false);
   const [showError, setShowError] = useState(false);

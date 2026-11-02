@@ -4,7 +4,7 @@
 // All "today" logic uses the device's local time zone.
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const MONTHS = [
+export const MONTHS = [
   'January',
   'February',
   'March',

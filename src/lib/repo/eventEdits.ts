@@ -8,6 +8,7 @@ import { now } from '../clock';
 import { addDays, fromISODate, toISODate } from '../time';
 import type { CalendarEvent, EventKind, EventSeries } from '../types';
 import { seriesEvents } from './eventQueries';
+import { weeklyDates } from '../calendar/repeat';
 
 export type SeriesScope = 'one' | 'future' | 'all';
 
@@ -118,6 +119,36 @@ async function restartSeries(event: CalendarEvent, series: EventSeries, edit: Ev
     await db.eventSeries.add(next);
     await db.eventSeries.update(series.id, { until: toISODate(addDays(fromISODate(from), -1)) });
   });
+}
+
+// A new weekly event (v2.1 F-10): the series row and one real event per
+// matching day, in one transaction, so every v1/v2 reader (the Bridge, the
+// Tide Line, the wrap-up's "Tomorrow") sees ordinary events.
+export async function addWeeklyEvent(edit: EventEdit & { days: number[]; until: string }): Promise<string> {
+  const fields = shared(edit);
+  const dates = weeklyDates(edit.date, edit.days, edit.until);
+  const series: EventSeries = {
+    id: `s-${crypto.randomUUID().slice(0, 8)}`,
+    ...fields,
+    days: [...edit.days].sort((a, b) => a - b),
+    startHHMM: edit.start,
+    endHHMM: edit.end,
+    until: dates.at(-1) ?? edit.until,
+  };
+  const at = now();
+  const events: CalendarEvent[] = dates.map((date) => ({
+    id: crypto.randomUUID(),
+    ...fields,
+    start: atTime(date, edit.start),
+    end: atTime(date, edit.end),
+    seriesId: series.id,
+    updatedAt: at,
+  }));
+  await db.transaction('rw', db.events, db.eventSeries, async () => {
+    await db.eventSeries.add(series);
+    await db.events.bulkAdd(events);
+  });
+  return series.id;
 }
 
 // Soft-deletes the events in scope and returns their ids, for one Undo.

@@ -1351,3 +1351,35 @@ close the top sheet.
   back through history by itself, so there is nothing to race (D176).
 - *Do cancelled strategies count against anyone?* No. No re-check, no
   message, and no pattern counts them.
+
+## Calendar (v2.1 F-10)
+
+**What it does.** A month view and any-day view around Today's Tide Line,
+plus weekly repeating events.
+
+**Files.**
+- `src/lib/calendar/grid.ts`: the 42-day grid, week start, month and day
+  shifts.
+- `repeat.ts`: the dates of a weekly event (8 weeks by default, 26 and
+  182 at most).
+- `data.ts`: `loadMonth` (per day: events, tasks due, check-in states,
+  closed) and `loadDay`.
+- `components/calendar/`:
+  - `CalendarScreen` (header, Grid or List, swipe);
+  - `MonthGrid` (the ARIA grid and its keys);
+  - `AgendaList`;
+  - `CalendarDayScreen` with `DayAhead` and `DayPast`.
+- `repo/eventEdits.ts` `addWeeklyEvent`; `events/RepeatFields.tsx`.
+
+**Data flow.** The month's range comes from the grid → one live query
+reads events (by `start`), tasks due (by `due`), check-ins and wrap-ups
+→ grouped by day in JavaScript → the grid draws. A day ahead reads
+through `loadDay`; adding uses the same Add Event and Task sheets as
+Today.
+
+**Likely reviewer questions**
+- *Is it accessible?* A real `role="grid"` with full keyboard support and
+  day buttons that say what's on them; a list at large text.
+- *Do repeating events break the Bridge?* No. Each instance is an
+  ordinary event; the series row only groups them for edits (F-04).
+- *Is it fast?* A month change draws in under 20 ms with the demo data.

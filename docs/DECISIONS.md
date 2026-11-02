@@ -1284,3 +1284,39 @@ counter). A press that starts on an element that then disappears never
 becomes a click in Chrome, so every tap after the first did nothing until
 a reload. The tests and the demo use programmatic clicks, so neither
 could see it. The ripple is now `pointer-events-none`.
+
+**D182 — 2026-11-02 — The calendar's today goes to Today.**
+Spec 14.4 lets `/calendar/<today>` either redirect or copy Today. Today's
+Tide Line (with the Now marker, the Bridge and Day Mode) is the heart of
+the app, and a second copy would drift from it, so tapping today in the
+month, or landing on it with Previous and Next day, opens `/`.
+
+**D183 — 2026-11-02 — The day view has its own lists; the Tide Line wasn't refactored.**
+The spec suggests giving the Tide Line a `date` prop. The acceptance asks
+that Today's Tide Line stay exactly as it was, and it's a v1 component
+with v1 tests. So other days use small lists of their own (`EventRows`,
+`TaskCard`) for events and tasks, and Today is untouched.
+
+**D184 — 2026-11-02 — "Weeks start on" is a new setting, Sunday by default; the list takes over at 130%.**
+The spec refers to `language.weekStart`, which didn't exist yet. It's in
+Settings → Language, Sunday by default as on US calendars. The calendar's
+Grid / List choice (`calendar.layout`) starts on Auto, which shows the
+list at 130% text and up, where seven columns can't hold the words.
+
+**D185 — 2026-11-02 — Each day picks event chips or dots by its own width.**
+Inside the phone column a 768px screen still has 55px days, so a
+screen-width breakpoint showed cut-off chips. The calendar now uses the
+laptop width (like Tasks), and a container query on each day shows
+"time and title" from 7rem and dots below that. Titles wrap; nothing is
+cut off with an ellipsis.
+
+**D186 — 2026-11-02 — No long-press or "+" on a day cell.**
+Adding from the month view would put a second control in every day
+cell, crowding the cells, and long-press can't be found without being
+told. Tapping a day ahead opens its view, where "Add event" (one-off or
+weekly) and "Add task due this day" sit in plain sight.
+
+**D187 — 2026-11-02 — The month changes with the app's page entrance.**
+Instead of a horizontal slide, a new month uses `page-enter`: a fade at
+Calm and Lively, nothing at Off. It's the same entrance as page changes,
+and it's CSS, so nothing extra loads with the calendar.

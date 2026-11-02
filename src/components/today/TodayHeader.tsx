@@ -6,6 +6,8 @@
 // Companion Studio when tapped. The name only appears if she set one in
 // Settings; the greeting follows the (demo-aware) clock.
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { CalendarDays } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
@@ -32,7 +34,20 @@ export function TodayHeader({ nowTs }: { nowTs: number }) {
       <div className="flex items-center gap-3 @max-[21em]:flex-col-reverse @max-[21em]:items-stretch">
         <div className="flex min-w-0 flex-1 flex-col">
           <h2 className="text-h1 font-bold">{name ? fill(copy.today.greetingWithName, { greeting, name }) : greeting}</h2>
-          <p className="text-ink-soft">{formatLongDate(nowTs)}</p>
+          {/* v2.1 F-10: the date and the button both open the calendar. */}
+          <div className="flex flex-wrap items-center gap-x-3">
+            <Link href="/calendar" className="rounded-md text-ink-soft underline-offset-4 hover:underline" data-small-target-ok>
+              {formatLongDate(nowTs)}
+            </Link>
+            <Link
+              href="/calendar"
+              className="inline-flex min-h-12 items-center gap-1 rounded-full px-2 font-bold text-primary hover:bg-surface-2"
+              data-demo-id="today-calendar"
+            >
+              <CalendarDays aria-hidden className="size-5" />
+              {copy.shell.titles.calendar}
+            </Link>
+          </div>
         </div>
         <CompanionHost
           placement="today"

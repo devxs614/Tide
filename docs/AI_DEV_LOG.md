@@ -3275,3 +3275,92 @@ Risk: history entries under the Next.js App Router.
 
 **Left open.** Android's back gesture in an installed app needs a phone
 (TEAM_TODO).
+
+## F-10 — Monthly calendar, day view and repeating events (before and after)
+2026-11-02
+
+**Before.** Tide only showed today. Students need the month ahead (exams,
+recurring classes) and a way to plan or look back at any day. Plan:
+- plain date math and repeats with tests;
+- month and day loaders through the repo helpers;
+- an accessible month grid with a list for large text;
+- a day view for days ahead and past;
+- "Repeat every week" in the Add Event form;
+- a way in from Today without a sixth tab.
+
+Constraint: `/` was at 299.2 KB.
+
+**After.**
+- **Ways in:** Today's date is now a link, with a "Calendar" button
+  (icon and label) beside it. The `M` key opens the calendar too (it's
+  in the shortcuts list).
+- **`/calendar`:**
+  - "November 2026", Previous month, Next month, Today, Grid or List,
+    and Day;
+  - a weekday row following the new "Weeks start on" setting;
+  - six weeks of days, each a button labeled like "Tuesday, November 3:
+    3 events, 1 task due, day closed";
+  - up to three events (time and title when the day is wide enough, dots
+    when not, "+n" for more), tasks due, optional check-in dots, and a
+    moon for a closed day;
+  - the arrow keys, Home, End, Page Up and Page Down;
+  - swipe on touch.
+
+  At 130% text and up it's a list unless the person picks Grid (D184).
+  It uses the laptop width like Tasks (D185).
+- **`/calendar/[date]`:**
+  - **A day ahead:** its events (tap for F-04's details), tasks due and
+    tasks back that day, "Add event" (one-off or weekly) and "Add task
+    due this day".
+  - **A past day:** a read-only look back: events, check-ins with times,
+    tasks finished, what washed up, strategies tried, and "Day closed".
+  - **Navigation:** previous and next day, Go to Today, back to the month,
+    and swipe.
+  - **Today itself:** goes to Today's Tide Line (D182).
+- **Repeat:** "Doesn't repeat / Every week on…" with weekday chips and
+  "Until" (8 weeks by default, 26 at most). Saving writes the series and
+  every instance in one transaction (`addWeeklyEvent`, at most 182).
+  Instances are ordinary events, so the Bridge, the Tide Line and the
+  wrap-up work unchanged.
+- Today's Tide Line is untouched; the day view has its own small lists
+  (D183).
+
+**What broke and how I fixed it.**
+- My first grid lost keyboard focus on a month change: the grid remounts
+  per month and forgot the keyboard was in use. The flow test caught
+  it, and the screen now keeps that state.
+- The audit found the event chips cut off with an ellipsis at 768px and
+  up, because the calendar sat in the phone column. Now it uses the wide
+  layout, each day picks chips or dots by its own width, and long titles
+  wrap.
+- One full test run had two tests stall for nine minutes and fail.
+  Alone, and in two full re-runs, everything passed in normal time. The
+  machine was busy (the browser and three audit processes); I note it
+  rather than hide it.
+
+**How I checked it.**
+- Unit tests: grids for every month of 2026 (all seven starting weekdays)
+  with both week starts; leap years; month shifts; weekly repeats (days,
+  until, the 26-week and 182 caps).
+- Flow tests on the demo afternoon:
+  - the month adds up events, tasks due and closed days;
+  - Today links to the calendar;
+  - the keyboard moves through the grid and across months;
+  - a day opens on Enter or click;
+  - large text shows the list;
+  - a past day shows its history;
+  - a weekly "Study group" added from Tuesday the 10th makes eight
+    Tuesdays in one series;
+  - "This and future" from the 17th leaves only the 10th.
+- Performance on the production build: a month change draws in 14–17 ms,
+  and with that month's events in 13–22 ms (target: 100 ms).
+- Layout audit for the month (grid and list), a past and a future day,
+  and Today: 144 state runs, 0 failures (`docs/audits/2026-11-02-f10.json`).
+- `/` is 299.5 KB; `/calendar` is 291.4 KB.
+- Both tours ran clean (28/28, 45/45).
+- Lint, typecheck, 550 tests and the v1 suite (33 files, 164 tests) are
+  green.
+
+**Left open.** No long-press or "+" on a day cell to add an event: the day
+view's "Add event" covers it (D186). The full tour's calendar step comes
+in R7.

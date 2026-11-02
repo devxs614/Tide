@@ -102,6 +102,7 @@ export const copy = {
       support: 'Talk to a person',
       strategy: 'Toolkit',
       shore: 'Your Shore',
+      calendar: 'Calendar',
     },
   },
 
@@ -1173,6 +1174,7 @@ export const copy = {
       { keys: ['N'], action: 'New task' },
       { keys: ['1 to 5'], action: 'Today, Tasks, Toolkit, Patterns, Shore' },
       { keys: ['W'], action: 'Close the day' },
+      { keys: ['M'], action: 'Calendar' },
       { keys: ['/'], action: 'Search settings' },
       { keys: ['?'], action: 'Show this list' },
       { keys: ['Shift', 'D'], action: 'Run the demo' },

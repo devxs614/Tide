@@ -336,6 +336,11 @@ export interface Settings {
   'day.transitionLead': 5 | 10 | 15;
   'language.timeFormat': '12h' | '24h';
   'language.dateStyle': 'long' | 'short';
+  // v2.1 F-10: the calendar's first weekday, check-in dots on its days, and
+  // grid or list (auto: a list at large text, where 7 columns can't fit).
+  'language.weekStart': 'sunday' | 'monday';
+  'calendar.showCheckins': boolean;
+  'calendar.layout': 'auto' | 'grid' | 'list';
   // Settings 2.0 (spec 15.2). Each one changes something real; the log has
   // the checklist of what and how it was checked.
   pronouns: string;

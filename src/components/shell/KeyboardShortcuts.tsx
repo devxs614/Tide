@@ -43,6 +43,8 @@ export function KeyboardShortcuts() {
           return router.push(action.href);
         case 'wrap':
           return router.push('/wrap');
+        case 'calendar':
+          return router.push('/calendar');
         case 'help':
           return setHelpOpen(true);
         case 'demo':

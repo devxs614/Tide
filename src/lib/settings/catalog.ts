@@ -77,6 +77,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'choice', key: 'language.readingLevel', label: L.readingLevel, options: opts(L.readingLevels), keywords: ['simple words', 'reading level'] },
       { kind: 'choice', key: 'language.timeFormat', label: L.timeFormat, options: opts(L.timeFormats), keywords: ['24 hour', 'clock', 'time format'] },
       { kind: 'choice', key: 'language.dateStyle', label: L.dateStyle, options: opts(L.dateStyles), keywords: ['date format'] },
+      { kind: 'choice', key: 'language.weekStart', label: L.weekStart, options: (['sunday', 'monday'] as const).map((v) => ({ value: v, label: settingsCopy.weekStarts[v] })), keywords: ['week', 'monday', 'sunday', 'calendar'] },
     ],
   },
   {
@@ -100,6 +101,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'choice', key: 'day.minimumBudget', label: L.minimumBudget, numeric: true, options: ['1', '2', '3', '4'].map((v) => ({ value: v, label: v })), keywords: ['day mode', 'budget'] },
       { kind: 'switch', key: 'day.dayModeSuggestions', label: L.dayModeSuggestions, help: H.dayModeSuggestions, keywords: ['day mode', 'banner'] },
       { kind: 'switch', key: 'day.showMoved', label: L.showMoved, keywords: ['moved tasks'] },
+      { kind: 'switch', key: 'calendar.showCheckins', label: L.calendarCheckins, keywords: ['calendar', 'month', 'check-ins'] },
       { kind: 'switch', key: 'day.morningCard', label: L.morningCard, keywords: ['morning'] },
       { kind: 'switch', key: 'day.wrapCard', label: L.wrapCard, keywords: ['evening', 'close the day'] },
       {
