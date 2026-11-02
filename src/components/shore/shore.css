@@ -52,3 +52,13 @@ html[data-motion="calm"] .shore-arrive {
   from { opacity: 0; transform: translateY(-12px); }
 }
 .shore-item:focus-visible { outline: 3px solid var(--focus, var(--primary)); outline-offset: 2px; }
+
+/* v2.1 F-12: a newly chosen sky fades in over the last one, opacity only.
+   At motion Off it simply appears. */
+html[data-motion="lively"] .shore-sky-in,
+html[data-motion="calm"] .shore-sky-in {
+  animation: shore-sky-in 1s var(--ease-out, ease-out) backwards;
+}
+@keyframes shore-sky-in {
+  from { opacity: 0; }
+}

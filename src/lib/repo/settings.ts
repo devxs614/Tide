@@ -109,6 +109,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'patterns.defaultPeriod': 28,
   'shore.showLabels': false,
   'shore.sky': 'time',
+  'shore.timeOfDay': 'auto',
   'shore.lastSeenAt': 0,
   'focus.keepAwake': true,
   'focus.endAlert': 'sound_visual',

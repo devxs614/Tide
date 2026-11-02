@@ -113,6 +113,8 @@ export const settingsCopy = {
     showDismissed: 'Show dismissed patterns again',
     dismissedCleared: 'Dismissed patterns will show again.',
     shoreSky: 'Shore sky',
+    timeOfDay: 'Time of day on the shore',
+    timeOfDayShort: 'Time of day',
     shoreSkies: { time: 'Follows the time of day', theme: 'Theme colors', static: 'Still' },
     shoreLabels: 'Names under things on the shore',
     naturalAllowed: 'Allow natural voices',
@@ -162,4 +164,6 @@ export const settingsCopy = {
   hiddenAfterOptions: { off: 'Off', '1': '1 minute', '2': '2 minutes', '5': '5 minutes' },
   // v2.1 F-10 option labels.
   weekStarts: { sunday: 'Sunday', monday: 'Monday' },
+  // v2.1 F-12: the shore's times of day (also its picker's names).
+  timesOfDay: { auto: 'Auto', dawn: 'Dawn', day: 'Day', sunset: 'Sunset', dusk: 'Dusk', night: 'Night' },
 };

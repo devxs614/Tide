@@ -19,7 +19,8 @@ import { useSettings } from '@/lib/settings';
 import { exportShoreImage } from '@/lib/shore/exportImage';
 import { shoreItems, type ShoreItem, type ShoreRange } from '@/lib/shore/items';
 import { placeItems } from '@/lib/shore/placement';
-import { skyColors, skyPhase, sunProgress } from '@/lib/shore/sky';
+import { companionPose, scenePhase, skyColors, sunFor, sunProgress } from '@/lib/shore/sky';
+import { TimeOfDayMenu } from './TimeOfDayMenu';
 import { useThemeScheme } from '@/lib/theme/useThemeScheme';
 import { toISODate } from '@/lib/time';
 import type { Bottle } from '@/lib/types';
@@ -63,8 +64,14 @@ export function ShoreScreen() {
   const { placed, overflow } = useMemo(() => placeItems(items), [items]);
   const fresh = placed.filter((p) => p.item.ts > seenAt).sort((a, b) => a.item.ts - b.item.ts);
   const newIds = fresh.slice(-MAX_ARRIVALS).map((p) => p.item.id);
-  const phase = skyPhase(nowTs, settings['day.start']);
-  const sky = { ...skyColors(settings['shore.sky'], phase, scheme === 'dark'), sun: level === 'off' ? { up: phase !== 'night', t: 0.5 } : sunProgress(nowTs) };
+  // v2.1 F-12: a time of day chosen by hand wins over the clock and over
+  // v2's "Shore sky" (which still applies on Auto).
+  const choice = settings['shore.timeOfDay'];
+  const phase = scenePhase(choice, nowTs, settings['day.start']);
+  const sky = {
+    ...skyColors(choice === 'auto' ? settings['shore.sky'] : 'time', phase, scheme === 'dark'),
+    sun: choice !== 'auto' ? sunFor(phase) : level === 'off' ? { up: phase !== 'night', t: 0.5 } : sunProgress(nowTs),
+  };
 
   // Mark the shore as seen once the arrivals have been shown, and let the
   // companion notice them.
@@ -93,6 +100,7 @@ export function ShoreScreen() {
           ))}
         </div>
         <div className="ml-auto flex flex-wrap justify-end gap-1">
+          <TimeOfDayMenu />
           <Button variant="quiet" size="sm" asChild>
             <Link href="/shore/collection" data-demo-id="shore-collection">
               <BookOpen aria-hidden />
@@ -124,7 +132,7 @@ export function ShoreScreen() {
           onSelect={setSelected}
           onBottle={(b) => (b.id === eligible?.id ? setOpening(b) : toast(copy.shore.waitingBottle))}
           companion={
-            <CompanionHost placement="shore" size={SIZES.md} base={phase === 'night' ? 'sleeping' : 'idle'} listens={['shoreItem']} bubble="right" noneAlt="nothing" />
+            <CompanionHost placement="shore" size={SIZES.md} base={companionPose(phase)} listens={['shoreItem']} bubble="right" noneAlt="nothing" />
           }
         />
       )}

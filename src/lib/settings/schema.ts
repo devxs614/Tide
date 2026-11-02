@@ -127,6 +127,7 @@ export const SettingsSchema = z.object({
   'patterns.minEvidence': z.union([z.literal(3), z.literal(5)]),
   'patterns.defaultPeriod': z.union([z.literal(7), z.literal(28)]),
   'shore.sky': z.enum(['time', 'theme', 'static']),
+  'shore.timeOfDay': z.enum(['auto', 'dawn', 'day', 'sunset', 'dusk', 'night']),
   'shore.showLabels': flag,
   'shore.lastSeenAt': z.number(),
   'wrap.eveningHiddenFor': z.string().nullable(),

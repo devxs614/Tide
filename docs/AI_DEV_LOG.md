@@ -3413,3 +3413,50 @@ wanted a few curated looks to try, compare and undo. Plan:
   step presses the button directly.
 - `/` is 299.5 KB. Lint, typecheck, 556 tests and the v1 suite (164) are
   green.
+
+## F-12 — Shore time of day, chosen by hand (before and after)
+2026-11-02
+
+**Before.** The shore's sky followed the clock. Some people want to pick
+the scene that feels best: a night shore can calm at noon, and a bright
+day can lift a heavy evening. Plan:
+- a `shore.timeOfDay` setting (v2's `shore.sky` keeps working on Auto);
+- a real sunset scene apart from golden hour;
+- a picker on the Shore and in Settings;
+- a crossfade, a matching companion pose, and Today's strip following
+  the choice.
+
+**After.**
+- Auto follows the clock as before. v2's golden hour stays (late
+  afternoon), and "sunset" is new: the 30 minutes around sunset, with the
+  sun on the horizon and a warm reflection on the water. Dusk starts
+  after it.
+- "Time of day" in the Shore header (sun or moon icon with a label) opens
+  a menu: Auto, Dawn, Day, Sunset, Dusk, Night, each with a swatch of
+  its sky. The same choice is in Settings → Shore.
+- A chosen scene sets the sky, the sun or moon's place (stars at night)
+  and the companion's pose: asleep at night, sleepy at dawn, calm at
+  sunset and dusk.
+- A new sky fades in over the last one in a second (opacity only; at
+  motion Off it simply appears). The image export draws the same scene,
+  because it copies the scene itself.
+- Today's shore strip takes the chosen sky. Its colors live in a tiny
+  `skyTone.ts`, so the sunrise tables stay off Today.
+
+**How I checked it.**
+- Unit tests:
+  - golden hour, then sunset, then dusk (v2's own tests unchanged);
+  - a reflection only at sunset;
+  - five different skies;
+  - stars at night;
+  - a dark theme keeps its own night sky;
+  - the sun or moon placement and the pose for each scene.
+- Screenshots (390px): night (moon, stars, the companion asleep in its
+  cap) and sunset (the sun on the horizon, the reflection, the menu with
+  swatches).
+- Layout audit: the shore on Auto, at night and at sunset with the menu
+  open, Today and Settings → Shore, 168 state runs, 0 failures. The
+  chosen scenes in Midnight Tide and Ink at 320/390/1280 and 100/130%
+  also had 0 failures.
+- `/` is 299.5 KB. Lint, typecheck, 558 tests and the v1 suite (164) are
+  green.

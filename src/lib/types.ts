@@ -371,6 +371,8 @@ export interface Settings {
   'patterns.defaultPeriod': 7 | 28;
   'shore.showLabels': boolean;
   'shore.sky': 'time' | 'theme' | 'static';
+  // v2.1 F-12: a time of day chosen by hand; "auto" keeps v2's shore.sky.
+  'shore.timeOfDay': 'auto' | 'dawn' | 'day' | 'sunset' | 'dusk' | 'night';
   // When Maya last looked at her shore; newer items arrive with a wave.
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;

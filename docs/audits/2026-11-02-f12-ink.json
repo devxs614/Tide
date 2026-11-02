@@ -1,0 +1,33 @@
+{
+  "label": "f12-ink",
+  "createdAt": "2026-11-02T17:06:15.415Z",
+  "seconds": 13,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "scales": [
+      1,
+      1.3
+    ],
+    "states": [
+      "shore:night",
+      "shore:sunset",
+      "shore"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "ink",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 3
+  },
+  "failures": [],
+  "warnings": 18,
+  "statesRun": 24
+}

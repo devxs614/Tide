@@ -155,7 +155,16 @@ export const STATES: AuditState[] = [
   { id: 'tasks:completed-select', route: '/tasks/completed', ws: 'demo', open: (page) => click(page, 'button:has-text("Select")') },
   { id: 'toolkit', route: '/toolkit', ws: 'demo' },
   { id: 'patterns', route: '/patterns', ws: 'demo' },
-  { id: 'shore', route: '/shore', ws: 'demo' },
+  { id: 'shore', route: '/shore', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'shore.timeOfDay': 'auto' }) },
+  // v2.1 F-12: a time of day chosen by hand, and the menu open.
+  { id: 'shore:night', route: '/shore', ws: 'demo', before: (page) => writeSettings(page, 'demo', { 'shore.timeOfDay': 'night' }) },
+  {
+    id: 'shore:sunset',
+    route: '/shore',
+    ws: 'demo',
+    before: (page) => writeSettings(page, 'demo', { 'shore.timeOfDay': 'sunset' }),
+    open: (page) => click(page, demo('shore-time')),
+  },
   { id: 'shore:collection', route: '/shore/collection', ws: 'demo' },
   { id: 'companion', route: '/companion', ws: 'demo' },
   { id: 'focus', route: async (page) => `/focus/${await firstTaskId(page)}`, ws: 'demo' },

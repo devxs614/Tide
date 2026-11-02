@@ -81,6 +81,11 @@ Challenge Partner, most urgent first.
   What's new): Lagoon, Sunset, Coral, Midnight, Kelp, Lavender, Sandbar
   and Deep Sea, each with a live preview. Try one, try the next, keep it,
   or go back to exactly your own look. "Surprise me" picks one for you.
+- **F-12** Pick the shore's time of day yourself: dawn, day, sunset (with
+  the sun's reflection on the water), dusk or night, or let it follow the
+  clock. The companion matches: asleep at night, sleepy at dawn. It's in
+  the Shore's "Time of day" menu and in Settings → Shore, and Today's
+  shore strip follows it.
 - Fixed: late in the evening, Today didn't show an event coming up just
   after midnight in its "Next" card.
 - Fixed: after a reset, Patterns could reuse wording written for slightly

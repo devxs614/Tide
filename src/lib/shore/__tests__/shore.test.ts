@@ -94,3 +94,36 @@ describe('item colors', () => {
   });
 
 });
+
+// v2.1 F-12: the time of day chosen by hand.
+describe('shore time of day', () => {
+  it('keeps golden hour and adds sunset, with a reflection only at sunset', async () => {
+    const { skyPhase: phaseAt, skyColors: colors } = await import('../sky');
+    const at = (h: number, m = 0) => new Date(2026, 10, 2, h, m).getTime();
+    // November: sunset at 18:00.
+    expect(phaseAt(at(17, 30), '07:00')).toBe('golden');
+    expect(phaseAt(at(18, 0), '07:00')).toBe('sunset');
+    expect(phaseAt(at(18, 40), '07:00')).toBe('dusk');
+    expect(colors('time', 'sunset', false).reflection).toBe(true);
+    expect(colors('time', 'golden', false).reflection).toBe(false);
+  });
+
+  it('gives each chosen scene its own sky, sun and pose', async () => {
+    const { scenePhase, skyColors: colors, sunFor, companionPose } = await import('../sky');
+    const noon = new Date(2026, 10, 2, 12).getTime();
+    expect(scenePhase('auto', noon, '07:00')).toBe('day');
+    expect(scenePhase('night', noon, '07:00')).toBe('night');
+    const scenes = ['dawn', 'day', 'sunset', 'dusk', 'night'] as const;
+    const tops = scenes.map((s) => colors('time', s, false).top);
+    expect(new Set(tops).size).toBe(5);
+    expect(colors('time', 'night', false).stars).toBe(true);
+    // A dark theme already has a night sky; it keeps it and adds stars.
+    expect(colors('time', 'night', true)).toMatchObject({ top: 'var(--sky-top)', stars: true });
+    expect(sunFor('night').up).toBe(false);
+    expect(sunFor('sunset').t).toBeGreaterThan(0.9);
+    expect(companionPose('night')).toBe('sleeping');
+    expect(companionPose('dawn')).toBe('sleepy');
+    expect(companionPose('dusk')).toBe('calm');
+    expect(companionPose('day')).toBe('idle');
+  });
+});

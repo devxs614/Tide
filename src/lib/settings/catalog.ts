@@ -205,6 +205,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
     id: 'shore',
     entries: [
       { kind: 'choice', key: 'shore.sky', label: L.shoreSky, options: opts(L.shoreSkies), keywords: ['sky', 'sunset', 'beach'] },
+      { kind: 'choice', key: 'shore.timeOfDay', label: L.timeOfDay, options: opts(settingsCopy.timesOfDay), keywords: ['night', 'sunset', 'dawn', 'dusk', 'time of day'] },
       { kind: 'switch', key: 'shore.showLabels', label: L.shoreLabels, keywords: ['labels', 'names'] },
     ],
   },

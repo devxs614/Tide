@@ -1338,3 +1338,19 @@ is tried.
 React's development mode mounts, unmounts and mounts every component
 once on purpose, which made the bar "leave" the moment it appeared. The
 leave step now waits a tick and runs only if no bar came back.
+
+**D191 — 2026-11-02 — Sunset is its own half hour; golden hour stays before it.**
+v2's golden hour ran right up to sunset. Now, on Auto, golden is up to 15
+minutes before sunset, "sunset" is the 30 minutes around it (the sun on
+the horizon, a reflection on the water), and dusk follows. v2's tests
+still hold.
+
+**D192 — 2026-11-02 — The sky crossfades with two layers, not a color transition.**
+The house rule is to animate only opacity and transform. When the sky
+changes, the new gradient is drawn over the old one and fades in over a
+second. At motion Off it simply appears.
+
+**D193 — 2026-11-02 — Dawn's pose is "sleepy".**
+The spec says the companion stretches at dawn. There's no stretching
+pose, and new companion art is off limits in v2.1, so dawn uses
+"sleepy", the waking-up face that already exists.

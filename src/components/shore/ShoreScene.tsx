@@ -6,7 +6,7 @@
 // bottles in the shallows, and the companion at home on the sand. Items are
 // buttons: Tab and the arrow keys move between them, Enter opens one.
 import './shore.css';
-import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode, useState } from 'react';
 import { copy, fill } from '@/copy/en';
 import type { Placed } from '@/lib/shore/placement';
 import type { ShoreItem } from '@/lib/shore/items';
@@ -21,6 +21,8 @@ export interface SceneSky {
   bottom: string;
   stars: boolean;
   sun: { up: boolean; t: number };
+  // v2.1 F-12: the warm band on the water at sunset.
+  reflection?: boolean;
 }
 
 const STARS = Array.from({ length: 24 }, (_, i) => ({ x: (i * 137) % 380 + 5, y: (i * 61) % 180 + 10, r: i % 3 === 0 ? 1.6 : 1 }));
@@ -57,6 +59,11 @@ export function ShoreScene({
   const pauseRef = usePauseOffscreen<SVGGElement>();
   // Reading order: top row first, left to right.
   const ordered = [...placed].sort((a, b) => Math.round(a.y / 40) - Math.round(b.y / 40) || a.x - b.x);
+  // v2.1 F-12: a new sky fades in over the last one (opacity only), so
+  // choosing another time of day crossfades instead of jumping.
+  const [layers, setLayers] = useState([{ key: 0, top: sky.top, bottom: sky.bottom }]);
+  const latest = layers[layers.length - 1];
+  if (latest.top !== sky.top || latest.bottom !== sky.bottom) setLayers([latest, { key: latest.key + 1, top: sky.top, bottom: sky.bottom }]);
   const sunX = 30 + sky.sun.t * 330;
   const sunY = 230 - Math.sin(sky.sun.t * Math.PI) * 170;
 
@@ -83,13 +90,17 @@ export function ShoreScene({
       className="shore block h-[min(62vh,560px)] w-full overflow-hidden rounded-card border-2 border-line"
     >
       <defs>
-        <linearGradient id="shore-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: sky.top }} />
-          <stop offset="1" style={{ stopColor: sky.bottom }} />
-        </linearGradient>
+        {layers.map((l) => (
+          <linearGradient key={l.key} id={`shore-sky-${l.key}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style={{ stopColor: l.top }} />
+            <stop offset="1" style={{ stopColor: l.bottom }} />
+          </linearGradient>
+        ))}
       </defs>
       <g ref={pauseRef}>
-        <rect width="390" height="560" fill="url(#shore-sky)" />
+        {layers.map((l, i) => (
+          <rect key={l.key} width="390" height="560" fill={`url(#shore-sky-${l.key})`} className={i > 0 ? 'shore-sky-in' : undefined} />
+        ))}
         {sky.stars &&
           STARS.map((s, i) => (
             <circle key={i} className="shore-star" cx={s.x} cy={s.y} r={s.r} fill="var(--foam)" style={{ '--twinkle': `${2 + (i % 4)}s` } as CSSProperties} />
@@ -105,6 +116,14 @@ export function ShoreScene({
           </g>
         ))}
         <rect y="232" width="390" height="80" fill="var(--sea-deep)" />
+        {/* Sunset (v2.1 F-12): the sun's light lying on the water below it. */}
+        {sky.reflection && (
+          <g fill="var(--accent)">
+            <ellipse cx={sunX} cy={240} rx={70} ry={6} opacity={0.4} />
+            <ellipse cx={sunX} cy={252} rx={46} ry={4} opacity={0.3} />
+            <ellipse cx={sunX} cy={264} rx={28} ry={3} opacity={0.22} />
+          </g>
+        )}
         <path className="shore-wave-3" d={WAVE(246, 6)} fill="var(--sea)" opacity={0.5} />
         <path className="shore-wave-2" d={WAVE(258, 7)} fill="var(--sea)" opacity={0.7} />
         <path className="shore-wave-1" d={WAVE(272, 8)} fill="var(--sea)" opacity={0.9} />
