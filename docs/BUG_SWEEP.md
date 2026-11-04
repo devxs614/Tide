@@ -6,9 +6,11 @@ record of every bug: where it was, why it happened, how I fixed it, and how
 I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
 
 ## Summary
-- Reported bugs fixed: 0 of 6 (in progress)
+- Reported bugs fixed: B-03 here; B-01, B-02 and B-04 through v2.3 Items 2,
+  3 and 4; B-05's check-in button part through v2.3 Item 1. B-05's other
+  parts and B-06 are still open (see "On hold while v2.3 runs").
 - Sweep findings: to come
-- Audit before: 1,386 failures in 1,896 state runs (`docs/audits/2026-11-03-sweep-before.json`) · after: to come
+- Audit before: 1,386 failures in 1,896 state runs (`docs/audits/2026-11-03-sweep-before.json`) · after v2.3: 0 failures in 1,896 runs without axe (`docs/audits/2026-11-04-v23-final.json`); axe's S-01 to S-03 still open
 - Visual diffs at default settings: to come
 
 ## Reported bugs

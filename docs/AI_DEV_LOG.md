@@ -4058,3 +4058,57 @@ unchanged. The visual comparison with Item 1 changes Settings → People
 and Support (the new form and rows) and Today's button, now full size at
 the top.
 
+
+## Final verification and where Tide stands after v2.3
+2026-11-04
+
+**Final checks, on the production build.**
+- Lint and typecheck clean; 605 tests in 105 files; v1's 164 tests in 33
+  files (the v1 pitch path among them); the dictation freeze test, the demo
+  reference test and the seed test pass.
+- Layout audit, every state at 6 widths × 4 text sizes with the sweep's
+  checks (mid-word breaks, outside the frame, frame width per route and per
+  text size, end-of-scroll coverage, bubbles over important things, sheets,
+  inputs, phone fields, console, network): 1,896 runs, **0 failures**
+  (`docs/audits/2026-11-04-v23-final.json`). axe ran in the v2.2 "before"
+  audit; its findings (S-01 to S-03) are still open (TEAM_TODO).
+- Tours, twice each: pitch cut 28/28 in 79 s at 1× and 42 s at 2×; full
+  tour 68/68 in 180 s at 1× and 95 s at 2×; no AI requests.
+- `/` first load: 299.8 KB of 300.
+- Visual comparison with the v2.3 baseline (160 screenshots): 115 changed,
+  all from the four items: the check-in button (gone where it no longer
+  shows, compact over buttons, the state card's Quick check-in link);
+  Tasks, Completed, Calendar and the task sheets inside the frame and the
+  swipe board; the companion's line in a slot on Focus and Box breathing,
+  and bubbles kept inside the frame; the new settings rows; the contact
+  form and rows. Two things that aren't items: the companion's line on a
+  Wrap step arriving in time for one capture and not another (timing, like
+  the greeting), and the tab icons' anti-aliasing, which shifted by a
+  sub-pixel after Item 1 rebuilt the tab bar's markup (no visible change).
+
+**Where Tide stands.** The four things the team asked for in v2.3 are
+done: Tasks stays the size of the phone, the companion's words stay inside
+it and off the timer (with bubbles, captions or none), the check-in button
+shows where it helps and offers a two-tap check-in, and phone numbers take
+digits only with the country chosen apart. The v2.2 sweep's S0 and B-03
+are in too. What's not done: v2.2's AI task breakdown and its area-by-area
+sweep (a team decision, TEAM_TODO), the "gentle invitation" halo (D210),
+and the checks only a person on a real phone can do (TEAM_TODO, by Nov 5).
+I'm least sure about how swiping the board and the button's hide-on-scroll
+feel on a real phone; the tests and the audit can't feel.
+
+**Definition of done (v2.3 spec 11).**
+- [x] The check-in button is dynamic, with smart, tab bar and hidden
+  modes, a chosen side, and Quick check-in (the halo isn't built: D210).
+- [x] Phone fields take digits only with a separate country code; old
+  contacts kept and unclear ones flagged; Call, Message and WhatsApp links
+  valid; the review banner.
+- [x] Companion text never leaves the phone area or covers key content;
+  the speech style setting and "What did {name} say?".
+- [x] Tasks stays inside the frame at every size; swipe and list views;
+  quick filters (without "Has steps": D207); the frame width check on
+  every route.
+- [x] Nothing else changed: all suites green, the freeze test green, the
+  visual diffs limited to the items (plus the two notes above), both
+  tours and the v1 pitch path working.
+- [x] Docs, logs, changelog, TEAM_TODO and progress reports updated.
