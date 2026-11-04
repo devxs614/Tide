@@ -72,11 +72,15 @@ export function ToolkitScreen() {
       </section>
 
       {worksForYou.length > 0 && (
-        <section aria-labelledby="works-heading" className="flex flex-col gap-3">
+        <section aria-labelledby="works-heading" className="@container flex flex-col gap-3">
           <h2 id="works-heading" className="text-h3 font-bold">
             {copy.toolkit.worksForYou}
           </h2>
-          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {/* v2.2 B-03: two columns used to follow the window's width, so
+              on a laptop the 430px frame got two narrow columns even at
+              150% text, and card words split. Now the list must also be
+              22em wide (it is at 100%: 390px), which bigger text undoes. */}
+          <ul className="grid grid-cols-1 gap-3 sm:@min-[22em]:grid-cols-2">
             {worksForYou.map((r) => (
               <li key={r.strategy.id}>
                 <StrategyCard strategy={r.strategy} better={r.better} n={r.n} href={href(r.strategy.id)} />
@@ -101,14 +105,14 @@ export function ToolkitScreen() {
         {STRATEGY_FAMILIES.map((f) => {
           const list = visible.filter((r) => r.strategy.family === f);
           return (
-            <TabsContent key={f} value={f} className="flex flex-col gap-3">
+            <TabsContent key={f} value={f} className="@container flex flex-col gap-3">
               <p className="text-ink-soft">{copy.toolkit.families[f].body}</p>
               {list.length === 0 && (
                 <p className="text-ink-soft">
                   {fill(copy.toolkit.noneForNow, { family: copy.toolkit.families[f].name })}
                 </p>
               )}
-              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-3 sm:@min-[22em]:grid-cols-2">
                 {list.map((r) => (
                   <li key={r.strategy.id}>
                     <StrategyCard strategy={r.strategy} better={r.better} n={r.n} href={href(r.strategy.id)} />

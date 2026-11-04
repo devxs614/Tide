@@ -39,7 +39,7 @@ export function TopBar({ title }: { title: string }) {
   const [helpOpen, setHelpOpen] = useState(false);
   const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
-    <header data-overlay="chrome" className="sticky top-0 z-(--z-sticky) flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
+    <header data-overlay="chrome" className="@container/bar sticky top-0 z-(--z-sticky) flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
       {/* At 130% and 150% text there isn't room for all three in one row; the
           badge drops under the title so the menu never gets pushed off screen. */}
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
@@ -60,7 +60,12 @@ export function TopBar({ title }: { title: string }) {
             aria-label={fill(copy.shell.companion, { name: companion.name })}
             // At big text on a phone the title needs the room more than the
             // head does (the head is a shortcut; the menu has the same link).
-            className="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-surface-2 big-text:max-[480px]:hidden"
+            // v2.2 B-03: this asked the window's width, so on a laptop the
+            // head stayed in the 430px frame and squeezed "Toolkit" into
+            // "Toolki t". It asks the bar's own width now, and also steps
+            // aside below 17.5em (a 320px phone at 115% text); at 100% that
+            // phone's bar is 18.8em, so nothing changes there.
+            className="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-surface-2 big-text:@max-[480px]/bar:hidden @max-[17.5em]/bar:hidden"
           >
             <Companion size={HEAD_SIZE} decorative />
           </Link>
@@ -69,7 +74,9 @@ export function TopBar({ title }: { title: string }) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="default" className="px-3">
               <Menu aria-hidden />
-              {copy.shell.profileMenu}
+              {/* At big text the word yields its room to the title; it stays
+                  the button's name for screen readers (v2.2 B-03). */}
+              <span className="big-text:sr-only">{copy.shell.profileMenu}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-56">

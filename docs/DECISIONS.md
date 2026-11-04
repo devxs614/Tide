@@ -1456,3 +1456,13 @@ twice before any fix: the ten shots that differ between two identical runs
 (a greeting bubble's timing, a focus ring) are listed as known noise in
 `docs/BUG_SWEEP.md`, so the final comparison can tell noise from change.
 Rejected: comparing hashes only (one anti-aliased pixel flips a hash).
+
+**D205 — 2026-11-03 — Tab labels grow less than the text size (B-03).**
+At 150% text, "Patterns" no longer fits in a fifth of a phone's tab bar,
+and v2.1 let it split ("Patter ns"). Tab labels now grow with the text
+size only up to 1.2× and never past 4% of the bar's width, and they never
+break. This is the one place where text grows less than the scale; native
+tab bars on iOS and Android do the same, and the icon above each label
+carries the meaning too. At 100% the size is exactly what it was.
+Rejected: icons only at big text (it hides the words people chose bigger
+text to read) and wrapping inside the word (unreadable).

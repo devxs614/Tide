@@ -1,0 +1,1196 @@
+{
+  "label": "b03-check",
+  "createdAt": "2026-11-04T04:40:06.871Z",
+  "seconds": 2587,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "scales": [
+      1.3,
+      1.5
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 4,
+    "axe": false
+  },
+  "failures": [
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"Calculus\" (101px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"problem\" (99px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"Physics\" (88px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"chapter\" (90px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"project\" (82px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-laundry] > span \"Laundry\"",
+      "detail": "\"Laundry\" (97px word, 74px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (140px word, 106px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (162px word, 144px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (162px word, 74px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"review\" (79px word, 74px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (140px word, 134px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming project README\"",
+      "detail": "\"Programming\" (140px word, 134px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming lab 4\"",
+      "detail": "\"Programming\" (140px word, 134px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (161px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming project README\"",
+      "detail": "\"Programming\" (161px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Buy groceries\"",
+      "detail": "\"groceries\" (113px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Email professor about office hours\"",
+      "detail": "\"professor\" (114px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Chemistry lab report 2\"",
+      "detail": "\"Chemistry\" (123px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Reflection paper\"",
+      "detail": "\"Reflection\" (123px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Group project check-in message\"",
+      "detail": "\"message\" (108px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Programming lab 4\"",
+      "detail": "\"Programming\" (161px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Chemistry prelab notes\"",
+      "detail": "\"Chemistry\" (123px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "li > div > div > span \"Book advising appointment\"",
+      "detail": "\"appointment\" (152px word, 106px box)",
+      "warn": false,
+      "state": "tasks:completed-select",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button \"A chip\"",
+      "detail": "by html > body > div > div \"Check inTodayTasksToolkitPatternsShore\"",
+      "state": "settings:companion",
+      "width": 390,
+      "scale": 1.3
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button[button] \"A button\"",
+      "detail": "by div > div > div > button[fab-checkin] \"Check in\"",
+      "state": "settings:companion",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button[button] \"A button\"",
+      "detail": "by div > div > div > button[fab-checkin] \"Check in\"",
+      "state": "settings:companion",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button \"A chip\"",
+      "detail": "by body > div > div > nav \"TodayTasksToolkitPatternsShore\"",
+      "state": "settings:companion",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1.3
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 320,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"Count\" (57px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"back\" (46px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"from\" (45px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"100\" (38px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"by\" (22px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"No\" (27px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"rush\" (42px word, 7px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 320,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"Count\" (66px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"back\" (53px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"from\" (52px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"100\" (43px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"No\" (32px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > section > div > p \"Count back from 100 by 7. No rush.\"",
+      "detail": "\"rush\" (48px word, 30px box)",
+      "warn": false,
+      "state": "tool:countback",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"Calculus\" (88px word, 82px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"problem\" (86px word, 82px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-laundry] > span \"Laundry\"",
+      "detail": "\"Laundry\" (84px word, 82px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"Chemistry\" (105px word, 82px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (140px word, 82px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"Calculus\" (88px word, 82px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"problem\" (86px word, 82px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-laundry] > span \"Laundry\"",
+      "detail": "\"Laundry\" (84px word, 82px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"Chemistry\" (105px word, 82px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (140px word, 82px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"Calculus\" (101px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"problem\" (99px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"Read\" (60px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"Physics\" (88px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"chapter\" (90px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"Email\" (66px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"about\" (69px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"data\" (53px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"Reply\" (68px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"group\" (70px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"project\" (82px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-laundry] > span \"Laundry\"",
+      "detail": "\"Laundry\" (97px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"Chemistry\" (121px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"report\" (74px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (162px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"review\" (79px word, 53px box)",
+      "warn": false,
+      "state": "tasks",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"Calculus\" (101px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-calc-ps7] > span \"Calculus problem set 7\"",
+      "detail": "\"problem\" (99px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"Read\" (60px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"Physics\" (88px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-physics-4] > span \"Read Physics chapter 4\"",
+      "detail": "\"chapter\" (90px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"Email\" (66px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"about\" (69px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-email-ta] > span \"Email TA about lab data\"",
+      "detail": "\"data\" (53px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"Reply\" (68px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"group\" (70px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-group-chat] > span \"Reply to group project chat\"",
+      "detail": "\"project\" (82px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-laundry] > span \"Laundry\"",
+      "detail": "\"Laundry\" (97px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"Chemistry\" (121px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-lab-report] > span \"Chemistry lab report\"",
+      "detail": "\"report\" (74px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"Programming\" (162px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "mid-word-break",
+      "selector": "div > h3 > button[task-open-demo-quiz-review] > span \"Programming quiz review\"",
+      "detail": "\"review\" (79px word, 53px box)",
+      "warn": false,
+      "state": "tasks:done",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div > div[radix-_r_4_] > div[dropdown-menu-label] \"Time of day\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-auto] \"Auto\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-dawn] \"Dawn\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-day] \"Day\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-sunset] \"Sunset\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-dusk] \"Dusk\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div > div[radix-_r_4_] > div[dropdown-menu-radio-group] > div[shore-time-night] \"Night\"",
+      "detail": "378..628 vs frame 425..855",
+      "state": "shore:sunset",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button \"A chip\"",
+      "detail": "by html > body > div > div \"Check inTodayTasksToolkitPatternsShore\"",
+      "state": "settings:companion",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "covered-at-end",
+      "selector": "div > div > div > button \"A chip\"",
+      "detail": "by html > body > div > div \"Check inTodayTasksToolkitPatternsShore\"",
+      "state": "settings:companion",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div[tide-overlays] > div > div[_r_c_] > p \"Heavy day? Starting small is still start\"",
+      "detail": "624..944 vs frame 425..855",
+      "state": "sheet:daymode",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div[tide-overlays] > div > div[_r_9_] > p \"Heavy day? Starting small is still start\"",
+      "detail": "619..939 vs frame 425..855",
+      "state": "sheet:daymode",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-header] > h2[radix-_r_s_] \"Change which events?\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-header] > p[radix-_r_t_] \"This event repeats every week.\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[event-scope-one] \"Change only this event\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"This and future events\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"All events in the series\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"Keep editing\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-header] > h2[radix-_r_k_] \"Delete \"Chemistry lab\" on Thursday, Nove\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-header] > p[radix-_r_l_] \"It will disappear from your day, and no \"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-footer] > button[button] \"Keep it\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-footer] > button[event-delete-one] \"Delete only this event\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-footer] > button[button] \"This and future events\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_j_] > div[dialog-footer] > button[button] \"All events in the series\"",
+      "detail": "404..876 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div[tide-overlays] > div > div[_r_j_] > p \"Hi again! How's the water today?\"",
+      "detail": "378..698 vs frame 425..855",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-header] > h2[radix-_r_s_] \"Change which events?\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-header] > p[radix-_r_t_] \"This event repeats every week.\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[event-scope-one] \"Change only this event\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"This and future events\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"All events in the series\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_r_] > div[dialog-footer] > button[button] \"Keep editing\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventscope",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-header] > h2[radix-_r_l_] \"Delete \"Chemistry lab\" on Thursday, Nove\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-header] > p[radix-_r_m_] \"It will disappear from your day, and no \"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-footer] > button[button] \"Keep it\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-footer] > button[event-delete-one] \"Delete only this event\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-footer] > button[button] \"This and future events\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "body > div[radix-_r_k_] > div[dialog-footer] > button[button] \"All events in the series\"",
+      "detail": "368..912 vs frame 425..855",
+      "state": "dialog:eventdelete",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div[tide-overlays] > div > div[_r_k_] > p \"Hi again! How's the water today?\"",
+      "detail": "381..701 vs frame 425..855",
+      "state": "bubble:shore",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > p \"Earth to Maya! Still on Calculus problem\"",
+      "detail": "427..925 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[nudge-yes] \"Yes, still on it\"",
+      "detail": "355..925 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"I drifted\"",
+      "detail": "355..925 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"Take a 2-minute break\"",
+      "detail": "355..925 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"Stop nudges for this block\"",
+      "detail": "355..925 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.3
+    },
+    {
+      "check": "outside-frame",
+      "selector": "div[tide-overlays] > div > div[_r_9_] > p \"Hi again! How's the water today?\"",
+      "detail": "619..939 vs frame 425..855",
+      "state": "bubble:today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > p \"Earth to Maya! Still on Calculus problem\"",
+      "detail": "386..970 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[nudge-yes] \"Yes, still on it\"",
+      "detail": "311..970 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"I drifted\"",
+      "detail": "311..970 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"Take a 2-minute break\"",
+      "detail": "311..970 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "outside-frame",
+      "selector": "section > div > div > button[button] \"Stop nudges for this block\"",
+      "detail": "311..970 vs frame 425..855",
+      "state": "focus:nudge",
+      "width": 1280,
+      "scale": 1.5
+    }
+  ],
+  "warnings": 249,
+  "statesRun": 474
+}

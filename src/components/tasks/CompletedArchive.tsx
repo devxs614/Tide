@@ -29,7 +29,10 @@ function Row({ task, shellId, selecting, selected, onSelect }: { task: Task; she
   const Icon = type.icon;
   return (
     <li className="card flex flex-col gap-2 p-3">
-      <div className="flex items-start gap-3">
+      {/* v2.2 B-03: at big text on a narrow phone the title column got
+          about 106px next to the checkbox and icon, and "Programming" split.
+          It may now wrap under them; at 100% it stays on the same row. */}
+      <div className="flex flex-wrap items-start gap-3">
         {selecting && (
           // The box is 24px; its label makes the target 48px.
           <label htmlFor={`pick-${task.id}`} className="-m-3 flex size-12 shrink-0 cursor-pointer items-center justify-center">
@@ -42,7 +45,7 @@ function Row({ task, shellId, selecting, selected, onSelect }: { task: Task; she
           </label>
         )}
         <Icon aria-hidden className="mt-1 size-5 shrink-0 text-ink-soft" />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 basis-[8em] flex-col">
           <span className="font-bold break-words">{task.title}</span>
           <span className="text-caption text-ink-soft">
             {type.label} · {fill(t.finishedAt, { time: formatTime(task.doneAt ?? 0) })}

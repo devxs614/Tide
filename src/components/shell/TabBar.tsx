@@ -33,7 +33,7 @@ export function TabBar() {
       className="border-t-2 border-line bg-surface pb-[env(safe-area-inset-bottom)]"
     >
       {/* min-height, not height: at big text the labels need more room. */}
-      <ul className="relative grid min-h-[72px] grid-cols-5">
+      <ul className="@container relative grid min-h-[72px] grid-cols-5">
         {activeIndex >= 0 && (
           <li
             aria-hidden
@@ -52,10 +52,13 @@ export function TabBar() {
                 href={href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  // A long label at big text ("Patterns" at 150% on a 320px
-                  // phone) may break inside the word rather than run into
-                  // the next tab.
-                  'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-0.5 pt-1.5 pb-2 text-center font-display text-[0.8235rem] leading-tight font-bold [overflow-wrap:anywhere] max-[359px]:text-[0.7059rem]',
+                  // v2.2 B-03: labels used `overflow-wrap: anywhere`, so at
+                  // big text "Patterns" split into "Patter ns". Now a label
+                  // never breaks: it grows with text size only up to 1.2×,
+                  // like native tab bars, and never past 4% of the bar's
+                  // width, so "Patterns" always fits in its fifth (D205).
+                  // At 100% nothing changes.
+                  'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-0.5 pt-1.5 pb-2 text-center font-display text-[length:min(calc(0.8235rem/var(--text-scale)*min(var(--text-scale),1.2)),4cqi)] leading-tight font-bold break-normal max-[359px]:text-[length:min(calc(0.7059rem/var(--text-scale)*min(var(--text-scale),1.2)),4cqi)]',
                   active ? 'text-primary' : 'text-ink-soft hover:text-ink',
                 )}
               >

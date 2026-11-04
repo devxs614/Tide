@@ -218,8 +218,12 @@ function BubbleBody({
         data-bubble-text
         lang="en"
         tabIndex={scrolls ? 0 : undefined}
+        // v2.2 B-03: this was `overflow-wrap: anywhere` with hyphenation,
+        // which let a squeezed bubble split ordinary words. `break-words`
+        // only splits a word that can't fit on a line by itself, and the
+        // 120px minimum keeps the bubble from getting that narrow.
         className={cn(
-          'card-flat min-h-0 min-w-[120px] overflow-y-auto px-4 py-3 font-display text-[0.95rem] leading-snug font-semibold whitespace-normal text-ink hyphens-auto [overflow-wrap:anywhere]',
+          'card-flat min-h-0 min-w-[120px] overflow-y-auto px-4 py-3 font-display text-[0.95rem] leading-snug font-semibold whitespace-normal text-ink break-words',
           closable && 'pr-10',
         )}
       >

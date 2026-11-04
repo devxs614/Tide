@@ -38,7 +38,7 @@ I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
   side). The greeting bubble also landed on the TopBar in one baseline run.
 
 ### B-03 — Words break letter by letter with larger appearance
-- Severity: Critical · Status: Found
+- Severity: Critical · Status: Fixed (Tasks board cards go with B-04)
 - Where: the TopBar title ("Toolki t"), tab labels ("Patter ns"), task
   card titles ("Rea / d / VSS / S / docu / me / nt")
 - Reproduce: Settings → Appearance → text size 130% or 150%, then Toolkit
@@ -49,6 +49,33 @@ I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
   "Demo data" badge (41), speech bubbles ("how-ever", hyphenated), Toolkit
   cards ("somewhere"), the Count back instructions (22) and the Completed
   list (14). Six already at 100% (narrow phones).
+- Root cause: two kinds. (1) `overflow-wrap: anywhere` on the tab labels
+  and the bubble (plus automatic hyphenation there), which lets a word
+  split anywhere. (2) Boxes allowed to shrink below one word (`min-w-0`)
+  while their neighbors never yield: the TopBar title next to a companion
+  head that only hid when the *window* was narrow (so never on a laptop,
+  inside the 430px frame), Toolkit's two columns switched on by the
+  window's width, and two text columns with a zero flex basis (Count back,
+  Completed rows). Ordinary `break-word` then had to split the word.
+- Fix:
+  - tab labels: no breaking; they grow with text only up to 1.2× and never
+    past 4% of the bar's width (D205) — `shell/TabBar.tsx`;
+  - TopBar: the head hides by the bar's own width (at big text, and below
+    17.5em), and at big text "Menu" keeps only its icon, still named
+    "Menu" — `shell/TopBar.tsx`;
+  - the bubble: `break-words`, no hyphenation — `companion/CompanionSay.tsx`;
+  - Toolkit: two columns need the window *and* 22em of list width —
+    `toolkit/ToolkitScreen.tsx`;
+  - Count back and Completed rows: a 7em / 8em basis so neighbors wrap
+    instead — `toolkit/tools/CountBack.tsx`, `tasks/CompletedArchive.tsx`.
+- Test: `src/test/sweepGuards.test.ts` ("never lets ordinary words split
+  mid-word") fails on the baseline code and passes now; the audit's
+  mid-word check at 320/360/390/1280 × 115–150% on Toolkit, Settings,
+  Count back, Completed, Today, Patterns, Shore and Calendar: 0.
+- Visual diff at default settings: none from the fix itself. Two full
+  captures after the fix differ from the baseline only in the companion's
+  greeting/line areas (timing noise, below) and in `toolkit-1280`, which is
+  S-04.
 
 ### B-04 — Tasks board columns crushed with larger text
 - Severity: High · Status: Found
@@ -89,6 +116,22 @@ I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
 - Severity: to be confirmed · Status: Found
 - Where: every Settings section (53 runs, `aria-hidden-focus`); a card
   marked `aria-hidden` contains buttons a keyboard can still reach
+
+### S-04 — The sounds timer control can stay stacked when its labels fit
+- Severity: Low · Status: Found (needs a fix that re-measures once the
+  layout settles)
+- Where: Toolkit → Background sounds → "Until I stop / 15 / 30 / 60
+  minutes", at 1280px and 100%
+- What I saw: in both baseline captures the four options were stacked; in
+  both captures after B-03 they sit side by side with every label fully
+  visible, which is the control's intended look ("side by side until a
+  label doesn't fit"). `segmented-control.tsx` stacks after a single
+  measurement where a label overflows and only un-stacks if the track gets
+  wider, so one passing layout during load is enough to latch it. I
+  couldn't pin down which passing layout did it in the baseline (it isn't
+  late web fonts: I tested with fonts delayed 1.5 s and it stayed side by
+  side). This is the only default-settings diff after B-03 that isn't
+  noise, so I'm recording it rather than calling it noise.
 
 ### S-03 — Calendar day buttons' names don't include their visible text
 - Severity: to be confirmed · Status: Found
@@ -147,6 +190,12 @@ identical runs, so a small diff there at the end is noise, not a change:
 | sheet_eventedit-1280, -390 | 0.08%, 0.28% | the same greeting, behind the sheet |
 | sheet_eventform-1280, -390 | 0.08%, 0.28% | the same greeting, behind the sheet |
 | sheet_unstick2-390 | 0.02% | the sheet's Close button focus ring |
+
+Later captures showed the same greeting timing on a few more shots (Today
+and the mini player at 390, check-in steps 1, 2 and 4, the event sheets
+and dialogs at both sizes), always inside the greeting's or the
+companion line's box, plus a 9×10px speck on `wrap_step3-1280` (under
+0.01%). I count a diff as noise only when it stays inside those boxes.
 
 In one of those runs the greeting bubble sat on top of the TopBar's "Demo
 data" badge and "Menu" label, and at 1280px it reached x = 910, past the

@@ -81,7 +81,11 @@ export function CountBack({ onDone }: ToolProps) {
         options={(['reveal', 'type'] as const).map((v) => ({ value: v, label: t.modes[v] }))}
       />
       <div className="flex flex-wrap items-center gap-2">
-        <p className="min-w-0 flex-1">{instruction}</p>
+        {/* v2.2 B-03: with a zero basis the line never wrapped under the
+            Read aloud button; at big text it shrank to a few pixels and
+            every word split. A 7em start lets the button move down instead
+            (at 100% both still share the row, even at 320px). */}
+        <p className="min-w-0 flex-1 basis-[7em]">{instruction}</p>
         <ReadAloudButton text={`${fill(t.current, { n: seq[at] })}. ${instruction}`} />
       </div>
 

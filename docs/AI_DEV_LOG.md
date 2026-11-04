@@ -3790,3 +3790,32 @@ focusable 53, axe label mismatch 28, phone input 24, covered at the end
 My first run of the new checks was half wrong (D203 lists what I had to
 correct), and the spec's own mid-word rule hid "Toolki t" (D202). No app
 code changed in S0. Lint, typecheck, 568 tests and v1's 164 still pass.
+
+## B-03 — Words split letter by letter (before and after)
+2026-11-03
+
+**Before.** The team's screenshots showed "Toolki t", "Patter ns" and a
+task card reading "Rea / d / VSS / S / docu / me / nt". The before audit
+counted 794 mid-word breaks, almost all at 130–150% text.
+
+**What I found.** Two causes, and only one of them was the `anywhere` rule
+the spec suspected. The tab labels and the speech bubble did use
+`overflow-wrap: anywhere` (the bubble also hyphenated). But "Toolki t" came
+from layout: the TopBar title may shrink, while the companion head beside
+it only hid when the *window* was under 480px, which a laptop never is,
+even though Tide sits in a 430px frame there. Toolkit's two columns, two
+text columns with a zero flex basis (Count back, Completed rows) and the
+"Demo data" badge had the same problem: a box allowed to get narrower than
+one word, so even plain `break-word` had to split it.
+
+**After.** Tab labels never break and grow at most 1.2× (D205); the TopBar
+gives up the head and the word "Menu" (icon kept, name kept) based on its
+own width; the bubble uses `break-words`; Toolkit's columns need 22em of
+list width too; Count back and Completed rows got an em basis so their
+neighbors wrap. A static guard test fails if `anywhere`, `break-all` or
+automatic hyphenation comes back. The audit at 320–1280px × 115–150% shows
+no mid-word breaks outside the Tasks board, which B-04 / v2.3 Item 4 owns.
+Lint, typecheck, 569 tests and v1's 164 pass. Two visual captures at 100%
+show no change from the fix; the one real diff (the sounds timer control
+at 1280, stacked before and side by side now, labels all visible) is
+logged as S-04 because I couldn't prove its cause.
