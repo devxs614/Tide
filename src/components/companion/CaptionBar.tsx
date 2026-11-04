@@ -22,7 +22,9 @@ export function CaptionBar({ top }: { top: 0 | 16 }) {
     return () => window.clearTimeout(t);
   }, [caption, settings.textScale]);
   return (
-    <div aria-live="polite" className={top === 0 ? 'sticky top-0 z-(--z-sticky)' : 'sticky top-16 z-(--z-sticky)'}>
+    // Sticky chrome, like the top bar it sits under: content scrolls beneath
+    // it, and at the top of the page it pushes content down instead.
+    <div aria-live="polite" data-overlay="chrome" className={top === 0 ? 'sticky top-0 z-(--z-sticky)' : 'sticky top-16 z-(--z-sticky)'}>
       {caption && (
         <p key={caption.key} data-companion-caption className="flow-enter flex items-center gap-3 border-b-2 border-line bg-surface px-5 py-2 font-display font-semibold text-ink break-words">
           <Companion size={32} decorative />

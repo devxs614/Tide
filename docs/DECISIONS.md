@@ -1532,3 +1532,31 @@ again): `settingsV1Copy.ts` (v1 Settings), `taskEditCopy.ts`,
 line each that Today needs stays in `en.ts`). Rejected: loading the button
 lazily (it would pop in after Today appears) and raising the budget.
 
+**D212 — 2026-11-04 — Phone numbers: digits only in Settings, onboarding keeps "Number or handle".**
+v2.3 Item 2. In Settings → People & support, a phone contact and the
+campus phone are two controls: a country code (Mexico and the US/Canada
+first, then 24 more by name, and "Other" for any 1–3 digit code) and a
+number field that keeps only digits as you type or paste. They're stored
+as `countryCode` + `national`, and `value`/`phone` keep the dialable
+"+528112345678" so every older reader still works. Onboarding's step 12
+keeps its single "Number or handle" field (a frozen v1 test types a number
+there, and handles legitimately have letters): a value made of digits,
+spaces, +, brackets and dashes becomes a phone and must validate; anything
+else stays a handle. The migration runs once per workspace and never
+deletes or rewrites a value it can't read; it flags it, and Settings shows
+a calm banner to fix it with the old text in view. On Support the existing
+"Call" and "Message" labels stay (the spec's "Text" would change an
+existing string); WhatsApp is new and only for contacts marked as having
+it. Rejected: blocking letters in the onboarding field (it would break
+handles and the v1 test).
+
+**D213 — 2026-11-04 — When a bubble would cover something important, its line goes to the caption bar.**
+v2.3 Item 3 refined. The first avoid rule tried the bubble's other sides
+itself, but Floating UI's `flip` kept sending it back to the side with room,
+and after its reset limit the bubble ended up wherever it stopped: the audit
+still found Today's greeting on the "Check in" button at 130–150% text. Now
+the avoid check runs last, after flip and shift have found the best spot in
+the frame, and if that spot covers a timer, input, primary button or sheet,
+the line shows in the caption bar instead. At 100% Today's greeting doesn't
+collide, so it stays a bubble there. Rejected: a custom placement loop
+alongside flip (two rules fighting over one position).

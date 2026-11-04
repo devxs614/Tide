@@ -118,6 +118,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loaded) void import('@/lib/repo/taskEdits').then((m) => m.runPendingPurges());
   }, [loaded]);
+  // v2.3 Item 2: saved phone numbers get a country code and digits, once.
+  const contactsMigrated = settings['contacts.migratedV23'];
+  useEffect(() => {
+    if (loaded && !contactsMigrated) void import('@/lib/contacts/migrate').then((m) => m.runContactMigration());
+  }, [loaded, contactsMigrated]);
   // "Remove finished tasks after 30 days" (v2.1 F-05, off by default): at
   // start-up and once a day while Tide stays open.
   const cleanup = settings['tasks.autoDeleteCompletedAfter'];

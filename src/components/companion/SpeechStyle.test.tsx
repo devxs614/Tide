@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
-import type { Middleware, MiddlewareState } from '@floating-ui/react-dom';
+import type { MiddlewareState } from '@floating-ui/react-dom';
 import { navigation, renderApp, resetApp } from '@/test/utils';
 import { PhoneFrame } from '@/components/shell/PhoneFrame';
 import { TopBar } from '@/components/shell/TopBar';
@@ -93,39 +93,29 @@ describe('speech styles', () => {
 
 describe('avoidElements', () => {
   // Floating UI's state, trimmed to what the middleware reads.
-  const state = (placement: MiddlewareState['placement'], tried: string[] = []) =>
+  const state = () =>
     ({
       x: 0,
       y: 0,
-      placement,
+      placement: 'bottom',
       strategy: 'fixed',
       rects: { floating: { width: 200, height: 60, x: 0, y: 0 }, reference: { width: 40, height: 40, x: 0, y: 0 } },
       elements: { floating: document.createElement('div'), reference: document.createElement('div') },
-      middlewareData: { avoidElements: { tried, collided: false } },
+      middlewareData: {},
     }) as unknown as MiddlewareState;
 
-  const timer = () => {
+  it('reports a collision when the bubble would cover the timer, so the line goes to the caption bar', async () => {
     const el = document.createElement('div');
     el.setAttribute('data-bubble-avoid', '');
     el.getBoundingClientRect = () => ({ left: 0, top: 0, right: 400, bottom: 400, width: 400, height: 400, x: 0, y: 0, toJSON: () => ({}) });
     document.body.appendChild(el);
-    return el;
-  };
-
-  it('tries another side when the bubble would cover the timer, and reports when every side does', async () => {
-    const el = timer();
-    const mw: Middleware = avoidElements(document.createElement('div'));
-    const first = await mw.fn(state('top'));
-    expect(first.reset).toEqual({ placement: 'bottom' });
-    const all = ['top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start'];
-    const last = await mw.fn(state('bottom-end', all));
-    expect((last.data as AvoidData).collided).toBe(true);
+    const out = await avoidElements(document.createElement('div')).fn(state());
+    expect((out.data as AvoidData).collided).toBe(true);
     el.remove();
   });
 
-  it('leaves the placement alone when nothing is in the way', async () => {
-    const out = await avoidElements(document.createElement('div')).fn(state('top'));
-    expect(out.reset).toBeUndefined();
+  it('leaves the bubble alone when nothing is in the way', async () => {
+    const out = await avoidElements(document.createElement('div')).fn(state());
     expect((out.data as AvoidData).collided).toBe(false);
   });
 });

@@ -14,7 +14,7 @@ I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
 ## Reported bugs
 
 ### B-01 — Phone number fields accept letters
-- Severity: High · Status: Found
+- Severity: High · Status: Fixed by v2.3 Item 2 (D212)
 - Where: trusted contacts (onboarding and Settings → People & support), the
   campus support phone, the call and text links built from them
 - Reproduce: type "abc" in a contact's phone field; it's kept and saved

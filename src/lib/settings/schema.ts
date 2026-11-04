@@ -24,8 +24,31 @@ export const SettingsSchema = z.object({
   readAloudVoice: z.string().max(200),
   demoMode: flag,
   onboarded: flag,
-  trustedContacts: z.array(z.object({ id: z.string(), name: z.string().max(80), method: z.enum(['phone', 'email', 'handle']), value: z.string().max(120) })).max(20),
-  campusSupport: z.object({ name: z.string().max(80), phone: z.string().max(40).optional(), url: z.string().max(200).optional() }).nullable(),
+  trustedContacts: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string().max(80),
+        method: z.enum(['phone', 'email', 'handle']),
+        value: z.string().max(120),
+        // v2.3 Item 2 (optional, so older backups still import).
+        countryCode: z.string().regex(/^\d{1,3}$/).optional(),
+        national: z.string().regex(/^\d{0,14}$/).optional(),
+        whatsapp: z.boolean().optional(),
+        needsReview: z.boolean().optional(),
+      }),
+    )
+    .max(20),
+  campusSupport: z
+    .object({
+      name: z.string().max(80),
+      phone: z.string().max(40).optional(),
+      url: z.string().max(200).optional(),
+      phoneCountryCode: z.string().regex(/^\d{1,3}$/).optional(),
+      phoneNational: z.string().regex(/^\d{0,14}$/).optional(),
+      needsReview: z.boolean().optional(),
+    })
+    .nullable(),
   name: z.string().max(40),
   demoClock: z.object({ base: z.number(), startedAt: z.number() }).nullable(),
   dayModeBannerDismissedFor: z.string().nullable(),
@@ -109,6 +132,7 @@ export const SettingsSchema = z.object({
   'checkin.buttonMovable': z.boolean(),
   'checkin.buttonSide': z.enum(['left', 'center', 'right']),
   'checkin.quickHintSeen': z.boolean(),
+  'contacts.migratedV23': z.boolean(),
   'focus.defaultMinutes': z.union([z.literal('auto'), z.literal(5), z.literal(10), z.literal(15), z.literal(25)]),
   'focus.companionActivity': flag,
   'focus.endSound': flag,

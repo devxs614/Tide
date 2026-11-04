@@ -1,0 +1,65 @@
+{
+  "label": "v23-item2",
+  "createdAt": "2026-11-04T08:26:07.115Z",
+  "seconds": 78,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      320,
+      360,
+      390,
+      768,
+      1024,
+      1280
+    ],
+    "scales": [
+      1,
+      1.15,
+      1.3,
+      1.5
+    ],
+    "states": [
+      "settings:people",
+      "onboarding",
+      "support",
+      "today"
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 4,
+    "axe": false
+  },
+  "failures": [
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_9_] \"Hi again! How's the water today?\"",
+      "detail": "over li > article > div > a[button] \"Focus\"",
+      "state": "today",
+      "width": 768,
+      "scale": 1.3
+    },
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_9_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[button] \"Check in\"",
+      "state": "today",
+      "width": 768,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_9_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[button] \"Check in\"",
+      "state": "today",
+      "width": 1024,
+      "scale": 1.5
+    }
+  ],
+  "warnings": 48,
+  "statesRun": 216
+}

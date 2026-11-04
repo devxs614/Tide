@@ -108,6 +108,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'checkin.buttonMovable': false,
   'checkin.buttonSide': 'center',
   'checkin.quickHintSeen': false,
+  'contacts.migratedV23': false,
   'focus.defaultMinutes': 'auto',
   'focus.companionActivity': true,
   'focus.endSound': true,

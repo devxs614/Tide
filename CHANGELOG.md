@@ -20,6 +20,10 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
   shows your last check-in's color. Press and hold it (or press Q) for a
   two-tap Quick check-in. Settings → Check-in can put it in the tab bar,
   hide it, or move it left or right.
+- **Phone numbers** for trusted contacts and campus support take digits
+  only, with the country code chosen separately (+52, +1 and more). Saved
+  numbers are kept; any that can't be read are flagged so you can fix
+  them. Contacts can have a WhatsApp button, and numbers can be read aloud.
 
 ## v2.2 "Bug sweep" (in progress, branch `v2.2-bug-sweep`)
 

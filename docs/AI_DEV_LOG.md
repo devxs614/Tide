@@ -4003,3 +4003,58 @@ Settings → Shortcuts (Q) and pages behind sheets that now sit at a slightly
 different scroll (the measured bottom padding); a Wrap step's companion
 line arriving in time for the capture is timing, like the greeting.
 
+## Item 2 — Phone numbers are digits only (before and after)
+2026-11-04
+
+**Before.** The contact value and the campus phone were plain text fields.
+"call mom 811" saved fine, and Support stripped non-digits only when it
+built the `tel:` link, so the Call button dialed nothing or the wrong thing.
+There was no country code.
+
+**What I built.**
+- `lib/phone.ts`: the country list, `sanitizeDigits`, `parsePhone` ("+52…",
+  "0052…", "+1 (555)…", plain digits), the length rules (10 digits for +52
+  and +1, 6–14 elsewhere), `toDialable`, a readable format, link builders
+  and the one-time migration.
+- `PhoneInput` (Settings): a country select plus a digits-only number field
+  (`type="tel"`, `inputMode="numeric"`, `autoComplete="tel-national"`,
+  17px, so iOS doesn't zoom). Letters vanish as you type or paste with a
+  polite note the first time, the caret stays put, a pasted "+52 81…" sets
+  the country, a "Will call: +52 81 1234 5678" line previews it, and an
+  invalid number shows a neutral error linked to the field and blocks only
+  that save. A phone contact can be marked "This number has WhatsApp".
+- The migration (`lib/contacts/migrate.ts`, loaded lazily at start-up, once
+  per workspace) splits clean numbers and flags unclear ones; a banner in
+  People & support leads to fixing them, showing "Saved as: …".
+- Support and the crisis screen: Call and Message (and WhatsApp when chosen)
+  are built from the clean number; a number that can't work turns them off
+  with "Fix the number to call or text."; each phone can be read aloud
+  digit by digit.
+- Onboarding keeps "Number or handle" (D212), now parsing and validating a
+  number before saving it.
+
+**What broke on the way.** The audit kept finding Today's greeting on a
+primary button at big text. The real size of the bubble wasn't the cause;
+the avoid rule and Floating UI's `flip` were fighting, so I simplified it:
+if the best spot still covers something important, the line goes to the
+caption bar (D213). That made the caption bar show up in the audit, which
+flagged it as content overlapping what scrolled under it; it's sticky
+chrome like the top bar, so it's marked that way now. Two audit checks
+were also measuring the new in-page lines (Focus, Box breathing) as if
+they floated; they now leave in-page lines alone when an overlay covers
+them or they sit below the fold. The audit's phone check accepts the
+digits keyboard v2.3 asks for (`inputmode="numeric"`).
+
+**How I checked it.** `lib/phone.test.ts` (cleaning, the paste formats,
+the rules per country, links, the migration's four cases and the campus
+phone) and `settings/Contacts.test.tsx` (letters dropped with the note, the
+country deciding the rule and the preview, an invalid save blocked, a
+handle keeping its letters, Support's `tel:`, `sms:` and `wa.me` links, and
+a flagged number's banner, disabled buttons and "Saved as"). The frozen v1
+onboarding test still adds "+52 81 0000 0000" as a phone. 605 tests and
+v1's 164 pass. Audit for Settings → People, onboarding, Support and Today
+across the whole matrix: 0 failures after the fixes above. Both tours
+unchanged. The visual comparison with Item 1 changes Settings → People
+and Support (the new form and rows) and Today's button, now full size at
+the top.
+

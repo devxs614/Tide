@@ -141,6 +141,10 @@ export function pageChecks(): PageFinding[] {
   // companion off screen.
   for (const bubble of Array.from(document.querySelectorAll('[data-companion-bubble], [data-companion-placement] [role="status"]'))) {
     if (!visible(bubble) || window.scrollY > 1) continue;
+    // v2.3: a line in a reserved slot (Focus, Box breathing) is part of the
+    // page, so it can sit below the fold like any content; only floating
+    // bubbles must stay on screen.
+    const inFlow = !bubble.closest('[data-overlay="bubble"]') && !bubble.closest('[data-companion-placement]');
     // Same inside a sheet that has been scrolled.
     const sheetOf = bubble.closest('[data-slot="sheet-content"]');
     if (sheetOf && sheetOf.scrollTop > 1) continue;
@@ -148,7 +152,7 @@ export function pageChecks(): PageFinding[] {
     // Entirely past the edge: it's next to a companion that is itself off
     // screen (below the fold), where the person will find both together.
     if (r.top >= vh || r.bottom <= 0) continue;
-    if (r.left < 0 || r.top < 0 || r.right > vw || r.bottom > vh) {
+    if (!inFlow && (r.left < 0 || r.top < 0 || r.right > vw || r.bottom > vh)) {
       out.push({ check: 'bubble-offscreen', selector: describe(bubble), detail: `${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.right)},${Math.round(r.bottom)}` });
     }
     const text = bubble.querySelector('[data-bubble-text]') ?? bubble;
@@ -166,6 +170,10 @@ export function pageChecks(): PageFinding[] {
       // A sheet opened over a page's bubble: the sheet is on top, as it should be.
       const sheet = hit?.closest('[data-overlay="sheet"]');
       if (sheet && !sheet.contains(bubble)) return false;
+      // A line in the page (v2.3 slots) sits under every overlay, like any
+      // content: a check-in card or the bars may cover it for a moment.
+      const overlay = hit?.closest('[data-overlay]');
+      if (inFlow && overlay && !overlay.contains(bubble)) return false;
       by = hit ? describe(hit) : 'nothing';
       return true;
     });

@@ -147,6 +147,16 @@ up during the build. — Claude Code
   which from our own testing. Why: I left that column blank instead of
   guessing. *By Nov 4.*
 
+## Needs a team decision
+- [ ] **What's left of the v2.2 bug sweep.** v2.3 arrived mid-sweep and
+  replaced most of its reported bugs. Still open from v2.2: the AI task
+  breakdown ("Break into steps", Section 5), the area-by-area sweep, and
+  the findings S-01 to S-04 (axe contrast on primary buttons, hidden
+  previews holding focusable controls, calendar day names, the sounds
+  control's stacking). Decide whether these go in before Thursday or
+  after the submission. Why: they're real work with real risk two days
+  before the deadline. *By Nov 4.*
+
 ## v2.3 checks on real devices (before Thursday, Nov 5)
 - [ ] **Open Tasks on a laptop** and switch between tabs: the phone frame
   should keep the same size on every screen, Tasks and Calendar included.
@@ -167,6 +177,11 @@ up during the build. — Claude Code
   never cover the last items. Then press and hold it for Quick check-in.
   Why: scroll feel and long press only show on a real touch screen.
   *By Nov 5.*
+
+- [ ] **Type letters into a contact's phone field on a real phone** (they
+  should vanish, with a short note), then tap Call, Message and WhatsApp on
+  a test contact from Support. Why: phone keyboards, paste and the apps
+  these links open only behave for real on a phone. *By Nov 5.*
 
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
 - [ ] **Check Settings, Check-in and Today on a real iPhone and a real

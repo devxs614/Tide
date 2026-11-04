@@ -16,6 +16,8 @@ import { Companion } from '@/components/companion/Companion';
 import { WelcomeShore } from '../WelcomeShore';
 import { StepFrame } from './StepFrame';
 import { settingsV1 } from '@/copy/settingsV1Copy';
+import { defaultCountry, parsePhone, phoneProblem, toDialable } from '@/lib/phone';
+import { phoneErrorText } from '@/components/settings/PhoneInput';
 
 const CheckInSheet = dynamic(() => import('@/components/checkin/CheckInSheet').then((m) => m.CheckInSheet), { ssr: false });
 
@@ -37,13 +39,24 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
   const [stage, setStage] = useState<'trusted' | 'checkin' | 'shore'>('trusted');
   const [contactName, setContactName] = useState('');
   const [contactValue, setContactValue] = useState('');
+  const [contactError, setContactError] = useState<string | null>(null);
 
+  // A number (digits, +, spaces, brackets, dashes) is saved as a phone with
+  // its country code and digits (v2.3 Item 2), and must be a whole number;
+  // anything else is a handle or an email, where letters are fine.
   const saveContact = async () => {
     const name = contactName.trim();
     const value = contactValue.trim();
     if (name && value) {
-      const method = /^[+\d\s()-]+$/.test(value) ? 'phone' : 'handle';
-      await update('trustedContacts', [...settings.trustedContacts, { id: crypto.randomUUID(), name, method, value }]);
+      if (/^[+\d\s().-]+$/.test(value)) {
+        const parsed = parsePhone(value);
+        const countryCode = parsed.countryCode ?? defaultCountry();
+        const problem = phoneErrorText(phoneProblem(countryCode, parsed.national));
+        if (problem) return setContactError(problem);
+        await update('trustedContacts', [...settings.trustedContacts, { id: crypto.randomUUID(), name, method: 'phone', value: toDialable(countryCode, parsed.national), countryCode, national: parsed.national }]);
+      } else {
+        await update('trustedContacts', [...settings.trustedContacts, { id: crypto.randomUUID(), name, method: 'handle', value }]);
+      }
     }
     setStage('checkin');
   };
@@ -58,7 +71,22 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
         <label htmlFor="ob-contact-value" className="font-bold">
           {settingsV1.contactValue}
         </label>
-        <input id="ob-contact-value" value={contactValue} onChange={(e) => setContactValue(e.target.value)} className="min-h-12 rounded-input border-2 border-line bg-surface px-3" />
+        <input
+          id="ob-contact-value"
+          value={contactValue}
+          onChange={(e) => {
+            setContactValue(e.target.value);
+            setContactError(null);
+          }}
+          aria-invalid={contactError ? true : undefined}
+          aria-describedby={contactError ? 'ob-contact-error' : undefined}
+          className="min-h-12 rounded-input border-2 border-line bg-surface px-3"
+        />
+        {contactError && (
+          <p id="ob-contact-error" role="status" className="font-bold">
+            {contactError}
+          </p>
+        )}
       </StepFrame>
     );
   }

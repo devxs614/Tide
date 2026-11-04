@@ -116,7 +116,8 @@ export function sweepChecks(): PageFinding[] {
     const label = el.labels?.[0]?.textContent ?? '';
     const isPhone = el.hasAttribute('data-phone') || el.autocomplete === 'tel' || /phone|tel[eé]fono/i.test(`${label} ${el.name} ${el.id} ${el.placeholder}`);
     if (!isPhone) continue;
-    if (el.type !== 'tel' || el.inputMode !== 'tel') out.push({ check: 'phone-input', selector: describe(el), detail: `type=${el.type} inputmode=${el.inputMode || '-'}` });
+    // v2.3 asks for a digits keyboard (`numeric`); v2.2 said `tel`. Either works.
+    if (el.type !== 'tel' || !['tel', 'numeric'].includes(el.inputMode)) out.push({ check: 'phone-input', selector: describe(el), detail: `type=${el.type} inputmode=${el.inputMode || '-'}` });
   }
 
   // 5. A bubble or popover over something it must never cover (the focus
@@ -130,9 +131,13 @@ export function sweepChecks(): PageFinding[] {
     for (const a of avoid) {
       if (a.contains(b) || b.contains(a) || layerOf(a) !== layerOf(b)) continue;
       const q = a.getBoundingClientRect();
-      if (Math.min(r.right, q.right) - Math.max(r.left, q.left) > 2 && Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top) > 2) {
-        out.push({ check: 'bubble-over-avoid', selector: describe(b), detail: `over ${describe(a)}` });
-      }
+      const w = Math.min(r.right, q.right) - Math.max(r.left, q.left);
+      const h = Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top);
+      if (w <= 2 || h <= 2) continue;
+      // Only when the bubble is the one on top: a check-in card laid over
+      // the page's line (Focus) covers the line, not the other way round.
+      const hit = document.elementFromPoint(Math.max(r.left, q.left) + w / 2, Math.max(r.top, q.top) + h / 2);
+      if (hit && b.contains(hit)) out.push({ check: 'bubble-over-avoid', selector: describe(b), detail: `over ${describe(a)}` });
     }
   }
 

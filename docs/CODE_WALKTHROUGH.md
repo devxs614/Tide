@@ -1441,3 +1441,48 @@ ten steps, then the re-check.
 - *Did v1 data change?* No. The strategy id is still `t-count-7`, and the
   default reads exactly as before.
 
+## v2.3 focused fixes: the check-in button, companion speech, phone numbers
+
+**What it does for Maya.** The check-in button shows up where it helps and
+gets out of the way elsewhere, with a two-tap Quick check-in on a long
+press; the companion's words never float outside the phone or over the
+timer, and she can pick bubbles, a caption bar or none; phone numbers take
+digits only, with the country code chosen apart, so Call always dials.
+
+**Files**
+- Check-in button: `shell/CheckInFab.tsx` (look, modes, long press,
+  ring), `shell/useFabPlacement.ts` (fields with focus, scrolling, what's
+  under it, drag to a side), `lib/checkin/fabRules.ts` (pure rules),
+  `lib/checkin/quickCheckIn.ts` + `checkin/QuickCheckInSheet.tsx`,
+  `lib/layout/bottomInsets.ts`, the sixth item in `shell/TabBar.tsx`,
+  `ui/hint-label.tsx`.
+- Speech: the frame's overlay layer in `shell/PhoneFrame.tsx` and
+  `lib/overlay/overlayRoot.ts`; `companion/FloatingBubble.tsx` (frame-bound
+  Floating UI, `lib/overlay/avoidElements.ts`); `companion/CompanionSay.tsx`
+  (styles, captions, sheets closing bubbles); `companion/CaptionBar.tsx`;
+  `lib/companion/speech.ts` (last line, caption); the `slot` mode in
+  `companion/CompanionHost.tsx`.
+- Phones: `lib/phone.ts`, `lib/contacts/migrate.ts`, `settings/PhoneInput.tsx`,
+  `settings/ContactForm.tsx`, `settings/PeopleSection.tsx`,
+  `safety/ContactList.tsx`.
+
+**Data flow.** Check-ins from Quick check-in go through `createCheckIn`
+like any other (with `quick: true`), so the bus event, celebrations and
+Today react as always. Every companion line passes through
+`recordLine`/`showCaption`, which is how the top bar's head can bring the
+last one back. Contacts are saved as `countryCode` + `national`, with
+`value` kept as the dialable form; the links are built from those parts.
+
+**Likely reviewer questions**
+- *Why doesn't the floating button just hide everywhere?* Checking in is
+  step one of Tide's loop. Smart mode keeps it one tap away on the main
+  tabs and moves it out of the way everywhere else (D209); tab bar and
+  hidden modes are one setting away.
+- *How do you know a bubble never leaves the phone?* It lives in a layer
+  inside the frame with `overflow: clip`, Floating UI's boundary is the
+  frame, and the layout audit fails anything that paints outside
+  `[data-app-frame]` at every width and text size (D208).
+- *Do old contacts break?* No. The migration only adds fields; a number it
+  can't read keeps its text and gets `needsReview` (D212).
+- *Why did some copy move out of `en.ts`?* The new button lives in the
+  shell and needed room under Today's 300 KB budget (D211).

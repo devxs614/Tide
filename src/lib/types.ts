@@ -236,12 +236,23 @@ export interface TrustedContact {
   // Instagram handle, an email) is shown so Maya can reach out herself.
   method: 'phone' | 'email' | 'handle';
   value: string;
+  // v2.3 Item 2, all optional: a phone as a country code and digits
+  // (`value` keeps the dialable "+528112345678" for older readers), whether
+  // it has WhatsApp, and a flag for numbers the migration couldn't read.
+  countryCode?: string;
+  national?: string;
+  whatsapp?: boolean;
+  needsReview?: boolean;
 }
 
 export interface CampusSupport {
   name: string;
   phone?: string;
   url?: string;
+  // v2.3 Item 2, the same split for the campus phone.
+  phoneCountryCode?: string;
+  phoneNational?: string;
+  needsReview?: boolean;
 }
 
 export interface DemoClock {
@@ -377,6 +388,8 @@ export interface Settings {
   'checkin.buttonMovable': boolean;
   'checkin.buttonSide': 'left' | 'center' | 'right';
   'checkin.quickHintSeen': boolean;
+  // v2.3 Item 2: the one-time phone migration has run (internal).
+  'contacts.migratedV23': boolean;
   'focus.defaultMinutes': 'auto' | 5 | 10 | 15 | 25;
   'focus.companionActivity': boolean;
   'focus.endSound': boolean;
