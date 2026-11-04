@@ -3819,3 +3819,80 @@ Lint, typecheck, 569 tests and v1's 164 pass. Two visual captures at 100%
 show no change from the fix; the one real diff (the sounds timer control
 at 1280, stacked before and side by side now, labels all visible) is
 logged as S-04 because I couldn't prove its cause.
+
+## Before v2.3 — Focused fixes
+2026-11-03
+
+The team sent a second spec, `docs/TIDE_V2_3_FOCUSED_FIXES_PROMPT.md`, while
+the v2.2 sweep was partway: S0 and B-03 committed. v2.3 asks for four things
+done properly: a dynamic check-in button, digits-only phone numbers,
+companion speech that never leaves the phone area, and a Tasks screen that
+stays inside the phone frame. Its kickoff message was again the v2
+template; I'm following the spec's own order (Item 4, 3, 1, 2) on a new
+branch, `v2.3-focused-fixes`, from the tag `v2.2-baseline` (the sweep's
+state after B-03).
+
+How the two specs fit: v2.3's items replace v2.2's B-01 (phones), B-02
+(speech), B-04 (Tasks board) and B-05's check-in button part. What v2.2
+still has that v2.3 doesn't is the AI task breakdown and the wider
+area-by-area sweep; those are on hold, listed in `docs/BUG_SWEEP.md`, to
+come back to after v2.3. v2.3's "Has steps" filter depends on that
+breakdown, so it waits too (D207).
+
+**Baseline.** Lint and typecheck clean, 569 tests (100 files), v1 164
+(33 files), build clean, `/` 299.5 KB. The visual baseline is the two
+captures of this exact build I took for B-03 (160 screenshots each; their
+differences are the known greeting-bubble noise).
+
+## Item 4 — Tasks stays inside the phone frame (before and after)
+2026-11-03
+
+**Before.** On a laptop the frame was 430px everywhere except Tasks and
+Calendar, which `AppShell` widened to 1100px (v1 for the board, v2.1 F-10
+for the calendar). The board then showed four columns, which large text
+crushed (v2.2's B-04, and the mid-word breaks left after B-03).
+
+**What I built.**
+- `PhoneFrame` has one width (430px, in px) on every route and is marked
+  `data-app-frame`; `AppShell` no longer widens it, nor the bottom bar.
+  The calendar already picked its layout with container queries, so it
+  simply uses its narrow layout now (D206).
+- The board has two views, chosen in Settings → Day & planning or from a
+  switch on the Tasks screen (`tasks.boardView`): "Swipe between columns"
+  (default) puts the columns side by side in a sideways scroller, each
+  85% wide with snapping, the status pills kept in sync by an
+  IntersectionObserver, arrow keys on the pills and four position dots;
+  "One list" stacks them as groups whose headings fold, remembered in
+  `tasks.collapsedGroups`.
+- Quick filters: Due today, Light energy, Today's one thing, combined with
+  AND, for this visit only, with "Clear filters" and "No tasks match these
+  filters."
+- An empty Not started column offers "Add task". Each column is a region
+  named "In progress, 1 task".
+- Cards, the "Move to…" menu, drag and drop with its announcements, Clear
+  done, the Completed link and Someday are unchanged in both views.
+- The audit now also fails a route whose frame differs in width from the
+  others at the same window and text size.
+
+**What broke on the way.** Two things the audit caught. The swipe view made
+the whole Tasks page scroll sideways (1052px wide at 390): screen-reader-only
+text in the far columns is positioned against the frame, not the scroller,
+so the scroller didn't clip it; `relative` on the scroller fixed it. And at
+150% on a 320px phone, card titles still split, because 85% of the
+*content* width left the title 35px beside the drag handle; I made the
+columns 85% of the *frame* (as the spec says) and let a card's title wrap
+under its handle when it must (an 8em basis, so 100% is unchanged).
+
+**How I checked it.** New tests (`tasks/BoardViews.test.tsx`): the same
+frame on `/`, `/tasks`, `/tasks/completed` and `/calendar`; the pills
+following a swipe (a stand-in IntersectionObserver); a folded group
+remembered and a task moved with the menu in the list view; filters
+combining and clearing; the empty column's "Add task" and the header
+switch. 577 tests and v1's 164 pass. Audit: Tasks, Completed, the task
+sheets, Unstick and Calendar across 6 widths × 4 text sizes, 240 runs, 0
+failures (frame width the same on every route, no mid-word breaks, no
+sideways scroll). Both tours unchanged (pitch 28/28 in 79 s, full 68/68 in
+180 s, no AI). `/` is 299.6 KB. The visual comparison against the v2.3
+baseline changes only Tasks, Completed, Calendar and the task sheets at
+1280 (the frame), Tasks at 390 (the swipe view), Settings → Day (the new
+row), plus the known greeting noise.

@@ -275,6 +275,16 @@ adds "Got unstuck" when it applies.
 - *Does the step really change with the state?* Yes, the prompt is told to,
   and the fallback adds a state-specific line and focus length (D16).
 - *Is a task ever deleted?* No. Done tasks can be moved back; wins stay.
+- *Why doesn't the board go wide on a laptop anymore?* (v2.3 Item 4) The
+  frame grew to 1100px on Tasks only, so the "phone" changed size between
+  tabs and large text crushed four columns. Now the frame is 430px on every
+  route (`PhoneFrame`, `data-app-frame`), and the board is a sideways
+  scroller of 85%-wide columns (`TaskBoard.tsx`) whose pills
+  (`BoardSegments.tsx`) follow the column in view through an
+  IntersectionObserver, or one foldable list (`tasks.boardView`). The audit
+  fails any route whose frame width differs (D206).
+- *Where do the quick filters live?* `lib/tasks/boardFilters.ts`: the rule
+  is a pure function, the state a tiny store that lasts one visit.
 
 ## Today and Day Mode
 

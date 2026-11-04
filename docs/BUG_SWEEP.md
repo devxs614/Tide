@@ -138,6 +138,15 @@ I checked it. The spec is `docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`.
 - Where: the month grid and the agenda list (28 runs,
   `label-content-name-mismatch`)
 
+## On hold while v2.3 runs
+
+The team's v2.3 spec arrived after B-03. Its four items replace B-01
+(phones), B-02 (speech), B-04 (Tasks board) and the check-in-button part
+of B-05; their fixes and tests are recorded in `docs/AI_DEV_LOG.md` under
+v2.3. Still to do from v2.2 afterwards: B-05's other parts (the "wider
+screen", bottom insets for other fixed bars), B-06, the AI task breakdown
+(Section 5), and the area-by-area sweep with S-01 to S-04.
+
 ## Not fixed (would change the design) or needs a team decision
 
 (None yet.)

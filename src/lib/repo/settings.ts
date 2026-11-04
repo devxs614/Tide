@@ -96,6 +96,8 @@ export const DEFAULT_SETTINGS: Settings = {
   'day.wrapCard': true,
   'tasks.doneVisibleFor': '24h',
   'tasks.autoDeleteCompletedAfter': 'never',
+  'tasks.boardView': 'swipe',
+  'tasks.collapsedGroups': [],
   'checkin.defaultPath': 'words',
   'checkin.vocabulary': 'full',
   'checkin.showCauses': true,

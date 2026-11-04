@@ -40,9 +40,13 @@ export function TaskCard({ task, handle, compact = false }: { task: Task; handle
 
   return (
     <article onKeyDown={onKeyDown} className={cn('flex flex-col gap-2 card p-4', compact && 'p-3')}>
-      <div className="flex items-start gap-2">
+      {/* v2.3 Item 4: at 150% text in a 320px phone's column the drag handle
+          and chevron left the title about 35px, and every word split. With
+          an 8em start the title moves under the handle instead; at 100% it
+          keeps its place beside it, even at 320px. */}
+      <div className="flex flex-wrap items-start gap-2">
         {handle}
-        <h3 className="min-w-0 flex-1 text-body font-bold break-words text-ink">
+        <h3 className="min-w-0 flex-1 basis-[8em] text-body font-bold break-words text-ink">
           <button
             type="button"
             onClick={() => openTaskDetail(task.id)}

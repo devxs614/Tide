@@ -89,6 +89,7 @@ export const settingsCopy = {
     wrapCard: 'Evening card',
     doneVisibleFor: 'Show finished tasks on the board for',
     autoDeleteCompleted: 'Remove finished tasks after',
+    boardView: 'Board view',
     focusMinutes: 'Focus length',
     focusAuto: 'Pick for me',
     companionActivity: 'Companion works alongside me',

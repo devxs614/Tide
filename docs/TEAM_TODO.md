@@ -147,6 +147,14 @@ up during the build. — Claude Code
   which from our own testing. Why: I left that column blank instead of
   guessing. *By Nov 4.*
 
+## v2.3 checks on real devices (before Thursday, Nov 5)
+- [ ] **Open Tasks on a laptop** and switch between tabs: the phone frame
+  should keep the same size on every screen, Tasks and Calendar included.
+  Then swipe between the columns on a real phone, tap the status pills,
+  and try "One list" (the switch on Tasks). Why: the board used to grow
+  past the frame on a laptop, and swiping only feels right on a real
+  touch screen. *By Nov 5.*
+
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
 - [ ] **Check Settings, Check-in and Today on a real iPhone and a real
   Android phone** at the phone's largest standard text size plus Tide at

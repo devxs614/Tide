@@ -1,0 +1,807 @@
+{
+  "from": "v23-baseline",
+  "to": "after-item4",
+  "createdAt": "2026-11-04T06:02:59.092Z",
+  "rows": [
+    {
+      "shot": "bubble_breathing-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_breathing-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_checkin-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_checkin-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_focus-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_focus-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_shore-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_shore-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_studio-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_studio-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_today-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "bubble_today-390",
+      "diffPercent": 0.18,
+      "note": "1689 px"
+    },
+    {
+      "shot": "calendar-1280",
+      "diffPercent": 100,
+      "note": "size 1280x1300 -> 1280x995"
+    },
+    {
+      "shot": "calendar-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "calendar_future-1280",
+      "diffPercent": 1.88,
+      "note": "19279 px"
+    },
+    {
+      "shot": "calendar_future-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "calendar_list-1280",
+      "diffPercent": 100,
+      "note": "size 1280x4404 -> 1280x4508"
+    },
+    {
+      "shot": "calendar_list-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "calendar_past-1280",
+      "diffPercent": 100,
+      "note": "size 1280x1190 -> 1280x1314"
+    },
+    {
+      "shot": "calendar_past-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "companion-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "companion-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "demo-launcher-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "demo-launcher-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "dialog_eventdelete-1280",
+      "diffPercent": 0.08,
+      "note": "790 px"
+    },
+    {
+      "shot": "dialog_eventdelete-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "dialog_eventscope-1280",
+      "diffPercent": 0.08,
+      "note": "795 px"
+    },
+    {
+      "shot": "dialog_eventscope-390",
+      "diffPercent": 0.27,
+      "note": "900 px"
+    },
+    {
+      "shot": "dialog_taskdelete-1280",
+      "diffPercent": 2.99,
+      "note": "30644 px"
+    },
+    {
+      "shot": "dialog_taskdelete-390",
+      "diffPercent": 2.02,
+      "note": "6638 px"
+    },
+    {
+      "shot": "focus-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_coach-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_coach-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_outcome-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_outcome-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_outcome-didnt-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_outcome-didnt-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_running-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "focus_running-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "mini_ambience-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "mini_ambience-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step1-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step1-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step10-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step10-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step3-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step3-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step6-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step6-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step7-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "onboarding_step7-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "patterns-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "patterns-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "proof-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "proof-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_about-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_about-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_appearance-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_appearance-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_appearance-trying-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_appearance-trying-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_checkin-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_checkin-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_companion-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_companion-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_day-1280",
+      "diffPercent": 100,
+      "note": "size 1280x2171 -> 1280x2287"
+    },
+    {
+      "shot": "settings_day-390",
+      "diffPercent": 100,
+      "note": "size 390x2252 -> 390x2419"
+    },
+    {
+      "shot": "settings_demo-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_demo-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_focus-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_focus-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_language-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_language-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_motion-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_motion-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_patterns-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_patterns-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_people-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_people-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_privacy-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_privacy-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_profile-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_profile-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_shore-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_shore-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_shortcuts-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_shortcuts-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_sound-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_sound-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_toolkit-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_toolkit-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_voice-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "settings_voice-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_ambience-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_ambience-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_bridge-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_bridge-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_checkin1-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_checkin1-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_checkin2-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_checkin2-390",
+      "diffPercent": 0.29,
+      "note": "967 px"
+    },
+    {
+      "shot": "sheet_checkin4-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_checkin4-390",
+      "diffPercent": 0.29,
+      "note": "967 px"
+    },
+    {
+      "shot": "sheet_daymode-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_daymode-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_eventdetail-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_eventdetail-390",
+      "diffPercent": 0.28,
+      "note": "923 px"
+    },
+    {
+      "shot": "sheet_eventedit-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_eventedit-390",
+      "diffPercent": 0.28,
+      "note": "937 px"
+    },
+    {
+      "shot": "sheet_eventform-1280",
+      "diffPercent": 0.08,
+      "note": "808 px"
+    },
+    {
+      "shot": "sheet_eventform-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_taskdetail-1280",
+      "diffPercent": 2.77,
+      "note": "28375 px"
+    },
+    {
+      "shot": "sheet_taskdetail-390",
+      "diffPercent": 1.67,
+      "note": "5500 px"
+    },
+    {
+      "shot": "sheet_taskedit-1280",
+      "diffPercent": 1.73,
+      "note": "17666 px"
+    },
+    {
+      "shot": "sheet_taskedit-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_taskform-1280",
+      "diffPercent": 1.73,
+      "note": "17666 px"
+    },
+    {
+      "shot": "sheet_taskform-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "sheet_unstick-1280",
+      "diffPercent": 2.33,
+      "note": "23902 px"
+    },
+    {
+      "shot": "sheet_unstick-390",
+      "diffPercent": 2.38,
+      "note": "7823 px"
+    },
+    {
+      "shot": "sheet_unstick2-1280",
+      "diffPercent": 1.73,
+      "note": "17666 px"
+    },
+    {
+      "shot": "sheet_unstick2-390",
+      "diffPercent": 0.02,
+      "note": "80 px"
+    },
+    {
+      "shot": "shore-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_collection-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_collection-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_night-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_night-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_sunset-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "shore_sunset-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "support-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "support-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "tasks-1280",
+      "diffPercent": 100,
+      "note": "size 1280x1388 -> 1280x1654"
+    },
+    {
+      "shot": "tasks-390",
+      "diffPercent": 100,
+      "note": "size 390x1480 -> 390x1708"
+    },
+    {
+      "shot": "tasks_completed-1280",
+      "diffPercent": 2.7,
+      "note": "166690 px"
+    },
+    {
+      "shot": "tasks_completed-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "tasks_completed-select-1280",
+      "diffPercent": 1.93,
+      "note": "19765 px"
+    },
+    {
+      "shot": "tasks_completed-select-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "tasks_done-1280",
+      "diffPercent": 3.6,
+      "note": "36871 px"
+    },
+    {
+      "shot": "tasks_done-390",
+      "diffPercent": 4.31,
+      "note": "14201 px"
+    },
+    {
+      "shot": "today-1280",
+      "diffPercent": 0.05,
+      "note": "1360 px"
+    },
+    {
+      "shot": "today-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "today_empty-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "today_empty-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "tool_countback-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "tool_countback-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "toolkit-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "toolkit-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step1-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step1-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step11-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step11-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step3-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step3-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step8-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step8-390",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step9-1280",
+      "diffPercent": 0,
+      "note": ""
+    },
+    {
+      "shot": "wrap_step9-390",
+      "diffPercent": 0,
+      "note": ""
+    }
+  ]
+}

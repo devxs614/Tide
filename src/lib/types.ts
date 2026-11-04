@@ -358,6 +358,10 @@ export interface Settings {
   // cleanup of old finished tasks (their wins and history stay).
   'tasks.doneVisibleFor': '24h' | '3d' | '7d' | 'forever';
   'tasks.autoDeleteCompletedAfter': 'never' | '30d';
+  // v2.3 Item 4: the board stays inside the phone frame, as columns to
+  // swipe between or one grouped list; which list groups are folded.
+  'tasks.boardView': 'swipe' | 'list';
+  'tasks.collapsedGroups': TaskStatus[];
   'checkin.defaultPath': 'words' | 'body' | 'map';
   'checkin.vocabulary': 'simple' | 'full';
   'checkin.showCauses': boolean;

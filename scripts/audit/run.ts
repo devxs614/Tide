@@ -181,6 +181,24 @@ export async function runAudit(browser: Browser, opts: AuditOptions, log: (msg: 
   const n = Math.max(1, Math.min(opts.workers, combos.length));
   const slices = Array.from({ length: n }, (_, i) => combos.filter((_, j) => j % n === i));
   await Promise.all(slices.map(worker));
+  // v2.3 Item 4: at one window size and text size, every route's frame is
+  // the same width (the board used to widen it to 1100px on a laptop).
+  const byCombo = new Map<string, Array<{ state: string; w: number }>>();
+  for (const [key, byScale] of widths) {
+    const [state, width] = key.split('|');
+    for (const [scale, w] of byScale) {
+      if (w < 0) continue;
+      const k = `${width}|${scale}`;
+      byCombo.set(k, [...(byCombo.get(k) ?? []), { state, w }]);
+    }
+  }
+  for (const [k, list] of byCombo) {
+    const common = [...list.map((x) => x.w)].sort((a, b) => list.filter((x) => x.w === b).length - list.filter((x) => x.w === a).length)[0];
+    const [width, scale] = k.split('|').map(Number);
+    for (const { state, w } of list) {
+      if (Math.abs(w - common) > 1) findings.push({ check: 'frame-width-route', selector: 'frame', detail: `${w}px here, ${common}px on other routes`, state, width, scale });
+    }
+  }
   // Bigger text must never widen the phone column itself.
   for (const [key, byScale] of widths) {
     const one = byScale.get(1);

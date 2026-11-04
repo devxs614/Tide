@@ -5,6 +5,7 @@
 // labels plus the words people actually type ("dark mode", "pet", "font").
 import { copy } from '@/copy/en';
 import { settingsCopy } from '@/copy/settingsCopy';
+import { tasksCopy } from '@/copy/tasksCopy';
 import type { Settings } from '@/lib/types';
 
 export type SectionId = keyof typeof settingsCopy.sections;
@@ -113,6 +114,13 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
         help: H.doneVisibleFor,
         options: (['24h', '3d', '7d', 'forever'] as const).map((v) => ({ value: v, label: settingsCopy.doneWindows[v] })),
         keywords: ['done', 'finished', 'completed', 'clear', 'board'],
+      },
+      {
+        kind: 'choice',
+        key: 'tasks.boardView',
+        label: L.boardView,
+        options: (['swipe', 'list'] as const).map((v) => ({ value: v, label: tasksCopy.boardViews[v] })),
+        keywords: ['board', 'columns', 'swipe', 'list', 'kanban', 'tasks layout'],
       },
       {
         kind: 'choice',

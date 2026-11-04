@@ -1466,3 +1466,20 @@ tab bars on iOS and Android do the same, and the icon above each label
 carries the meaning too. At 100% the size is exactly what it was.
 Rejected: icons only at big text (it hides the words people chose bigger
 text to read) and wrapping inside the word (unreadable).
+
+**D206 — 2026-11-03 — One frame width on every route; the calendar loses its wide layout too.**
+v2.3 Item 4 asks for Tasks to stay inside the phone frame and for a guard
+that every route's frame has the same width. The calendar also widened the
+frame (v2.1 F-10, D185), so it would fail that guard; it now uses the
+narrow layout its container queries already had. The board's default view
+is "swipe", which also changes Tasks on a phone (columns side by side that
+peek, instead of one column at a time); that's the spec's design.
+Rejected: keeping the calendar wide (two frame sizes again, the very thing
+the team found confusing).
+
+**D207 — 2026-11-03 — The "Has steps" filter waits for the task breakdown.**
+v2.3 lists four quick filters; "Has steps" filters tasks with subtasks,
+which come from v2.2's AI task breakdown. That feature isn't built yet (the
+sweep paused for v2.3), so tasks have no subtasks and the chip would always
+empty the board. I left it out; it goes in with the breakdown. Rejected: a
+chip that can only ever show "No tasks match".

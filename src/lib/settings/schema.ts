@@ -97,6 +97,8 @@ export const SettingsSchema = z.object({
   'day.wrapCard': flag,
   'tasks.doneVisibleFor': z.enum(['24h', '3d', '7d', 'forever']),
   'tasks.autoDeleteCompletedAfter': z.enum(['never', '30d']),
+  'tasks.boardView': z.enum(['swipe', 'list']),
+  'tasks.collapsedGroups': z.array(z.enum(['not_started', 'in_progress', 'stuck', 'done'])),
   'checkin.defaultPath': z.enum(['words', 'body', 'map']),
   'checkin.vocabulary': z.enum(['simple', 'full']),
   'checkin.showCauses': flag,

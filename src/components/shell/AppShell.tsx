@@ -8,7 +8,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useSettings } from '@/lib/settings';
 import { currentWorkspace } from '@/lib/workspace';
 import { copy } from '@/copy/en';
-import { cn } from '@/lib/utils';
 import { PhoneFrame } from './PhoneFrame';
 import { TopBar } from './TopBar';
 import { TabBar } from './TabBar';
@@ -96,8 +95,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { settings, loaded } = useSettings();
   const ambience = useAmbienceState();
-  // The board and the calendar use the width of a laptop (v2.1 F-10).
-  const wide = pathname.startsWith('/tasks') || pathname.startsWith('/calendar');
 
   // First visit goes to onboarding. Nothing renders until settings have
   // loaded, so the demo clock and preferences are right on the first paint.
@@ -132,7 +129,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const showWhatsNew = !settings.demoMode && settings['companion.species'] === null && !settings['whatsNew.seen'];
 
   return (
-    <PhoneFrame wide={wide}>
+    <PhoneFrame>
       <a
         href="#main"
         className="sr-only-focusable absolute left-2 top-2 z-(--z-popover) rounded-full bg-primary px-4 py-2 text-on-primary"
@@ -150,10 +147,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </main>
       <div
         data-overlay="chrome"
-        className={cn(
-          'fixed inset-x-0 bottom-0 z-(--z-tabbar) mx-auto w-full max-w-[430px]',
-          wide && 'lg:max-w-[1100px]',
-        )}
+        className="fixed inset-x-0 bottom-0 z-(--z-tabbar) mx-auto w-full max-w-[430px]"
       >
         {showMiniPlayer && <AmbienceMini />}
         <CheckInFab />

@@ -1,14 +1,18 @@
 'use client';
 
-// The Tasks tab: an "Add task" button that stays in reach, then the board.
-// When Maya comes back from a strategy she chose in Unstick ("Do it first"),
-// the URL carries the task id and the Unstick sheet reopens on her step.
+// The Tasks tab: an "Add task" button that stays in reach, the board view
+// switch (v2.3: swipe or one list), then the board. When Maya comes back
+// from a strategy she chose in Unstick ("Do it first"), the URL carries the
+// task id and the Unstick sheet reopens on her step.
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { copy } from '@/copy/en';
+import { tasksCopy } from '@/copy/tasksCopy';
 import { useUnstickSheet } from '@/lib/ui';
+import { useSettings } from '@/lib/settings';
 import { Button } from '@/components/ui/button';
+import { SegmentedControl } from '@/components/ui/segmented-control';
 import { TaskBoard } from './TaskBoard';
 import dynamic from 'next/dynamic';
 import { WhenOpened } from '@/components/shell/WhenOpened';
@@ -18,6 +22,7 @@ const TaskForm = dynamic(() => import('./TaskForm').then((m) => m.TaskForm), { s
 export function TasksScreen({ resumeUnstickId, startNew = false }: { resumeUnstickId?: string; startNew?: boolean }) {
   const router = useRouter();
   const { openUnstick } = useUnstickSheet();
+  const { settings, update } = useSettings();
   const [formOpen, setFormOpen] = useState(startNew);
   // Pressing "n" again while already on Tasks arrives as a new search param.
   const [seenStartNew, setSeenStartNew] = useState(startNew);
@@ -46,7 +51,13 @@ export function TasksScreen({ resumeUnstickId, startNew = false }: { resumeUnsti
           {copy.tasks.addTask}
         </Button>
       </div>
-      <TaskBoard />
+      <SegmentedControl
+        label={tasksCopy.boardView}
+        value={settings['tasks.boardView']}
+        onChange={(v) => void update('tasks.boardView', v)}
+        options={(['swipe', 'list'] as const).map((v) => ({ value: v, label: tasksCopy.boardViews[v] }))}
+      />
+      <TaskBoard onAddTask={() => setFormOpen(true)} />
       <WhenOpened open={formOpen}>
         <TaskForm open={formOpen} onOpenChange={setFormOpen} />
       </WhenOpened>
