@@ -3,9 +3,10 @@
 // The focus timer's face: a circle that slowly fills with water from the
 // bottom, with the time left in the middle. With reduced motion it becomes a
 // plain horizontal bar and the numbers, with nothing rising or moving.
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { useReducedMotionPref } from '@/lib/settings';
 import { formatCountdown } from '@/lib/time';
+import { focusCopy } from '@/copy/focusCopy';
 
 export function WaterFill({ progress, remaining }: { progress: number; remaining: number }) {
   const reduce = useReducedMotionPref();
@@ -20,11 +21,11 @@ export function WaterFill({ progress, remaining }: { progress: number; remaining
         </p>
         <div
           role="progressbar"
-          aria-label={copy.focus.progressLabel}
+          aria-label={focusCopy.progressLabel}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={percent}
-          aria-valuetext={fill(copy.focus.timeLeft, { time })}
+          aria-valuetext={fill(focusCopy.timeLeft, { time })}
           className="h-3 w-full overflow-hidden rounded-full bg-surface-2"
         >
           <div className="h-full bg-primary" style={{ width: `${percent}%` }} />
@@ -36,11 +37,11 @@ export function WaterFill({ progress, remaining }: { progress: number; remaining
   return (
     <div
       role="progressbar"
-      aria-label={copy.focus.progressLabel}
+      aria-label={focusCopy.progressLabel}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={percent}
-      aria-valuetext={fill(copy.focus.timeLeft, { time })}
+      aria-valuetext={fill(focusCopy.timeLeft, { time })}
       className="relative flex size-[220px] items-center justify-center overflow-hidden rounded-full border-2 border-line bg-surface"
     >
       <div

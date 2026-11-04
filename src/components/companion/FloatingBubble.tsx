@@ -58,7 +58,17 @@ export function FloatingBubble({ anchor, lineKey, onCollide, children }: { ancho
       avoidElements(reference),
       arrow({ element: tail, padding: 16 }),
     ],
-    whileElementsMounted: (ref, floating, update) => autoUpdate(ref, floating, update, { layoutShift: true }),
+    // Also look again every 300ms while it shows: Today's cards arrive
+    // after the greeting, and a primary button could land under it without
+    // the companion moving (autoUpdate only watches the companion).
+    whileElementsMounted: (ref, floating, update) => {
+      const stop = autoUpdate(ref, floating, update, { layoutShift: true });
+      const again = window.setInterval(update, 300);
+      return () => {
+        stop();
+        window.clearInterval(again);
+      };
+    },
   });
   const collided = (middlewareData.avoidElements as AvoidData | undefined)?.collided ?? false;
   useEffect(() => {

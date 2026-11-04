@@ -12,6 +12,8 @@ import { ttsStatus, type TtsStatus } from '@/lib/voice/cloudEngine';
 import { SwitchRow } from '@/components/ui/switch';
 import type { StepProps } from '../OnboardingStep';
 import { StepFrame } from './StepFrame';
+import { settingsV1 } from '@/copy/settingsV1Copy';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 export function PrivacyStep({ onNext }: StepProps) {
   const { settings, update } = useSettings();
@@ -27,17 +29,17 @@ export function PrivacyStep({ onNext }: StepProps) {
     <StepFrame title={onboardingCopy.privacyTitle} action={onboardingCopy.next} onAction={onNext}>
       <p>{copy.onboarding.privacyBody}</p>
       <p className="font-bold">{onboardingCopy.privacyBullets}</p>
-      <SwitchRow id="ob-ai" label={copy.settings.useAi} checked={settings.aiEnabled} onCheckedChange={(v) => void update('aiEnabled', v)} />
+      <SwitchRow id="ob-ai" label={settingsV1.useAi} checked={settings.aiEnabled} onCheckedChange={(v) => void update('aiEnabled', v)} />
       {cloud?.available && (
         <div className="flex flex-col gap-1">
           <SwitchRow
             id="ob-natural"
-            label={copy.voice.naturalAllowed}
+            label={voiceCopy.naturalAllowed}
             checked={settings['privacy.naturalVoiceAllowed']}
             onCheckedChange={(v) => void update('privacy.naturalVoiceAllowed', v)}
           />
           <p className="text-small text-ink-soft">
-            {fill(copy.voice.voicePrivacy, { provider: copy.voice.providers[cloud.provider as 'openai'] ?? cloud.provider })}
+            {fill(voiceCopy.voicePrivacy, { provider: voiceCopy.providers[cloud.provider as 'openai'] ?? cloud.provider })}
           </p>
         </div>
       )}

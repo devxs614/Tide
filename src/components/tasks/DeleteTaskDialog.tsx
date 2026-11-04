@@ -14,13 +14,14 @@ import { purgeTaskCascade, softDeleteTasks, undoDeleteTasks, UNDO_MS } from '@/l
 import { Button } from '@/components/ui/button';
 import { CheckboxRow } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { taskEditCopy } from '@/copy/taskEditCopy';
 
 // Deletes, offers Undo, and (when asked) removes the history after the
 // window. Module-level, so it outlives the dialog that started it.
 export async function deleteTasksWithUndo(ids: string[], withHistory: boolean) {
   await softDeleteTasks(ids, { withHistory });
   let undone = false;
-  toast(ids.length > 1 ? fill(copy.taskEdit.deletedMany, { n: ids.length }) : copy.taskEdit.deleted, {
+  toast(ids.length > 1 ? fill(taskEditCopy.deletedMany, { n: ids.length }) : taskEditCopy.deleted, {
     duration: UNDO_MS,
     action: {
       label: copy.global.undo,
@@ -40,7 +41,7 @@ export async function deleteTasksWithUndo(ids: string[], withHistory: boolean) {
 export function DeleteTaskDialog({ ids, onClose }: { ids: string[]; onClose: () => void }) {
   const [withHistory, setWithHistory] = useState(false);
   const first = useLiveQuery(() => (ids.length === 1 ? getTask(ids[0]) : undefined), [ids]);
-  const t = copy.taskEdit;
+  const t = taskEditCopy;
   const many = ids.length > 1;
   const [endsFocus] = useState(() => ids.includes(focusRunningTask() ?? ''));
   const confirm = async () => {

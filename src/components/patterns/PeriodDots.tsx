@@ -8,13 +8,14 @@ import { QUADRANTS } from '@/lib/quadrant';
 import { addDays, formatShortDay, startOfDay, toISODate, weekdayName } from '@/lib/time';
 import type { CheckIn } from '@/lib/types';
 import { QuadrantDot } from '@/components/ui/QuadrantDot';
+import { patternsCopy } from '@/copy/patternsCopy';
 
 function daySentence(ts: number, list: CheckIn[]): string {
   const date = `${weekdayName(ts)}, ${formatShortDay(ts).split(', ')[1]}`;
-  if (list.length === 0) return fill(copy.patterns.dayLabelNone, { date });
+  if (list.length === 0) return fill(patternsCopy.dayLabelNone, { date });
   const states = [...new Set(list.map((c) => copy.quadrants[c.quadrant].name))];
   const joined = states.length > 1 ? `${states.slice(0, -1).join(', ')} and ${states.at(-1)}` : states[0];
-  return fill(list.length === 1 ? copy.patterns.dayLabelOne : copy.patterns.dayLabel, { date, count: list.length, states: joined });
+  return fill(list.length === 1 ? patternsCopy.dayLabelOne : patternsCopy.dayLabel, { date, count: list.length, states: joined });
 }
 
 export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; nowTs: number; days: 7 | 28 }) {
@@ -28,9 +29,9 @@ export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; now
   return (
     <section aria-labelledby="calendar-heading" className="flex flex-col gap-3">
       <h2 id="calendar-heading" className="text-h3 font-bold">
-        {copy.patterns.calendarTitle}
+        {patternsCopy.calendarTitle}
       </h2>
-      <ul aria-label={copy.patterns.calendarLabel} className="grid grid-cols-7 gap-1.5">
+      <ul aria-label={patternsCopy.calendarLabel} className="grid grid-cols-7 gap-1.5">
         {cells.map((ts) => {
           const list = byDay.get(toISODate(ts)) ?? [];
           return (
@@ -50,7 +51,7 @@ export function PeriodDots({ checkins, nowTs, days }: { checkins: CheckIn[]; now
       </ul>
       {/* Two columns only when each fits 14em (it went by screen width, and
           the phone-width column squeezed the meanings into the names). */}
-      <dl aria-label={copy.patterns.legend} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14em),1fr))] gap-1 text-caption">
+      <dl aria-label={patternsCopy.legend} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14em),1fr))] gap-1 text-caption">
         {QUADRANTS.map((q) => (
           <div key={q} className="flex flex-wrap items-center gap-x-2">
             <dt className="flex items-center gap-2 font-bold">

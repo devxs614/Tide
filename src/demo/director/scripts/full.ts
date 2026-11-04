@@ -36,7 +36,7 @@ const setup = (chapter: string, path: string, ts: number): Step => ({
 
 export const CHECKIN_STEPS: Step[] = [
   setup('name', '/', DEMO_START - 2 * 60_000),
-  { id: 'checkin.open', chapter: 'name', target: 'fab-checkin', action: { kind: 'click' }, caption: 'Maya checks in in her own words.', narrate: true },
+  { id: 'checkin.open', chapter: 'name', target: 'fab-checkin', optionalTarget: true, action: { kind: 'custom', name: 'openCheckIn' }, caption: 'Maya checks in in her own words.', narrate: true },
   { id: 'checkin.type', chapter: 'name', target: 'checkin-text', action: { kind: 'type', text: DEMO_CHECKIN_TEXT } },
   { id: 'checkin.next', chapter: 'name', target: 'checkin-next', action: { kind: 'click' }, caption: 'Tide suggests words. It never decides for her.', holdMs: 1200 },
   { id: 'checkin.drained', chapter: 'name', target: 'checkin-candidate-drained', action: { kind: 'click' }, caption: 'She picks what fits and places it on the map.' },

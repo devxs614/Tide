@@ -13,6 +13,7 @@ import { useSettings } from '@/lib/settings';
 import { currentWorkspace, enterDemoWorkspace, leaveDemoWorkspace } from '@/lib/workspace';
 import { Button } from '@/components/ui/button';
 import { Section } from './Section';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 const EVENING = new Date(2026, 10, 5, 20, 35).getTime();
 
@@ -23,7 +24,7 @@ export function DemoSection() {
   const d = copy.demo;
 
   return (
-    <Section id="demo" title={copy.settings.demo}>
+    <Section id="demo" title={settingsV1.demo}>
       {inDemo ? (
         <>
           <p className="card-flat p-3">{d.inDemo}</p>

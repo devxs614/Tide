@@ -40,6 +40,7 @@ export interface CheckIn {
   need?: Need;
   aiUsed: boolean; // whether AI candidates were shown
   safetyTriggered?: boolean; // true if the safety layer fired (text is NOT stored then)
+  quick?: boolean; // v2.3: saved with Quick check-in (two taps, no words typed)
 }
 
 export interface Task {
@@ -370,6 +371,12 @@ export interface Settings {
   'checkin.showCauses': boolean;
   'checkin.showFollowUp': boolean;
   'checkin.mapStyle': 'map' | 'sliders';
+  // v2.3 Item 1: where the check-in button lives, its side, and whether
+  // the press-and-hold tip has been shown.
+  'checkin.buttonMode': 'smart' | 'tabbar' | 'hidden';
+  'checkin.buttonMovable': boolean;
+  'checkin.buttonSide': 'left' | 'center' | 'right';
+  'checkin.quickHintSeen': boolean;
   'focus.defaultMinutes': 'auto' | 5 | 10 | 15 | 25;
   'focus.companionActivity': boolean;
   'focus.endSound': boolean;

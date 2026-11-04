@@ -17,7 +17,7 @@ import { recentLine, showCaption } from '@/lib/companion/speech';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CircleHelp, HeartHandshake, Info, Menu, Moon, PawPrint, PlayCircle, Settings as SettingsIcon, Sparkles, Trophy } from 'lucide-react';
+import { CircleHelp, HeartHandshake, Info, Menu, Moon, PawPrint, PlayCircle, Settings as SettingsIcon, Sparkles, Trophy, WavesHorizontal } from 'lucide-react';
 import { copy, fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import {
@@ -31,6 +31,7 @@ import { useCompanion } from '@/lib/companion/useCompanion';
 import { currentWorkspace } from '@/lib/workspace';
 import { LazyCompanion as Companion } from '@/components/companion/LazyCompanion';
 import { WhenOpened } from './WhenOpened';
+import { useCheckInSheet } from '@/lib/ui';
 
 const ScreenHelpSheet = dynamic(() => import('./ScreenHelpSheet').then((m) => m.ScreenHelpSheet), { ssr: false });
 
@@ -42,6 +43,7 @@ export function TopBar({ title }: { title: string }) {
   const pathname = usePathname();
   const inDemo = currentWorkspace() === 'demo';
   const [helpOpen, setHelpOpen] = useState(false);
+  const { openCheckIn } = useCheckInSheet();
   const [headLine, setHeadLine] = useState<{ text: string; key: number } | null>(null);
   const [headEl, setHeadEl] = useState<HTMLButtonElement | null>(null);
   const showLastLine = () => {
@@ -95,6 +97,13 @@ export function TopBar({ title }: { title: string }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-56">
+            {/* With the check-in button hidden (v2.3 Item 1), it lives here. */}
+            {settings['checkin.buttonMode'] === 'hidden' && (
+              <DropdownMenuItem onSelect={openCheckIn}>
+                <WavesHorizontal aria-hidden />
+                {copy.shell.checkIn}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onSelect={() => setHelpOpen(true)}>
               <CircleHelp aria-hidden />
               {copy.shell.helpScreen}

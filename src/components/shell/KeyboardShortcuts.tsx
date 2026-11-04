@@ -12,6 +12,7 @@ import { useSettings } from '@/lib/settings';
 import { useCheckInSheet } from '@/lib/ui';
 import { shortcutFor } from '@/lib/shortcuts';
 import { WhenOpened } from './WhenOpened';
+import { openQuickCheckIn } from '@/lib/checkin/quickCheckIn';
 
 const ShortcutsSheet = dynamic(() => import('./ShortcutsSheet').then((m) => m.ShortcutsSheet), { ssr: false });
 
@@ -37,6 +38,8 @@ export function KeyboardShortcuts() {
       switch (action.kind) {
         case 'checkIn':
           return openCheckIn();
+        case 'quickCheckIn':
+          return openQuickCheckIn();
         case 'newTask':
           return router.push('/tasks?new=1');
         case 'tab':

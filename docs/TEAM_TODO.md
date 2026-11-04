@@ -162,6 +162,12 @@ up during the build. — Claude Code
   in the top bar to see its last line. Why: the audit checks positions, but
   only a person can say whether it reads well. *By Nov 5.*
 
+- [ ] **Scroll Today, Toolkit and Tasks on a real phone**: the check-in
+  button should hide as you scroll down, come back as you scroll up, and
+  never cover the last items. Then press and hold it for Quick check-in.
+  Why: scroll feel and long press only show on a real touch screen.
+  *By Nov 5.*
+
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
 - [ ] **Check Settings, Check-in and Today on a real iPhone and a real
   Android phone** at the phone's largest standard text size plus Tide at

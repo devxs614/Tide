@@ -5,7 +5,6 @@
 // "No thanks". Read-aloud buttons stay either way; "yes" also reads AI
 // suggestions and the companion's lines without being asked.
 import { Volume2 } from 'lucide-react';
-import { copy } from '@/copy/en';
 import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useSettings } from '@/lib/settings';
 import { cleanVoiceName } from '@/lib/voice/voiceRanking';
@@ -17,6 +16,7 @@ import { CardButton } from '@/components/ui/card';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import type { StepProps } from '../OnboardingStep';
 import { StepFrame } from './StepFrame';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 const RATES = [0.8, 0.9, 1, 1.1];
 
@@ -46,12 +46,12 @@ export function VoiceStep({ onNext }: StepProps) {
               <CardButton selected={settings['voice.deviceVoiceURI'] === v.voiceURI} onClick={() => void update('voice.deviceVoiceURI', v.voiceURI)} className="flex-1">
                 <span className="font-display font-extrabold">{cleanVoiceName(v.name)}</span>
               </CardButton>
-              <WithTooltip label={copy.voice.playSample}>
+              <WithTooltip label={voiceCopy.playSample}>
                 <Button
                   variant="secondary"
                   size="icon"
-                  aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
-                  onClick={() => void voice.speak(copy.voice.voiceSample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
+                  aria-label={`${voiceCopy.playSample}: ${cleanVoiceName(v.name)}`}
+                  onClick={() => void voice.speak(voiceCopy.voiceSample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
                 >
                   <Volume2 aria-hidden />
                 </Button>
@@ -61,9 +61,9 @@ export function VoiceStep({ onNext }: StepProps) {
         </div>
       )}
       <div className="flex flex-col gap-2">
-        <span className="font-display font-extrabold">{copy.voice.rate}</span>
+        <span className="font-display font-extrabold">{voiceCopy.rate}</span>
         <SegmentedControl
-          label={copy.voice.rate}
+          label={voiceCopy.rate}
           value={String(settings['voice.rate'])}
           onChange={(v) => void update('voice.rate', Number(v))}
           options={RATES.map((r) => ({ value: String(r), label: `${r}×` }))}

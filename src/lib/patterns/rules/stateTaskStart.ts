@@ -8,6 +8,7 @@ import { formatShortDay, formatTime, HOUR } from '@/lib/time';
 import type { CheckIn, FocusBlock, Quadrant, TaskType } from '@/lib/types';
 import { confidenceFor, inWindow, pct } from '../confidence';
 import type { PatternInput, PatternResult } from '../types';
+import { focusCopy } from '@/copy/focusCopy';
 
 const LOOKBACK = 3 * HOUR;
 
@@ -63,7 +64,7 @@ export function stateTaskStart(input: PatternInput): PatternResult[] {
           id: l.block.id,
           ts: l.block.ts,
           label: `${formatShortDay(l.block.ts)}, ${formatTime(l.block.ts)} · ${quadrantName} → ${getTaskType(g.taskType).label.toLowerCase()}`,
-          outcome: copy.focus.outcomes[l.block.outcome ?? 'didnt_start'],
+          outcome: focusCopy.outcomes[l.block.outcome ?? 'didnt_start'],
         })),
         facts: { quadrantName, taskType: g.taskType, k, n, baselinePct: pct(baseline), direction: rate > baseline ? 'higher' : 'lower' },
       },

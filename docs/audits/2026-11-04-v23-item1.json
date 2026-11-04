@@ -1,0 +1,93 @@
+{
+  "label": "v23-item1",
+  "createdAt": "2026-11-04T08:09:49.569Z",
+  "seconds": 179,
+  "options": {
+    "base": "http://localhost:3100",
+    "widths": [
+      390,
+      1280
+    ],
+    "scales": [
+      1,
+      1.5
+    ],
+    "prefs": {
+      "font": "playful",
+      "theme": "lagoon",
+      "bold": false,
+      "spacing": false
+    },
+    "textSpacing": false,
+    "workers": 4,
+    "axe": false
+  },
+  "failures": [
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_9_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[button] \"Check in\"",
+      "state": "today",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_9_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[button] \"Check in\"",
+      "state": "today",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 1280,
+      "scale": 1
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "phone-input",
+      "selector": "div[setting-people] > section[people] > div > input[campus-phone]",
+      "detail": "type=text inputmode=-",
+      "state": "settings:people",
+      "width": 390,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_l_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[button] \"Check in\"",
+      "state": "mini:ambience",
+      "width": 1280,
+      "scale": 1.5
+    },
+    {
+      "check": "bubble-over-avoid",
+      "selector": "div > div[tide-overlays] > div > div[_r_l_] \"Hi again! How's the water today?\"",
+      "detail": "over div > div > section > button[bridge-get-ready] \"Get ready\"",
+      "state": "mini:ambience",
+      "width": 1280,
+      "scale": 1.5
+    }
+  ],
+  "warnings": 234,
+  "statesRun": 316
+}

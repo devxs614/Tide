@@ -8,6 +8,9 @@ import { settingsCopy } from '@/copy/settingsCopy';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { tasksCopy } from '@/copy/tasksCopy';
 import type { Settings } from '@/lib/types';
+import { settingsV1 } from '@/copy/settingsV1Copy';
+import { taskEditCopy } from '@/copy/taskEditCopy';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 export type SectionId = keyof typeof settingsCopy.sections;
 type Key = keyof Settings;
@@ -34,7 +37,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
   {
     id: 'profile',
     entries: [
-      { kind: 'text', key: 'name', label: copy.settings.nameLabel, max: 40, keywords: ['name', 'call me', 'profile'] },
+      { kind: 'text', key: 'name', label: settingsV1.nameLabel, max: 40, keywords: ['name', 'call me', 'profile'] },
       { kind: 'text', key: 'pronouns', label: L.pronouns, help: H.pronouns, max: 20, keywords: ['pronouns', 'she', 'he', 'they'] },
     ],
   },
@@ -57,10 +60,10 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
     entries: [
       // v2.1 F-11: ready-made looks first, with Back to my look.
       { kind: 'custom', id: 'looks', label: L.looks, keys: ['appearance.lookSnapshot'], keywords: ['look', 'try', 'surprise', 'style', 'new look'] },
-      { kind: 'custom', id: 'theme', label: copy.settings.theme, keys: ['appearance.theme', 'appearance.followSystem', 'appearance.lightTheme', 'appearance.darkTheme', 'theme'], keywords: ['dark mode', 'night mode', 'light mode', 'colors', 'colours', 'theme', 'contrast'] },
+      { kind: 'custom', id: 'theme', label: settingsV1.theme, keys: ['appearance.theme', 'appearance.followSystem', 'appearance.lightTheme', 'appearance.darkTheme', 'theme'], keywords: ['dark mode', 'night mode', 'light mode', 'colors', 'colours', 'theme', 'contrast'] },
       { kind: 'choice', key: 'appearance.font', label: copy.appearance.font, undo: true, options: Object.entries(copy.appearance.fonts).map(([value, f]) => ({ value, label: f.name })), keywords: ['font', 'dyslexia', 'typeface', 'letters', 'reading'] },
-      { kind: 'custom', id: 'textSize', label: copy.settings.textSize, keys: ['textScale'], keywords: ['text size', 'bigger', 'zoom', 'large text'] },
-      { kind: 'switch', key: 'extraSpacing', label: copy.settings.extraSpacing, keywords: ['spacing', 'line height'] },
+      { kind: 'custom', id: 'textSize', label: settingsV1.textSize, keys: ['textScale'], keywords: ['text size', 'bigger', 'zoom', 'large text'] },
+      { kind: 'switch', key: 'extraSpacing', label: settingsV1.extraSpacing, keywords: ['spacing', 'line height'] },
       { kind: 'switch', key: 'appearance.boldText', label: L.boldText, keywords: ['bold', 'weight'] },
       { kind: 'choice', key: 'appearance.density', label: L.density, options: opts(L.densities), keywords: ['density', 'compact'] },
       { kind: 'choice', key: 'appearance.roundness', label: L.roundness, options: opts(L.roundnesses), keywords: ['corners', 'rounded', 'square'] },
@@ -86,11 +89,11 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'choice', key: 'sound.ambienceVolume', label: L.ambienceVolume, numeric: true, options: ['0.1', '0.3', '0.5', '0.8'].map((v) => ({ value: v, label: `${Math.round(Number(v) * 100)}%` })), keywords: ['background volume'] },
     ],
   },
-  { id: 'voice', entries: [{ kind: 'custom', id: 'voice', label: copy.voice.title, keys: ['voice.engine', 'voice.rate', 'voice.deviceVoiceURI', 'voice.naturalVoice', 'voice.accent', 'voice.autoReadAi', 'voice.readCompanion', 'voice.breathingCues'], keywords: ['voice', 'speak', 'read aloud', 'read', 'speech', 'accent', 'speed'] }] },
+  { id: 'voice', entries: [{ kind: 'custom', id: 'voice', label: voiceCopy.title, keys: ['voice.engine', 'voice.rate', 'voice.deviceVoiceURI', 'voice.naturalVoice', 'voice.accent', 'voice.autoReadAi', 'voice.readCompanion', 'voice.breathingCues'], keywords: ['voice', 'speak', 'read aloud', 'read', 'speech', 'accent', 'speed'] }] },
   {
     id: 'language',
     entries: [
-      { kind: 'custom', id: 'mode', label: copy.settings.howTideTalks, keys: ['communicationMode'], keywords: ['tone', 'literal', 'direct', 'gentle', 'how tide talks'] },
+      { kind: 'custom', id: 'mode', label: settingsV1.howTideTalks, keys: ['communicationMode'], keywords: ['tone', 'literal', 'direct', 'gentle', 'how tide talks'] },
       { kind: 'choice', key: 'language.readingLevel', label: L.readingLevel, options: opts(L.readingLevels), keywords: ['simple words', 'reading level'] },
       { kind: 'choice', key: 'language.timeFormat', label: L.timeFormat, options: opts(L.timeFormats), keywords: ['24 hour', 'clock', 'time format'] },
       { kind: 'choice', key: 'language.dateStyle', label: L.dateStyle, options: opts(L.dateStyles), keywords: ['date format'] },
@@ -105,6 +108,10 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'switch', key: 'checkin.showCauses', label: L.showCauses, keywords: ['causes'] },
       { kind: 'switch', key: 'checkin.showFollowUp', label: L.showFollowUp, keywords: ['follow up question'] },
       { kind: 'choice', key: 'checkin.mapStyle', label: L.mapStyle, options: opts(L.mapStyles), keywords: ['sliders', 'mood map'] },
+      // v2.3 Item 1: the check-in button.
+      { kind: 'choice', key: 'checkin.buttonMode', label: L.checkinButtonMode, help: H.checkinButtonHidden, options: opts(L.checkinButtonModes), keywords: ['floating button', 'check in button', 'fab', 'plus button', 'tab bar', 'hide'] },
+      { kind: 'choice', key: 'checkin.buttonSide', label: L.checkinButtonSide, options: opts(L.checkinButtonSides), keywords: ['left handed', 'button position', 'move button'] },
+      { kind: 'switch', key: 'checkin.buttonMovable', label: L.checkinButtonMovable, keywords: ['move button', 'drag button'] },
     ],
   },
   {
@@ -243,14 +250,14 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
   {
     id: 'privacy',
     entries: [
-      { kind: 'custom', id: 'ai', label: copy.settings.useAi, keys: ['aiEnabled'], keywords: ['ai', 'suggestions', 'privacy'] },
+      { kind: 'custom', id: 'ai', label: settingsV1.useAi, keys: ['aiEnabled'], keywords: ['ai', 'suggestions', 'privacy'] },
       { kind: 'switch', key: 'privacy.naturalVoiceAllowed', label: L.naturalAllowed, keywords: ['cloud voice'] },
-      { kind: 'custom', id: 'data', label: copy.settings.yourData, keywords: ['export', 'delete', 'download', 'data'] },
+      { kind: 'custom', id: 'data', label: settingsV1.yourData, keywords: ['export', 'delete', 'download', 'data'] },
       { kind: 'custom', id: 'backup', label: L.importBackup, keywords: ['import', 'backup', 'restore', 'settings file'] },
-      { kind: 'custom', id: 'purgeDeleted', label: copy.taskEdit.purgeSection, keywords: ['deleted', 'remove', 'purge', 'clean up', 'tasks', 'events'] },
+      { kind: 'custom', id: 'purgeDeleted', label: taskEditCopy.purgeSection, keywords: ['deleted', 'remove', 'purge', 'clean up', 'tasks', 'events'] },
     ],
   },
-  { id: 'people', entries: [{ kind: 'custom', id: 'people', label: copy.settings.people, keywords: ['contacts', 'trusted', 'campus', 'support', 'counselor'] }] },
+  { id: 'people', entries: [{ kind: 'custom', id: 'people', label: settingsV1.people, keywords: ['contacts', 'trusted', 'campus', 'support', 'counselor'] }] },
   {
     id: 'shortcuts',
     entries: [
@@ -258,8 +265,8 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'custom', id: 'shortcutsList', label: copy.shortcuts.title, keywords: ['keyboard', 'keys'] },
     ],
   },
-  { id: 'demo', entries: [{ kind: 'custom', id: 'demo', label: copy.settings.demo, keywords: ['demo', 'example', 'maya', 'tour'] }] },
-  { id: 'about', entries: [{ kind: 'custom', id: 'about', label: copy.settings.about, keywords: ['version', 'credits', 'about', "what's new"] }] },
+  { id: 'demo', entries: [{ kind: 'custom', id: 'demo', label: settingsV1.demo, keywords: ['demo', 'example', 'maya', 'tour'] }] },
+  { id: 'about', entries: [{ kind: 'custom', id: 'about', label: settingsV1.about, keywords: ['version', 'credits', 'about', "what's new"] }] },
 ];
 
 export function sectionById(id: string) {

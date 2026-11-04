@@ -15,6 +15,11 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
   Focus and Box breathing the words sit under the companion. New in
   Settings → Companion: speech bubbles, a caption bar, or no speech. Tap
   the companion's head in the top bar to see the last thing it said.
+- **Check-in button** is smart now: it shows only where it helps, hides
+  while you scroll down or type, shrinks when it would cover something, and
+  shows your last check-in's color. Press and hold it (or press Q) for a
+  two-tap Quick check-in. Settings → Check-in can put it in the tab bar,
+  hide it, or move it left or right.
 
 ## v2.2 "Bug sweep" (in progress, branch `v2.2-bug-sweep`)
 

@@ -10,6 +10,7 @@ import { useSettings } from '@/lib/settings';
 import type { FocusOutcome as Outcome } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { focusCopy } from '@/copy/focusCopy';
 
 interface Props {
   open: boolean;
@@ -37,20 +38,20 @@ export function FocusOutcome({ open, rewards, onAnswer, onSmallerStep, onDone }:
     <Sheet open={open} onOpenChange={(next) => !next && answer && onDone()}>
       <SheetContent showCloseButton={!!answer} aria-describedby={undefined}>
         <SheetHeader>
-          <SheetTitle>{copy.focus.howDidItGo}</SheetTitle>
+          <SheetTitle>{focusCopy.howDidItGo}</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-3 p-5" aria-live="polite">
           {!answer &&
             OUTCOMES.map((o) => (
               <Button key={o} variant="secondary" size="block" onClick={() => void choose(o)} data-demo-id={`focus-outcome-${o}`}>
-                {copy.focus.outcomes[o]}
+                {focusCopy.outcomes[o]}
               </Button>
             ))}
           {answer === 'didnt_start' && (
             <>
-              <p className="text-lead">{byMode(copy.focus.didntStart, settings.communicationMode)}</p>
+              <p className="text-lead">{byMode(focusCopy.didntStart, settings.communicationMode)}</p>
               <Button size="block" onClick={onSmallerStep}>
-                {copy.focus.smallerStep}
+                {focusCopy.smallerStep}
               </Button>
               <Button variant="secondary" size="block" onClick={onDone}>
                 {copy.global.notNow}
@@ -59,10 +60,10 @@ export function FocusOutcome({ open, rewards, onAnswer, onSmallerStep, onDone }:
           )}
           {answer && answer !== 'didnt_start' && (
             <>
-              <p className="text-lead">{copy.focus.saved}</p>
-              {reward && <p>{fill(copy.focus.rewardHint, { reward })}</p>}
+              <p className="text-lead">{focusCopy.saved}</p>
+              {reward && <p>{fill(focusCopy.rewardHint, { reward })}</p>}
               <Button size="block" onClick={onDone}>
-                {copy.focus.backToTasks}
+                {focusCopy.backToTasks}
               </Button>
             </>
           )}

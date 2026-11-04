@@ -1,0 +1,40 @@
+// The Patterns screen's words, moved out of en.ts in v2.3: Today never
+// shows them, and en.ts loads with Today's first page. `confidence` stays
+// in en.ts for the dots on task cards.
+export const patternsCopy = {
+  title: 'What works for you',
+  periods: { week: 'This week', month: 'Last 4 weeks' },
+  periodLabel: 'Time period',
+  why: 'Why am I seeing this?',
+  hideWhy: 'Hide details',
+  notTrue: 'Not true for me',
+  notTrueTitle: 'Hide this pattern?',
+  notTrueBody: 'Tide will stop showing it. You can tell us why, if you want.',
+  notTrueReasons: [
+    'It was a coincidence',
+    'Something else explains it',
+    "I just don't like it",
+  ],
+  hidePattern: 'Hide it',
+  keepPattern: 'Keep it',
+  hidden: 'Hidden. Tide will not show this pattern again.',
+  meta: '{k} of {n} times · {period}',
+  confidence: 'Confidence {c} of 4',
+  evidenceTitle: 'The moments behind this',
+  notEnough:
+    'Tide needs a few more check-ins and sessions to spot patterns. Nothing to do here yet.',
+  notEnoughProgress: 'Patterns appear after at least 3 similar moments.',
+  footer: 'Patterns describe your data, not who you are. You decide what fits.',
+  calendarTitle: 'Your check-ins',
+  calendarLabel: 'Check-ins by day',
+  dayLabel: '{date}: {count} check-ins, {states}',
+  dayLabelOne: '{date}: 1 check-in, {states}',
+  dayLabelNone: '{date}: no check-ins',
+  legend: 'Legend',
+  topStrategies: 'Top strategies',
+  topStrategyLine: '{k} of {n} better',
+  transitions: 'Transitions',
+  hardestSwitch: 'Hardest switch: {from} → {to} ({k} of {n} hard)',
+  patternsHeading: 'Patterns',
+  loadingNarration: 'Putting this into words…',
+} as const;

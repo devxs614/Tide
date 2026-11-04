@@ -6,7 +6,7 @@
 // this?" opens the evidence; "Not true for me" hides it for good.
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import type { NarrateCard } from '@/lib/ai/schemas';
 import { dismissPattern } from '@/lib/repo/patterns';
 import type { PatternResult } from '@/lib/patterns/types';
@@ -15,6 +15,7 @@ import { ConfidenceDots } from '@/components/ui/Dots';
 import { ReadAloudButton } from '@/components/ui/ReadAloudButton';
 import { NotTrueDialog } from './NotTrueDialog';
 import { WhyPanel } from './WhyPanel';
+import { patternsCopy } from '@/copy/patternsCopy';
 
 export function PatternCard({ pattern, card, periodLabel }: { pattern: PatternResult; card: NarrateCard | null; periodLabel: string }) {
   const [showWhy, setShowWhy] = useState(false);
@@ -24,7 +25,7 @@ export function PatternCard({ pattern, card, periodLabel }: { pattern: PatternRe
   const hide = async (reason?: string) => {
     setAsking(false);
     await dismissPattern(pattern.key, reason);
-    toast(copy.patterns.hidden);
+    toast(patternsCopy.hidden);
   };
 
   return (
@@ -37,20 +38,20 @@ export function PatternCard({ pattern, card, periodLabel }: { pattern: PatternRe
         </>
       ) : (
         <div aria-hidden className="flex flex-col gap-2">
-          <p className="text-ink-soft">{copy.patterns.loadingNarration}</p>
+          <p className="text-ink-soft">{patternsCopy.loadingNarration}</p>
           <div className="h-12 animate-pulse rounded-md bg-surface-2" />
         </div>
       )}
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption">
-        <span className="font-bold">{fill(copy.patterns.meta, { k: pattern.k, n: pattern.n, period: periodLabel })}</span>
+        <span className="font-bold">{fill(patternsCopy.meta, { k: pattern.k, n: pattern.n, period: periodLabel })}</span>
         <ConfidenceDots confidence={pattern.confidence} />
       </p>
       <div className="flex flex-wrap gap-2">
         <Button variant="link" size="inline" aria-expanded={showWhy} aria-controls={whyId} onClick={() => setShowWhy((s) => !s)}>
-          {showWhy ? copy.patterns.hideWhy : copy.patterns.why}
+          {showWhy ? patternsCopy.hideWhy : patternsCopy.why}
         </Button>
         <Button variant="quiet" size="sm" onClick={() => setAsking(true)}>
-          {copy.patterns.notTrue}
+          {patternsCopy.notTrue}
         </Button>
       </div>
       {showWhy && <WhyPanel id={whyId} whyText={card?.whyText ?? ''} evidence={pattern.evidence} />}

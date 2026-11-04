@@ -20,6 +20,7 @@ import { CheckboxRow } from '@/components/ui/checkbox';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { LeaveConfirm } from '@/components/checkin/LeaveConfirm';
 import { ToggleChip } from '@/components/checkin/ToggleChip';
+import { taskEditCopy } from '@/copy/taskEditCopy';
 
 type DueChoice = 'none' | 'today' | 'tomorrow' | 'pick';
 
@@ -82,7 +83,7 @@ export function TaskForm({ open, onOpenChange, task, defaultDue }: { open: boole
     <Sheet open={open} onOpenChange={(next) => (next || !dirty ? onOpenChange(next) : setConfirmLeave(true))}>
       <SheetContent aria-describedby={undefined}>
         <SheetHeader>
-          <SheetTitle>{editing ? copy.taskEdit.editTitle : copy.taskForm.title}</SheetTitle>
+          <SheetTitle>{editing ? taskEditCopy.editTitle : copy.taskForm.title}</SheetTitle>
         </SheetHeader>
         <form
           className="flex flex-col gap-5 px-5 pt-4 pb-6"
@@ -108,7 +109,7 @@ export function TaskForm({ open, onOpenChange, task, defaultDue }: { open: boole
             {showError && !title.trim() && (
               <p id="task-title-error" className="flex items-center gap-2 text-notice">
                 <Info className="size-4 shrink-0" aria-hidden />
-                {editing ? copy.taskEdit.titleError : copy.taskForm.titleNeeded}
+                {editing ? taskEditCopy.titleError : copy.taskForm.titleNeeded}
               </p>
             )}
           </div>
@@ -161,7 +162,7 @@ export function TaskForm({ open, onOpenChange, task, defaultDue }: { open: boole
           {editing ? (
             <div className="flex flex-col gap-2">
               <label htmlFor="task-first-step" className="font-bold">
-                {copy.taskEdit.firstStepLabel}
+                {taskEditCopy.firstStepLabel}
               </label>
               <input
                 id="task-first-step"

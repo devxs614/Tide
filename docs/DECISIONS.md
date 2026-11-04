@@ -1497,3 +1497,38 @@ talks", since settings labels can't hold a name; the Studio shows "How
 {name} talks". Rejected: keeping the global layer and only clamping
 positions (a sheet or a long word could still push a bubble out).
 
+
+**D209 — 2026-11-04 — The check-in button is "smart" by default, for everyone.**
+v2.3 Item 1. The team asked to remove the always-on button or make it
+dynamic. Existing and new people get `smart`: the button shows only on
+Today, Tasks, Toolkit, Patterns, Shore and Calendar, steps aside while a
+sheet is open or a field has focus, hides on scroll down, shrinks to its
+circle at big text or over something to press, and rings with the last
+check-in's state. That's a visible change from v2.2 on purpose. "In the
+tab bar" and "Hidden" are one setting away. In hidden mode the top bar's
+menu gets a "Check in" item; in the other modes the menu is unchanged, so
+nothing new appears where it isn't needed. Quick check-in opens as a
+bottom sheet everywhere (the spec allows that on narrow frames; one form
+is simpler and stays inside the frame). Rejected: removing the button
+(checking in is step one of Tide's loop).
+
+**D210 — 2026-11-04 — No "gentle invitation" halo: the setting it follows doesn't exist.**
+v2.3 asks the button to glow softly after a `checkin.nudgeTimes` time
+passes with no check-in. That setting isn't in Tide (v2 never built check-in
+reminders), so there's nothing to follow. I left the halo out rather than
+invent reminder times. Rejected: adding nudge times now (a new feature
+the spec doesn't ask for).
+
+**D211 — 2026-11-04 — Room under Today's 300 KB budget for the new button.**
+The smart check-in button lives in the shell, so its code loads with Today;
+with it, `/` measured 305.6 KB. Three moves brought it back to 299.7 KB
+without changing what anyone sees: Radix's tooltip, which the button and
+the six-item tab bar had pulled into Today, became a small CSS label
+(`ui/hint-label.tsx`, shown on hover and keyboard focus); Quick check-in's
+words moved next to its lazily loaded sheet; and five copy sections Today
+never shows moved out of `en.ts` into their own files (the D144 split
+again): `settingsV1Copy.ts` (v1 Settings), `taskEditCopy.ts`,
+`focusCopy.ts`, and most of `voiceCopy.ts` and `patternsCopy.ts` (the one
+line each that Today needs stays in `en.ts`). Rejected: loading the button
+lazily (it would pop in after Today appears) and raising the budget.
+

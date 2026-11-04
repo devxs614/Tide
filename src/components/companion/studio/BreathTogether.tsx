@@ -6,7 +6,7 @@
 // Toolkit's breathing, so it runs once and then says so, kindly.
 import { useEffect, useState } from 'react';
 import { Wind } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { toolsCopy } from '@/copy/toolsCopy';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
@@ -15,10 +15,11 @@ import { useVoice } from '@/lib/voice/useVoice';
 import { Button } from '@/components/ui/button';
 import { Companion } from '../Companion';
 import type { BreathPhase } from '../CompanionFigure';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 const PHASES: BreathPhase[] = ['in', 'hold-in', 'out', 'hold-out'];
 const WORDS = [toolsCopy.breathe.in, toolsCopy.breathe.holdIn, toolsCopy.breathe.out, toolsCopy.breathe.holdOut];
-const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
+const CUES = [voiceCopy.breath.in, voiceCopy.breath.hold, voiceCopy.breath.out, voiceCopy.breath.hold];
 const SIDE_S = 4;
 
 // `rounds` and `title` let Close the day reuse this for a slow, one-minute

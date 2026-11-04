@@ -1,8 +1,9 @@
 // "Hardest switch: lab → class (3 of 4 hard)", from the switches Maya rated
 // in this period. Hidden when she hasn't rated any.
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { KIND_WORDS } from '@/lib/bridge';
 import type { TransitionGroup } from '@/lib/patterns/rules/hardTransition';
+import { patternsCopy } from '@/copy/patternsCopy';
 
 export function TransitionsSummary({ groups }: { groups: TransitionGroup[] }) {
   const hardest = [...groups].sort((a, b) => b.k / b.n - a.k / a.n || b.n - a.n)[0];
@@ -10,10 +11,10 @@ export function TransitionsSummary({ groups }: { groups: TransitionGroup[] }) {
   return (
     <section aria-labelledby="transitions-heading" className="flex flex-col gap-2">
       <h2 id="transitions-heading" className="text-h3 font-bold">
-        {copy.patterns.transitions}
+        {patternsCopy.transitions}
       </h2>
       <p>
-        {fill(copy.patterns.hardestSwitch, {
+        {fill(patternsCopy.hardestSwitch, {
           from: KIND_WORDS[hardest.fromLabel] ?? hardest.fromLabel,
           to: KIND_WORDS[hardest.toLabel] ?? hardest.toLabel,
           k: hardest.k,

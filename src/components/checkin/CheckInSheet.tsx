@@ -39,12 +39,13 @@ import { useCelebrate } from '@/lib/celebrate/useCelebrate';
 import { db } from '@/lib/db';
 import { CoachContext } from './CheckInCoach';
 import type { CheckIn } from '@/lib/types';
+import { checkinButtonCopy } from '@/copy/checkinButtonCopy';
 
 // `coach` and `onSaved` are for onboarding's first check-in: hints at each
 // step, and after saving, onboarding continues instead of the usual route.
 export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSaved?: (checkIn: CheckIn) => void } = {}) {
   const router = useRouter();
-  const { settings } = useSettings();
+  const { settings, update } = useSettings();
   const { open, closeCheckIn } = useCheckInSheet();
   const { openDayMode } = useDayModeSheet();
   const label = useAi('label');
@@ -133,6 +134,19 @@ export function CheckInSheet({ coach = false, onSaved }: { coach?: boolean; onSa
       toast(fill(copy.checkin.saved, { quadrant: quadrantLabel(checkIn.quadrant, mode) }), {
         icon: companionToastIcon(companion, reaction.expression ?? 'idle', reaction.reaction),
       });
+    }
+    // v2.3 Item 1: after the third full check-in, once, a tip about the
+    // floating button's press-and-hold Quick check-in. Not awaited, so the
+    // usual toast and next step come exactly as quickly as before.
+    if (settings['checkin.buttonMode'] === 'smart' && !settings['checkin.quickHintSeen']) {
+      void db.checkins
+        .filter((c) => !c.quick && !c.safetyTriggered)
+        .count()
+        .then((n) => {
+          if (n !== 3) return;
+          void update('checkin.quickHintSeen', true);
+          toast(checkinButtonCopy.quickTip);
+        });
     }
     if (onSaved) return onSaved(checkIn);
     if (need === 'adjust') openDayMode();

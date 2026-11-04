@@ -3,13 +3,13 @@
 // The comfort controls shared by onboarding and Settings: text size (with a
 // live preview), theme, and how Tide talks. Each change is saved at once and
 // applied to the page right away, so Maya sees the effect as she chooses.
-import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import type { CommunicationMode, Settings } from '@/lib/types';
 import { THEMES } from '@/lib/theme/themes';
 import { CardButton } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { TextSizeSample } from './TextSizeSample';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 function Choice({ pressed, onClick, children, className }: { pressed: boolean; onClick: () => void; children: React.ReactNode; className?: string }) {
   return (
@@ -36,7 +36,7 @@ export function TextSizePicker() {
   const { settings, update } = useSettings();
   return (
     <fieldset className="flex flex-col gap-2">
-      <legend className="mb-2 font-bold">{copy.settings.textSize}</legend>
+      <legend className="mb-2 font-bold">{settingsV1.textSize}</legend>
       <div className="flex flex-wrap gap-2">
         {SIZES.map((s) => (
           <Choice key={s} pressed={settings.textScale === s} onClick={() => void update('textScale', s)}>
@@ -44,7 +44,7 @@ export function TextSizePicker() {
           </Choice>
         ))}
       </div>
-      <p className="rounded-card border-2 border-line bg-surface-2 p-3">{copy.settings.textSizePreview}</p>
+      <p className="rounded-card border-2 border-line bg-surface-2 p-3">{settingsV1.textSizePreview}</p>
       <TextSizeSample />
     </fieldset>
   );
@@ -69,11 +69,11 @@ export function ThemePicker() {
     });
   return (
     <fieldset className="flex flex-col gap-2">
-      <legend className="mb-2 font-bold">{copy.settings.theme}</legend>
+      <legend className="mb-2 font-bold">{settingsV1.theme}</legend>
       <div className="flex flex-wrap gap-2">
         {SCHEMES.map((t) => (
           <Choice key={t} pressed={current === t} onClick={() => choose(t)}>
-            {copy.settings.themes[t]}
+            {settingsV1.themes[t]}
           </Choice>
         ))}
       </div>
@@ -83,15 +83,15 @@ export function ThemePicker() {
 
 const MODES: CommunicationMode[] = ['gentle', 'direct', 'literal'];
 
-export function ModePicker({ legend = copy.settings.howTideTalks }: { legend?: string }) {
+export function ModePicker({ legend = settingsV1.howTideTalks }: { legend?: string }) {
   const { settings, update } = useSettings();
   return (
     <fieldset className="flex flex-col gap-2">
       <legend className="mb-2 font-bold">{legend}</legend>
       {MODES.map((m) => (
         <CardButton key={m} selected={settings.communicationMode === m} onClick={() => void update('communicationMode', m)}>
-          <span className="font-display font-extrabold">{copy.settings.modes[m].name}</span>
-          <span className="text-ink-soft">&ldquo;{copy.settings.modes[m].example}&rdquo;</span>
+          <span className="font-display font-extrabold">{settingsV1.modes[m].name}</span>
+          <span className="text-ink-soft">&ldquo;{settingsV1.modes[m].example}&rdquo;</span>
         </CardButton>
       ))}
     </fieldset>

@@ -10,6 +10,7 @@ import type { CheckIn } from '@/lib/types';
 import { StateChip } from '@/components/ui/StateChip';
 import { Button } from '@/components/ui/button';
 import { WinCard } from './WinCard';
+import { openQuickCheckIn } from '@/lib/checkin/quickCheckIn';
 
 export function StateCard({ latest }: { latest: CheckIn | null }) {
   const { openCheckIn } = useCheckInSheet();
@@ -21,9 +22,15 @@ export function StateCard({ latest }: { latest: CheckIn | null }) {
       {latest ? (
         <>
           <StateChip checkIn={latest} />
-          <Button variant="link" size="inline" className="self-start" onClick={openCheckIn}>
-            {copy.today.checkInAgain}
-          </Button>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            <Button variant="link" size="inline" className="self-start" onClick={openCheckIn}>
+              {copy.today.checkInAgain}
+            </Button>
+            {/* v2.3 Item 1: two taps instead of words. */}
+            <Button variant="link" size="inline" className="self-start" onClick={openQuickCheckIn}>
+              {copy.today.quickCheckIn}
+            </Button>
+          </div>
           <WinCard latest={latest} />
         </>
       ) : (

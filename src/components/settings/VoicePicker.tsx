@@ -7,7 +7,7 @@
 // "calm" is another's "tiring", so every voice can be heard before choosing.
 import { useEffect, useState } from 'react';
 import { Volume2 } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
 import type { Settings, VoiceAccent } from '@/lib/types';
 import { ttsStatus, type TtsStatus } from '@/lib/voice/cloudEngine';
@@ -19,14 +19,15 @@ import { WithTooltip } from '@/components/ui/tooltip';
 import { CardButton } from '@/components/ui/card';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import { SwitchRow } from '@/components/ui/switch';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 const ENGINES: Array<Settings['voice.engine']> = ['auto', 'natural', 'device', 'off'];
 const RATES = [0.8, 0.9, 1, 1.1, 1.2];
-const ACCENTS = Object.keys(copy.voice.accents) as VoiceAccent[];
+const ACCENTS = Object.keys(voiceCopy.accents) as VoiceAccent[];
 
 function accentLabel(lang: string): string {
   const key = lang.replace('_', '-') as VoiceAccent;
-  return copy.voice.accents[key] ?? lang;
+  return voiceCopy.accents[key] ?? lang;
 }
 
 export function VoicePicker() {
@@ -46,35 +47,35 @@ export function VoicePicker() {
   const natural = cloud?.available ?? false;
   // Every voice here is weak: suggest Edge or natural voices (spec 7.8).
   const limited = devices.length > 0 && !natural && devices.every((v) => scoreVoice(v) < 15);
-  const sample = copy.voice.voiceSample;
+  const sample = voiceCopy.voiceSample;
 
   return (
     <div className="flex flex-col gap-4" id="voice-picker">
       <div className="flex flex-col gap-2">
         <span className="font-display font-extrabold" id="voice-engine-label">
-          {copy.voice.engine}
+          {voiceCopy.engine}
         </span>
         <SegmentedControl
-          label={copy.voice.engine}
+          label={voiceCopy.engine}
           value={engine}
           onChange={(value) => void update('voice.engine', value)}
-          options={ENGINES.map((e) => ({ value: e, label: copy.voice.engines[e].name, disabled: e === 'natural' && !natural }))}
+          options={ENGINES.map((e) => ({ value: e, label: voiceCopy.engines[e].name, disabled: e === 'natural' && !natural }))}
         />
-        <p className="text-small text-ink-soft">{copy.voice.engines[engine].description}</p>
-        {!natural && <p className="text-small text-ink-soft">{copy.voice.naturalUnavailable}</p>}
+        <p className="text-small text-ink-soft">{voiceCopy.engines[engine].description}</p>
+        {!natural && <p className="text-small text-ink-soft">{voiceCopy.naturalUnavailable}</p>}
       </div>
 
       {engine !== 'off' && (
         <>
           {natural && cloud && (
-            <section className="flex flex-col gap-2" aria-label={copy.voice.voiceNatural}>
-              <h4 className="font-display font-extrabold">{copy.voice.voiceNatural}</h4>
+            <section className="flex flex-col gap-2" aria-label={voiceCopy.voiceNatural}>
+              <h4 className="font-display font-extrabold">{voiceCopy.voiceNatural}</h4>
               <p className="text-small text-ink-soft">
-                {fill(copy.voice.voicePrivacy, { provider: copy.voice.providers[cloud.provider as 'openai'] ?? cloud.provider })}
+                {fill(voiceCopy.voicePrivacy, { provider: voiceCopy.providers[cloud.provider as 'openai'] ?? cloud.provider })}
               </p>
               <SwitchRow
                 id="voice-natural-allowed"
-                label={copy.voice.naturalAllowed}
+                label={voiceCopy.naturalAllowed}
                 checked={settings['privacy.naturalVoiceAllowed']}
                 onCheckedChange={(v) => void update('privacy.naturalVoiceAllowed', v)}
               />
@@ -88,8 +89,8 @@ export function VoicePicker() {
                     >
                       <span className="font-display font-extrabold">{v.name}</span>
                     </CardButton>
-                    <WithTooltip label={copy.voice.playSample}>
-                      <Button variant="secondary" size="icon" aria-label={`${copy.voice.playSample}: ${v.name}`} onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}>
+                    <WithTooltip label={voiceCopy.playSample}>
+                      <Button variant="secondary" size="icon" aria-label={`${voiceCopy.playSample}: ${v.name}`} onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}>
                         <Volume2 aria-hidden />
                       </Button>
                     </WithTooltip>
@@ -100,10 +101,10 @@ export function VoicePicker() {
           )}
 
           {devices.length > 0 && (
-            <section className="flex flex-col gap-2" aria-label={copy.voice.voiceDevice}>
-              <h4 className="font-display font-extrabold">{copy.voice.voiceDevice}</h4>
+            <section className="flex flex-col gap-2" aria-label={voiceCopy.voiceDevice}>
+              <h4 className="font-display font-extrabold">{voiceCopy.voiceDevice}</h4>
               <CardButton selected={!settings['voice.deviceVoiceURI']} onClick={() => void update('voice.deviceVoiceURI', null)}>
-                <span className="font-display font-extrabold">{copy.voice.automatic}</span>
+                <span className="font-display font-extrabold">{voiceCopy.automatic}</span>
               </CardButton>
               {devices.map((v) => (
                 <div key={v.voiceURI} className="flex items-center gap-2">
@@ -115,11 +116,11 @@ export function VoicePicker() {
                     <span className="font-display font-extrabold">{cleanVoiceName(v.name)}</span>
                     <span className="text-small text-ink-soft">{accentLabel(v.lang)}</span>
                   </CardButton>
-                  <WithTooltip label={copy.voice.playSample}>
+                  <WithTooltip label={voiceCopy.playSample}>
                     <Button
                       variant="secondary"
                       size="icon"
-                      aria-label={`${copy.voice.playSample}: ${cleanVoiceName(v.name)}`}
+                      aria-label={`${voiceCopy.playSample}: ${cleanVoiceName(v.name)}`}
                       onClick={() => void voice.speak(sample, { engine: 'device', deviceVoiceURI: v.voiceURI })}
                     >
                       <Volume2 aria-hidden />
@@ -127,14 +128,14 @@ export function VoicePicker() {
                   </WithTooltip>
                 </div>
               ))}
-              {limited && <p className="text-small text-ink-soft">{copy.voice.voiceLimited}</p>}
+              {limited && <p className="text-small text-ink-soft">{voiceCopy.voiceLimited}</p>}
             </section>
           )}
 
           <div className="flex flex-col gap-2">
-            <span className="font-display font-extrabold">{copy.voice.rate}</span>
+            <span className="font-display font-extrabold">{voiceCopy.rate}</span>
             <SegmentedControl
-              label={copy.voice.rate}
+              label={voiceCopy.rate}
               value={String(settings['voice.rate'])}
               onChange={(value) => void update('voice.rate', Number(value))}
               options={RATES.map((r) => ({ value: String(r), label: `${r}×` }))}
@@ -142,7 +143,7 @@ export function VoicePicker() {
           </div>
 
           <label className="flex flex-col gap-2">
-            <span className="font-display font-extrabold">{copy.voice.accent}</span>
+            <span className="font-display font-extrabold">{voiceCopy.accent}</span>
             <select
               value={settings['voice.accent']}
               onChange={(e) => void update('voice.accent', e.target.value as VoiceAccent)}
@@ -150,15 +151,15 @@ export function VoicePicker() {
             >
               {ACCENTS.map((a) => (
                 <option key={a} value={a}>
-                  {copy.voice.accents[a]}
+                  {voiceCopy.accents[a]}
                 </option>
               ))}
             </select>
           </label>
 
-          <SwitchRow id="voice-auto-ai" label={copy.voice.autoReadAi} checked={settings['voice.autoReadAi']} onCheckedChange={(v) => void update('voice.autoReadAi', v)} />
-          <SwitchRow id="voice-companion" label={copy.voice.readCompanion} checked={settings['voice.readCompanion']} onCheckedChange={(v) => void update('voice.readCompanion', v)} />
-          <SwitchRow id="voice-breathing" label={copy.voice.breathingCues} checked={settings['voice.breathingCues']} onCheckedChange={(v) => void update('voice.breathingCues', v)} />
+          <SwitchRow id="voice-auto-ai" label={voiceCopy.autoReadAi} checked={settings['voice.autoReadAi']} onCheckedChange={(v) => void update('voice.autoReadAi', v)} />
+          <SwitchRow id="voice-companion" label={voiceCopy.readCompanion} checked={settings['voice.readCompanion']} onCheckedChange={(v) => void update('voice.readCompanion', v)} />
+          <SwitchRow id="voice-breathing" label={voiceCopy.breathingCues} checked={settings['voice.breathingCues']} onCheckedChange={(v) => void update('voice.breathingCues', v)} />
         </>
       )}
     </div>

@@ -15,6 +15,7 @@ import { useCheckInSheet } from '@/lib/ui';
 import { Companion } from '@/components/companion/Companion';
 import { WelcomeShore } from '../WelcomeShore';
 import { StepFrame } from './StepFrame';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 const CheckInSheet = dynamic(() => import('@/components/checkin/CheckInSheet').then((m) => m.CheckInSheet), { ssr: false });
 
@@ -51,11 +52,11 @@ export function FirstCheckInStep({ onFinish }: { onFinish: () => void }) {
     return (
       <StepFrame title={onboardingCopy.trustedTitle} sub={copy.onboarding.addTrusted} action={onboardingCopy.next} onAction={() => void saveContact()}>
         <label htmlFor="ob-contact-name" className="font-bold">
-          {copy.settings.contactName}
+          {settingsV1.contactName}
         </label>
         <input id="ob-contact-name" value={contactName} onChange={(e) => setContactName(e.target.value)} className="min-h-12 rounded-input border-2 border-line bg-surface px-3" />
         <label htmlFor="ob-contact-value" className="font-bold">
-          {copy.settings.contactValue}
+          {settingsV1.contactValue}
         </label>
         <input id="ob-contact-value" value={contactValue} onChange={(e) => setContactValue(e.target.value)} className="min-h-12 rounded-input border-2 border-line bg-surface px-3" />
       </StepFrame>

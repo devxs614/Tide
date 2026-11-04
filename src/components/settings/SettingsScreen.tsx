@@ -10,12 +10,12 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Bell, CalendarClock, ChevronRight, Eye, HeartHandshake, Info, Keyboard, Languages, PawPrint, PenLine, PlayCircle, Shell, ShieldCheck, Sparkles, Timer, UserRound, Volume2, Waves, Wrench,
 } from 'lucide-react';
-import { copy } from '@/copy/en';
 import { settingsCopy } from '@/copy/settingsCopy';
 import { SECTIONS, sectionById, type SectionId } from '@/lib/settings/catalog';
 import { CompanionSection } from './CompanionSection';
 import { PresetsRow } from './PresetsRow';
 import { SettingsSearch } from './SettingsSearch';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 const ICONS: Record<SectionId, LucideIcon> = {
   profile: UserRound,
@@ -51,7 +51,7 @@ export function SettingsScreen() {
       <SettingsSearch />
       <PresetsRow />
       <CompanionSection />
-      <nav aria-label={copy.settings.title}>
+      <nav aria-label={settingsV1.title}>
         <ul className="flex flex-col gap-2">
           {SECTIONS.map(({ id }) => {
             const Icon = ICONS[id];

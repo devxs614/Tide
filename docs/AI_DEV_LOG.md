@@ -3935,3 +3935,71 @@ already used inline lines.
   and with "No speech" tapping the companion does the same. The head no
   longer opens the Studio (the menu's "My companion" still does) (D208).
 
+
+## Item 1 — A dynamic check-in button and Quick check-in (before and after)
+2026-11-04
+
+**Before.** The floating "Check in" button sat on every screen inside the
+shell, always, with its word under it; at big text the word covered even
+more. The team asked to remove it or make it dynamic.
+
+**What I built.**
+- `checkin.buttonMode` in Settings → Check-in: "Floating, smart" (default,
+  D209), "In the tab bar", "Hidden"; plus "Button position" (left, center,
+  right) and "Let me move the button" (a long press and drag that snaps to
+  a side).
+- Smart mode (`CheckInFab.tsx`, `useFabPlacement.ts`, rules in
+  `lib/checkin/fabRules.ts`): shows on the main tabs and the calendar only;
+  hides while a sheet or dialog is open or a field has focus; hides after
+  24px of scrolling down and returns after 12px up or at either end (never
+  while it has keyboard focus); shrinks to its circle at text 130%+, in a
+  frame under 360px, while scrolling, or when something to press is right
+  under it (then also slides 12px aside); its word stays its name and
+  becomes a tooltip. A 3px ring in the last check-in's color (six hours)
+  with the shape marker, and "Last check-in: Ebb, 3:40 pm" as its
+  description. Long press, right-click, Shift+Enter or the menu key open
+  Quick check-in; a tap opens the full check-in.
+- Quick check-in (`checkin/QuickCheckInSheet.tsx`, loaded on first open):
+  the four states in a 2×2 grid with arrow keys, then the four simple words
+  or "Skip" (the state's middle, ±3). It saves an ordinary check-in with
+  `quick: true`, so everything that reacts to check-ins still does; the
+  toast offers "Add more?". Also from the `q` key and Today's state card.
+  After the third full check-in, once, a tip about press and hold.
+- Tab bar mode: a sixth item in the middle; icons only at 130%+ or in a
+  frame under 360px, names kept and shown as tooltips.
+- `--bottom-insets`: the bars at the bottom are measured, and the page's
+  bottom padding is at least that plus 1rem (never less than the old
+  12rem), so the end of a page is always reachable.
+- The demo director's `openCheckIn` action uses the button, the tab item
+  or Today's quick action, whichever exists, and the demo seeds `smart`.
+- Not built: the "gentle invitation" halo (D210).
+
+**A note on how I committed Items 3 and 1.** I built them side by side and
+several files held both, so I staged Item-3-only versions of those files
+for its commit, checked that snapshot on its own (typecheck, lint, 582
+tests, with the Item 1 work stashed), and then put the Item 1 parts back.
+
+**What broke on the way.** Today's first load went to 305.6 KB; D211 is how
+it came back to 299.7 KB. A v1 check-in test failed twice under heavy load:
+my tip check awaited a count before the "saved" toast; it no longer waits.
+The audit then found Today's greeting over a primary button at 150%: the
+button arrived after the bubble was placed, and Floating UI only watches the
+companion, so a bubble now re-checks its spot every 300ms while it shows
+(an Item 3 fix found here). And the button shrank on Today's first screen
+because the "Next" card sits under it; the spec wants it full size there.
+
+**How I checked it.** `shell/CheckInButton.test.tsx`: the rules (routes,
+scroll thresholds, when it shrinks, the six-hour ring), Quick check-in
+saving `{ quadrant: 'ebb', emotions: ['drained'], quick: true }` and "Skip"
+saving the state's middle, the tab bar's sixth item, hidden mode's quick
+action and `c` key, and the demo director opening the check-in in tab bar
+and hidden modes (the tour itself always starts in smart mode). 592 tests
+and v1's 164 pass. Audit at 390/1280 × 100/150%: 8 failures, 4 of them the
+campus phone (Item 2) and 4 the greeting fixed above. Both tours unchanged
+(pitch 28/28 in 80 s, full 68/68 in 180 s, no AI). The visual comparison
+with Item 3 changes the bottom band (the button gone where it no longer
+shows, compact over day cells on Calendar), the state card's new link,
+Settings → Shortcuts (Q) and pages behind sheets that now sit at a slightly
+different scroll (the measured bottom padding); a Wrap step's companion
+line arriving in time for the capture is timing, like the greeting.
+

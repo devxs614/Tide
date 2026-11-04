@@ -45,6 +45,15 @@ export async function runCustom(name: string, args: Record<string, unknown> | un
       navigate(`/tasks?unstick=${task.id}`);
       return sleep(700);
     }
+    // v2.3 Item 1: the check-in may be the floating button, a tab bar item
+    // or (when hidden) Today's quick action; use whichever is there.
+    case 'openCheckIn': {
+      const el = ['fab-checkin', 'tab-checkin', 'qa-checkin']
+        .map((id) => document.querySelector<HTMLElement>(`[data-demo-id="${id}"]`))
+        .find((e) => e && (e.checkVisibility?.() ?? true));
+      el?.click();
+      return sleep(300);
+    }
     case 'triggerNudge':
       window.dispatchEvent(new Event(DEMO_NUDGE_EVENT));
       return sleep(400);

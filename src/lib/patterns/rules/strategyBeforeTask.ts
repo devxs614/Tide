@@ -7,10 +7,10 @@
 // screens can never disagree.
 import { strategyName } from '@/data/strategies';
 import { formatShortDay, formatTime, MINUTE } from '@/lib/time';
-import { copy } from '@/copy/en';
 import type { FocusBlock, StrategyUse, Task, TaskType } from '@/lib/types';
 import { confidenceFor, inWindow, pct } from '../confidence';
 import type { EvidenceRow, PatternInput, PatternResult } from '../types';
+import { focusCopy } from '@/copy/focusCopy';
 
 const LINK_WINDOW = 20 * MINUTE;
 
@@ -74,7 +74,7 @@ function evidenceFor(group: StrategyTaskGroup): EvidenceRow[] {
     id: use.id,
     ts: use.ts,
     label: `${formatShortDay(use.ts)}, ${formatTime(use.ts)} · ${strategyName(use.strategyId)} → ${group.taskType}`,
-    outcome: block.outcome ? copy.focus.outcomes[block.outcome] : copy.focus.outcomes.didnt_start,
+    outcome: block.outcome ? focusCopy.outcomes[block.outcome] : focusCopy.outcomes.didnt_start,
   }));
 }
 

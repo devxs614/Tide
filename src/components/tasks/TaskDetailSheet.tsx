@@ -19,11 +19,12 @@ import { EnergyDots } from '@/components/ui/Dots';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { STATUS_ORDER } from './MoveToMenu';
 import { useTaskMoves } from './useTaskMoves';
+import { taskEditCopy } from '@/copy/taskEditCopy';
 
 export function TaskDetailSheet({ id, onClose }: { id: string; onClose: () => void }) {
   const task = useLiveQuery(() => getTask(id), [id]);
   const move = useTaskMoves();
-  const t = copy.taskEdit;
+  const t = taskEditCopy;
   if (task === undefined) return null;
   const type = getTaskType(task.type);
   const Icon = type.icon;

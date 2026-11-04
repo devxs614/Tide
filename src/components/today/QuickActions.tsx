@@ -37,7 +37,7 @@ export function QuickActions({ nowTs }: { nowTs: number }) {
   const q = copy.today.quick;
   return (
     <section aria-label={q.label} data-demo-id="quick-actions" className="grid grid-cols-2 gap-3">
-      <IconTile icon={WavesHorizontal} label={q.checkIn} onClick={openCheckIn} />
+      <IconTile icon={WavesHorizontal} label={q.checkIn} onClick={openCheckIn} data-demo-id="qa-checkin" />
       <IconTile icon={HeartPulse} label={q.regulate} href="/toolkit" />
       <IconTile icon={Timer} label={q.focus} onClick={() => setPicking(true)} />
       <IconTile icon={Moon} label={canClose ? q.closeDay : q.closeDayLater} href="/wrap" disabled={!canClose} />

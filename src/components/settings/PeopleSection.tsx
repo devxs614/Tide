@@ -10,9 +10,10 @@ import { useSettings } from '@/lib/settings';
 import type { TrustedContact } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Section } from './Section';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 const field = 'min-h-12 rounded-input border border-line bg-surface-2 px-3 text-body';
-const METHODS = Object.entries(copy.settings.contactMethods) as Array<[TrustedContact['method'], string]>;
+const METHODS = Object.entries(settingsV1.contactMethods) as Array<[TrustedContact['method'], string]>;
 
 export function PeopleSection() {
   const { settings, update } = useSettings();
@@ -32,7 +33,7 @@ export function PeopleSection() {
   };
 
   return (
-    <Section id="people" title={copy.settings.people}>
+    <Section id="people" title={settingsV1.people}>
       <ul className="flex flex-col gap-2">
         {settings.trustedContacts.map((c) => (
           <li key={c.id} className="flex flex-wrap items-center gap-2 card-flat py-1 pr-1 pl-3">
@@ -47,9 +48,9 @@ export function PeopleSection() {
         ))}
       </ul>
       <div className="flex flex-col gap-2 rounded-card border-2 border-line p-3">
-        <label htmlFor="contact-name">{copy.settings.contactName}</label>
+        <label htmlFor="contact-name">{settingsV1.contactName}</label>
         <input id="contact-name" value={name} onChange={(e) => setName(e.target.value)} className={field} />
-        <label htmlFor="contact-method">{copy.settings.contactMethod}</label>
+        <label htmlFor="contact-method">{settingsV1.contactMethod}</label>
         <select id="contact-method" value={method} onChange={(e) => setMethod(e.target.value as TrustedContact['method'])} className={field}>
           {METHODS.map(([id, label]) => (
             <option key={id} value={id}>
@@ -57,18 +58,18 @@ export function PeopleSection() {
             </option>
           ))}
         </select>
-        <label htmlFor="contact-value">{copy.settings.contactValue}</label>
+        <label htmlFor="contact-value">{settingsV1.contactValue}</label>
         <input id="contact-value" value={value} onChange={(e) => setValue(e.target.value)} className={field} />
         <Button variant="secondary" className="self-start" onClick={addContact}>
-          {copy.settings.addContact}
+          {settingsV1.addContact}
         </Button>
       </div>
       <div className="flex flex-col gap-2 rounded-card border-2 border-line p-3">
-        <label htmlFor="campus-name">{copy.settings.campusName}</label>
+        <label htmlFor="campus-name">{settingsV1.campusName}</label>
         <input id="campus-name" value={campusName} onChange={(e) => setCampusName(e.target.value)} className={field} />
-        <label htmlFor="campus-phone">{copy.settings.campusPhone}</label>
+        <label htmlFor="campus-phone">{settingsV1.campusPhone}</label>
         <input id="campus-phone" value={campusPhone} onChange={(e) => setCampusPhone(e.target.value)} className={field} />
-        <label htmlFor="campus-url">{copy.settings.campusUrl}</label>
+        <label htmlFor="campus-url">{settingsV1.campusUrl}</label>
         <input id="campus-url" type="url" value={campusUrl} onChange={(e) => setCampusUrl(e.target.value)} className={field} />
         <div className="flex flex-wrap gap-2">
           <Button
@@ -76,11 +77,11 @@ export function PeopleSection() {
             disabled={!campusName.trim()}
             onClick={() => void update('campusSupport', { name: campusName.trim(), phone: campusPhone.trim() || undefined, url: campusUrl.trim() || undefined })}
           >
-            {copy.settings.saveCampus}
+            {settingsV1.saveCampus}
           </Button>
           {campus && (
             <Button variant="quiet" onClick={() => void update('campusSupport', null)}>
-              {copy.settings.removeCampus}
+              {settingsV1.removeCampus}
             </Button>
           )}
         </div>

@@ -25,6 +25,7 @@ import { CompanionHost } from '@/components/companion/CompanionHost';
 import { HardSummary } from './HardSummary';
 import { DAY } from '@/lib/time';
 import { ScreenSkeleton } from '@/components/ui/skeleton';
+import { patternsCopy } from '@/copy/patternsCopy';
 
 type Period = 'week' | 'month';
 
@@ -38,7 +39,7 @@ export function PatternsScreen() {
   const patterns = data ? computePatterns(data) : [];
   const cards = useNarration(patterns, settings.communicationMode);
   if (!data) return <ScreenSkeleton rows={2} rowClassName="h-36" />;
-  const periodLabel = copy.patterns.periods[period];
+  const periodLabel = patternsCopy.periods[period];
 
   if (!settings['patterns.enabled']) return <p className="card-flat p-4">{copy.wrap.patternsOff}</p>;
 
@@ -48,10 +49,10 @@ export function PatternsScreen() {
         {/* Curious, and nothing more: the companion never reacts to a
             particular pattern, so it can't seem to judge one (v2 spec 9). */}
         <div className="flex items-center gap-3">
-          <h2 className="flex-1 text-h1 font-bold">{copy.patterns.title}</h2>
+          <h2 className="flex-1 text-h1 font-bold">{patternsCopy.title}</h2>
           <CompanionHost placement="patterns" size={SIZES.sm} base="curious" bubble="none" noneAlt="nothing" decorative />
         </div>
-        <div role="group" aria-label={copy.patterns.periodLabel} className="flex gap-2">
+        <div role="group" aria-label={patternsCopy.periodLabel} className="flex gap-2">
           {(['week', 'month'] as Period[]).map((p) => (
             <button
               key={p}
@@ -60,7 +61,7 @@ export function PatternsScreen() {
               onClick={() => setPeriod(p)}
               className={`min-h-12 rounded-full border px-4 ${period === p ? 'border-primary bg-primary font-bold text-on-primary' : 'border-line bg-surface'}`}
             >
-              {copy.patterns.periods[p]}
+              {patternsCopy.periods[p]}
             </button>
           ))}
         </div>
@@ -70,12 +71,12 @@ export function PatternsScreen() {
 
       <section aria-labelledby="patterns-heading" className="flex flex-col gap-3">
         <h2 id="patterns-heading" className="text-h3 font-bold">
-          {copy.patterns.patternsHeading}
+          {patternsCopy.patternsHeading}
         </h2>
         {patterns.length === 0 ? (
           <div className="flex flex-col gap-1 rounded-card bg-surface-2 p-4">
-            <p>{copy.patterns.notEnough}</p>
-            <p className="text-ink-soft">{copy.patterns.notEnoughProgress}</p>
+            <p>{patternsCopy.notEnough}</p>
+            <p className="text-ink-soft">{patternsCopy.notEnoughProgress}</p>
           </div>
         ) : (
           <ul className="flex flex-col gap-3">
@@ -104,7 +105,7 @@ export function PatternsScreen() {
       <HardSummary wraps={(data.dayWraps ?? []).filter((w) => w.completedAt && w.completedAt > now() - windowDays * DAY)} />
 
       <footer className="flex flex-col gap-3 border-t border-line pt-4">
-        <p className="text-ink-soft">{copy.patterns.footer}</p>
+        <p className="text-ink-soft">{patternsCopy.footer}</p>
         <TalkToAPersonButton />
       </footer>
     </div>

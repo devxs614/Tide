@@ -21,11 +21,12 @@ import { CompanionHost } from '@/components/companion/CompanionHost';
 import type { BreathPhase } from '@/components/companion/CompanionFigure';
 import { cn } from '@/lib/utils';
 import { holdCelebrations } from '@/lib/celebrate/store';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 const SIDE_MS = 4000;
 const TOTAL_MS = 120_000;
 const PHASES = [toolsCopy.breathe.in, toolsCopy.breathe.holdIn, toolsCopy.breathe.out, toolsCopy.breathe.holdOut];
-const CUES = [copy.voice.breath.in, copy.voice.breath.hold, copy.voice.breath.out, copy.voice.breath.hold];
+const CUES = [voiceCopy.breath.in, voiceCopy.breath.hold, voiceCopy.breath.out, voiceCopy.breath.hold];
 // Device voices take a moment to start; speaking a little early keeps the
 // word on the beat (v2 spec 7.9).
 const CUE_LEAD_MS = 150;

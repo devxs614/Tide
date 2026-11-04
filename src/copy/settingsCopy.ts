@@ -77,6 +77,12 @@ export const settingsCopy = {
     showFollowUp: 'Show a follow-up question',
     mapStyle: 'Choose a state with',
     mapStyles: { map: 'The map', sliders: 'Sliders' },
+    // v2.3 Item 1.
+    checkinButtonMode: 'Check-in button',
+    checkinButtonModes: { smart: 'Floating, smart', tabbar: 'In the tab bar', hidden: 'Hidden' },
+    checkinButtonMovable: 'Let me move the button',
+    checkinButtonSide: 'Button position',
+    checkinButtonSides: { left: 'Left', center: 'Center', right: 'Right' },
     dayStart: 'My day starts',
     dayEnd: 'My day ends',
     wrapTime: 'I close the day around',
@@ -139,6 +145,8 @@ export const settingsCopy = {
     notMedical: 'Tide is not a medical or mental health service.',
   },
   help: {
+    // v2.3 Item 1.
+    checkinButtonHidden: 'You can still check in from Today, the menu, or by pressing C.',
     pronouns: 'Shown only on your own profile card.',
     vocabulary: 'Simple shows four common words for each state.',
     dayModeSuggestions: 'A gentle banner on Today; you always choose.',

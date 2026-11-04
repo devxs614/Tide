@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRouter } from 'next/navigation';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { now } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { recentCheckIn } from '@/lib/latestState';
@@ -43,6 +43,7 @@ import { AmbienceSheet } from '@/components/ambience/AmbienceSheet';
 import { useAmbienceFocusEnd } from '@/components/ambience/useAmbienceFocusEnd';
 import { MINUTE } from '@/lib/time';
 import { clearFocusRunning, markFocusRunning } from '@/lib/focusRunning';
+import { focusCopy } from '@/copy/focusCopy';
 
 const LENGTHS: FocusMinutes[] = [5, 10, 15, 25];
 const BY_STATE: Record<Quadrant, FocusMinutes> = { ebb: 5, surge: 10, still: 15, swell: 25 };
@@ -117,8 +118,8 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   if (task === null) {
     return (
       <div className="flex flex-col gap-4 p-5">
-        <p>{copy.focus.taskMissing}</p>
-        <Button onClick={() => router.push('/tasks')}>{copy.focus.backToTasks}</Button>
+        <p>{focusCopy.taskMissing}</p>
+        <Button onClick={() => router.push('/tasks')}>{focusCopy.backToTasks}</Button>
       </div>
     );
   }
@@ -172,14 +173,14 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
         <h1 className="min-w-0 flex-1 basis-48 text-h2 font-bold break-words">{task.title}</h1>
         <FocusMenu onOpen={() => setCoach(false)} />
         <Button variant="secondary" onClick={end}>
-          {copy.focus.end}
+          {focusCopy.end}
         </Button>
       </header>
       {coach && <FocusCoach onDone={() => setCoach(false)} />}
       <LeftOffNote task={task} />
       {task.firstStep && (
         <section className="card p-4">
-          <h2 className="text-caption text-ink-soft">{copy.focus.firstStep}</h2>
+          <h2 className="text-caption text-ink-soft">{focusCopy.firstStep}</h2>
           <p className="text-lead font-bold">{task.firstStep}</p>
         </section>
       )}
@@ -187,7 +188,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
       <div className="flex flex-1 flex-col items-center justify-center gap-6">
         {timer.phase === 'ready' ? (
           <fieldset className="flex flex-col items-center gap-3">
-            <legend className="mb-3 text-center font-bold">{copy.focus.chooseLength}</legend>
+            <legend className="mb-3 text-center font-bold">{focusCopy.chooseLength}</legend>
             <div className="flex flex-wrap justify-center gap-2">
               {LENGTHS.map((m) => (
                 <button
@@ -197,7 +198,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
                   onClick={() => setChosen(m)}
                   className={`min-h-12 min-w-16 rounded-full border px-4 ${minutes === m ? 'border-primary bg-primary font-bold text-on-primary' : 'border-line bg-surface'}`}
                 >
-                  {fill(copy.focus.minutesOption, { n: m })}
+                  {fill(focusCopy.minutesOption, { n: m })}
                 </button>
               ))}
             </div>
@@ -232,13 +233,13 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
         )}
         {endAlert.timesUp && <h2 className="text-h2 font-extrabold">{focusAlertCopy.timesUp}</h2>}
         {nudges.breakUntil && timer.phase === 'paused' && <BreakPanel until={nudges.breakUntil} onBack={nudges.backToIt} />}
-        {timer.phase === 'paused' && <p className="text-ink-soft">{copy.focus.paused}</p>}
+        {timer.phase === 'paused' && <p className="text-ink-soft">{focusCopy.paused}</p>}
         {/* The heads-up before the end (v2.1 F-06), said once, politely. */}
         <p aria-live="polite" className="text-ink-soft">
           {endAlert.warning ?? ''}
         </p>
         <p aria-live="polite" className="sr-only">
-          {timer.phase === 'finished' && timer.completed ? copy.focus.finished : ''}
+          {timer.phase === 'finished' && timer.completed ? focusCopy.finished : ''}
         </p>
         <div className="flex w-full max-w-xs flex-col gap-2">
           {timer.phase === 'ready' && (
@@ -247,12 +248,12 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
               size="lg"
               onClick={start}
             >
-              {copy.focus.start}
+              {focusCopy.start}
             </Button>
           )}
           {timer.phase === 'running' && (
             <Button size="lg" variant="secondary" onClick={timer.pause}>
-              {copy.focus.pause}
+              {focusCopy.pause}
             </Button>
           )}
           {timer.phase === 'paused' && (
@@ -263,7 +264,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
                 timer.resume();
               }}
             >
-              {copy.focus.resume}
+              {focusCopy.resume}
             </Button>
           )}
           {/* The ambience player (v2.1 F-09); the button names the sound
@@ -274,7 +275,7 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
           </Button>
           {(timer.phase === 'running' || timer.phase === 'paused') && (
             <Button variant="quiet" onClick={doneEarly}>
-              {copy.focus.endEarly}
+              {focusCopy.endEarly}
             </Button>
           )}
         </div>

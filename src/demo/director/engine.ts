@@ -56,7 +56,14 @@ async function waitWhilePaused(run: number) {
 
 async function exec(step: Step) {
   const a = step.action;
-  const target = step.target ? await findTarget(step.target, a.kind === 'waitFor' ? (a.timeoutMs ?? 4000) : 4000) : null;
+  // An optional target is only spotlit when it's there (v2.3: the check-in
+  // button may live in the tab bar or be hidden; the action finds its way).
+  const target = step.target
+    ? await findTarget(step.target, a.kind === 'waitFor' ? (a.timeoutMs ?? 4000) : step.optionalTarget ? 800 : 4000).catch((e) => {
+        if (step.optionalTarget) return null;
+        throw e;
+      })
+    : null;
   if (target) {
     target.scrollIntoView({ block: 'center', behavior: 'smooth' });
     set({ target });

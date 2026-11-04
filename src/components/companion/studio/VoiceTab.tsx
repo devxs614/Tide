@@ -6,7 +6,6 @@
 // plays the companion's own hello so the choice is made by ear.
 import { useEffect, useState } from 'react';
 import { Volume2 } from 'lucide-react';
-import { copy } from '@/copy/en';
 import { companionLine } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { COMPANION_CLOUD_VOICE, type TtsProvider } from '@/data/voices';
@@ -20,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { WithTooltip } from '@/components/ui/tooltip';
 import { CardButton } from '@/components/ui/card';
 import { SwitchRow } from '@/components/ui/switch';
+import { voiceCopy } from '@/copy/voiceCopy';
 
 export function VoiceTab({ species }: { species: CompanionSpecies }) {
   const { settings, update } = useSettings();
@@ -43,7 +43,7 @@ export function VoiceTab({ species }: { species: CompanionSpecies }) {
     <div className="flex flex-col gap-4">
       <SwitchRow
         id="studio-read-companion"
-        label={copy.voice.readCompanion}
+        label={voiceCopy.readCompanion}
         checked={settings['voice.readCompanion']}
         onCheckedChange={(v) => void update('voice.readCompanion', v)}
       />
@@ -62,11 +62,11 @@ export function VoiceTab({ species }: { species: CompanionSpecies }) {
                 <span className="font-display font-extrabold">{v.name}</span>
                 {v.id === ownVoice && <span className="text-small text-ink-soft">{t.voiceCurrent}</span>}
               </CardButton>
-              <WithTooltip label={copy.voice.playSample}>
+              <WithTooltip label={voiceCopy.playSample}>
                 <Button
                   variant="secondary"
                   size="icon"
-                  aria-label={`${copy.voice.playSample}: ${v.name}`}
+                  aria-label={`${voiceCopy.playSample}: ${v.name}`}
                   onClick={() => void voice.speak(sample, { engine: 'natural', naturalVoice: v.id })}
                 >
                   <Volume2 aria-hidden />

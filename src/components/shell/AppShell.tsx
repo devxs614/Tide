@@ -23,6 +23,8 @@ import { useAmbienceState } from '@/lib/sound/ambienceState';
 import { BridgeBanner } from '@/components/bridge/BridgeBanner';
 import { WhenOpened } from './WhenOpened';
 import { OfflinePill } from './OfflinePill';
+import { useQuickCheckInOpen } from '@/lib/checkin/quickCheckIn';
+import { useBottomInsets } from '@/lib/layout/bottomInsets';
 
 // The sheets load the first time they open, so a screen's first load
 // doesn't carry the check-in steps, the AI validation and the Bridge.
@@ -91,8 +93,13 @@ function titleFor(pathname: string): string {
   return t.today;
 }
 
+// Quick check-in (v2.3 Item 1) loads the first time it opens.
+const QuickCheckInSheet = dynamic(() => import('@/components/checkin/QuickCheckInSheet').then((m) => m.QuickCheckInSheet), { ssr: false });
+
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const quickOpen = useQuickCheckInOpen();
+  const bottomBars = useBottomInsets();
   const router = useRouter();
   const { settings, loaded } = useSettings();
   const ambience = useAmbienceState();
@@ -144,10 +151,14 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* `isolate`: the page gets its own stacking context, so a z-index
           inside it (a segmented control's thumb) can never paint over the
           sticky top bar or the tab bar (v2.1 F-02). */}
-      <main id="main" tabIndex={-1} className="isolate flex-1 px-5 pb-48 pt-5 outline-none">
+      {/* The bottom padding is at least the old 12rem, and never less than the
+          measured bars at the bottom plus 1rem (v2.3 Item 1): with the mini
+          player or big text, the last lines used to stay under them. */}
+      <main id="main" tabIndex={-1} className="isolate flex-1 px-5 pb-[max(12rem,calc(var(--bottom-insets,0px)+1rem))] pt-5 outline-none">
         {children}
       </main>
       <div
+        ref={bottomBars}
         data-overlay="chrome"
         className="fixed inset-x-0 bottom-0 z-(--z-tabbar) mx-auto w-full max-w-[430px]"
       >
@@ -156,6 +167,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <TabBar />
       </div>
       <Sheets />
+      <WhenOpened open={quickOpen}>
+        <QuickCheckInSheet />
+      </WhenOpened>
       <KeyboardShortcuts />
       {showWhatsNew && <WhatsNewSheet />}
     </PhoneFrame>

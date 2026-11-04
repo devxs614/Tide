@@ -5,7 +5,6 @@
 // from this device after a clear two-button confirmation.
 import { useState } from 'react';
 import { Download } from 'lucide-react';
-import { copy } from '@/copy/en';
 import { realNow } from '@/lib/clock';
 import { deleteEverything, exportData } from '@/lib/repo/data';
 import { toISODate } from '@/lib/time';
@@ -13,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { CheckboxRow } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Section } from './Section';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 export function DataSection() {
   const [includeContacts, setIncludeContacts] = useState(false);
@@ -34,27 +34,27 @@ export function DataSection() {
   };
 
   return (
-    <Section id="data" title={copy.settings.yourData}>
-      <CheckboxRow id="include-contacts" label={copy.settings.includeContacts} checked={includeContacts} onCheckedChange={setIncludeContacts} />
+    <Section id="data" title={settingsV1.yourData}>
+      <CheckboxRow id="include-contacts" label={settingsV1.includeContacts} checked={includeContacts} onCheckedChange={setIncludeContacts} />
       <Button variant="secondary" className="self-start" onClick={() => void download()}>
         <Download aria-hidden />
-        {copy.settings.exportData}
+        {settingsV1.exportData}
       </Button>
       <Button variant="notice" className="self-start" onClick={() => setConfirming(true)}>
-        {copy.settings.deleteEverything}
+        {settingsV1.deleteEverything}
       </Button>
       <Dialog open={confirming} onOpenChange={setConfirming}>
         <DialogContent showCloseButton={false}>
           <DialogHeader className="pr-0">
-            <DialogTitle>{copy.settings.deleteTitle}</DialogTitle>
-            <DialogDescription>{copy.settings.deleteBody}</DialogDescription>
+            <DialogTitle>{settingsV1.deleteTitle}</DialogTitle>
+            <DialogDescription>{settingsV1.deleteBody}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setConfirming(false)} autoFocus>
-              {copy.settings.keepData}
+              {settingsV1.keepData}
             </Button>
             <Button variant="notice" onClick={() => void wipe()}>
-              {copy.settings.deleteEverything}
+              {settingsV1.deleteEverything}
             </Button>
           </DialogFooter>
         </DialogContent>

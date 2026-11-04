@@ -8,6 +8,8 @@ import { DAY, toISODate } from '@/lib/time';
 import type { Bottle, DayWrap, Overall, Settings, StrategyUse } from '@/lib/types';
 
 export const DEMO_SETTINGS_V2: Partial<Settings> = {
+  // v2.3 Item 1: the demo always starts with the smart floating button.
+  'checkin.buttonMode': 'smart',
   'companion.species': 'axolotl',
   'companion.name': 'Lolo',
   'companion.variant': 'pink',

@@ -5,6 +5,7 @@
 
 export type ShortcutAction =
   | { kind: 'checkIn' }
+  | { kind: 'quickCheckIn' }
   | { kind: 'newTask' }
   | { kind: 'tab'; href: string }
   | { kind: 'wrap' }
@@ -43,6 +44,9 @@ export function shortcutFor(e: KeyLike): ShortcutAction | null {
   switch (e.key) {
     case 'c':
       return { kind: 'checkIn' };
+    // v2.3 Item 1: Quick check-in, two taps instead of words.
+    case 'q':
+      return { kind: 'quickCheckIn' };
     case 'n':
       return { kind: 'newTask' };
     case 'w':

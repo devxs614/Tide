@@ -3,7 +3,6 @@
 // Step 8, "How should Tide talk to you?" (v2 spec 11.2): Gentle, Direct or
 // Literal, each shown with its example line, said by the companion when
 // there is one. Then the reading level the AI suggestions aim for.
-import { copy } from '@/copy/en';
 import { onboardingCopy } from '@/copy/onboardingCopy';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useSettings } from '@/lib/settings';
@@ -13,6 +12,7 @@ import { SegmentedControl } from '@/components/ui/segmented-control';
 import { Companion } from '@/components/companion/Companion';
 import type { StepProps } from '../OnboardingStep';
 import { StepFrame } from './StepFrame';
+import { settingsV1 } from '@/copy/settingsV1Copy';
 
 const MODES: CommunicationMode[] = ['gentle', 'direct', 'literal'];
 
@@ -27,8 +27,8 @@ export function TalkStep({ onNext }: StepProps) {
           <CardButton key={m} selected={settings.communicationMode === m} onClick={() => void update('communicationMode', m)} className="flex-row items-center gap-3">
             {profile.species && <Companion size={44} expression={settings.communicationMode === m ? 'happy' : 'idle'} decorative />}
             <span className="flex flex-col gap-1">
-              <span className="font-display font-extrabold">{copy.settings.modes[m].name}</span>
-              <span className="text-ink-soft">&ldquo;{copy.settings.modes[m].example}&rdquo;</span>
+              <span className="font-display font-extrabold">{settingsV1.modes[m].name}</span>
+              <span className="text-ink-soft">&ldquo;{settingsV1.modes[m].example}&rdquo;</span>
             </span>
           </CardButton>
         ))}

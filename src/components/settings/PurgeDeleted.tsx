@@ -7,15 +7,16 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { toast } from 'sonner';
-import { copy, fill } from '@/copy/en';
+import { fill } from '@/copy/en';
 import { countDeletedTasks } from '@/lib/repo/taskQueries';
 import { purgeAllDeletedTasks } from '@/lib/repo/taskEdits';
 import { Button } from '@/components/ui/button';
 import { CheckboxRow } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { taskEditCopy } from '@/copy/taskEditCopy';
 
 export function PurgeDeleted() {
-  const t = copy.taskEdit;
+  const t = taskEditCopy;
   const count = useLiveQuery(() => countDeletedTasks(), []) ?? 0;
   const [asking, setAsking] = useState(false);
   const [withHistory, setWithHistory] = useState(false);
