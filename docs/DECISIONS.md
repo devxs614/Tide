@@ -1560,3 +1560,35 @@ the frame, and if that spot covers a timer, input, primary button or sheet,
 the line shows in the caption bar instead. At 100% Today's greeting doesn't
 collide, so it stays a bubble there. Rejected: a custom placement loop
 alongside flip (two rules fighting over one position).
+
+**D214 — 2026-11-04 — The demo seed: one transaction, single-flight, and it keeps the presenter's own settings.**
+Demo fix pack D-1. `seedDemoWorkspace({ force })` builds every row in
+memory first (`src/data/demo/workspaceSeed.ts`, the same data as before),
+then, in one `rw` transaction over every table, reads the marker
+`demo.seedVersion`, clears every data table (taken from the database
+itself, so a new table can't be missed), writes every row with `bulkPut`
+and writes the marker last. A failure rolls the whole thing back. Callers
+that arrive during a seed wait for it (a forced one runs right after an
+unforced one); a Web Lock does the same across tabs, and without one the
+marker inside the transaction makes a second run a no-op. A tour start
+forces; opening the workspace to explore doesn't. `DEMO_SEED_VERSION` is
+`v2.4-demofix`, so every existing demo database reseeds once. One place
+where I didn't follow the spec to the letter: it says clear every table,
+and I clear every table except `settings`, where I overwrite the seed's
+own keys. The presenter's text size, voice and speech style live there and
+survived a restart before; clearing them would make every tour start at
+100% text, which is the opposite of what the demo script asks presenters
+to set. Rejected: clearing settings too, and a separate "presenter
+preferences" table (a schema change for a demo-only need).
+
+**D215 — 2026-11-04 — Only the demo database can be seeded, judged by the database's name; tests get their own name.**
+Demo fix pack D-1. The seed throws on the main database (`tide`), and the
+demo runtime mounts only when the page opened the demo database
+(`isDemoDatabase()`), not merely when the workspace flag says demo: that
+flag is in localStorage, shared by every tab, so a tab still holding
+someone's data could see "demo" after another tab entered it. Tests used
+to run on a database named `tide`, the same as the main one, and the v2
+seed test seeds into it; they now open `tide-test`, so that test keeps
+passing unchanged and the guard is tested against a real database named
+`tide`. Rejected: checking only the workspace flag (the cross-tab hole),
+and changing the existing seed tests to open a demo-named database.

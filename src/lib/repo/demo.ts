@@ -1,15 +1,18 @@
-// Turning demo mode on and off, and moving the demo clock. Demo mode
-// replaces everything on the device with Maya's synthetic three weeks, sets
-// the persona's preferences, and starts the clock at Thursday 3:40 pm. The
-// Settings screen asks before any of this, because it deletes real data.
-import { db, dataTables } from '../db';
+// Turning demo mode on and off, moving the demo clock, and filling the demo
+// workspace. v1's demo mode replaces everything on the device with Maya's
+// synthetic three weeks (Settings asks first, because it deletes real
+// data); v2's demo workspace has a database of its own, filled by
+// seedDemoWorkspace below, which since the demo fix pack is one atomic,
+// idempotent transaction that only ever writes to the demo database.
+import Dexie from 'dexie';
+import { db, dataTables, isMainDatabase } from '../db';
 import { DEMO_START, demoClockAt } from '../clock';
 import { buildDemoData } from '@/data/demo/seed';
+import { buildWorkspaceSeed, demoPersonaSettings } from '@/data/demo/workspaceSeed';
 import { clearData } from './data';
 import { withSeries } from '../events/series';
 import { setSettings } from './settings';
 import { currentWorkspace } from '../workspace';
-import { DEMO_BOTTLE, DEMO_SETTINGS_V2, demoDayWraps } from '@/data/demo/seedV2';
 
 // 4:36 pm: the Bridge to Calculus (4:50 pm) is already on screen when the
 // demo starts, and the lab (until 4:40 pm) is still where Maya is.
@@ -21,30 +24,22 @@ export async function loadDemoData(clockBase: number = DEMO_START): Promise<void
   const data = buildDemoData();
   await db.transaction('rw', dataTables(), async () => {
     await Promise.all(dataTables().map((t) => t.clear()));
-    await db.checkins.bulkAdd(data.checkins);
-    await db.tasks.bulkAdd(data.tasks);
+    // bulkPut, not bulkAdd: the tables were just cleared, but a put can
+    // never fail on a leftover row the way an add did (demo fix pack, D-1).
+    await db.checkins.bulkPut(data.checkins);
+    await db.tasks.bulkPut(data.tasks);
     // Weekly classes become series here too: a demo database is created at
     // version 3, so the upgrade that groups old events never runs for it.
     const grouped = withSeries(data.events);
-    await db.events.bulkAdd(grouped.events);
-    await db.eventSeries.bulkAdd(grouped.series);
-    await db.focusBlocks.bulkAdd(data.focusBlocks);
-    await db.strategyUses.bulkAdd(data.strategyUses);
-    await db.transitions.bulkAdd(data.transitions);
-    await db.wins.bulkAdd(data.wins);
-    await db.rewards.bulkAdd(data.rewards);
+    await db.events.bulkPut(grouped.events);
+    await db.eventSeries.bulkPut(grouped.series);
+    await db.focusBlocks.bulkPut(data.focusBlocks);
+    await db.strategyUses.bulkPut(data.strategyUses);
+    await db.transitions.bulkPut(data.transitions);
+    await db.wins.bulkPut(data.wins);
+    await db.rewards.bulkPut(data.rewards);
   });
-  await setSettings({
-    demoMode: true,
-    demoClock: demoClockAt(clockBase),
-    onboarded: true,
-    name: 'Maya',
-    communicationMode: 'gentle',
-    // Clearly fake number; the persona is fictional.
-    trustedContacts: [{ id: 'demo-contact-sofi', name: 'Sofi (roommate)', method: 'phone', value: '+52 81 0000 0000' }],
-    campusSupport: { name: 'Student Wellbeing Center' },
-    dayModeBannerDismissedFor: null,
-  });
+  await setSettings(demoPersonaSettings(clockBase));
 }
 
 export async function leaveDemo(): Promise<void> {
@@ -64,29 +59,77 @@ export async function setDemoTime(base: number): Promise<void> {
   await setSettings({ demoClock: demoClockAt(base) });
 }
 
-// The demo workspace (v2 spec 16.3): fill its own database the first time
-// (or when it has no v2 data yet). The main database is never touched; this
-// only ever runs while the demo database is the open one.
-export async function seedDemoWorkspace(): Promise<void> {
-  if ((await db.checkins.count()) > 0 && (await db.dayWraps.count()) > 0) return;
-  await fillDemoWorkspace();
+// The demo workspace's seed version. Bumping it makes every existing demo
+// database reseed once, cleanly, the next time the demo opens.
+export const DEMO_SEED_VERSION = 'v2.4-demofix';
+export const DEMO_SEED_MARKER = 'demo.seedVersion';
+
+export type SeedOutcome = 'seeded' | 'already';
+
+// Fills the demo workspace (v2 spec 16.3; rebuilt in the demo fix pack,
+// D-1). It used to clear and fill most tables in one transaction and add
+// the closed days and the bottle in a second one, and it could run twice at
+// once: React Strict Mode starts the tour twice in development, two tabs
+// can open the demo together, and Restart can be pressed mid-seed. The
+// second run cleared what the first had written and then both added the
+// same dates, so `dayWraps.bulkAdd()` failed on all eleven rows.
+// Now it reads the marker, clears and writes everything with bulkPut, and
+// writes the marker last, all in one transaction over every table, so a
+// failure rolls the whole thing back and the database is never half seeded.
+// `force` reseeds even when the marker says it's current (every tour start).
+async function seedOnce(force: boolean, into: Dexie): Promise<SeedOutcome> {
+  if (isMainDatabase(into)) throw new Error('The demo seed only writes to the demo workspace, never to the main database.');
+  const seed = buildWorkspaceSeed(DEMO_START);
+  return into.transaction('rw', into.tables, async () => {
+    const settings = into.table('settings');
+    const marker = await settings.get(DEMO_SEED_MARKER);
+    if (!force && marker?.value === DEMO_SEED_VERSION) return 'already';
+    // Every table but settings, taken from the database itself, so a table
+    // added later can't be forgotten again (v2 had forgotten nothing yet,
+    // but the clearing list and the schema were two lists). Settings keep
+    // the presenter's own choices (text size, voice, speech style), as
+    // before; the seed's own keys are overwritten below (D214).
+    for (const table of into.tables) if (table.name !== 'settings') await table.clear();
+    for (const [name, rows] of Object.entries(seed.tables)) await into.table(name).bulkPut(rows);
+    await settings.bulkPut(seed.settings);
+    await settings.put({ key: DEMO_SEED_MARKER, value: DEMO_SEED_VERSION });
+    return 'seeded';
+  });
+}
+
+// One seed at a time. Callers that arrive while one is running wait for it
+// instead of starting another; a forced call that arrives during an
+// unforced one runs right after it. Across tabs, the Web Lock does the
+// same; without it, the marker inside the transaction still makes the
+// second run a no-op.
+let running: { force: boolean; promise: Promise<SeedOutcome> } | null = null;
+
+function withLock(fn: () => Promise<SeedOutcome>): Promise<SeedOutcome> {
+  const locks = typeof navigator === 'undefined' ? undefined : navigator.locks;
+  return locks ? locks.request('tide-demo-seed', fn).then((outcome) => outcome) : fn();
+}
+
+export function seedDemoWorkspace({ force = false, into = db }: { force?: boolean; into?: Dexie } = {}): Promise<SeedOutcome> {
+  if (running && (running.force || !force)) return running.promise;
+  const before = running?.promise;
+  const promise = (async () => {
+    if (before) await before.catch(() => undefined);
+    return withLock(() => seedOnce(force, into));
+  })();
+  const entry = { force, promise };
+  running = entry;
+  const done = () => {
+    if (running === entry) running = null;
+  };
+  promise.then(done, done);
+  return promise;
 }
 
 // Before every tour: back to the seed exactly, so a second run in a row
 // starts from the same afternoon, with the Bridge not done yet and the
-// planted patterns' numbers intact. Refuses outside the demo workspace, so
-// it can never clear someone's own data.
+// planted patterns' numbers intact. Quietly does nothing outside the demo
+// workspace, and the seed itself refuses the main database.
 export async function resetDemoWorkspace(): Promise<void> {
   if (currentWorkspace() !== 'demo') return;
-  await fillDemoWorkspace();
-}
-
-async function fillDemoWorkspace(): Promise<void> {
-  await loadDemoData(DEMO_START);
-  const uses = await db.strategyUses.toArray();
-  await db.transaction('rw', db.dayWraps, db.bottles, async () => {
-    await db.dayWraps.bulkAdd(demoDayWraps(uses));
-    await db.bottles.add(DEMO_BOTTLE);
-  });
-  await setSettings(DEMO_SETTINGS_V2);
+  await seedDemoWorkspace({ force: true });
 }

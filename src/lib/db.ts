@@ -117,7 +117,24 @@ export function databaseName(workspace = currentWorkspace()): string {
   return workspace === 'demo' ? 'tide-demo' : 'tide';
 }
 
-export const db = new TideDB(databaseName());
+// Tests run on a database of their own name, neither the main one nor the
+// demo one, so the demo seed's guard (never the main database) can be
+// tested against a real main-named database without touching the others.
+export const TEST_DATABASE = 'tide-test';
+
+export const db = new TideDB(process.env.NODE_ENV === 'test' ? TEST_DATABASE : databaseName());
+
+// Which database this page actually opened. The workspace flag lives in
+// localStorage, which every tab shares, so another tab entering the demo
+// flips it while this tab still has the main database open. Anything that
+// replaces data asks these, never the flag (demo fix pack, D-1).
+export function isMainDatabase(database: Dexie = db): boolean {
+  return database.name === databaseName('main');
+}
+
+export function isDemoDatabase(database: Dexie = db): boolean {
+  return database.name === databaseName('demo');
+}
 
 // Every table except settings. Seeding demo data and "Delete everything"
 // both walk this list, so a new table only has to be added in one place.

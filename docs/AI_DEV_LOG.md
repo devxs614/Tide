@@ -4168,3 +4168,29 @@ someone's own data, after another tab entered the demo, could mount the
 demo runtime and seed Maya's data over theirs. The spec's guard (seed only
 into the demo database, by its name) closes that, and I'll make `DemoHost`
 check the open database too.
+
+### D-1: the dayWraps BulkError
+**Cause.** Two seeds overlapping. Of the six causes the spec lists, three
+applied: the start effect runs twice under React Strict Mode in development
+(the team's error), two tabs can start the demo at once (my reproduction),
+and the "already seeded?" check (check-ins and day wraps counted) ran
+outside the transaction that wrote. The seed also ran in two transactions,
+so the second seed's clearing landed between the first one's two writes,
+and both then added the same eleven dates. Not causes: the clearing list
+already had every v2 table, and the generator never makes two wraps for
+one date (a test now checks every table's keys).
+
+**Fix.** One seed function, one transaction, `bulkPut`, the marker last
+(D214), single-flight across callers and tabs, a once-only start in the
+runtime even under Strict Mode, and a calm "The demo data couldn't be
+prepared. Try again." if it ever fails. The seed refuses the main database
+by name, and the runtime mounts only on the demo database (D215); that
+closes the cross-tab hole I described above.
+
+**Checked.** Eight new tests (twice in a row, three at once with a single
+write, forced over a changed workspace equal to a fresh seed, a failure
+on the day wraps or the bottle rolling back with no marker, the main
+database refused and left empty, the planted patterns, unique keys in
+every table). The v1 and v2 seed tests pass unchanged. On the production
+build, the two-tab start three times: no BulkError. The pitch cut: 28 of
+28 in 80 s.
