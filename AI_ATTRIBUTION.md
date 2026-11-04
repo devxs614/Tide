@@ -160,6 +160,7 @@ what I generated and what came from elsewhere.
 | Gills placed without transforms, fronds and speckles in `companion/species/Axolotl.tsx`; `size` in the species art props and `CompanionFigure.tsx`; the Shore gill outline in `companion.css` | v2.1 F-14 axolotl gills | Claude Code | Spec 18 (D196) |
 | The sand dollar drawing in `components/shore/ItemArt.tsx` (+ `ItemArt.test.tsx`); its colors in `lib/shore/palette.ts`; the companion left out of the scene's spin-in-place rule in `shore.css` | v2.1 F-15 sand dollar | Claude Code | Spec 19 (D197) |
 | The full tour's v2.1 steps in `demo/director/scripts/full.ts`; `triggerNudge` in `customActions.ts` and `DEMO_NUDGE_EVENT` in `lib/focus/nudgePlan.ts` and `useNudges.ts`; the `hud` step option in `types.ts` and `DirectorHUD.tsx`; demo ids in MonthGrid, CalendarDayScreen, TaskForm, `ui/sheet.tsx`, NudgeCard and TimeOfDayMenu; classes to Nov 30 in `data/demo/seed.ts`; `--speed` in `scripts/run-tour.ts`; the demo and nudge test additions | v2.1 R7 demo tour | Claude Code | Spec 21.4 (D198–D200) |
+| `scripts/visual-baseline.ts`, `scripts/visual-compare.ts`, the visual manifests in `e2e/`; the sweep checks in `scripts/audit/sweepChecks.ts` (mid-word breaks, outside the frame, frame width, end-of-scroll coverage, bubbles over avoid areas, over-sheet, sheet fit, input size, phone inputs) and the runner's console, network and axe checks in `scripts/audit/run.ts`; the Focus outcome audit states; `docs/FEATURE_INVENTORY.md`, `docs/BUG_SWEEP.md` | v2.2 S0 baseline and audit upgrades | Claude Code | Sweep spec 3, 6 (D201–D204) |
 | `src/components/companion/CompanionSay.tsx` (rewritten) and its test, `src/lib/overlay/overlayRoot.ts`, the overlay root in `providers.tsx`, bubble anchors in `CompanionHost`, `StudioHero` and onboarding's `CompanionStep`; the z-index scale in `globals.css` and every z-index mapped to it; sheets' Close row in `ui/sheet.tsx`; tooltip portals | v2.1 F-01 speech bubble and layers | Claude Code | Spec 5 (D133, D134) |
 
 ## AI prompts used inside the app
@@ -201,6 +202,8 @@ with their Challenge Partner (see docs/TEAM_TODO.md).
 | @floating-ui/react-dom 2.1.9 | Placing the companion's speech bubble (already shipped inside Radix) | MIT |
 | axe-core 4.14.0 | Accessibility audit in tests (`src/test/a11y.test.tsx`); also used by the lint plugin | MPL-2.0 |
 | jsdom 30.1.3 | Browser environment for tests | MIT |
+| @axe-core/playwright 4.14.0 (dev) | axe inside the layout audit's real browser (v2.2 sweep) | MPL-2.0 |
+| pixelmatch 7.2.0, pngjs 7.0.0, @types/pngjs (dev) | Comparing the visual baseline's screenshots pixel by pixel (v2.2 sweep) | ISC, MIT, MIT |
 | eslint 9, eslint-config-next 16.4.3 | Linting | MIT |
 | prettier 3.9.10 | Formatting | MIT |
 | typescript 5.9.3 | Type checking | Apache-2.0 |

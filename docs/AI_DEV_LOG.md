@@ -3741,3 +3741,52 @@ on Today will need a split like D144 or a cut elsewhere first. Two code
 items are open for v2.2: switch and checkbox rows that are tappable
 across their whole 48px height, and the long tail of small-target
 warnings the audit lists.
+
+## Before v2.2 sweep
+2026-11-03
+
+The team showed v2.1 to their Challenge Partner and came back with five
+bugs, all in screenshots: phone fields that take letters, companion bubbles
+outside the phone frame and over the focus timer, words split letter by
+letter at larger text ("Toolki t"), a crushed four-column Tasks board, and
+the Check-in button covering content. They also asked for one feature: an
+AI that breaks a task into steps. The spec is
+`docs/TIDE_V2_2_BUG_SWEEP_PROMPT.md`: fix what's broken, change nothing
+else, and prove it.
+
+A note on the kickoff message: it was the v2 template (Phases V0–V12 on
+`v2-experience`). I'm following the sweep spec's own plan instead, Phases
+S0–S6 on a new `v2.2-bug-sweep` branch, since `v2-experience` is the
+finished v2 branch. Commits alternate between the team's two Git
+identities, as they asked, with no AI trailer (their rule wins over the
+spec's).
+
+**Baseline (tag `v2.1-baseline`).** Lint and typecheck clean; 568 tests in
+99 files; v1 suite 164 tests in 33 files; build clean. Nothing red, so
+there's no S-00.
+
+**What I set up before touching app code.**
+- `docs/FEATURE_INVENTORY.md`: every feature by screen and how it's
+  verified, to tick again at the end.
+- `scripts/visual-baseline.ts`: screenshots of 80-odd screens and open
+  states at 390 and 1280px, default settings, with Date frozen at the
+  demo's Thursday 3:40 pm and `Math.random` seeded, taken twice so I know
+  which shots wobble on their own. `scripts/visual-compare.ts` compares two
+  runs with pixelmatch.
+- The audit's blind spots (spec 6.1), in `scripts/audit/sweepChecks.ts`
+  and the runner: words split mid-word, anything outside the app frame,
+  the frame growing with text size, content stuck under floating controls
+  at the end of a scroll, bubbles over `data-bubble-avoid` elements, the
+  page painting over an open sheet, sheets taller than the screen, inputs
+  under 16px, phone inputs without a phone keyboard, console errors,
+  failed requests, and axe (serious and critical fail, moderate warns).
+
+**After S0.** The visual baseline is 158 screenshots; 148 came out
+pixel-identical on a second run and the other ten are listed as noise.
+The upgraded "before" audit found 1,386 failures in 1,896 runs (mid-word
+breaks 794, axe contrast 262, outside the frame 212, axe hidden-but-
+focusable 53, axe label mismatch 28, phone input 24, covered at the end
+13), mapped to B-01…B-05 and three sweep findings in `docs/BUG_SWEEP.md`.
+My first run of the new checks was half wrong (D203 lists what I had to
+correct), and the spec's own mid-word rule hid "Toolki t" (D202). No app
+code changed in S0. Lint, typecheck, 568 tests and v1's 164 still pass.

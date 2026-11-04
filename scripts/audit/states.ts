@@ -348,6 +348,29 @@ export const STATES: AuditState[] = [
     },
   },
   { id: 'bubble:breathing', route: '/toolkit/c-box?context=toolkit', ws: 'demo' },
+  // v2.2 B-02: the team's screenshot. "I'm done early" asks how it went; on
+  // "Didn't start" the companion says "Let's make the step tinier" while
+  // the outcome sheet is open.
+  {
+    id: 'focus:outcome',
+    route: async (page) => `/focus/${await firstTaskId(page)}`,
+    ws: 'demo',
+    open: async (page) => {
+      await click(page, demo('focus-start'));
+      await click(page, 'button:has-text("I\'m done early"):visible');
+      await page.locator(demo('focus-outcome-got_going')).waitFor({ timeout: 8000 });
+    },
+  },
+  {
+    id: 'focus:outcome-didnt',
+    route: async (page) => `/focus/${await firstTaskId(page)}`,
+    ws: 'demo',
+    open: async (page) => {
+      await click(page, demo('focus-start'));
+      await click(page, 'button:has-text("I\'m done early"):visible');
+      await click(page, demo('focus-outcome-didnt_start'));
+    },
+  },
   // v2.1 F-13: counting back, in type mode with a reply showing.
   {
     id: 'tool:countback',

@@ -60,5 +60,7 @@ public/voice/
 
 # Layout audit screenshots and Playwright output (v2.1)
 e2e/__audit__/
+# Visual baseline screenshots (v2.2 sweep); their hashes are in e2e/visual-*-manifest.json
+e2e/__visual__/
 test-results/
 playwright-report/

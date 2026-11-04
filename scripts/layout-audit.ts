@@ -6,7 +6,7 @@
 //
 // Run a production build first (npm run build && npx next start -p 3100),
 // then: npm run audit:layout -- --label=after [--widths=320,390] [--scales=1,1.3]
-// [--states=today,settings] [--font=lexend] [--bold] [--spacing] [--workers=3]
+// [--states=today,settings] [--font=lexend] [--bold] [--spacing] [--workers=3] [--axe]
 // It uses the Chrome installed on the machine, writes a JSON report to
 // docs/audits/, screenshots failing states to e2e/__audit__/, and exits 1
 // when there are failures not listed in e2e/layout-audit.allow.json.
@@ -34,6 +34,7 @@ const options: AuditOptions = {
   },
   textSpacing: process.argv.includes('--text-spacing'),
   workers: Number(arg('workers') ?? 3),
+  axe: process.argv.includes('--axe'),
   screenshotDir: path.join(root, 'e2e', '__audit__', label),
 };
 

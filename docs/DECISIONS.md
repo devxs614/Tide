@@ -1414,3 +1414,45 @@ For the check-in, the director sends a window event that the Focus
 screen's nudge hook answers with one card, whatever the nudge setting
 (off by default in the demo), and without a sound unless sound nudges
 were chosen. The full tour only; the pitch cut is unchanged.
+
+**D201 — 2026-11-03 — The v2.2 sweep follows its own plan (S0–S6), on `v2.2-bug-sweep`.**
+The kickoff message the team pasted was the v2 template (Phases V0–V12,
+commits on `v2-experience`). The sweep spec defines Phases S0–S6 on a new
+branch, and `v2-experience` is the finished v2 branch, so I followed the
+spec. Commits alternate the team's two Git identities and carry no AI
+trailer, as the team asked (their rule wins over the spec's trailer).
+Rejected: committing on `v2-experience` (it would rewrite v2's history
+line and mix two releases).
+
+**D202 — 2026-11-03 — A mid-word break fails whenever the word is ordinary.**
+Spec 6.1 says a split word fails only if it's narrower than its box. The
+team's bug is the box being squeezed narrower than the word ("Toolkit"
+in a 88px title), so that rule called it a warning. The audit fails any
+split word of up to 24 letters that's narrower than a phone line, and
+only warns for longer strings (links, codes). Rejected: the spec's rule
+as written (it hid the very bug it was meant to catch).
+
+**D203 — 2026-11-03 — What the new audit checks leave out, on purpose.**
+- The AI routes' 503 (`missing_key`) and 429 (rate limit) answers, and
+  Chrome's console line for each: without a key they're the designed
+  path to the fallbacks, and the audit's pace trips the limiter.
+- End-of-scroll coverage skips screens where a dialog or the refocus
+  check-in card is open: both wait for an answer and cover the page on
+  purpose.
+- Cards inside a sideways carousel only count for the part their
+  scroller lets paint.
+- Typing "abc" into phone fields is tested in component tests (B-01),
+  not by the audit, which would leave half-edited forms behind and make
+  later states ask "Leave without saving?".
+- axe runs at 390px (100% and 150%) and 1280px (100%), not the whole
+  matrix: 77 states × 24 sizes of axe would take hours and find the same
+  issues.
+
+**D204 — 2026-11-03 — The visual baseline freezes time and randomness, and is taken twice.**
+Screenshots compare pixel for pixel only if nothing moves between runs, so
+the script freezes `Date` at the demo's Thursday 3:40 pm, seeds
+`Math.random`, turns motion off and uses one device scale. It still runs
+twice before any fix: the ten shots that differ between two identical runs
+(a greeting bubble's timing, a focus ring) are listed as known noise in
+`docs/BUG_SWEEP.md`, so the final comparison can tell noise from change.
+Rejected: comparing hashes only (one anti-aliased pixel flips a hash).
