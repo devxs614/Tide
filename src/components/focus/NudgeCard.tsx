@@ -58,7 +58,9 @@ export function NudgeCard({ kind, task, onYes, onDrifted, onPickUp, onBreak, onS
     // flow-enter slides it up at Calm and Lively and does nothing at Off
     // (globals.css), the same entrance as the app's flows.
     <section data-overlay="nudge" aria-label={title} className="flow-enter fixed inset-x-0 bottom-0 z-[var(--z-toast)] p-4">
-      <div className="card mx-auto flex max-w-md flex-col gap-3 p-4">
+      {/* v2.3 Item 3: max-w-md made the card 4px wider than the phone frame
+          on each side on a laptop; it fits the frame now. */}
+      <div className="card mx-auto flex max-w-[min(28rem,calc(430px-2rem))] flex-col gap-3 p-4">
         <div className="flex items-start gap-3">
           <CompanionHost placement="focus" size={SIZES.sm} base="curious" bubble="none" noneAlt="nothing" decorative />
           <p role="status" className="min-w-0 flex-1 font-bold break-words">

@@ -122,10 +122,13 @@ export function sweepChecks(): PageFinding[] {
   // 5. A bubble or popover over something it must never cover (the focus
   // timer, the breathing square, inputs, primary buttons).
   const avoid = Array.from(document.querySelectorAll('[data-bubble-avoid]')).filter(shown);
+  // Only within the same layer: a line inside a sheet sits over the page's
+  // buttons behind the sheet's backdrop, which is fine.
+  const layerOf = (el: Element) => el.closest('[data-slot="sheet-content"], [data-slot="dialog-content"]');
   for (const b of Array.from(document.querySelectorAll('[data-companion-bubble]')).filter(shown)) {
     const r = b.getBoundingClientRect();
     for (const a of avoid) {
-      if (a.contains(b) || b.contains(a)) continue;
+      if (a.contains(b) || b.contains(a) || layerOf(a) !== layerOf(b)) continue;
       const q = a.getBoundingClientRect();
       if (Math.min(r.right, q.right) - Math.max(r.left, q.left) > 2 && Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top) > 2) {
         out.push({ check: 'bubble-over-avoid', selector: describe(b), detail: `over ${describe(a)}` });

@@ -78,6 +78,8 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
   // v2.1 F-09: a background sound chosen here; "until focus ends" fades out
   // before the end alert.
   const [soundsOpen, setSoundsOpen] = useState(false);
+  // Where the companion's words go (v2.3 Item 3), handed to it by ref.
+  const [speechSlot, setSpeechSlot] = useState<HTMLDivElement | null>(null);
   // v2.1 F-08: "End the focus block?" after the first minute.
   const [confirmEnd, setConfirmEnd] = useState(false);
   const ambience = useAmbienceState();
@@ -204,8 +206,11 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
           // Body doubling: the companion works on its own little task beside
           // the water while Maya works on hers (v2 spec 9). It appears when
           // the block starts, so its first line is "let's start".
+          <>
           <div className="flex flex-wrap items-end justify-center gap-4">
-            <WaterFill progress={timer.progress} remaining={timer.remaining} />
+            <div data-bubble-avoid>
+              <WaterFill progress={timer.progress} remaining={timer.remaining} />
+            </div>
             <CompanionHost
               placement="focus"
               size={SIZES.lg}
@@ -214,10 +219,16 @@ export function FocusScreen({ taskId, suggestedMinutes }: { taskId: string; sugg
               }
               listens={['focusEnded', 'nudge']}
               openingLine="focus_start"
-              bubble="left"
+              bubble="slot"
+              slotEl={speechSlot}
               noneAlt="waves"
             />
           </div>
+          {/* v2.3 Item 3: the companion's words sit here, in the layout, with
+              room kept for them. Floating, they covered the timer ("Let's
+              make the step tinier" over 4:52) in the team's screenshot. */}
+          <div ref={setSpeechSlot} data-speech-slot="focus" className="flex min-h-14 w-full max-w-sm justify-center" />
+          </>
         )}
         {endAlert.timesUp && <h2 className="text-h2 font-extrabold">{focusAlertCopy.timesUp}</h2>}
         {nudges.breakUntil && timer.phase === 'paused' && <BreakPanel until={nudges.breakUntil} onBack={nudges.backToIt} />}

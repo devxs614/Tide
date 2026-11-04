@@ -1483,3 +1483,17 @@ which come from v2.2's AI task breakdown. That feature isn't built yet (the
 sweep paused for v2.3), so tasks have no subtasks and the chip would always
 empty the board. I left it out; it goes in with the breakdown. Rejected: a
 chip that can only ever show "No tasks match".
+
+**D208 — 2026-11-04 — Speech lives inside the frame; the top bar's head shows the last line.**
+v2.3 Item 3. The overlay layer moved from the end of `<body>` into the app
+frame, with `overflow: clip`, so nothing in it can paint past the "phone";
+Floating UI uses the frame (intersected with the window) as its boundary,
+and bubbles are at most 280px wide (v2.1 allowed 320). Focus and Box
+breathing put the words in a reserved slot instead of floating. The top
+bar's companion head now shows the last thing the companion said (the
+spec's "Last thing {name} said") instead of opening the Studio, which stays
+one tap away in the menu. The Settings label reads "How your companion
+talks", since settings labels can't hold a name; the Studio shows "How
+{name} talks". Rejected: keeping the global layer and only clamping
+positions (a sheet or a long word could still push a bubble out).
+

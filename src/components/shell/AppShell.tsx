@@ -10,6 +10,7 @@ import { currentWorkspace } from '@/lib/workspace';
 import { copy } from '@/copy/en';
 import { PhoneFrame } from './PhoneFrame';
 import { TopBar } from './TopBar';
+import { CaptionBar } from '@/components/companion/CaptionBar';
 import { TabBar } from './TabBar';
 import { CheckInFab } from './CheckInFab';
 import { Splash } from './Splash';
@@ -129,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const showWhatsNew = !settings.demoMode && settings['companion.species'] === null && !settings['whatsNew.seen'];
 
   return (
-    <PhoneFrame>
+    <PhoneFrame captions={false}>
       <a
         href="#main"
         className="sr-only-focusable absolute left-2 top-2 z-(--z-popover) rounded-full bg-primary px-4 py-2 text-on-primary"
@@ -137,6 +138,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {copy.global.skipToContent}
       </a>
       <TopBar title={titleFor(pathname)} />
+      <CaptionBar top={16} />
       <OfflinePill />
       <BridgeBanner />
       {/* `isolate`: the page gets its own stacking context, so a z-index

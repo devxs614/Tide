@@ -47,6 +47,8 @@ export function BoxBreathing({ onDone }: ToolProps) {
   const play = useSound();
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [, redraw] = useState(0);
+  // Where the companion's words go (v2.3 Item 3), handed to it by ref.
+  const [speechSlot, setSpeechSlot] = useState<HTMLDivElement | null>(null);
   const cuedPhase = useRef(-1);
   const withCompanion = useCompanionShown('toolkit');
 
@@ -81,7 +83,7 @@ export function BoxBreathing({ onDone }: ToolProps) {
       {/* With a companion, it sits in the middle of the square and breathes
           exactly with the phases (v2 spec 9): the square grows a little to
           fit it, and the words move under it. Without one, this is v1. */}
-      <div role="img" aria-label={toolsCopy.breathe.label} className={cn('relative rounded-md border-4 border-primary/40', withCompanion ? 'size-[240px]' : 'size-[200px]')}>
+      <div role="img" aria-label={toolsCopy.breathe.label} data-bubble-avoid className={cn('relative rounded-md border-4 border-primary/40', withCompanion ? 'size-[240px]' : 'size-[200px]')}>
         {!reduce && startedAt !== null && !finished && (
           <span
             aria-hidden
@@ -98,6 +100,8 @@ export function BoxBreathing({ onDone }: ToolProps) {
               breathPhase={startedAt !== null && !finished ? BREATH[phase] : null}
               breathPhaseMs={SIDE_MS}
               openingLine="breathing_invite"
+              bubble="slot"
+              slotEl={speechSlot}
               decorative
             />
             <p aria-hidden className="text-center font-bold">
@@ -110,6 +114,9 @@ export function BoxBreathing({ onDone }: ToolProps) {
           </p>
         )}
       </div>
+      {/* v2.3 Item 3: the companion's words go here, under the square, with
+          room kept for them; floating, they covered the square. */}
+      {withCompanion && <div ref={setSpeechSlot} data-speech-slot="breathing" className="flex min-h-14 w-full max-w-sm justify-center" />}
       <p aria-live="polite" className="sr-only">
         {startedAt === null ? '' : finished ? toolsCopy.breathe.finished : PHASES[phase]}
       </p>

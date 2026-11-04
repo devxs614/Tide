@@ -23,6 +23,9 @@ export function WithTooltip({ label, children }: { label: string; children: Reac
         <TooltipPrimitive.Portal container={trigger ? overlayRootFor(trigger) : undefined}>
           <TooltipPrimitive.Content
             sideOffset={6}
+            // Inside the phone frame, like every overlay (v2.3 Item 3).
+            collisionBoundary={trigger?.closest('[data-app-frame]') ?? undefined}
+            collisionPadding={8}
             className="z-(--z-bubble) rounded-input bg-ink px-2 py-1 text-caption font-bold text-surface data-open:animate-in data-open:fade-in-0"
           >
             {label}

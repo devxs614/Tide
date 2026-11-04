@@ -90,6 +90,7 @@ export const settingsCopy = {
     doneVisibleFor: 'Show finished tasks on the board for',
     autoDeleteCompleted: 'Remove finished tasks after',
     boardView: 'Board view',
+    speechStyle: 'How your companion talks',
     focusMinutes: 'Focus length',
     focusAuto: 'Pick for me',
     companionActivity: 'Companion works alongside me',

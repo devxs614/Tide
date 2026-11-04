@@ -3896,3 +3896,42 @@ sideways scroll). Both tours unchanged (pitch 28/28 in 79 s, full 68/68 in
 baseline changes only Tasks, Completed, Calendar and the task sheets at
 1280 (the frame), Tasks at 390 (the swipe view), Settings → Day (the new
 row), plus the known greeting noise.
+
+## Item 3 — Companion speech stays inside the phone area (before and after)
+2026-11-04
+
+**Before (what I found when I checked v2.2's state).** None of v2.2's
+B-02 fix existed yet; the sweep paused before it. Bubbles were portaled
+to `#tide-overlays` at the end of `<body>`, outside the phone frame, and
+Floating UI kept them inside the *window*, so on a laptop a line like
+"That's okay. We can start over." hung past the frame's right edge (x 920
+vs 855 at 1280 × 130%). On Focus the bubble floated over the timer, and the
+Shore's "Time of day" menu opened left of the frame. Bridge and Wrap
+already used inline lines.
+
+**What I built.**
+- The overlay layer is now the frame's last child (`PhoneFrame`),
+  absolutely positioned over it with `overflow: clip`; bubbles in it are
+  placed with Floating UI inside the frame (boundary = frame ∩ window, 12px
+  padding, at most 280px wide). Sheets keep their own layers.
+- `avoidElements` (`lib/overlay/avoidElements.ts`): after placement, if a
+  bubble would cover the timer, the breathing square, the bridge countdown,
+  inputs, the mood map, candidate cards, a primary button or an open sheet
+  (`data-bubble-avoid`), it tries the other sides; if every side collides,
+  the line goes to the caption bar.
+- Focus and Box breathing put the companion's words in a reserved slot in
+  the layout (`bubble="slot"`), so they can't float over the timer or the
+  square.
+- A page bubble steps aside when a sheet or dialog opens (`backToClose`
+  now tells listeners when one is open).
+- Menus and tooltips use the frame as their collision boundary; the
+  "Earth to Maya!" card fits the frame.
+- New setting `companion.speechStyle` (Settings → Companion, and the
+  Studio's Personality tab with a live preview): speech bubbles (default),
+  a caption bar under the top bar that pushes content down instead of
+  covering it, or no speech.
+- Every line shown is remembered (`lib/companion/speech.ts`); tapping the
+  top bar's companion head shows the last one from the last ten minutes,
+  and with "No speech" tapping the companion does the same. The head no
+  longer opens the Studio (the menu's "My companion" still does) (D208).
+

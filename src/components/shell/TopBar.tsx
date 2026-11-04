@@ -4,11 +4,16 @@
 // the right with the places that aren't tabs (Proof log, Settings, Talk to a
 // person, About). In demo mode a quiet "Demo data" badge sits next to the
 // title so judges are never misled about whose data they are looking at.
-// With a companion, its head sits by the menu and opens the Companion Studio
-// (v2 spec 4.4), except on Today, where the companion is already in the
-// header, and on the support pages, where the crisis screen lives.
+// With a companion, its head sits by the menu (v2 spec 4.4), except on
+// Today, where the companion is already in the header, and on the support
+// pages, where the crisis screen lives. v2.3 Item 3: tapping the head brings
+// back the last thing it said (a bubble that faded is never lost); the
+// menu's "My companion" still opens the Companion Studio.
 // "How this screen works" opens a short explanation of the current screen.
 import { useState } from 'react';
+import { CompanionSay } from '@/components/companion/CompanionSay';
+import { COMPANION_COPY } from '@/copy/companionCopy';
+import { recentLine, showCaption } from '@/lib/companion/speech';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -37,6 +42,13 @@ export function TopBar({ title }: { title: string }) {
   const pathname = usePathname();
   const inDemo = currentWorkspace() === 'demo';
   const [helpOpen, setHelpOpen] = useState(false);
+  const [headLine, setHeadLine] = useState<{ text: string; key: number } | null>(null);
+  const [headEl, setHeadEl] = useState<HTMLButtonElement | null>(null);
+  const showLastLine = () => {
+    const text = recentLine()?.text ?? fill(COMPANION_COPY.lastLineNone, { name: companion.name });
+    if (settings['companion.speechStyle'] === 'captions') showCaption(text);
+    else setHeadLine((prev) => ({ text, key: (prev?.key ?? 0) + 1 }));
+  };
   const showHead = !!companion.species && pathname !== '/' && !pathname.startsWith('/support');
   return (
     <header data-overlay="chrome" className="@container/bar sticky top-0 z-(--z-sticky) flex min-h-16 items-center gap-3 border-b-2 border-line bg-bg/95 px-5 backdrop-blur">
@@ -55,9 +67,11 @@ export function TopBar({ title }: { title: string }) {
       </div>
       <div className="ml-auto flex shrink-0 items-center gap-1">
         {showHead && (
-          <Link
-            href="/companion"
-            aria-label={fill(copy.shell.companion, { name: companion.name })}
+          <button
+            ref={setHeadEl}
+            type="button"
+            onClick={showLastLine}
+            aria-label={fill(COMPANION_COPY.lastLine, { name: companion.name })}
             // At big text on a phone the title needs the room more than the
             // head does (the head is a shortcut; the menu has the same link).
             // v2.2 B-03: this asked the window's width, so on a laptop the
@@ -68,8 +82,9 @@ export function TopBar({ title }: { title: string }) {
             className="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-surface-2 big-text:@max-[480px]/bar:hidden @max-[17.5em]/bar:hidden"
           >
             <Companion size={HEAD_SIZE} decorative />
-          </Link>
+          </button>
         )}
+        {headLine && <CompanionSay text={headLine.text} lineKey={headLine.key} anchor={headEl} tapped onDone={() => setHeadLine(null)} />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="default" className="px-3">

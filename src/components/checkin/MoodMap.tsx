@@ -79,7 +79,8 @@ export function MoodMap({ value, onChange }: { value: MapPoint; onChange: (p: Ma
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    // The companion's bubble keeps off the map (v2.3 Item 3).
+    <div data-bubble-avoid className="flex flex-col gap-3">
       {useSliders ? (
         <div className="flex flex-col gap-4 card p-4">
           <SliderRow label={copy.moodMap.energy} value={value.energy} onChange={(energy) => onChange({ ...value, energy })} />

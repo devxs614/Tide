@@ -11,7 +11,6 @@ import { Toaster } from '@/components/ui/sonner';
 import { WhenOpened } from '@/components/shell/WhenOpened';
 import { CelebrationHost } from '@/components/celebrate/CelebrationHost';
 import { DemoHost } from '@/demo/DemoHost';
-import { OVERLAY_ROOT_ID } from '@/lib/overlay/overlayRoot';
 // Catches the browser's install offer early, so "Install Tide" can use it later.
 import '@/lib/install';
 
@@ -36,9 +35,6 @@ export function Providers({ children }: { children: ReactNode }) {
         <GlobalSheets />
       </UiProvider>
       <Toaster />
-      {/* Where floating things like the companion's bubble attach (v2.1
-          F-01): after the page, so nothing in it can clip them. */}
-      <div id={OVERLAY_ROOT_ID} data-overlay-root />
       <CelebrationHost />
       <DemoHost />
     </SettingsProvider>

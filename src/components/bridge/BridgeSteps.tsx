@@ -137,7 +137,7 @@ export function BridgeSteps({ data, draft, onClose }: { data: BridgeData; draft:
         />
         <div className="flex flex-col gap-1">
           <SheetTitle>{fill(copy.bridge.sheetTitle, { from, to: data.to.title })}</SheetTitle>
-          <p className="font-bold text-primary">{fill(copy.bridge.countdown, { m: minutesUntil(data.to.start, nowTs), to: data.to.title })}</p>
+          <p data-bubble-avoid className="font-bold text-primary">{fill(copy.bridge.countdown, { m: minutesUntil(data.to.start, nowTs), to: data.to.title })}</p>
         </div>
         {line && (
           <p className="rounded-card bg-surface-2 p-3">

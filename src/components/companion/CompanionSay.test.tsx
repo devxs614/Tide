@@ -8,6 +8,7 @@ import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderApp, resetApp } from '@/test/utils';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { CompanionSay, visibleMs } from './CompanionSay';
+import { PhoneFrame } from '@/components/shell/PhoneFrame';
 
 const LONG = 'Choose why the task is hard. Then I will suggest one first step.';
 
@@ -24,16 +25,22 @@ function Speaker({ text = LONG, lineKey = 1, tapped = false, onDone }: { text?: 
 }
 
 describe('CompanionSay', () => {
-  it('portals out of a box that clips and transforms', async () => {
+  // v2.3 Item 3: the overlay layer moved from the end of <body> into the
+  // app frame, so a bubble can't float past the "phone" on a laptop.
+  it("portals out of a box that clips and transforms, into the frame's own layer", async () => {
     await resetApp();
     await renderApp(
-      <div data-testid="box" style={{ overflow: 'hidden', transform: 'translateX(0)' }}>
-        <Speaker />
-      </div>,
+      <PhoneFrame>
+        <div data-testid="box" style={{ overflow: 'hidden', transform: 'translateX(0)' }}>
+          <Speaker />
+        </div>
+      </PhoneFrame>,
     );
     const bubble = (await screen.findByText(LONG)).closest('[data-companion-bubble]')!;
     expect(screen.getByTestId('box').contains(bubble)).toBe(false);
-    expect(document.getElementById('tide-overlays')!.contains(bubble)).toBe(true);
+    const layer = document.getElementById('tide-overlays')!;
+    expect(layer.contains(bubble)).toBe(true);
+    expect(layer.parentElement).toHaveAttribute('data-app-frame');
   });
 
   it('stays inside the sheet it belongs to', async () => {

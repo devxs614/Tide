@@ -22,7 +22,7 @@ interface Props {
 export function EmotionCandidateCard({ word, definition, quadrant, selected, onToggle }: Props) {
   const style = QUADRANT_STYLES[quadrant];
   return (
-    <div className={cn('rounded-card border border-l-[6px] border-line bg-surface', style.borderLeft, selected && style.tint)}>
+    <div data-bubble-avoid className={cn('rounded-card border border-l-[6px] border-line bg-surface', style.borderLeft, selected && style.tint)}>
       <button
         type="button"
         role="checkbox"

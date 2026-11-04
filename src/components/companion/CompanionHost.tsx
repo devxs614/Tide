@@ -9,6 +9,7 @@
 // no companion, the place shows calm waves or nothing; if she hasn't chosen
 // yet (everyone coming from v1), the place looks exactly as it did in v1.
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { companionLine, type LineContext } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { fill, quadrantName } from '@/copy/en';
@@ -16,6 +17,7 @@ import { emitCompanion, onCompanionEvent, type CompanionEvent } from '@/lib/comp
 import { type Expression, type Placement, type Reaction } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useCompanionVoice } from '@/lib/companion/useCompanionVoice';
+import { recentLine } from '@/lib/companion/speech';
 import { useSettings } from '@/lib/settings';
 import { useSound } from '@/lib/sound/useSound';
 import { useVoice } from '@/lib/voice/useVoice';
@@ -119,8 +121,13 @@ export interface CompanionHostProps {
   walking?: boolean;
   // Above the companion, reaching to its left or right; inline, in a row to
   // its right (the top of a sheet, or a centered companion, where a bubble
-  // above would leave the screen or hide the title); or no bubble at all.
-  bubble?: 'left' | 'right' | 'inline' | 'none';
+  // above would leave the screen or hide the title); in a reserved spot
+  // elsewhere on the screen (`slot`, v2.3: Focus and Box breathing, where a
+  // floating bubble covered the timer or the square); or no bubble at all.
+  bubble?: 'left' | 'right' | 'inline' | 'slot' | 'none';
+  // With bubble="slot": the element the line goes into (the screen keeps it
+  // in its layout, with room reserved).
+  slotEl?: Element | null;
   // What "no companion" shows here.
   noneAlt?: 'waves' | 'nothing';
   onTap?: () => void;
@@ -139,6 +146,7 @@ export function CompanionHost({
   breathPhaseMs,
   walking,
   bubble = 'left',
+  slotEl,
   noneAlt = 'waves',
   onTap,
   className,
@@ -269,6 +277,12 @@ export function CompanionHost({
     if (onTap) return onTap();
     const cycle: Reaction[] = ['wave', 'hop', 'wiggle', 'special'];
     respond({ reaction: cycle[tapIndex.current++ % cycle.length], expression: 'happy' });
+    // "No speech" (v2.3): a tap shows what it last said, instead of a new line.
+    if (settings['companion.speechStyle'] === 'off') {
+      const text = recentLine()?.text ?? fill(COMPANION_COPY.lastLineNone, { name: profile.name });
+      setLine((prev) => ({ text, key: (prev?.key ?? 0) + 1, tapped: true }));
+      return;
+    }
     say(profile.talkativeness === 'chatty' ? 'idle_tip' : dayPart(new Date(now()).getHours()), {}, true);
   };
 
@@ -290,6 +304,15 @@ export function CompanionHost({
       {figure}
     </button>
   );
+
+  if (bubble === 'slot') {
+    return (
+      <div className={cn('relative inline-flex flex-col items-center', className)} data-companion-placement={placement}>
+        {body}
+        {line && slotEl && createPortal(<CompanionSay id={bubbleId} text={line.text} lineKey={line.key} tapped={line.tapped} inline onDone={done} />, slotEl)}
+      </div>
+    );
+  }
 
   if (bubble === 'inline') {
     return (

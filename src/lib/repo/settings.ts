@@ -65,6 +65,7 @@ export const DEFAULT_SETTINGS: Settings = {
   'companion.accessory': 'none',
   'companion.size': 'md',
   'companion.talkativeness': 'some',
+  'companion.speechStyle': 'bubbles',
   'companion.placements': {
     today: true, checkin: true, unstick: true, focus: true, bridge: true, toolkit: true, patterns: true,
     shore: true, wrap: true, celebrations: true, toasts: true, empty: true, support: true,

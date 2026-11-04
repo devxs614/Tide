@@ -60,6 +60,8 @@ export const COMPANION_COPY = {
     accessory: 'Accessory',
     size: 'Size',
     talkativeness: 'How much they talk',
+    // v2.3 Item 3.
+    speechStyle: 'How {name} talks',
     hearLine: 'Hear a line',
     tryBreath: 'Try a breath together',
     breathDone: 'Nice. That was one full breath.',
@@ -95,6 +97,15 @@ export const COMPANION_COPY = {
     notChosen: 'You have not picked a companion yet.',
   },
   openStudio: '{name}. Open the companion studio',
+  // v2.3 Item 3: where the companion's words appear, and its last line
+  // brought back on a tap.
+  speechStyles: {
+    bubbles: { name: 'Speech bubbles', description: 'Next to {name}, inside the screen' },
+    captions: { name: 'Caption bar', description: 'A slim bar under the top, that never covers anything' },
+    off: { name: 'No speech', description: 'No words on screen. Tap {name} to see the last one' },
+  },
+  lastLine: 'What did {name} say?',
+  lastLineNone: "{name} hasn't said anything yet.",
   // Screen-reader names, so the drawing is never just a picture.
   alt: '{name} the {kind}, looking {expression}',
   expressionWords: {

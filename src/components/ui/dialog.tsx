@@ -58,12 +58,15 @@ function DialogContent({
   return (
     <DialogPortal>
       <DialogOverlay />
+      {/* v2.3 Item 3: sm:max-w-sm is 24rem, so at 150% text on a laptop a
+          dialog grew past the 430px phone frame. It now stops at 410px;
+          at 100% it's 408px, exactly as before. */}
       <DialogPrimitive.Content
         data-slot="dialog-content"
         data-overlay="sheet"
         data-overlay-root
         className={cn(
-          'fixed top-1/2 left-1/2 z-(--z-sheet) grid max-h-[90dvh] w-full max-w-[calc(100%-2.5rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-[var(--radius-xl)] border-2 border-line bg-surface p-5 text-body text-ink shadow-[0_6px_0_var(--line)] outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:fade-out-0 data-closed:duration-(--dur-fast)',
+          'fixed top-1/2 left-1/2 z-(--z-sheet) grid max-h-[90dvh] w-full max-w-[calc(100%-2.5rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-[var(--radius-xl)] border-2 border-line bg-surface p-5 text-body text-ink shadow-[0_6px_0_var(--line)] outline-none sm:max-w-[min(24rem,410px)] data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:duration-(--dur-spring-gentle) data-open:ease-(--spring-gentle) data-closed:animate-out data-closed:fade-out-0 data-closed:duration-(--dur-fast)',
           className,
         )}
         {...props}

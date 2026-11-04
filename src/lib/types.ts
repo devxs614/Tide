@@ -316,6 +316,9 @@ export interface Settings {
   'companion.accessory': AccessoryId;
   'companion.size': 'sm' | 'md' | 'lg';
   'companion.talkativeness': 'quiet' | 'some' | 'chatty';
+  // v2.3 Item 3: floating bubbles, a caption bar under the top bar, or no
+  // words on screen (still read aloud, still one tap away).
+  'companion.speechStyle': 'bubbles' | 'captions' | 'off';
   'companion.placements': Record<Placement, boolean>;
   'companion.faceStyle': 'dots' | 'none';
   'companion.mirrorState': boolean;

@@ -5,6 +5,7 @@
 // labels plus the words people actually type ("dark mode", "pet", "font").
 import { copy } from '@/copy/en';
 import { settingsCopy } from '@/copy/settingsCopy';
+import { COMPANION_COPY } from '@/copy/companionCopy';
 import { tasksCopy } from '@/copy/tasksCopy';
 import type { Settings } from '@/lib/types';
 
@@ -37,7 +38,20 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'text', key: 'pronouns', label: L.pronouns, help: H.pronouns, max: 20, keywords: ['pronouns', 'she', 'he', 'they'] },
     ],
   },
-  { id: 'companion', entries: [{ kind: 'custom', id: 'companion', label: settingsCopy.sections.companion, keywords: ['companion', 'mascot', 'pet', 'animal', 'buddy', 'otter', 'axolotl', 'capybara', 'gecko', 'jellyfish', 'crab'] }] },
+  {
+    id: 'companion',
+    entries: [
+      { kind: 'custom', id: 'companion', label: settingsCopy.sections.companion, keywords: ['companion', 'mascot', 'pet', 'animal', 'buddy', 'otter', 'axolotl', 'capybara', 'gecko', 'jellyfish', 'crab'] },
+      // v2.3 Item 3.
+      {
+        kind: 'choice',
+        key: 'companion.speechStyle',
+        label: L.speechStyle,
+        options: (['bubbles', 'captions', 'off'] as const).map((v) => ({ value: v, label: COMPANION_COPY.speechStyles[v].name })),
+        keywords: ['speech', 'bubble', 'bubbles', 'captions', 'subtitles', 'talk', 'words'],
+      },
+    ],
+  },
   {
     id: 'appearance',
     entries: [

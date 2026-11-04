@@ -19,6 +19,15 @@ interface Entry {
 }
 
 const stack: Entry[] = [];
+// v2.3 Item 3: whether any sheet or dialog is open, for the companion's
+// page bubbles, which step aside as soon as one opens.
+const stackListeners = new Set<() => void>();
+const notifyStack = () => stackListeners.forEach((l) => l());
+export function subscribeOpenOverlays(l: () => void): () => void {
+  stackListeners.add(l);
+  return () => stackListeners.delete(l);
+}
+export const anyOverlayOpen = () => stack.length > 0;
 // The marker is the current entry, as far as we know, and its URL.
 let marker: { url: string } | null = null;
 
@@ -64,8 +73,10 @@ export function useBackToClose(open: boolean | undefined, onClose: (() => void) 
     const entry: Entry = { id, close: () => closeRef.current?.() };
     stack.push(entry);
     ensureMarker();
+    notifyStack();
     return () => {
       stack.splice(stack.indexOf(entry), 1);
+      notifyStack();
     };
   }, [enabled, id]);
 }

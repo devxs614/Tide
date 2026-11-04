@@ -4,11 +4,14 @@
 // each option with a real line it would say, so "chatty" isn't abstract.
 // "Hear a line" shows one in the bubble on the stage (and reads it aloud if
 // a voice is available), whatever the setting, because Maya asked for it.
+// v2.3 Item 3: how its words appear (bubbles, the caption bar, or none);
+// picking one says a line right away, as a preview of that style.
 import { MessageCircle } from 'lucide-react';
 import { fill } from '@/copy/en';
 import { companionLine, type LineContext } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { useSettings } from '@/lib/settings';
+import { useCompanion } from '@/lib/companion/useCompanion';
 import type { CompanionSpecies } from '@/lib/companion/registry';
 import type { Settings } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -17,6 +20,7 @@ import { CardButton } from '@/components/ui/card';
 const LEVELS: Array<Settings['companion.talkativeness']> = ['quiet', 'some', 'chatty'];
 // The kind of line each level adds: quiet keeps only breathing guidance,
 // some speaks at key moments, chatty adds a tip now and then.
+const STYLES: Array<Settings['companion.speechStyle']> = ['bubbles', 'captions', 'off'];
 const EXAMPLE: Record<Settings['companion.talkativeness'], LineContext> = {
   quiet: 'breathing_invite',
   some: 'after_checkin_swell',
@@ -27,6 +31,8 @@ export function PersonalityTab({ species, onHearLine }: { species: CompanionSpec
   const { settings, update } = useSettings();
   const t = COMPANION_COPY;
   const value = settings['companion.talkativeness'];
+  const style = settings['companion.speechStyle'];
+  const { name } = useCompanion();
 
   return (
     <div className="flex flex-col gap-4">
@@ -43,6 +49,23 @@ export function PersonalityTab({ species, onHearLine }: { species: CompanionSpec
                 line: companionLine(species, EXAMPLE[level], settings.communicationMode, { name: settings.name, quadrant: 'Swell' }),
               })}
             </span>
+          </CardButton>
+        ))}
+      </div>
+      <div role="group" aria-labelledby="studio-speech" className="flex flex-col gap-2">
+        <h2 id="studio-speech" className="font-display font-extrabold">
+          {fill(t.studio.speechStyle, { name })}
+        </h2>
+        {STYLES.map((s) => (
+          <CardButton
+            key={s}
+            selected={style === s}
+            onClick={() => {
+              void update('companion.speechStyle', s).then(onHearLine);
+            }}
+          >
+            <span className="font-display font-extrabold">{t.speechStyles[s].name}</span>
+            <span className="text-small text-ink-soft">{fill(t.speechStyles[s].description, { name })}</span>
           </CardButton>
         ))}
       </div>

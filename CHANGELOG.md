@@ -10,6 +10,11 @@ from the team's specs; details per phase are in `docs/AI_DEV_LOG.md`.
   to one list with groups you can fold (Settings → Day & planning, or the
   switch on Tasks). New quick filters: Due today, Light energy, Today's
   one thing.
+- **Companion speech** never leaves the phone area on a laptop and never
+  covers the focus timer, the breathing square, inputs or main buttons; on
+  Focus and Box breathing the words sit under the companion. New in
+  Settings → Companion: speech bubbles, a caption bar, or no speech. Tap
+  the companion's head in the top bar to see the last thing it said.
 
 ## v2.2 "Bug sweep" (in progress, branch `v2.2-bug-sweep`)
 

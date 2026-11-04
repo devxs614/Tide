@@ -100,6 +100,8 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
+      // The companion's bubble never covers a primary button (v2.3 Item 3).
+      data-bubble-avoid={primary || undefined}
       // Buttons inside forms should never submit by accident.
       type={asChild ? undefined : (type ?? 'button')}
       aria-busy={loading || undefined}

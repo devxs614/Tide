@@ -69,6 +69,7 @@ export const SettingsSchema = z.object({
   'companion.accessory': z.enum(ACCESSORIES),
   'companion.size': z.enum(['sm', 'md', 'lg']),
   'companion.talkativeness': z.enum(['quiet', 'some', 'chatty']),
+  'companion.speechStyle': z.enum(['bubbles', 'captions', 'off']),
   'companion.placements': z.object(Object.fromEntries(PLACEMENTS.map((p) => [p, flag])) as Record<string, typeof flag>),
   'companion.faceStyle': z.enum(['dots', 'none']),
   'companion.mirrorState': flag,

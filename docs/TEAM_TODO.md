@@ -155,6 +155,13 @@ up during the build. — Claude Code
   past the frame on a laptop, and swiping only feels right on a real
   touch screen. *By Nov 5.*
 
+- [ ] **On a laptop, tap the companion everywhere** (Today, Shore near
+  both edges, the Studio, Focus, Box breathing, the check-in) and confirm
+  no words go outside the phone area or over the timer. Then try Settings
+  → Companion → "Caption bar" and "No speech", and tap the companion's head
+  in the top bar to see its last line. Why: the audit checks positions, but
+  only a person can say whether it reads well. *By Nov 5.*
+
 ## v2.1 checks on real devices (before Tuesday, Nov 3)
 - [ ] **Check Settings, Check-in and Today on a real iPhone and a real
   Android phone** at the phone's largest standard text size plus Tide at

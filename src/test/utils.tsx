@@ -17,6 +17,7 @@ import { useSettings } from '@/lib/settings';
 import { closeTaskSheet } from '@/lib/taskSheets';
 import { closeEventSheet } from '@/lib/eventSheets';
 import { clearFilters as clearBoardFilters } from '@/lib/tasks/boardFilters';
+import { resetSpeechForTests } from '@/lib/companion/speech';
 import type { Settings } from '@/lib/types';
 
 export const navigation = (globalThis as unknown as {
@@ -35,6 +36,7 @@ export async function resetApp(settings: Partial<Settings> = {}): Promise<void> 
   closeTaskSheet();
   closeEventSheet();
   clearBoardFilters();
+  resetSpeechForTests();
   setDemoClock(null);
   navigation.push.mockReset();
   navigation.replace.mockReset();

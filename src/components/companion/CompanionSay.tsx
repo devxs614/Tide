@@ -9,14 +9,23 @@
 // itself in the rare case it would be taller than the screen.
 // In a sheet header it can also sit inline, beside the companion, where it
 // can neither be clipped nor cover the title.
-import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-import { arrow, autoUpdate, flip, offset, shift, size, useFloating, type Placement } from '@floating-ui/react-dom';
+// v2.3 Item 3: floating bubbles stay inside the phone frame (they're placed
+// within it and clipped to it), keep off the timer, inputs and primary
+// buttons (avoidElements), step aside when a sheet opens, and follow the
+// speech style: bubbles, the caption bar, or no words on screen.
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import dynamic from 'next/dynamic';
 import { X } from 'lucide-react';
 import { copy } from '@/copy/en';
 import { useSettings } from '@/lib/settings';
-import { overlayRootFor } from '@/lib/overlay/overlayRoot';
+import { anyOverlayOpen, subscribeOpenOverlays } from '@/lib/backToClose';
+import { recordLine, showCaption } from '@/lib/companion/speech';
 import { cn } from '@/lib/utils';
+
+// The floating placement (Floating UI and the avoid rule) loads when a
+// bubble first shows, not with the page, so Today's first load stays within
+// its budget (v2.3 Item 3, like D144).
+const FloatingBubble = dynamic(() => import('./FloatingBubble').then((m) => m.FloatingBubble), { ssr: false });
 
 // Only one bubble anywhere: a new line replaces the one showing.
 let owner = '';
@@ -66,10 +75,32 @@ export function CompanionSay({ text, lineKey, onDone, anchor, inline = false, ta
     setPinned(false);
   }
   const shown = !!text && current === id;
+  const style = settings['companion.speechStyle'];
+  // A bubble on the page (not inside a sheet or dialog) steps aside as soon
+  // as a sheet opens: before, it stayed and the page's companion and words
+  // could show at the sheet's edge.
+  const overlayOpen = useSyncExternalStore(subscribeOpenOverlays, anyOverlayOpen, () => false);
+  const onPage = !inline && !!anchor && !anchor.closest('[data-slot="sheet-content"], [role="dialog"], [role="alertdialog"]');
+  // Lines go to the caption bar instead of a bubble when Maya chose
+  // captions, or when no side of the companion is free (`collided`).
+  const [collided, setCollided] = useState(-1);
+  const toCaption = shown && !inline && !tapped && (style === 'captions' || collided === lineKey);
 
   useEffect(() => {
     if (text) claim(id);
   }, [text, lineKey, id]);
+
+  useEffect(() => {
+    if (shown) recordLine(text);
+  }, [shown, text, lineKey]);
+
+  useEffect(() => {
+    if (toCaption) showCaption(text);
+  }, [toCaption, text, lineKey]);
+
+  useEffect(() => {
+    if (shown && onPage && overlayOpen) onDone?.();
+  }, [shown, onPage, overlayOpen, onDone]);
 
   useEffect(() => {
     if (!text || pinned || paused) return;
@@ -103,70 +134,12 @@ export function CompanionSay({ text, lineKey, onDone, anchor, inline = false, ta
     />
   );
   if (inline) return <div className={cn('relative min-w-0', className)}>{body}</div>;
-  if (!anchor) return null;
+  // "No speech" shows no words unless Maya tapped the companion to hear it.
+  if (!anchor || toCaption || (style === 'off' && !tapped)) return null;
   return (
-    <FloatingBubble anchor={anchor} lineKey={lineKey}>
+    <FloatingBubble anchor={anchor} lineKey={lineKey} onCollide={() => setCollided(lineKey)}>
       {body}
     </FloatingBubble>
-  );
-}
-
-function FloatingBubble({ anchor, lineKey, children }: { anchor: Element; lineKey: number; children: ReactNode }) {
-  // The body group, not the whole SVG box: the box has empty space around
-  // the figure, which pushed the bubble away from the companion.
-  const reference = useMemo(() => anchor.querySelector('.cmp-fig') ?? anchor, [anchor]);
-  const root = useMemo(() => overlayRootFor(anchor), [anchor]);
-  // Above a companion in the lower half of the screen, below one in the
-  // upper half, decided when each line appears.
-  const preferred = useMemo<Placement>(() => {
-    const r = anchor.getBoundingClientRect();
-    return r.top + r.height / 2 > window.innerHeight / 2 ? 'top' : 'bottom';
-    // lineKey isn't read here, but a new line is when to look again.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor, lineKey]);
-  // The bubble and its tail, held in state rather than refs, so Floating UI
-  // gets the elements themselves once they're on the page.
-  const [tail, setTail] = useState<SVGSVGElement | null>(null);
-  const [bubble, setBubble] = useState<HTMLDivElement | null>(null);
-  const { floatingStyles, middlewareData, placement } = useFloating({
-    strategy: 'fixed',
-    placement: preferred,
-    elements: { reference, floating: bubble },
-    middleware: [
-      offset(10),
-      flip({ padding: 12 }),
-      // Both ways: even when the companion is half below the fold, the
-      // words stay on screen.
-      shift({ padding: 12, crossAxis: true }),
-      size({
-        padding: 12,
-        apply({ availableWidth, availableHeight, elements }) {
-          elements.floating.style.maxWidth = `${Math.min(320, availableWidth)}px`;
-          elements.floating.style.maxHeight = `${Math.max(64, availableHeight - 12)}px`;
-        },
-      }),
-      arrow({ element: tail, padding: 16 }),
-    ],
-    whileElementsMounted: (ref, floating, update) => autoUpdate(ref, floating, update, { layoutShift: true }),
-  });
-  const below = placement.startsWith('bottom');
-  const tailX = middlewareData.arrow?.x;
-  return createPortal(
-    <div ref={setBubble} style={floatingStyles} data-overlay="bubble" className="z-(--z-bubble) flex">
-      {children}
-      <svg
-        ref={setTail}
-        aria-hidden
-        width={12}
-        height={8}
-        viewBox="0 0 12 8"
-        className={cn('absolute', below ? '-top-[6px] rotate-180' : '-bottom-[6px]')}
-        style={{ left: tailX ?? undefined }}
-      >
-        <path d="M1 0 L6 7 L11 0" fill="var(--surface)" stroke="var(--line)" strokeWidth={2} strokeLinejoin="round" />
-      </svg>
-    </div>,
-    root,
   );
 }
 
