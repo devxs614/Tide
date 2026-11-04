@@ -1626,3 +1626,29 @@ interactions that start in `[data-demo-hud]`. Outside the demo there is no
 bar, so nothing changes. The demo clock also keeps a speed change across
 settings redraws now (`setDemoClock` ignores the same saved clock handed
 back); before, a paused clock would have jumped back to its saved moment.
+
+**D218 — 2026-11-04 — Narration reads every caption, through a queue on the voice engine, after one tap.**
+Demo fix pack D-2. With narration on, every step with a caption is read
+(the scripts keep their `narrate` flags, unchanged, but they no longer
+limit it), and the step lasts until both its hold and the voice are done.
+`src/demo/director/narrator.ts` speaks through the voice engine (so
+captions get the same speech-friendly text and chunks as the rest of
+Tide), holds the utterances until they end, waits 120 ms after a cancel,
+retries once the other way when nothing starts within 1.5 s, then
+skips, and lets go of a voice that never ends after twice its expected
+length plus 2 s. The voice engine gained two optional hooks for this
+(`afterCancelMs`, `onUtterance`) and the cloud engine a prefetch; with
+them unset, read-aloud everywhere else works exactly as before. The
+"Off" voice setting means "don't read to me unasked"; narration was asked
+for in the launcher, so it uses the automatic choice then. The root cause
+of "sometimes it reads" was that the tour starts on a page reloaded into
+the demo workspace and browsers refuse speech before a tap on the page
+(every utterance failed with `not-allowed`). So, with narration on and no
+tap yet on that page (`navigator.userActivation`), the tour waits on its
+bar, with Play and "Narration is on. Press play to start the tour."; that
+tap primes the voice with a silent utterance (a space at volume 0) inside
+the handler, which Safari requires. With narration off, the tour starts by
+itself as before. I could only test Chrome (headless, which has voices);
+Edge and Safari are on the rehearsal list. Rejected: avoiding the reload
+(the database is chosen at load), and speaking the first caption as the
+primer (it would be read before the tour starts).

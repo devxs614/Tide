@@ -20,6 +20,8 @@ export interface SpeakRequest {
   // The cloud voice to use ('' = the provider's default).
   naturalVoice: string;
   naturalAllowed: boolean;
+  // See BrowserSpeakOptions.afterCancelMs (demo narration only).
+  afterCancelMs?: number;
 }
 
 export type SpeakOutcome = 'done' | 'stopped' | 'failed';
@@ -75,7 +77,7 @@ const device =
   (req: SpeakRequest): Attempt =>
   async (text, events) => {
     if (!browserVoicesSupported()) return null;
-    return speakWithBrowser(speechChunks(text), { rate: req.rate, chosenURI: req.deviceVoiceURI, accent: req.accent }, events);
+    return speakWithBrowser(speechChunks(text), { rate: req.rate, chosenURI: req.deviceVoiceURI, accent: req.accent, afterCancelMs: req.afterCancelMs }, events);
   };
 
 export function attemptsFor(req: SpeakRequest): Attempt[] {
@@ -86,7 +88,13 @@ export function attemptsFor(req: SpeakRequest): Attempt[] {
 }
 
 // Speaks and resolves when it's done, stopped, or nothing could play.
-export async function speak(req: SpeakRequest, attempts: Attempt[] = attemptsFor(req), by: string | null = null): Promise<SpeakOutcome> {
+export async function speak(
+  req: SpeakRequest,
+  attempts: Attempt[] = attemptsFor(req),
+  by: string | null = null,
+  // Passed through to the device voice (see SpeakEvents.onUtterance).
+  hooks: Pick<SpeakEvents, 'onUtterance'> = {},
+): Promise<SpeakOutcome> {
   stopSpeaking();
   const mine = ++token;
   owner = by;
@@ -95,6 +103,7 @@ export async function speak(req: SpeakRequest, attempts: Attempt[] = attemptsFor
     const outcome = await new Promise<SpeakOutcome | 'next'>((resolve) => {
       let started = false;
       attempt(text, {
+        onUtterance: hooks.onUtterance,
         onStart: () => {
           started = true;
           if (mine === token) setSpeaking(true);

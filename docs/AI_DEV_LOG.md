@@ -4236,3 +4236,40 @@ pause; a hidden tab; Next and Previous while paused. On the build: two
 pauses held for 8 s each with nothing moving, and Pause pressed during the
 check-in sheet works and leaves the sheet open. 627 tests, v1's 164,
 build fine; `/` is 299.9 KB (the sheet's keep-open check added 0.1 KB).
+
+### D-2: narration
+**Causes, confirmed.** Of the nine on the spec's list: only steps marked
+`narrate` were sent (7 of the full tour's captions), the director moved on
+after a fixed 9 s whatever the voice was doing, and, the big one, audio
+wasn't unlocked: the tour starts on a page that was just reloaded into the
+demo workspace, and Chrome refused every utterance with `not-allowed` until
+someone tapped the page. That's why the team heard it "sometimes": a tap
+on the bar unlocked it for whatever came after. I also built in the
+fixes for Chrome's cancel-then-speak drop and garbage-collected
+utterances, late voices and the 15-second cut-off (the voice engine's
+chunks), though my reproduction didn't reach them. Pause now aborts
+speech and play reads the caption again, never using
+`speechSynthesis.pause()`.
+
+**Fix.** The narrator queue (D218), every caption read, the step waiting
+for both its hold and the voice, the tap gate when the page hasn't been
+tapped, warm-up on that tap (priming, voices loaded and one chosen for the
+run, the sound context resumed, the first natural-voice clips fetched if a
+natural voice is set up, then each next one in the background), and a
+one-time "Narration isn't available on this device" line when there's no
+voice at all.
+
+**Checked.** Eleven new tests (every caption of both tours read once and in
+order, the tour waiting on the voice, silence with narration off, the gate
+and the priming order, the no-voice line, the retry then skip, the end
+timeout, the abort, and, on the real voice engine with a fake
+`speechSynthesis`, the utterance held until it ends and 120 ms between a
+cancel and the next speak). On the build in Chrome: the tour waited for
+Play with nothing spoken, then all 15 captions of the pitch cut were
+spoken, each with a start and an end, none overlapping, no errors, 28 of
+28 steps in 82 s.
+
+A testing note for whoever repeats this: Playwright's locators and
+`evaluate` run with a user gesture, so polling the page before the tour
+decides counts as the tap and the gate never shows. The check waits five
+seconds before touching the page.

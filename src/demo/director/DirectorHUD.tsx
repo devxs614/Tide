@@ -11,7 +11,8 @@
 // from the bottom to the top under a finger. It takes presses even while a
 // sheet is open (Radix turns pointer events off for everything outside a
 // sheet, so Pause couldn't be pressed during the check-in), and it says
-// "Paused" when it is.
+// "Paused" when it is. With narration on, a freshly loaded tour waits here
+// for play (D-2), and a device without any voice gets a one-time line.
 import { copy } from '@/copy/en';
 import { demoCopy } from '@/copy/demoCopy';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -20,7 +21,7 @@ import type { DirectorState } from './engine';
 import { HudControls } from './HudControls';
 import { useDirectorKeys } from './useDirectorKeys';
 
-export function DirectorHUD({ state }: { state: DirectorState & { hudTop?: boolean } }) {
+export function DirectorHUD({ state }: { state: DirectorState & { hudTop?: boolean; needsTap?: boolean; notice?: string | null } }) {
   useDirectorKeys();
   const total = state.script?.steps.length ?? 1;
   return (
@@ -46,7 +47,10 @@ export function DirectorHUD({ state }: { state: DirectorState & { hudTop?: boole
           {state.caption}
         </p>
       )}
-      <HudControls paused={state.paused} speed={state.speed} captions={state.captions} narration={state.narration} />
+      {state.notice && <p className="text-caption text-ink-soft">{state.notice}</p>}
+      {/* Waiting for the tap that lets narration speak, the button offers
+          play, like a paused tour. */}
+      <HudControls paused={state.paused || !!state.needsTap} speed={state.speed} captions={state.captions} narration={state.narration} />
     </section>
   );
 }

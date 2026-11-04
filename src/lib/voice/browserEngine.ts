@@ -10,12 +10,19 @@ export interface BrowserSpeakOptions {
   rate: number;
   chosenURI: string | null;
   accent: string;
+  // A pause after the cancel below, before speaking. Chrome can drop an
+  // utterance spoken right after a cancel; the demo's narrator asks for
+  // 120 ms (demo fix pack, D-2). Everything else leaves it at 0, as before.
+  afterCancelMs?: number;
 }
 
 export interface SpeakEvents {
   onStart?: () => void;
   onEnd?: () => void;
   onError?: () => void;
+  // Each utterance as it's handed to the browser, so a caller can keep its
+  // own reference until it ends (the demo's narrator does).
+  onUtterance?: (utterance: SpeechSynthesisUtterance) => void;
 }
 
 // A slightly unhurried pace sounds calmer; Settings' rate scales from it
@@ -63,6 +70,7 @@ export async function speakWithBrowser(chunks: string[], opts: BrowserSpeakOptio
     online: typeof navigator === 'undefined' ? true : navigator.onLine,
   });
   synth.cancel();
+  if (opts.afterCancelMs) await new Promise((r) => window.setTimeout(r, opts.afterCancelMs));
 
   let index = 0;
   let started = false;
@@ -107,6 +115,7 @@ export async function speakWithBrowser(chunks: string[], opts: BrowserSpeakOptio
       finish(started);
     };
     current = utterance;
+    events.onUtterance?.(utterance);
     synth.speak(utterance);
   };
 

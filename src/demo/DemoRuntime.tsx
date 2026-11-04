@@ -12,9 +12,10 @@ import { now, setDemoSpeed } from '@/lib/clock';
 import { seedDemoWorkspace, setDemoTime } from '@/lib/repo/demo';
 import { demoCopy } from '@/copy/demoCopy';
 import { Button } from '@/components/ui/button';
-import { useVoice } from '@/lib/voice/useVoice';
+import { resumeAudio } from '@/lib/sound/engine';
 import { director, type DirectorMode } from './director/engine';
 import { useAutoPause } from './director/useAutoPause';
+import { useNarrator } from './director/useNarrator';
 import { runCustom } from './director/customActions';
 import { DemoCursor } from './director/DemoCursor';
 import { DirectorHUD } from './director/DirectorHUD';
@@ -26,7 +27,7 @@ import { readDemoOptions } from './demoOptions';
 
 export default function DemoRuntime() {
   const router = useRouter();
-  const voice = useVoice();
+  const narrator = useNarrator();
   const state = useSyncExternalStore(director.subscribe, director.getState, director.getState);
   // Read once: the tour navigates right away, and the address loses its
   // ?demoDebug=1 with the first page change.
@@ -54,18 +55,30 @@ export default function DemoRuntime() {
     // Autoplay plays the saved answers only, so it's the same every time
     // and needs no network; presenter mode can still use live AI.
     setDemoForceCache(mode !== 'presenter');
+    const captions = script.steps.flatMap((s) => (s.caption ? [s.caption] : []));
     director.start(script, mode, {
       navigate: (path) => router.push(path),
-      speak: async (text) => {
-        await voice.speak(text, { quiet: true });
+      speak: (text, signal) => narrator.say(text, { signal }),
+      prime: () => narrator.prime(),
+      warmUp: async () => {
+        resumeAudio();
+        await narrator.warmUp(captions);
+        return !narrator.unavailable;
       },
+      prefetch: (text) => narrator.prefetch(text),
       custom: (name, args, signal) => runCustom(name, args, (path) => router.push(path), director.getState().speed, signal),
       setClock: (ts) => setDemoTime(ts),
       setSpeed: async (m) => {
         setDemoSpeed(m);
         if (m === 1) await setDemoTime(now());
       },
-    }, options);
+    }, {
+      ...options,
+      // The tour starts on a page that was just loaded. A browser speaks
+      // only after a tap on the page, so with narration on it waits for
+      // play, unless this page has had a tap already.
+      waitForTap: options.narration && !navigator.userActivation?.hasBeenActive,
+    });
   };
 
   // Once per page, even though React's Strict Mode runs this effect twice

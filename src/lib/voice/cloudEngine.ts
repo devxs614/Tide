@@ -6,7 +6,7 @@
 import type { CloudVoice, TtsProvider } from '@/data/voices';
 import { voiceCacheKey } from './hash';
 import { playSequence } from './audioPlayer';
-import { speechChunks } from './speechText';
+import { speechChunks, speechText } from './speechText';
 import type { SpeakEvents } from './browserEngine';
 
 export interface TtsStatus {
@@ -92,4 +92,18 @@ export async function speakWithCloud(
 export async function clearVoiceCache(): Promise<void> {
   if (typeof caches !== 'undefined') await caches.delete(CACHE_NAME).catch(() => false);
   writeIndex([]);
+}
+
+// Fetches (and caches) a natural-voice clip ahead of time, the same way
+// speaking it would, so the demo's narration starts without waiting on the
+// network (demo fix pack, D-2). Quietly does nothing without a natural voice.
+export async function prefetchCloudVoice(text: string, opts: { voice: string; speed: number }): Promise<void> {
+  try {
+    const s = await ttsStatus();
+    if (!s.available || s.provider === 'none') return;
+    const voice = opts.voice || s.voices[0]?.id || '';
+    for (const piece of speechChunks(speechText(text), s.maxChars)) await cachedAudio(s.provider, voice, opts.speed, piece);
+  } catch {
+    // Speaking it later will simply fetch it then.
+  }
 }

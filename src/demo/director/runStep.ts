@@ -6,7 +6,7 @@
 import type { DirectorDeps, EngineState } from './engine';
 import type { Step } from './types';
 import { click, fieldIn, findTarget, typeInto } from './actions';
-import { hold, isAborted, orAbort, throwIfAborted, wait } from './abortable';
+import { AbortedError, hold, isAborted, orAbort, throwIfAborted, wait } from './abortable';
 
 export interface StepProgress {
   index: number;
@@ -29,6 +29,8 @@ export interface StepContext {
   get: () => EngineState;
   set: (patch: Partial<EngineState>) => void;
   note: (message: string) => void;
+  // Resolves once narration's one-time setup is done.
+  ready: () => Promise<void>;
 }
 
 async function act(step: Step, target: HTMLElement | null, p: StepProgress, signal: AbortSignal, { deps, get }: StepContext): Promise<number> {
@@ -101,13 +103,25 @@ export async function runStep(step: Step, p: StepProgress, signal: AbortSignal, 
     await wait(settle, signal);
   }
 
-  if (step.narrate && get().narration && step.caption && !p.narrated) {
-    await orAbort(Promise.race([deps.speak(step.caption, signal), wait(9000, signal)]), signal);
-    p.narrated = true;
-  }
+  // Every caption is read when narration is on (D-2; the `narrate` flag in
+  // the scripts no longer limits it), and the step lasts until both the
+  // hold and the voice are done: the next caption never cuts this one off.
+  // A pause aborts the voice, and play reads the caption again from the
+  // start.
+  const caption = step.caption;
+  const narration =
+    get().narration && caption && !p.narrated
+      ? (async () => {
+          await orAbort(ctx.ready(), signal);
+          const result = await deps.speak(caption, signal);
+          if (result === 'aborted' || signal.aborted) throw new AbortedError();
+          ctx.note(`narration: ${result === 'skipped' ? 'skipped' : 'done'} for ${step.id}`);
+          p.narrated = true;
+        })()
+      : Promise.resolve();
   // A caption stays up long enough to be read in a room: about a second
   // plus 50 ms a character (3.5 s for a typical one).
-  const readMs = step.caption ? 1000 + step.caption.length * 50 : 0;
+  const readMs = caption ? 1000 + caption.length * 50 : 0;
   const total = Math.max(step.holdMs ?? 700, readMs) / speed;
-  await hold(p.holdLeft ?? total, signal, (left) => (p.holdLeft = left));
+  await Promise.all([hold(p.holdLeft ?? total, signal, (left) => (p.holdLeft = left)), narration]);
 }

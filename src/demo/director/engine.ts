@@ -19,6 +19,7 @@ import { getAmbienceState } from '@/lib/sound/ambienceState';
 import type { Script } from './types';
 import { freshProgress, runStep, type StepProgress } from './runStep';
 import { setFieldValue } from './actions';
+import { demoCopy } from '@/copy/demoCopy';
 
 export type DirectorMode = 'full' | 'pitch' | 'presenter';
 export type DirectorStatus = 'idle' | 'starting' | 'running' | 'paused' | 'finished' | 'exiting';
@@ -51,11 +52,24 @@ export interface EngineState extends DirectorState {
   status: DirectorStatus;
   // Where the bar sits for this step, decided once when the step starts.
   hudTop: boolean;
+  // Narration is on and the page hasn't been tapped yet: the tour waits for
+  // play, because a browser won't speak before a tap (D-2).
+  needsTap: boolean;
+  // A one-time line in the bar (no voice on this device).
+  notice: string | null;
 }
 
 export interface DirectorDeps {
   navigate: (path: string) => void;
+  // Reads a caption and resolves when it's done ('skipped' if no voice
+  // could start, 'aborted' when the step was called off).
   speak: (text: string, signal?: AbortSignal) => Promise<unknown>;
+  // Narration's setup: `prime` runs inside the tap that starts or turns on
+  // narration (it must, for Safari), `warmUp` once afterwards (voices,
+  // natural-voice clips); it says whether any voice is there at all.
+  prime?: () => void;
+  warmUp?: () => Promise<boolean>;
+  prefetch?: (text: string) => void;
   custom: (name: string, args?: Record<string, unknown>, signal?: AbortSignal) => Promise<void>;
   setClock: (ts: number) => Promise<void>;
   setSpeed: (multiplier: number) => Promise<void>;
@@ -64,6 +78,7 @@ export interface DirectorDeps {
 const INITIAL: EngineState = {
   status: 'idle', script: null, mode: 'full', presenter: false, running: false, paused: false, done: false, index: 0,
   speed: 1, captions: true, narration: false, caption: '', chapterTitle: '', target: null, hudTop: false, log: [],
+  needsTap: false, notice: null,
 };
 
 // Which way the state may move. Anything else is ignored (and noted in the
@@ -94,6 +109,9 @@ let stopAfterStep = false;
 let frozenSpeed: number | null = null;
 let ambiencePaused = false;
 let lastToggle = -Infinity;
+// Narration's one-time setup for this run, once it has started.
+let warm: Promise<void> | null = null;
+let noticeFrom = 0;
 const listeners = new Set<() => void>();
 const notes: Array<(note: string) => void> = [];
 
@@ -183,7 +201,10 @@ async function loop(mine: number) {
     step = { controller, progress };
     let ok = true;
     try {
-      await runStep(current, progress, controller.signal, { deps: deps!, get: () => state, set, note });
+      // The next caption's natural-voice clip loads while this step plays.
+      const upcoming = script.steps.slice(index + 1).find((s) => s.caption)?.caption;
+      if (state.narration && upcoming) deps!.prefetch?.(upcoming);
+      await runStep(current, progress, controller.signal, { deps: deps!, get: () => state, set, note, ready: () => warm ?? Promise.resolve() });
     } catch {
       if (controller.signal.aborted || mine !== run) continue;
       ok = false;
@@ -194,6 +215,7 @@ async function loop(mine: number) {
     const stop = stopAfterStep || (state.presenter && !!current.presenterPause);
     stopAfterStep = false;
     set({ log: [...state.log, { id: current.id, ok }], index: index + 1 });
+    if (state.notice && index + 1 - noticeFrom >= 3) set({ notice: null });
     note(`step ${current.id} ${ok ? 'done' : 'skipped'}`);
     if (stop && index + 1 < script.steps.length) {
       move('paused', current.presenterPause && state.presenter ? 'presenter stop' : 'one step');
@@ -202,9 +224,27 @@ async function loop(mine: number) {
   }
 }
 
+// Narration's setup, started from a person's tap or key press: `prime`
+// has to run before anything else in that handler.
+function warmNarration() {
+  if (!state.narration || !deps) return;
+  deps.prime?.();
+  warm ??= (deps.warmUp?.() ?? Promise.resolve(true)).then(
+    (available) => {
+      if (available) return;
+      noticeFrom = state.index;
+      set({ notice: demoCopy.noNarration });
+      note('narration: no voice on this device, captions only');
+    },
+    () => undefined,
+  );
+}
+
 function play(source: ToggleSource) {
   if (state.status !== 'paused' && state.status !== 'starting') return;
+  warmNarration();
   thawClock();
+  if (state.needsTap) set({ needsTap: false, caption: '' });
   move('running', source);
 }
 
@@ -246,7 +286,7 @@ export const director = {
       notes.splice(notes.indexOf(fn), 1);
     };
   },
-  start(script: Script, mode: DirectorMode, d: DirectorDeps, opts: { captions?: boolean; narration?: boolean; speed?: number } = {}) {
+  start(script: Script, mode: DirectorMode, d: DirectorDeps, opts: { captions?: boolean; narration?: boolean; speed?: number; waitForTap?: boolean } = {}) {
     interrupt(false);
     thawClock();
     deps = d;
@@ -254,12 +294,16 @@ export const director = {
     parked = null;
     stopAfterStep = false;
     lastToggle = -Infinity;
+    warm = null;
     // A new tour over a running or finished one leaves that one first.
     if (state.status !== 'idle') move('exiting', 'restart');
     state = { ...INITIAL };
     move('starting', 'start');
     set({ script, mode, presenter: mode === 'presenter', captions: opts.captions ?? true, narration: opts.narration ?? false, speed: opts.speed ?? 1 });
-    move('running', 'start');
+    // With narration on and no tap on this page yet, the tour waits for
+    // play: that tap is what lets the browser speak (D-2).
+    if (opts.waitForTap && state.narration) set({ needsTap: true, caption: demoCopy.tapToStart });
+    else move('running', 'start');
     void loop(run);
   },
   play: (source: ToggleSource = 'click') => play(source),
@@ -300,8 +344,10 @@ export const director = {
   toggleCaptions() {
     set({ captions: !state.captions });
   },
+  // Turning narration on is a tap too, so it primes the voice right there.
   toggleNarration() {
     set({ narration: !state.narration });
+    warmNarration();
   },
   exit() {
     interrupt(false);

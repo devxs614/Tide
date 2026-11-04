@@ -44,6 +44,12 @@ function bus(context: AudioContext, category: SoundCategory): GainNode {
   return node;
 }
 
+// The demo's Start tap (demo fix pack, D-2): a sound context made before
+// any tap starts suspended; a tap is the moment it may resume.
+export function resumeAudio(): void {
+  if (ctx?.state === 'suspended') void ctx.resume();
+}
+
 export function playSound(name: SoundName, settings: SoundSettings): void {
   const sound = SOUNDS[name];
   if (!sound || !settings.categories[sound.category as keyof SoundSettings['categories']]) return;
