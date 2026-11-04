@@ -14,6 +14,7 @@ import { demoCopy } from '@/copy/demoCopy';
 import { Button } from '@/components/ui/button';
 import { useVoice } from '@/lib/voice/useVoice';
 import { director, type DirectorMode } from './director/engine';
+import { useAutoPause } from './director/useAutoPause';
 import { runCustom } from './director/customActions';
 import { DemoCursor } from './director/DemoCursor';
 import { DirectorHUD } from './director/DirectorHUD';
@@ -58,7 +59,7 @@ export default function DemoRuntime() {
       speak: async (text) => {
         await voice.speak(text, { quiet: true });
       },
-      custom: (name, args) => runCustom(name, args, (path) => router.push(path), director.getState().speed),
+      custom: (name, args, signal) => runCustom(name, args, (path) => router.push(path), director.getState().speed, signal),
       setClock: (ts) => setDemoTime(ts),
       setSpeed: async (m) => {
         setDemoSpeed(m);
@@ -90,6 +91,8 @@ export default function DemoRuntime() {
     // Once, when the demo workspace opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useAutoPause(state.running);
 
   if (seedFailed)
     return (

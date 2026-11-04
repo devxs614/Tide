@@ -1592,3 +1592,37 @@ seed test seeds into it; they now open `tide-test`, so that test keeps
 passing unchanged and the guard is tested against a real database named
 `tide`. Rejected: checking only the workspace flag (the cross-tab hole),
 and changing the existing seed tests to open a demo-named database.
+
+**D216 — 2026-11-04 — The tour is a state machine with abortable steps; only a person resumes it.**
+Demo fix pack D-5. States `idle → starting → running ⇄ paused → finished`,
+plus `exiting`; the moves are one table and anything else is ignored (and
+noted for the debug log). Each step runs with an AbortController and a
+progress record (tap done, characters typed, hold left, narrated), so
+pause stops it at once and play continues it without repeating a tap. The
+two custom actions that act once (open the check-in, cue the nudge) no
+longer wait after acting, so a pause can't catch them halfway; the others
+restart safely. Pausing freezes the demo clock (speed 0, restored on
+play) and pauses background sound the tour started. Next while paused
+plays one step and stays paused; in presenter mode it plays to the next key
+moment, as presenter mode always did (one step per press there would turn
+every press into a single tap). Paused between steps, "next" is the step
+already waiting, so nothing is skipped. Keys: Space is left to a focused
+button (its own click is the toggle; both together toggled twice), but K
+and P work anywhere outside a text field, so a presenter whose focus
+landed on a button in a sheet can still pause; arrows stay with radio
+groups, tabs and sliders. A second toggle within 300 ms is ignored, from
+any source. A hidden tab pauses; nothing ever un-pauses by itself.
+Rejected: ignoring K and P on buttons too (the spec's wording), since they
+have no native meaning there and the presenter would lose them whenever a
+sheet takes focus.
+
+**D217 — 2026-11-04 — Sheets and dialogs don't count a press on the tour bar as "outside".**
+Demo fix pack D-5. I found a sixth cause for the missed presses: while any
+Radix sheet is open, everything outside it gets `pointer-events: none`,
+the tour bar included, so Pause could not be pressed during the check-in
+(reproduced on the build), and a press there would have closed the sheet.
+The bar now takes presses itself, and sheets and dialogs ignore outside
+interactions that start in `[data-demo-hud]`. Outside the demo there is no
+bar, so nothing changes. The demo clock also keeps a speed change across
+settings redraws now (`setDemoClock` ignores the same saved clock handed
+back); before, a paused clock would have jumped back to its saved moment.

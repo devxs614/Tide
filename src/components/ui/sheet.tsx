@@ -12,6 +12,7 @@ import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { copy } from '@/copy/en';
 import { useBackToClose } from '@/lib/backToClose';
+import { keepOpenForDemoControls } from '@/lib/overlay/demoControls';
 
 // v2.1 F-08: browser and Android back close an open sheet (lib/backToClose).
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -99,6 +100,10 @@ function SheetContent({
         )}
         style={dy ? { ...style, transform: `translateY(${dy}px)` } : style}
         {...props}
+        onInteractOutside={(e) => {
+          props.onInteractOutside?.(e);
+          keepOpenForDemoControls(e);
+        }}
       >
         {children}
         {/* The top row: the drag handle and Close. It used to float over the

@@ -11,6 +11,7 @@ import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { copy } from '@/copy/en';
 import { useBackToClose } from '@/lib/backToClose';
+import { keepOpenForDemoControls } from '@/lib/overlay/demoControls';
 
 // v2.1 F-08: browser and Android back close an open dialog too.
 function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
@@ -70,6 +71,10 @@ function DialogContent({
           className,
         )}
         {...props}
+        onInteractOutside={(e) => {
+          props.onInteractOutside?.(e);
+          keepOpenForDemoControls(e);
+        }}
       >
         {children}
         {showCloseButton && (

@@ -4194,3 +4194,45 @@ database refused and left empty, the planted patterns, unique keys in
 every table). The v1 and v2 seed tests pass unchanged. On the production
 build, the two-tab start three times: no BulkError. The pitch cut: 28 of
 28 in 80 s.
+
+### D-5: play/pause
+**Causes, confirmed.** Four of the spec's list and one it didn't have:
+- Pause was a flag read between steps, and the end of every step set it
+  back to false, so a pause mid-step lasted until that step ended (my
+  reproduction: two and three steps further after 8 seconds, and the
+  button back on "Pause").
+- Space with focus on the button toggled twice (the window shortcut, then
+  the button's own click), so nothing seemed to happen.
+- The bar measured its target on every redraw and could jump between the
+  bottom and the top mid-step, under a finger.
+- The demo clock kept running while paused.
+- New: while any sheet is open, Radix sets `pointer-events: none` on
+  everything outside it, the bar included. Pause couldn't be pressed at
+  all during the check-in, Day Mode, Unstick or Bridge sheets.
+Not causes: no button toggled on pointerdown, the button wasn't re-created
+on redraws, and the bar's z-index was already above sheets and
+celebrations.
+
+**Fix.** The engine is a state machine (D216) with an AbortController per
+step and resumable progress; every wait, the target search, typing and the
+custom actions stop on abort. Pause freezes the demo clock. The bar's
+position is decided once per step. The controls are one memoized component
+with a single play/pause button (named "Pause demo" / "Play demo", with
+`aria-pressed`) that reacts to click only, a 300 ms guard against double
+toggles, a "Paused" label, and keys that leave Space to a focused button.
+A hidden tab pauses; media keys go through the same guard. Sheets and
+dialogs no longer treat a press on the bar as a press outside (D217). The
+demo clock now keeps a speed change across settings redraws; without
+that, a paused clock jumped back to the moment it was last saved.
+
+**Checked.** Fourteen new tests: every move of the state machine; the full
+tour paused at 30 random moments with a minute of fake time after each
+(step, caption, typed text and demo clock unchanged, speed 0), finishing
+with all 68 steps done; typing continuing from its character; only the
+rest of a hold after a pause; a tap never repeated; the clock frozen at
+60× and restored; Space on the focused button, two clicks in 300 ms, a
+press across a redraw (same button element); a voice finishing during a
+pause; a hidden tab; Next and Previous while paused. On the build: two
+pauses held for 8 s each with nothing moving, and Pause pressed during the
+check-in sheet works and leaves the sheet open. 627 tests, v1's 164,
+build fine; `/` is 299.9 KB (the sheet's keep-open check added 0.1 KB).

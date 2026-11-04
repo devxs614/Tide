@@ -2,56 +2,41 @@
 
 // The tour's controls (v2 spec 16.5): the chapter, a progress bar, the
 // caption, and real buttons for play/pause, back, next, speed, captions,
-// narration and exit, with keyboard shortcuts (Space, arrows, PageUp/Down
-// for clickers, Esc, S, C, N). It moves to the top when the spotlight is in
-// the bottom third of the screen, so it never covers what's being shown,
-// or when a step says so (v2.1: an Undo toast or a check-in card that
+// narration and exit, with keyboard shortcuts (useDirectorKeys). It sits
+// at the top for a step whose target is in the bottom third of the screen,
+// or when the step says so (v2.1: an Undo toast or a check-in card that
 // shows up at the bottom after the step's tap).
-import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react';
-import { copy, fill } from '@/copy/en';
-import { Button } from '@/components/ui/button';
-import { WithTooltip } from '@/components/ui/tooltip';
+// Demo fix pack (D-5): the engine decides top or bottom once per step;
+// before, every redraw measured the target again, and the bar could jump
+// from the bottom to the top under a finger. It takes presses even while a
+// sheet is open (Radix turns pointer events off for everything outside a
+// sheet, so Pause couldn't be pressed during the check-in), and it says
+// "Paused" when it is.
+import { copy } from '@/copy/en';
+import { demoCopy } from '@/copy/demoCopy';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { cn } from '@/lib/utils';
-import { director, type DirectorState } from './engine';
+import type { DirectorState } from './engine';
+import { HudControls } from './HudControls';
+import { useDirectorKeys } from './useDirectorKeys';
 
-const SPEEDS = [1, 1.5, 2];
-
-export function DirectorHUD({ state }: { state: DirectorState }) {
+export function DirectorHUD({ state }: { state: DirectorState & { hudTop?: boolean } }) {
+  useDirectorKeys();
   const total = state.script?.steps.length ?? 1;
-  const [more, setMore] = useState(false);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const typing = (e.target as HTMLElement | null)?.matches?.('input, textarea');
-      if (typing) return;
-      if (e.key === ' ') director.toggle();
-      else if (e.key === 'ArrowRight' || e.key === 'PageDown') director.next();
-      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') director.prev();
-      else if (e.key === 'Escape') director.exit();
-      else if (e.key === 's') director.setSpeed(SPEEDS[(SPEEDS.indexOf(director.getState().speed) + 1) % SPEEDS.length]);
-      else if (e.key === 'c') director.toggleCaptions();
-      else if (e.key === 'n') director.toggleNarration();
-      else return;
-      e.preventDefault();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
-  const rect = state.target?.getBoundingClientRect();
-  const top = (!!rect && rect.top > window.innerHeight * 0.65) || state.script?.steps[state.index]?.hud === 'top';
-
   return (
     <section
       data-demo-hud
       data-overlay="demo"
       data-overlay-root
       aria-label={copy.demo.hudLabel}
-      className={cn('card fixed inset-x-4 z-[calc(var(--z-demo)+2)] mx-auto flex max-w-[400px] flex-col gap-2 p-3', top ? 'top-4' : 'bottom-24')}
+      className={cn('card pointer-events-auto fixed inset-x-4 z-[calc(var(--z-demo)+2)] mx-auto flex max-w-[400px] flex-col gap-2 p-3', state.hudTop ? 'top-4' : 'bottom-24')}
     >
       <div className="flex items-center gap-2">
         <span className="rounded-full bg-primary px-2 py-0.5 text-caption font-bold text-on-primary">{copy.demo.pill}</span>
         <span className="min-w-0 font-display font-extrabold">{state.chapterTitle}</span>
+        <span aria-live="polite" className="ml-auto shrink-0 text-caption font-bold text-ink-soft">
+          {state.paused ? demoCopy.paused : ''}
+        </span>
       </div>
       <ProgressBar value={state.index} max={total} label={state.chapterTitle || copy.demo.pill} />
       {state.captions && (
@@ -61,44 +46,7 @@ export function DirectorHUD({ state }: { state: DirectorState }) {
           {state.caption}
         </p>
       )}
-      <div className="flex flex-wrap items-center gap-1">
-        <WithTooltip label={copy.demo.previous}>
-          <Button variant="quiet" size="icon" aria-label={copy.demo.previous} onClick={director.prev}>
-            <ChevronLeft aria-hidden />
-          </Button>
-        </WithTooltip>
-        <WithTooltip label={state.paused ? copy.demo.play : copy.demo.pause}>
-          <Button variant="secondary" size="icon" aria-label={state.paused ? copy.demo.play : copy.demo.pause} onClick={director.toggle}>
-            {state.paused ? <Play aria-hidden /> : <Pause aria-hidden />}
-          </Button>
-        </WithTooltip>
-        <WithTooltip label={copy.demo.next}>
-          <Button variant="quiet" size="icon" aria-label={copy.demo.next} onClick={director.next}>
-            <ChevronRight aria-hidden />
-          </Button>
-        </WithTooltip>
-        {/* At big text the three toggles fold behind "More controls", so the
-            bar stays small enough to show what the tour is pointing at. */}
-        <Button variant="quiet" size="sm" aria-expanded={more} className="hidden big-text:inline-flex" onClick={() => setMore(!more)}>
-          {more ? copy.demo.fewerControls : copy.demo.moreControls}
-        </Button>
-        <span className={cn('contents', !more && 'big-text:hidden')}>
-          <Button variant="quiet" size="sm" onClick={() => director.setSpeed(SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length])}>
-            {fill(copy.demo.speed, { x: state.speed })}
-          </Button>
-          <Button variant="quiet" size="sm" onClick={director.toggleCaptions}>
-            {state.captions ? copy.demo.captionsOn : copy.demo.captionsOff}
-          </Button>
-          <Button variant="quiet" size="sm" onClick={director.toggleNarration}>
-            {state.narration ? copy.demo.narrationOn : copy.demo.narrationOff}
-          </Button>
-        </span>
-        <WithTooltip label={copy.demo.exit}>
-          <Button variant="quiet" size="icon" className="ml-auto" aria-label={copy.demo.exit} onClick={director.exit}>
-            <X aria-hidden />
-          </Button>
-        </WithTooltip>
-      </div>
+      <HudControls paused={state.paused} speed={state.speed} captions={state.captions} narration={state.narration} />
     </section>
   );
 }

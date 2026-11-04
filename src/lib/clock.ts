@@ -10,8 +10,18 @@ import type { DemoClock } from './types';
 export const DEMO_START = new Date(2026, 10, 5, 15, 40, 0, 0).getTime();
 
 let demoClock: DemoClock | null = null;
+// The clock as it was saved, which settings hand back on every render.
+let saved: DemoClock | null = null;
 
+// Only a clock that differs from the saved one (a jump, a restart) replaces
+// the running one. Settings pass the same saved clock in on every render,
+// and before the demo fix pack that undid any speed change made since: a
+// tour paused at 0× jumped back to the saved moment, and at the focus
+// fast-forward's 400× the whole time since the save was multiplied (D-5).
+// Outside the demo there is no demo clock, so nothing here changes.
 export function setDemoClock(clock: DemoClock | null): void {
+  if (clock && saved && clock.base === saved.base && clock.startedAt === saved.startedAt) return;
+  saved = clock;
   demoClock = clock;
 }
 
