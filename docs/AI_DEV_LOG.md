@@ -4112,3 +4112,59 @@ feel on a real phone; the tests and the audit can't feel.
   visual diffs limited to the items (plus the two notes above), both
   tours and the v1 pitch path working.
 - [x] Docs, logs, changelog, TEAM_TODO and progress reports updated.
+
+
+## Before demo fixes
+2026-11-04
+
+The team rehearsed the demo and sent five problems
+(`docs/TIDE_DEMO_FIX_PROMPT.md`): a `dayWraps.bulkAdd()` BulkError when the
+demo starts, narration that reads some captions and not others, things on
+top of each other and steps that go too fast, too many themes flashing by,
+and a play/pause button that misses presses and starts again by itself.
+The rule this time is to fix how the tour plays, not what it shows: the
+same chapters, steps and captions, and nothing outside the demo changes.
+
+The kickoff message was our older template again (Phases V0–V12 on
+`v2-experience`); I followed the fix pack's own order (Section 11) on a new
+branch, `demo-fixes`, from tag `pre-demo-fix` (= `main`, 33d642a).
+
+**Baseline.** Lint and typecheck clean, build fine, `/` at 299.8 KB. The
+suites were not quite green: every test passed (605 and 164), but vitest
+exited 1 because of 14 "unhandled errors". The v2.3 check-in button checks
+what sits under it on a timer and calls `document.elementsFromPoint`,
+which the test DOM doesn't have, so the timer threw after some flow tests
+had already finished. I guarded the call (browsers all have it). One run
+after that, a Count back test failed once and passed three times alone:
+it read "0 of 10" before the count had rendered under load, so it waits
+for it now. Both runs are green after that.
+
+**The script, before.** `scripts/demo-script-snapshot.ts` writes every
+chapter, step id, caption, action and target, in order, to
+`docs/audits/demo-script-before.json` (full tour 68 steps, pitch cut 28).
+A test will hold the captions to it at the end.
+
+**Reproduced on the production build** (headless Chrome, :3100), before
+changing anything:
+- Two tabs starting the tour at once: one throws `BulkError`. The seed
+  clears and fills in one transaction and adds the day wraps in a second,
+  so two seeds that overlap collide on the dates. In `npm run dev`, React
+  Strict Mode runs the start effect twice, which is the same race in one
+  tab: that's the error the team saw.
+- Pause at two moments in the full tour: 8 seconds later the tour had moved
+  two and three steps on, and the second time the button showed Pause
+  again by itself.
+- Narration on, the pitch cut: in 40 seconds only two captions were sent to
+  the voice (only steps marked `narrate` are read), and both failed with
+  `not-allowed`. The tour starts after a full page reload into the demo
+  workspace, and a browser won't speak on a page nobody has tapped yet.
+  The team heard narration "sometimes" because tapping the bar gave the
+  page that first tap.
+
+One more thing I found while reading, outside the five: the seed only
+checks the workspace flag in `localStorage`, which every tab shares, and
+`DemoHost` re-reads it on every settings change. A tab still showing
+someone's own data, after another tab entered the demo, could mount the
+demo runtime and seed Maya's data over theirs. The spec's guard (seed only
+into the demo database, by its name) closes that, and I'll make `DemoHost`
+check the open database too.

@@ -14,7 +14,9 @@ describe('count back', () => {
   it('reveals 93 after 100 by default', async () => {
     const { user } = await renderApp(<StrategyRunner id="t-count-7" context="toolkit" />);
     expect(await screen.findByRole('heading', { name: 'Count back by 7' })).toBeInTheDocument();
-    expect(screen.getByText('0 of 10')).toBeInTheDocument();
+    // Waits too: under a busy full run the count can render a tick after
+    // the heading, and a plain getBy failed now and then.
+    expect(await screen.findByText('0 of 10')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Next' }));
     expect(await screen.findByText('Now: 93')).toBeInTheDocument();
     expect(screen.getByText('1 of 10')).toBeInTheDocument();

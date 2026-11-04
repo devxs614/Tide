@@ -48,7 +48,10 @@ export function useFabPlacement(button: RefObject<HTMLButtonElement | null>) {
       if (pathname === '/' && window.scrollY < 1) return setUnder({ over: false, nudge: 0 });
       const r = el.getBoundingClientRect();
       const x = r.left + r.width / 2;
-      const hit = document.elementsFromPoint(x, r.top + r.height / 2).find((n) => !n.closest('[data-overlay="chrome"], [data-overlay="fab"]'));
+      // Every browser has elementsFromPoint; the test DOM doesn't, and this
+      // runs on a timer, so there it threw after flow tests had finished
+      // (14 "unhandled errors" that turned a green run red).
+      const hit = (document.elementsFromPoint?.(x, r.top + r.height / 2) ?? []).find((n) => !n.closest('[data-overlay="chrome"], [data-overlay="fab"]'));
       const target = hit?.closest(PRESSABLE);
       if (!target) return setUnder({ over: false, nudge: 0 });
       const t = target.getBoundingClientRect();
