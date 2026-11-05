@@ -4317,3 +4317,14 @@ tour the only later theme change is the comfort chapter's restore to the
 same theme). On the build, sampling the page's theme every 20 ms: Ink
 1000 ms and Pearl 1027 ms after their 320 ms fades at 1×, 1031 ms and
 1036 ms at 2×, then Lagoon, still on 20 s later. 653 tests and v1's 164.
+
+### The debug panel
+With `?demoDebug=1`, the panel keeps its list of steps (the tour check
+reads it) and adds the demo clock's time and speed and a timed log of
+what the director did: every state change with what caused it (start,
+click, key, media, next, hidden tab), the toggles the 300 ms guard
+ignored, each step's start and end, waits for the screen over 200 ms and
+any that timed out, narration (voices found, speaking, retries, skips,
+stops) and theme changes, with "Copy log" to paste it into a message.
+The engine keeps the log from the tour's first moment. One new test;
+654 tests and v1's 164; the pitch cut 28 of 28 with the new panel.

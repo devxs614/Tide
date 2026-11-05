@@ -132,7 +132,15 @@ export function set(patch: Partial<EngineState>): void {
   listeners.forEach((l) => l());
 }
 
+// What happened during this tour, with the time since it started, for the
+// debug panel (?demoDebug=1, demo fix pack Section 8). Kept from the first
+// moment, so nothing is lost before the panel draws.
+const journal: Array<{ at: number; text: string }> = [];
+let journalStart = 0;
+
 export function note(message: string): void {
+  journal.push({ at: realNow() - journalStart, text: message });
+  if (journal.length > 500) journal.shift();
   notes.forEach((n) => n(message));
 }
 
@@ -205,6 +213,7 @@ async function loop(mine: number) {
     }
     const index = state.index;
     const current = script.steps[index];
+    if (parked?.index !== index) note(`step ${current.id} start`);
     const progress = parked?.index === index ? parked : freshProgress(index);
     parked = null;
     const controller = new AbortController();
@@ -309,6 +318,8 @@ export const director = {
     warm = null;
     // A new tour over a running or finished one leaves that one first.
     if (state.status !== 'idle') move('exiting', 'restart');
+    journal.length = 0;
+    journalStart = realNow();
     state = { ...INITIAL };
     move('starting', 'start');
     set({ script, mode, presenter: mode === 'presenter', captions: opts.captions ?? true, narration: opts.narration ?? false, speed: opts.speed ?? 1, hudBottom: barBottom() });
@@ -330,6 +341,7 @@ export const director = {
       return;
     }
     lastToggle = at;
+    note(`toggle (${source})`);
     if (state.status === 'running') pause(source);
     else play(source);
   },
@@ -375,4 +387,5 @@ export const director = {
   },
   // How far the running (or paused) step got, for tests and the debug log.
   progress: (): StepProgress | null => step?.progress ?? parked,
+  journal: (): ReadonlyArray<{ at: number; text: string }> => journal,
 };

@@ -21,6 +21,7 @@ import { DEMO_NUDGE_EVENT } from '@/lib/focus/nudgePlan';
 import type { ThemeId } from '@/lib/theme/themes';
 import { nextFrame, orAbort, wait } from './abortable';
 import { waitForStable } from './stable';
+import { note } from './engine';
 
 // Demo fix pack, D-4. Three looks, one second each: dark, light, then the
 // demo's own color theme, which stays for the rest of the tour. Fewer,
@@ -77,6 +78,7 @@ export async function runCustom(
     case 'cycleThemes':
       for (const theme of demoThemes()) {
         await orAbort(setSettings({ 'appearance.theme': theme }), signal);
+        note(`theme: ${theme}`);
         await themeShown(theme, signal);
         await sleep(DEMO_THEME_VISIBLE_MS);
       }

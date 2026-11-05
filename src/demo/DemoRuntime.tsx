@@ -6,7 +6,6 @@
 // screen and (with ?demoDebug=1) the list of steps.
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
-import { copy } from '@/copy/en';
 import { setDemoForceCache } from '@/lib/ai/runAi';
 import { now, setDemoSpeed } from '@/lib/clock';
 import { seedDemoWorkspace, setDemoTime } from '@/lib/repo/demo';
@@ -17,6 +16,7 @@ import { director, type DirectorMode } from './director/engine';
 import { useAutoPause } from './director/useAutoPause';
 import { useNarrator } from './director/useNarrator';
 import { runCustom } from './director/customActions';
+import { DebugPanel } from './director/DebugPanel';
 import { DemoCursor } from './director/DemoCursor';
 import { DirectorHUD } from './director/DirectorHUD';
 import { EndScreen } from './director/EndScreen';
@@ -145,18 +145,7 @@ export default function DemoRuntime() {
       ) : (
         <DirectorHUD state={state} />
       )}
-      {debug && (
-        <aside aria-label={copy.demo.debugTitle} className="fixed top-2 right-2 z-[calc(var(--z-demo)+4)] max-h-[60vh] w-56 overflow-y-auto rounded-card border-2 border-line bg-surface p-2 text-caption">
-          <p className="font-bold">{copy.demo.debugTitle}</p>
-          <ul>
-            {state.log.map((l, i) => (
-              <li key={`${l.id}-${i}`}>
-                {l.ok ? 'ok' : 'skipped'} · {l.id}
-              </li>
-            ))}
-          </ul>
-        </aside>
-      )}
+      {debug && <DebugPanel />}
     </>
   );
 }
