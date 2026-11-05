@@ -6,7 +6,7 @@
 // Run a production build first (npm run build && npx next start -p 3100),
 // then: node scripts/visual-baseline.ts --label=baseline (or --label=after).
 // Screenshots go to e2e/__visual__/<label>/ (git-ignored, they're large);
-// the hashes go to e2e/visual-<label>-manifest.json, which is committed.
+// the hashes go to e2e/visual-<label>-manifest.json (made on demand, not committed).
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
