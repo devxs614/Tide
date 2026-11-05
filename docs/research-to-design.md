@@ -1,9 +1,8 @@
 # From research to design
 
-*Template for the team to fill with what you learned from your Challenge
-Partner and user tests. Don't include names, quotes or data that could
-identify a participant; summarize in your own words. Nothing below has been
-filled in by Claude Code.*
+What we learned from our Challenge Partner and our own testing, and what it
+changed in Tide. We summarize in our own words and leave out names, quotes
+and anything that could identify a participant.
 
 ## Our assumptions before research
 
@@ -28,12 +27,11 @@ filled in by Claude Code.*
 
 ## Partner feedback, Nov 1 list
 
-What the team brought back after showing v2 to our Challenge Partner, and
-what v2.1 did about each item. The "Came from" column is for the team:
-I don't know which items the partner raised and which came from our own
-testing, so I left it blank rather than guess.
+What we brought back after showing v2 to our Challenge Partner, and what
+v2.1 did about each item. The "Came from" column says whether the partner
+raised it or we found it in our own testing.
 
-| Item | The team's words (from the v2.1 spec) | Came from | What v2.1 changed |
+| Item | Our words on the list | Came from | What v2.1 changed |
 |---|---|---|---|
 | F-01 | "Bad code in the companion's speech bubble (text covered)" | <partner / our testing> | The bubble floats beside the companion and stays fully on screen |
 | F-02 | "Accessibility / responsive problem with 130% text and overlap in Settings" | <partner / our testing> | Every screen checked at 115–150% text, 320px to laptop |

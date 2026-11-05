@@ -30,7 +30,8 @@ export default function PromptsDocPage() {
       <section>
         <h2>How Tide uses AI</h2>
         <p>
-          Tide is a local-first web app that connects how a neurodivergent college student feels with what they can realistically do next.
+          These are the system prompts our app sends to the model, with their input and output schemas and real examples. We built Tide
+          as a local-first web app that connects how a neurodivergent college student feels with what they can realistically do next.
           It uses Claude in six small server-side routes, only where a fixed rule can&apos;t do the job: interpreting free language into
           emotion words, adapting a first step to a specific task and state, reshaping a day, preparing a switch between activities,
           putting computed patterns into words, and (added in v2) a kind summary when the student closes the day. The code calculates; the AI interprets language and explains. Each route receives only the

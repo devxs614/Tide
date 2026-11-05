@@ -1,128 +1,62 @@
-# Tide — the 100-second demo
+# Demo script
 
-This is the live demo from Section 14.3 of the build spec, as it runs in the
-app today. Everything below uses demo mode: synthetic data for Maya, a
-fictional first-year student, with the clock set to Thursday, November 5.
-The top bar shows a "Demo data" badge the whole time, so nobody is misled.
+How we present Tide. Everything runs on synthetic data for Maya, a fictional first-year student, with the clock set to Thursday, November 5, 3:40 pm, and a "Demo" badge stays on screen the whole time so nobody is misled.
 
-The narrator lines are suggestions. Change them to your own words.
+## The guided tour
 
-## The script
+Open **`/demo`** (or the menu's "Run the demo", Settings → Demo, or "Watch the demo" on the first onboarding screen) and choose:
 
-| Time | Screen | Operator does | Narrator says | What should appear |
-|---|---|---|---|---|
-| 0:00 | Today | Tap **Check in**. Type: *Lab report due tomorrow. I keep opening it and closing it. Heavy. Annoyed at myself.* Tap **Next**. | "Maya doesn't say 'I feel drained'. She says what's happening, in her own words." | Three words: **Drained**, **Frustrated**, **Overwhelmed**, each with a plain definition, nothing preselected, and the question "Is it more that you're tired, or that the report feels too big?" |
-| 0:15 | Check-in | Tap **Drained** and **Frustrated**. **Next**. **Skip**. **Adjust my plan**. | "Tide offers words. Maya chooses. The AI never decides how she feels." | The dot lands in Ebb. The check-in saves and the Day Mode sheet opens. |
-| 0:25 | Day Mode | Tap **Gentle**. Read the proposal. Tap **Use this plan**. | "On a low day, Tide keeps what matters and moves the rest. Nothing is deleted, and she can flip any task." | Keep today: **Chemistry lab report**, **Email TA about lab data** (4 of about 4 energy). Move: Calculus problem set 7, Physics reading, Laundry, group chat. Today now shows the win card: "Last Thursday felt like this too. You still finished: lab outline." |
-| 0:40 | Tasks | Tap **In progress (1)**. On the lab report, **Move to… → Stuck**. Tap **I don't know where to start**. | "Stuck isn't failure. It's information. And Tide remembers what has worked for her before." | First step: "Open the report and type only the title and date." Below it: "Before writing tasks, 3-minute walk helped you 4 of 5 times. Want to do that first?" |
-| 1:05 | Today | *(Rehearsals: Settings → Demo → **Jump to bridge moment** first.)* Tap **Get ready** on the Bridge card. | "Switches are where Maya's days fall apart. Lab ends, calculus starts in nine minutes." | Card: "Chemistry lab → Calculus · leave in 9 min". In the sheet: "Switching from lab to class has felt hard 3 of the last 4 times. Let's make it easier." Parking note prefilled "Chemistry lab report: ". Box breathing suggested. Prep: Calculator, Notes from Tuesday, Go to Room 4-203. |
-| 1:25 | Patterns | Open the **Patterns** tab. On the walk card, tap **Why am I seeing this?** | "This is plain code counting, not the AI guessing. Every pattern shows k of n and the exact moments behind it, and Maya can say 'not true for me'." | Three cards: the walk before writing (4 of 5 times), lab → class (3 of 4), box breathing (4 of 5). Why lists five dated moments. |
+- **Full tour:** every feature. About 4 minutes (245–258 s) at 1× and 3 minutes (187–191 s) at 2×.
+- **Pitch cut:** the highlights. About 2 minutes (111–117 s) at 1× and 90 seconds (85–88 s) at 2×.
+- **Presenter mode:** the pitch path, pausing at each key moment until we press Next. We recommend it for the live pitch, so the presenter sets the pace.
 
-## Before the show
+Options: read captions aloud, show captions, speed 1×, 1.5× or 2×. The demo runs in its own workspace, a separate database (`tide-demo`) with Maya's data; starting it never touches anyone's own data, and "Leave demo" brings it back exactly as it was. Every start resets the workspace to the same afternoon, so a second run looks exactly like the first. Autoplay uses saved answers and never calls the AI, so it plays the same way offline; with no internet, run Tide locally (`npm run build`, then `npm start`) so the pages can load.
 
-1. Use the laptop or phone you'll present with. Open the deployed URL (or
-   `npm run dev` / `npm start` on the laptop).
-2. Settings → Demo → turn on **Demo mode (synthetic data)** and confirm.
-   This replaces everything on that device with Maya's data.
-3. Set text size to 115% or 130% so the projector audience can read it.
-4. Choose the start:
-   - **Restart demo** starts the clock at 3:40 pm. Today shows "Next:
-     Calculus · 4:50 pm · in 70 min". At 1:05 use **Jump to bridge moment**
-     (4:41 pm) to bring up the Bridge.
-   - **Restart demo at bridge time** starts at 4:36 pm: the Bridge card is
-     already on Today from the start, so no jump is needed on stage.
-5. Run the whole script once. Then tap **Restart demo** (it resets the data
-   and the clock) so the live run starts clean.
-
-## If the venue network fails
-
-Nothing changes on screen. In demo mode the app races the live AI against
-saved answers for the exact scripted inputs; if the network is down or slow,
-the saved answer appears after about a second. Off-script inputs use the
-built-in suggestions instead. Everything else runs on the device.
-
-To be safe, rehearse once with Wi-Fi switched off.
-
-## If the app fails
-
-Switch to the backup video (recorded from this script, see TEAM_TODO) and
-keep narrating over it. Don't troubleshoot on stage.
-
-## Pre-show checklist
-
-- [ ] Demo mode on, "Demo data" badge visible.
-- [ ] Text size set for the projector; screen brightness up.
-- [ ] Restarted the demo right before going on.
-- [ ] Notifications off on the presenting device.
-- [ ] Backup video open in another tab or on another device.
-- [ ] One full rehearsal done today with Wi-Fi off.
-
-## v2: the Demo button and the guided tour
-
-Tide v2 runs the demo in its **own workspace**: a separate database
-(`tide-demo`) filled with Maya's example data. Starting it never touches
-the data on the device, and leaving it brings the real data back exactly
-as it was.
-
-### Starting a demo
-- Open **`/demo`** (for example `https://<your-url>/demo`), or Menu →
-  "Run the demo", or Settings → Demo, or "Watch the demo" on the first
-  onboarding screen.
-- Choose **Full tour** (about 3 minutes since v2.1), **Pitch cut** (about
-  80 seconds, unchanged since V12) or
-  **Presenter mode** (pauses at each key moment). Options: read captions
-  aloud, show captions, speed 1×, 1.5× or 2×.
-- Every start puts the demo workspace back to the same Thursday afternoon
-  (a second or two), so a second run in a row looks exactly like the first.
-  Autoplay uses only the saved demo answers and never calls the AI, so it
-  plays the same way every time. With no internet, run Tide locally
-  (`npm run build` then `npm start`) so the pages themselves can load.
-
-### What the full tour adds in v2.1
-The pitch cut didn't change. The full tour has a few short new steps:
-- **A lighter day**, after the gentle plan: Calendar from Today's header,
-  the month, then Thursday the 12th (Chemistry lab and Calculus), and back
-  to the month. Caption: "A month view for what's coming. The day view is
-  still the heart."
-- **Unstick and focus**, before Stuck: on Tasks, "Reply to group project
-  chat" is renamed "Reply to group chat about slides", and "Laundry" is
-  deleted (history kept); the Undo toast shows. Caption: "Tasks can be
-  edited or deleted anytime, with an undo."
-- **Unstick and focus**, once the block starts: the Sounds panel opens and
-  closes (nothing plays), then one "Earth to Maya!" check-in shows at the
-  sped-up timer and gets "Yes, still on it". When the block ends, the end
-  glow shows on its own (with the chime, if the laptop's sound is on).
-- **Your Shore**: the time of day goes to Sunset for a moment, then back
-  to following the clock. Caption: "Choose the light that feels right."
-- **Comfortable for every brain**, after the low-sensory preset: Settings
-  → Appearance, try the Sunset look, then "Back to my look".
-
-Measured in headless Chrome on the production build: full tour 68 of 68
-steps in 180 s at 1× and 95 s at 2×, pitch cut 28 of 28 in 80 s and 42 s,
-twice each, with no AI requests. To repeat it:
-`npm run tour:check -- full 2` (add `--speed=2` for 2×).
-
-### Presenter keys (a clicker works)
+### Keys (a clicker works)
 - **Next:** → or PageDown · **Back to the previous chapter:** ← or PageUp
-- **Play/pause:** Space · **Speed:** S · **Captions:** C · **Narration:** N
-- **Exit the tour:** Esc (you stay in the demo workspace)
-- Every control is also a button on the bar at the bottom.
+- **Pause and play:** Space, K or P (Space is left to a focused button, so use K or P if you've just pressed one)
+- **Speed:** S · **Captions:** C · **Narration:** N · **Leave the tour:** Esc
+- Every control is also a button on the tour bar.
+
+### How the tour paces itself
+- Each caption stays up at least its reading time (2.5 to 9 seconds, longer for longer captions), counted from when the screen has settled. At 1.5× and 2× the looking time shrinks but reading time only by up to 1.25×.
+- With narration on, the tour shows "Narration is on. Press play to start the tour." and waits for one tap on Play: browsers won't speak before a tap on the page. Then every caption is read to the end, and the next step waits for the voice.
+- Pause stops everything at once, including the demo clock (the focus timer and the Bridge countdown stand still), and only a person can resume it. Switching windows pauses the tour. Next and Previous while paused play one step (in presenter mode, up to the next key moment) and stay paused.
+- The theme step in "Make it yours" shows three looks, one second each: black, white, then the demo's own color theme, which stays for the rest of the tour.
+- Add `?demoDebug=1` to the start address (for example `/?demo=start&mode=pitch&demoDebug=1`) for the rehearsal panel: the steps that ran or were skipped, the demo clock, and a timed log with a "Copy log" button to paste into our chat.
 
 ### If something goes wrong
-1. A step that can't find its button is skipped; the tour keeps going.
-2. Press Esc, open `/demo` again and start the same mode, or use ← to go
-   back to the start of the chapter (each chapter sets up its own route
-   and time).
-3. Settings → Demo inside the demo workspace has "Restart demo clock",
-   "Jump to the bridge moment" and "Jump to evening".
-4. Add `?demoDebug=1` to the start address (for example
-   `/?demo=start&mode=pitch&demoDebug=1`) to see which steps ran or were
-   skipped; the list stays for the whole tour.
-5. Last resort: play the backup video.
+1. A step that can't find its button is skipped and the tour keeps going.
+2. Press Esc, open `/demo` again, or press ← to restart the chapter (each chapter sets up its own page and time).
+3. Settings → Demo inside the workspace has "Restart demo clock", "Jump to the bridge moment" and "Jump to evening".
+4. Last resort: play the backup video.
 
-### Leaving
-Settings → Demo → "Leave demo", or "Leave demo" on the tour's end screen.
+## The 100-second live demo (v1 path)
 
-### Backup video
-Record the full tour at 1× in the Lagoon theme, with captions on, once
-it's been rehearsed on the presenting laptop (TEAM_TODO).
+The path we used before the guided tour, still working inside the demo workspace. The narrator lines are suggestions.
+
+| Time | Screen | We do | We say | What appears |
+|---|---|---|---|---|
+| 0:00 | Today | Tap **Check in**. Type: *Lab report due tomorrow. I keep opening it and closing it. Heavy. Annoyed at myself.* Tap **Next**. | "Maya doesn't say 'I feel drained'. She says what's happening, in her own words." | Three words (Drained, Frustrated, Overwhelmed) with plain definitions, nothing preselected. |
+| 0:15 | Check-in | Tap **Drained** and **Frustrated**, **Next**, **Skip**, **Adjust my plan**. | "Tide offers words. Maya chooses. The AI never decides how she feels." | The dot lands in Ebb; the Day Mode sheet opens. |
+| 0:25 | Day Mode | Tap **Gentle**, then **Use this plan**. | "On a low day, Tide keeps what matters and moves the rest. Nothing is deleted." | Keep today: the lab report and the TA email; the rest moves. |
+| 0:40 | Tasks | Move the lab report to **Stuck**, tap **I don't know where to start**. | "Stuck isn't failure. It's information." | First step: "Open the report and type only the title and date", and the walk that helped 4 of 5 times. |
+| 1:05 | Today | *(Rehearsals: Settings → Demo → Jump to the bridge moment.)* Tap **Get ready** on the Bridge card. | "Switches are where Maya's days fall apart." | "Chemistry lab → Calculus · leave in 9 min", a parking note, box breathing, prep steps. |
+| 1:25 | Patterns | Open **Patterns**, tap **Why am I seeing this?** on the walk card. | "This is plain code counting, not the AI guessing." | Three cards with k of n and the dated moments behind them. |
+
+## Before the show
+- Use the device we'll present with, at text size 115% or 130% for the projector (it's kept between tours), notifications off, brightness up.
+- Run the tour once, then start it again right before going on.
+- Keep the backup video open in another tab or device.
+- Rehearse once with Wi-Fi off.
+
+## Rehearsal checklist
+- [ ] Run the full tour on the presentation laptop in Chrome **and** Edge with narration on; every caption is read.
+- [ ] Pause at five moments (while typing, while the voice speaks, during the focus fast-forward, during a celebration, at a random step): it stops at once, stays stopped for 30 seconds, and resumes in the right place.
+- [ ] Use Space and the presentation clicker (→ for Next) in presenter mode.
+- [ ] Start the demo three times in a row quickly: no error.
+- [ ] Watch the theme step: black, white, color, one second each.
+- [ ] Check that nothing overlaps (the tour bar, captions, toasts, bubbles) at 1× in Lagoon, at text size 100% and 130%.
+- [ ] Try Safari if anyone will present from an iPhone or a Mac: narration needs the tap on Play there too.
+- [ ] Note the real durations and decide whether we present with presenter mode.
+- [ ] Record the backup video: the full tour at 1× in Lagoon with captions on.
