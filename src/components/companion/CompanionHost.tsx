@@ -13,7 +13,7 @@ import { createPortal } from 'react-dom';
 import { companionLine, type LineContext } from '@/copy/companions';
 import { COMPANION_COPY } from '@/copy/companionCopy';
 import { fill, quadrantName } from '@/copy/en';
-import { emitCompanion, onCompanionEvent, type CompanionEvent } from '@/lib/companion/bus';
+import { onCompanionEvent, type CompanionEvent } from '@/lib/companion/bus';
 import { type Expression, type Placement, type Reaction } from '@/lib/companion/registry';
 import { useCompanion } from '@/lib/companion/useCompanion';
 import { useCompanionVoice } from '@/lib/companion/useCompanionVoice';
@@ -335,7 +335,3 @@ export function CompanionHost({
     </div>
   );
 }
-
-// Lets screens say things without importing the bus (e.g. "say the
-// breathing invite now").
-export const companionSays = (context: LineContext, vars?: Record<string, string | number>) => emitCompanion({ type: 'say', context, vars });

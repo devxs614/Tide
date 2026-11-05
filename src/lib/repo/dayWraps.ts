@@ -44,7 +44,3 @@ export async function completeWrap(date: string, winText: string): Promise<void>
     await addWin(winText, 'manual', date, 'wrap');
   });
 }
-
-export function listWraps(fromDate: string, toDate: string): Promise<DayWrap[]> {
-  return db.dayWraps.where('date').between(fromDate, toDate, true, true).toArray();
-}

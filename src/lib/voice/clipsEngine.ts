@@ -20,10 +20,6 @@ function loadManifest(): Promise<Manifest | null> {
   return manifest;
 }
 
-export function resetClipsForTests(): void {
-  manifest = null;
-}
-
 // The clip's URL for this exact (speech-ready) text, or null.
 export async function findClip(text: string): Promise<string | null> {
   const m = await loadManifest();

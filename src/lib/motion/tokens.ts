@@ -46,9 +46,3 @@ export function distanceFor(level: MotionLevel, px: number): number {
   if (level === 'off') return 0;
   return level === 'calm' ? Math.min(px / 2, 12) : px;
 }
-
-export function staggerFor(level: MotionLevel, count: number, step = stagger.list): number {
-  if (level === 'off') return 0;
-  const each = level === 'calm' ? Math.min(step, 0.02) : step;
-  return Math.min(each, stagger.max / Math.max(count, 1));
-}

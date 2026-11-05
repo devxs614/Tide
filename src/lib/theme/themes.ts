@@ -232,7 +232,3 @@ export function tintAlpha(scheme: 'light' | 'dark', quadrant: 'surge' | 'swell' 
   if (scheme === 'dark') return 0.24;
   return quadrant === 'surge' || quadrant === 'ebb' ? 0.16 : 0.18;
 }
-
-export function isThemeId(value: unknown): value is ThemeId {
-  return typeof value === 'string' && value in THEMES;
-}

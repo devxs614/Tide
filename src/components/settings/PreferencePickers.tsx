@@ -5,7 +5,6 @@
 // applied to the page right away, so Maya sees the effect as she chooses.
 import { useSettings } from '@/lib/settings';
 import type { CommunicationMode, Settings } from '@/lib/types';
-import { THEMES } from '@/lib/theme/themes';
 import { CardButton } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { TextSizeSample } from './TextSizeSample';
@@ -46,37 +45,6 @@ export function TextSizePicker() {
       </div>
       <p className="rounded-card border-2 border-line bg-surface-2 p-3">{settingsV1.textSizePreview}</p>
       <TextSizeSample />
-    </fieldset>
-  );
-}
-
-const SCHEMES: Array<Settings['theme']> = ['system', 'light', 'dark'];
-
-// The quick System / Light / Dark switch from v1. In v2 it picks the
-// person's own light or dark theme (Lagoon and Midnight Tide by default,
-// Classic and Classic Dark for v1 users), so it keeps doing what it says.
-export function ThemePicker() {
-  const { settings, updateMany } = useSettings();
-  const current: Settings['theme'] = settings['appearance.followSystem']
-    ? 'system'
-    : THEMES[settings['appearance.theme']].scheme;
-  const choose = (scheme: Settings['theme']) =>
-    void updateMany({
-      theme: scheme,
-      'appearance.followSystem': scheme === 'system',
-      ...(scheme === 'light' && { 'appearance.theme': settings['appearance.lightTheme'] }),
-      ...(scheme === 'dark' && { 'appearance.theme': settings['appearance.darkTheme'] }),
-    });
-  return (
-    <fieldset className="flex flex-col gap-2">
-      <legend className="mb-2 font-bold">{settingsV1.theme}</legend>
-      <div className="flex flex-wrap gap-2">
-        {SCHEMES.map((t) => (
-          <Choice key={t} pressed={current === t} onClick={() => choose(t)}>
-            {settingsV1.themes[t]}
-          </Choice>
-        ))}
-      </div>
     </fieldset>
   );
 }

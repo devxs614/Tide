@@ -5,7 +5,6 @@
 import { z } from 'zod';
 import { ACCESSORIES, PLACEMENTS, SPECIES } from '@/lib/companion/registry';
 import { THEME_IDS } from '@/lib/theme/themes';
-import { DEFAULT_SETTINGS } from '@/lib/repo/settings';
 import type { Settings } from '@/lib/types';
 
 const theme = z.enum(THEME_IDS as [string, ...string[]]);
@@ -183,6 +182,3 @@ export function validateSettings(raw: unknown): { values: Partial<Settings>; inv
   }
   return { values: values as Partial<Settings>, invalid };
 }
-
-// Every default must pass its own schema (a test checks this).
-export const DEFAULTS_VALID = (): boolean => SettingsSchema.safeParse(DEFAULT_SETTINGS).success;

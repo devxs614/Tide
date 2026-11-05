@@ -9,12 +9,6 @@ import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useFeedback } from '@/lib/sound/useFeedback';
 
-type CardProps = React.ComponentProps<'div'> & { flat?: boolean };
-
-export function Card({ className, flat = false, ...props }: CardProps) {
-  return <div className={cn(flat ? 'card-flat' : 'card', 'p-4', className)} {...props} />;
-}
-
 type SelectableCardProps = React.ComponentProps<'button'> & {
   selected?: boolean;
 };
