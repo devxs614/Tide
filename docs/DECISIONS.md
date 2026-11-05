@@ -1679,3 +1679,18 @@ changed in the script: the nudge's fast-forward runs at 20× instead of
 60×, since the nudge's caption now stays up 4.4 s instead of 1.5 s and at
 60× the focus block ended before "Yes, still on it" was pressed.
 Rejected: changing the focus block's length or the step order.
+
+**D220 — 2026-11-05 — The theme step shows three looks, one second each, under one caption.**
+Demo fix pack D-4. `cycleThemes` applies Ink (true black), Pearl (true
+white) and then the demo workspace's own theme, read from the seed's
+settings (Lagoon today), waits until the page shows each one and its
+crossfade has faded, and keeps it a full second at every speed. The step
+is marked `holdDuringAction`, so its caption ("Fifteen themes, every one
+checked for readable contrast.", unchanged) is shown and read once while
+the three change; the step lasts `max(the three themes, reading time,
+narration)`. Nothing after it changes the theme until the comfort
+chapter's restore, which puts back the same seeded theme. "Try a look"
+already gets its full reading time and waits for its crossfade. The pitch
+cut has no theme step, so there was nothing to change there. Note: the
+spec quotes the caption as "Fifteen themes, from bright to high contrast."
+The code's caption is the one above, and it stays word for word.

@@ -4306,3 +4306,14 @@ Off with no pointer and full holds). On the build, sampling every 150 ms:
 full tour 68 of 68 in 254 s, pitch cut 28 of 28 in 113 s, the bar never
 moving within a step, never two spotlights, no toast under the bar, no
 caption during a celebration, no page errors. 648 tests and v1's 164.
+
+### D-4: three themes
+The full tour cycled Coral Reef, Midnight Tide, Kelp Forest and Lagoon at
+0.7 s each, divided by the speed, so at 2× each was on screen for a third
+of a second. Now it's Ink, Pearl and the seeded theme, each a full second
+after its crossfade (D220). Five new tests (the sequence, a second each
+at 1× and 2×, one caption read once for all three, and through the whole
+tour the only later theme change is the comfort chapter's restore to the
+same theme). On the build, sampling the page's theme every 20 ms: Ink
+1000 ms and Pearl 1027 ms after their 320 ms fades at 1×, 1031 ms and
+1036 ms at 2×, then Lagoon, still on 20 s later. 653 tests and v1's 164.

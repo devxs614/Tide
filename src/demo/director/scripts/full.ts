@@ -142,7 +142,8 @@ export const FULL: Script = {
     { id: 'yours.species', companion: true, chapter: 'yours', target: 'companion-hero', action: { kind: 'custom', name: 'cycleSpecies' }, caption: 'Everyone picks a companion, or none at all.', holdMs: 300 },
     { id: 'yours.tap', companion: true, chapter: 'yours', target: 'companion-hero', action: { kind: 'click' }, caption: 'Lolo is an axolotl, from the canals of Xochimilco.', holdMs: 1500 },
     { id: 'yours.themes', chapter: 'yours', action: { kind: 'navigate', path: '/settings/appearance' } },
-    { id: 'yours.cycle', chapter: 'yours', target: 'theme-grid', action: { kind: 'custom', name: 'cycleThemes' }, caption: 'Fifteen themes, every one checked for readable contrast.', holdMs: 800 },
+    // One caption, shown and read once, while the three themes change (D-4).
+    { id: 'yours.cycle', chapter: 'yours', target: 'theme-grid', holdDuringAction: true, action: { kind: 'custom', name: 'cycleThemes' }, caption: 'Fifteen themes, every one checked for readable contrast.', holdMs: 800 },
     ...CHECKIN_STEPS,
     ...LIGHTER_STEPS,
     ...CALENDAR_STEPS,
