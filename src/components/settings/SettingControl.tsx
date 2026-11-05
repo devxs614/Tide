@@ -31,7 +31,7 @@ export function SettingControl({ entry }: { entry: Exclude<Entry, { kind: 'custo
     const choose = (raw: string) => {
       const next = (entry.numeric || (key === 'focus.defaultMinutes' && raw !== 'auto') ? Number(raw) : raw) as Settings[typeof key];
       // Motion Off also sets v1's reduceMotion, which older parts still read;
-      // "When the timer ends" keeps v2's end-sound switch in step (D158).
+      // "When the timer ends" keeps v2's end-sound switch in step.
       const values = {
         [key]: next,
         ...(key === 'motion.level' && { reduceMotion: next === 'off' }),

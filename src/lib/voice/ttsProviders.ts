@@ -1,6 +1,6 @@
 // The two cloud voice APIs, in one place, for both the /api/tts route and
 // the clip generator script. Request shapes follow each provider's docs as
-// checked on 2026-10-29 (D68): OpenAI POST /v1/audio/speech with model,
+// checked on 2026-10-29: OpenAI POST /v1/audio/speech with model,
 // voice, input, instructions, response_format and speed; ElevenLabs POST
 // /v1/text-to-speech/{voice_id} with text, model_id and voice_settings.
 import { OPENAI_VOICE_INSTRUCTIONS, type TtsProvider } from '@/data/voices';

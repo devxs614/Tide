@@ -1,6 +1,6 @@
 // The v1 settings screen's words (the sections, presets, data and about
 // texts), moved out of en.ts in v2.3 because Today never shows them and
-// en.ts loads with Today's first page (the D144 split, done again when the
+// en.ts loads with Today's first page (the same split, done again when the
 // new check-in button needed room under the 300 KB budget).
 import type { CommunicationMode } from '@/lib/types';
 

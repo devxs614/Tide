@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
 
 // The floating placement (Floating UI and the avoid rule) loads when a
 // bubble first shows, not with the page, so Today's first load stays within
-// its budget (v2.3 Item 3, like D144).
+// its budget (v2.3 Item 3).
 const FloatingBubble = dynamic(() => import('./FloatingBubble').then((m) => m.FloatingBubble), { ssr: false });
 
 // Only one bubble anywhere: a new line replaces the one showing.

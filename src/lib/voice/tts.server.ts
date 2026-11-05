@@ -5,7 +5,7 @@ import 'server-only';
 // never leaves the server, the text is never logged (only provider, status,
 // time and length), and with no provider set every request answers
 // "not available" so the browser uses the device's own voice.
-// API shapes checked against each provider's docs on 2026-10-29 (D68).
+// API shapes checked against each provider's docs on 2026-10-29.
 import { z } from 'zod';
 import { allowRequest, rateLimitConfig } from '@/lib/ai/rateLimit';
 import { realNow } from '@/lib/clock';

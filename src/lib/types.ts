@@ -269,7 +269,7 @@ export interface Settings {
   communicationMode: CommunicationMode;
   aiEnabled: boolean;
   readAloudRate: 0.8 | 1 | 1.2;
-  // The name of a voice on this device, or '' to let Tide pick (D57).
+  // The name of a voice on this device, or '' to let Tide pick.
   readAloudVoice: string;
   demoMode: boolean;
   onboarded: boolean;
@@ -342,7 +342,7 @@ export interface Settings {
   'whatsNew.seen': boolean;
   'today.companionCardDismissed': boolean;
   // When each feature was first used. Kept here rather than as wins, so the
-  // proof log's v1 behavior (one win per real event) is unchanged (D92).
+  // proof log's v1 behavior (one win per real event) is unchanged.
   firsts: Partial<Record<FirstFeature, number>>;
   'language.readingLevel': 'standard' | 'simple';
   // 'HH:MM', 24-hour, whatever the display clock is.
@@ -408,7 +408,7 @@ export interface Settings {
   'shore.lastSeenAt': number;
   'focus.keepAwake': boolean;
   // v2.1 F-06: the end-of-timer alert. `focus.endSound` (v2's switch) stays
-  // and is kept in step by "When the timer ends" (D158); the sound itself
+  // and is kept in step by "When the timer ends"; the sound itself
   // is `focus.endTone`.
   'focus.endAlert': 'sound_visual' | 'visual' | 'off';
   'focus.endTone': 'chime' | 'bell' | 'marimba' | 'waves' | 'rise';

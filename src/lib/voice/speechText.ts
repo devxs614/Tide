@@ -1,7 +1,7 @@
 // Turns text written for the screen into text written for the ear (v2 spec
 // 7.4). Voices stumble on "·", "→", "4/5", "min" and missing full stops, and
 // on a device set to Spanish they read digits in Spanish ("Breathe in for
-// cuatro"), so every number becomes an English word too (Tide, D57). The
+// cuatro"), so every number becomes an English word too. The
 // result is split into sentence-sized chunks, because Chrome quietly stops
 // speaking after about 15 seconds of one long utterance.
 import { numberInWords, spokenText } from '@/lib/spokenNumbers';

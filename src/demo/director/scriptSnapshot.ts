@@ -1,7 +1,7 @@
 // A plain description of a tour script (demo fix pack, 1.1): every chapter,
 // then every step in order with its caption, action and target. The fix pack
 // promised not to change the tour itself, only how it plays, so we saved this
-// before touching anything (docs/audits/demo-script-before.json) and a test
+// before touching anything (src/demo/__tests__/fixtures/demo-script-before.json) and a test
 // compares the current scripts against it. Timing fields sit apart from the
 // rest, because timing is the one thing the fixes were allowed to change.
 import type { Script, Step } from './types';

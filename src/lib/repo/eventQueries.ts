@@ -1,7 +1,7 @@
 // Every read of calendar events goes through here (v2.1 F-04), so a deleted
 // event never reaches the Tide Line, the Bridge, Day Mode or the wrap-up.
 // The pattern engine is the exception: past switches still count by the
-// event's kind, which a deleted event keeps. As with tasks (D142), these
+// event's kind, which a deleted event keeps. As with tasks, these
 // are plain Dexie queries filtered afterwards, so live queries update in
 // the same render as the write.
 import { db } from '../db';

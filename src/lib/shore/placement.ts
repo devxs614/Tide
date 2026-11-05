@@ -11,7 +11,7 @@ export const SLOTS = COLS * ROWS;
 
 // In the scene's 390 × 560 viewBox: sand from y ≈ 291 down. Columns 44px
 // and rows 42px apart, with ±7px / ±6px of jitter (not the spec's ±10px
-// sideways), so two neighbors are always at least 30px apart (D96).
+// sideways), so two neighbors are always at least 30px apart.
 const X0 = 41;
 const DX = 44;
 const Y0 = 322;

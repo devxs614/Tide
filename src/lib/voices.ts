@@ -1,7 +1,7 @@
 // Which English voice "Read aloud" uses. Left to itself the browser reads with
 // the system default, which on a Mac set to Spanish is Paulina: English in a
 // Spanish accent. So Tide ranks the English voices itself, softest first, and
-// Settings can name one (D56, D57).
+// Settings can name one.
 
 // The Mac's novelty voices (Bubbles, Zarvox…) and older robotic ones (Eddy,
 // Fred…) are English but tiring to listen to, so they are never offered.

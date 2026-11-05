@@ -1,4 +1,4 @@
-// Settings → Voice (v2 spec 7.8). This replaces the D57 picker's test: the
+// Settings → Voice (v2 spec 7.8). This replaces the first voice picker's test: the
 // v2 spec moves read-aloud to the new voice engine (Section 3.5), so the
 // picker now lists the device's best voices with samples and saves
 // voice.deviceVoiceURI. Natural voices are offered only when configured.

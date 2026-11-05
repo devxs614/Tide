@@ -58,7 +58,7 @@ export function OnboardingScreen() {
   };
 
   // Skip setup keeps whatever Maya already chose: a companion she picked,
-  // or the look she set, is never replaced by a default (D93).
+  // or the look she set, is never replaced by a default.
   const skipSetup = () => {
     const extra: Partial<Settings> = { ...SKIP_SETUP_DEFAULTS };
     if (settings['companion.species'] !== null) {

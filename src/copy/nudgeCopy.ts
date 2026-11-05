@@ -1,7 +1,7 @@
 // The words for refocus nudges (v2.1 F-07): "Earth to {name}", the welcome
 // back, and what to do next. Drifting is normal, so nothing here counts it,
 // calls it a failure or says "again". A copy test checks for the words
-// that slip in most easily. The Focus screen loads these, not Today (D144).
+// that slip in most easily. The Focus screen loads these, not Today.
 export const nudgeCopy = {
   title: {
     gentle: 'Earth to {name}! Still on {task}?',

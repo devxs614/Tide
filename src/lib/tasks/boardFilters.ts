@@ -2,7 +2,7 @@
 // energy and today's one thing, combined with AND. They last for this
 // visit to Tide only, so nobody comes back days later to a board that looks
 // half empty without knowing why. "Has steps" waits for the task
-// breakdown feature, which isn't built yet (D207).
+// breakdown feature, which isn't built yet.
 import { useSyncExternalStore } from 'react';
 import type { Task } from '@/lib/types';
 

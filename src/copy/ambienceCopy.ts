@@ -2,7 +2,7 @@
 // each is like, the player, and the mini player. Binaural beats get facts
 // only, with no health claims. Focus and the Toolkit load these, and the
 // mini player loads them when a sound is on, so they stay out of Today's
-// first load (D144). Same rules as en.ts.
+// first load. Same rules as en.ts.
 import type { AmbienceId } from '@/lib/sound/names';
 
 export const ambienceCopy = {

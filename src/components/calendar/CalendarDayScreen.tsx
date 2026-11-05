@@ -3,7 +3,7 @@
 // Any day (v2.1 F-10, /calendar/[date]): the long date, previous and next
 // day, Today, and back to the month, then either what's ahead (a future
 // day) or a look back (a past day). Today itself goes to Today's Tide
-// Line, which stays the heart of the app (D182).
+// Line, which stays the heart of the app.
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

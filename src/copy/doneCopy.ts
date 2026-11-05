@@ -1,6 +1,6 @@
 // The words for finished tasks leaving the board (v2.1 F-05): "Clear", the
 // link to Completed, and the Completed archive. The Tasks screen isn't part
-// of Today's first load, so these live outside en.ts (D144). Same rules as
+// of Today's first load, so these live outside en.ts. Same rules as
 // en.ts: no guilt, nothing about "old" or "overdue" work.
 export const doneCopy = {
   clear: 'Clear',

@@ -1,5 +1,5 @@
 // The words for "Try a look" (v2.1 F-11): the eight looks and the trying
-// bar. Settings and What's new load these, not Today (D144).
+// bar. Settings and What's new load these, not Today.
 import type { LookId } from '@/data/looks';
 
 export const looksCopy = {

@@ -86,7 +86,7 @@ export const THEMES: Record<ThemeId, Theme> = {
     tokens: t({
       bg: '#FFF5F2', surface: '#FFFFFF', surface2: '#FFE6DF', ink: '#3A1F24', inkSoft: '#75545A',
       primary: '#B8405A', primaryShadow: '#8E2E44', onPrimary: '#FFFFFF', line: '#F5D5CD',
-      focus: '#B8405A', notice: '#7E5A10', accent: '#26837C', accentShadow: '#175954', onAccent: '#FFFFFF', // accent darkened for AA (D61)
+      focus: '#B8405A', notice: '#7E5A10', accent: '#26837C', accentShadow: '#175954', onAccent: '#FFFFFF', // accent darkened for AA
       skyTop: '#FFD3C7', skyBottom: '#FFF5F2', sea: '#6CC4C9', seaDeep: '#3C9AA3', foam: '#FFFFFF',
       sand: '#F7DDB8', sandShadow: '#E8C796',
     }),
@@ -116,7 +116,7 @@ export const THEMES: Record<ThemeId, Theme> = {
     tokens: t({
       bg: '#FFF7EE', surface: '#FFFFFF', surface2: '#FDE8D2', ink: '#3A2617', inkSoft: '#6E5643',
       primary: '#B4531F', primaryShadow: '#87401A', onPrimary: '#FFFFFF', line: '#F2DCC4',
-      focus: '#B4531F', notice: '#6F5A12', accent: '#4B72D2', accentShadow: '#3A56A0', onAccent: '#FFFFFF', // accent darkened for AA (D61)
+      focus: '#B4531F', notice: '#6F5A12', accent: '#4B72D2', accentShadow: '#3A56A0', onAccent: '#FFFFFF', // accent darkened for AA
       skyTop: '#FFB98F', skyBottom: '#FFE6CF', sea: '#6A9FD6', seaDeep: '#3F6FAF', foam: '#FFF8F0',
       sand: '#F6D7A8', sandShadow: '#E4BD83',
     }),
@@ -144,7 +144,7 @@ export const THEMES: Record<ThemeId, Theme> = {
   classic: {
     id: 'classic', group: 'light', scheme: 'light', quadrants: 'standard',
     tokens: t({
-      // notice is the v1 code's #80651C (D52), not the older #8A6D1F (D61).
+      // notice is the v1 code's #80651C, not the older #8A6D1F.
       bg: '#F7F5F0', surface: '#FFFFFF', surface2: '#F0EDE6', ink: '#1F2A33', inkSoft: '#5B6770',
       primary: '#1F5C63', primaryShadow: '#143E43', onPrimary: '#FFFFFF', line: '#E2DED6',
       focus: '#1F5C63', notice: '#80651C', accent: '#E8836A', accentShadow: '#B9614B', onAccent: '#2B140D',

@@ -1,7 +1,7 @@
 // Dictation is frozen for v2. The team says it works very well, so nobody may
-// change it, not even to tidy it up. These hashes were recorded in Phase V0
-// (docs/V1_INVENTORY.md); if one fails, put the dictation code back instead
-// of updating the hash.
+// change it, not even to tidy it up. These hashes were recorded at the start
+// of v2; if one fails, put the dictation code back instead of updating the
+// hash.
 import { describe, expect, it } from 'vitest';
 import { declarationSource, readSource, sha256 } from './frozenSource';
 
@@ -15,7 +15,7 @@ const FROZEN_SPEECH: Record<string, string> = {
 const FROZEN_BUTTON = '51fd21f73dbfaac7a213acaf0b5ecfabf0460e770452dcdfeebccb9eceecb9b6';
 const FROZEN_COPY = 'd41d732316b71d43f7af2298ca1f9d298af542dd8bdd55c5ea0b93a6d21600f4';
 
-const WHY = 'Dictation is frozen for Tide v2 (docs/TIDE_V2_UPGRADE_PROMPT.md, Section 3.2). Revert the change instead of updating this hash.';
+const WHY = 'Dictation is frozen: it has to keep working exactly as it did in v1. Revert the change instead of updating this hash.';
 
 describe('frozen dictation', () => {
   const speech = readSource('src/lib/speech.ts');

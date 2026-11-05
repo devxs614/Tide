@@ -2,7 +2,7 @@
 // one instead of the browser's default (v2 spec 7.3). The default is often
 // the worst: a novelty voice on a Mac, a legacy desktop voice on Windows, or
 // (as the team found) a Spanish voice reading English on a Spanish-set Mac.
-// Tide's additions to the spec's table are marked below and in D67.
+// Tide's additions to the spec's table are marked below.
 
 export interface VoiceLike {
   name: string;
@@ -27,7 +27,7 @@ const KNOWN_GOOD = [
   'Tessa', 'Aria', 'Jenny', 'Guy', 'Sonia', 'Libby', 'Natasha', 'Emma', 'Brian', 'Andrew',
 ];
 
-// Tide (D57): when two voices score the same, the softer one wins, because
+// Tide: when two voices score the same, the softer one wins, because
 // the team asked for a gentle voice.
 const GENTLE = ['Ava', 'Zoe', 'Allison', 'Susan', 'Samantha', 'Serena', 'Moira', 'Jenny', 'Aria', 'Emma', 'Libby', 'Sonia'];
 

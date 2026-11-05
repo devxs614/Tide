@@ -159,7 +159,7 @@ export const SECTIONS: Array<{ id: SectionId; entries: Entry[] }> = [
       { kind: 'choice', key: 'focus.defaultMinutes', label: L.focusMinutes, options: [{ value: 'auto', label: L.focusAuto }, ...['5', '10', '15', '25'].map((v) => ({ value: v, label: `${v} min` }))], keywords: ['timer', 'pomodoro', 'minutes'] },
       { kind: 'switch', key: 'focus.companionActivity', label: L.companionActivity, keywords: ['body doubling'] },
       // v2.1 F-06: "When the timer ends" replaces v2's end-sound switch (the
-      // key stays, kept in step by SettingControl, D158).
+      // key stays, kept in step by SettingControl).
       {
         kind: 'choice',
         key: 'focus.endAlert',

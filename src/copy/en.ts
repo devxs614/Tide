@@ -544,7 +544,7 @@ export const copy = {
     label: 'Read aloud: {text}',
   },
 
-  // ——— v2 (docs/TIDE_V2_UPGRADE_PROMPT.md, Appendix A). New groups only;
+  // ——— v2 (the copy appendix of our v2 spec). New groups only;
   // every v1 key above keeps its name and meaning. ———
 
   themes: {

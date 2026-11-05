@@ -2,7 +2,7 @@
 // 7.6). OpenAI's names come from its text-to-speech guide (checked on
 // 2026-10-29; marin and cedar are the ones it recommends for quality). The
 // ElevenLabs ids are well-known premade voices; the team should confirm them
-// in their own ElevenLabs voice library (TEAM_TODO), since libraries vary.
+// in their own ElevenLabs voice library, since libraries vary.
 export type TtsProvider = 'openai' | 'elevenlabs';
 
 export interface CloudVoice {

@@ -10,7 +10,7 @@ export type AlertRepeat = Settings['focus.alertRepeat'];
 
 // v2's "Sound when a block ends" switch (`focus.endSound`) was the only way
 // to silence the end. Someone who turned it off keeps a silent end until
-// they choose in "When the timer ends", which sets that switch too (D158).
+// they choose in "When the timer ends", which sets that switch too.
 export function alertLevel(s: Pick<Settings, 'focus.endAlert' | 'focus.endSound'>): AlertLevel {
   return s['focus.endAlert'] === 'sound_visual' && s['focus.endSound'] === false ? 'visual' : s['focus.endAlert'];
 }

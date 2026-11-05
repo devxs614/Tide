@@ -7,7 +7,7 @@
 // "Leave without saving?" rule still applies; the marker goes straight back.
 // Closing never steps back through history by itself: flows often close a
 // sheet and navigate at once (Unstick → Focus), and a programmatic back
-// step raced that navigation (D176). The marker a closed overlay leaves is
+// step raced that navigation. The marker a closed overlay leaves is
 // handled on Maya's next Back instead, which carries on to where she meant
 // to go. None of these pops reach the Next.js router (a capture listener
 // stops them), and the URL never changes.

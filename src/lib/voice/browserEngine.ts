@@ -26,7 +26,7 @@ export interface SpeakEvents {
 }
 
 // A slightly unhurried pace sounds calmer; Settings' rate scales from it
-// (the team asked for a gentler voice, D57).
+// (the team asked for a gentler voice).
 const GENTLE_PACE = 0.9;
 const START_TIMEOUT_MS = 2000;
 

@@ -2,7 +2,7 @@
 
 // Particles for big celebrations (v2 spec 10.4): confetti (80 pieces,
 // gravity 0.9), slow sparkles, or light bubbles rising for Still. A small
-// canvas system written for Tide instead of adding canvas-confetti (D86):
+// canvas system written for Tide instead of adding canvas-confetti:
 // it's a few dozen lines, uses the theme's colors, runs for under three
 // seconds, and never catches a tap. It's only loaded with the overlay.
 import { useEffect, useRef } from 'react';

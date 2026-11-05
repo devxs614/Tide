@@ -2,7 +2,7 @@
 
 // A pill track with a sliding "thumb" behind the chosen option (v2 spec
 // 4.4). The thumb slides with a CSS spring instead of framer-motion's
-// layoutId, so it costs nothing on first load (D62). Each option is a radio
+// layoutId, so it costs nothing on first load. Each option is a radio
 // button, so arrow keys and screen readers work as expected.
 // At big text sizes the options can stop fitting side by side; rather than
 // squeeze or cut a label, it becomes a vertical list with the same radio

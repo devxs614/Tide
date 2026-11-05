@@ -1,7 +1,7 @@
 // The words for seeing, editing and deleting events (v2.1 F-04), including
 // the "only this / this and future / all" choices for weekly series. These
 // sheets load only when someone opens an event, so their words live here,
-// outside en.ts (D144). Same rules as en.ts: short sentences, no guilt.
+// outside en.ts. Same rules as en.ts: short sentences, no guilt.
 export const eventEditCopy = {
   edit: 'Edit',
   delete: 'Delete',

@@ -4,7 +4,7 @@
 // and Shore. Each tab is a link with an icon above a visible word; the
 // current one is marked for screen readers with aria-current, and on screen
 // by color, a filled icon and a pill that slides under it. The pill slides
-// with a CSS spring rather than an animation library (D62).
+// with a CSS spring rather than an animation library.
 // v2.3 Item 1: with "Check-in button: In the tab bar", a sixth item in the
 // middle opens the check-in instead of the floating button; with six items,
 // a narrow frame or big text shows icons only (each keeps its name, and a
@@ -35,7 +35,7 @@ function isActive(pathname: string, href: string): boolean {
 // v2.2 B-03: labels used `overflow-wrap: anywhere`, so at big text
 // "Patterns" split into "Patter ns". Now a label never breaks: it grows with
 // text size only up to 1.2×, like native tab bars, and never past a share of
-// the bar's width that "Patterns" always fits in (D205). At 100% nothing
+// the bar's width that "Patterns" always fits in. At 100% nothing
 // changes. Six items (v2.3) get a smaller share.
 const LINK =
   'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-0.5 pt-1.5 pb-2 text-center font-display leading-tight font-bold break-normal';

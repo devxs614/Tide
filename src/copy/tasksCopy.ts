@@ -1,6 +1,6 @@
 // Words for the Tasks board's v2.3 additions: the two board views and the
 // quick filters (v2.3 spec 5, 7). They live apart from en.ts because Today
-// never shows them, so they stay out of the first load of `/` (D144).
+// never shows them, so they stay out of the first load of `/`.
 export const tasksCopy = {
   boardView: 'Board view',
   boardViews: { swipe: 'Swipe between columns', list: 'One list' },

@@ -88,7 +88,7 @@ async function seedOnce(force: boolean, into: Dexie): Promise<SeedOutcome> {
     // added later can't be forgotten again (v2 had forgotten nothing yet,
     // but the clearing list and the schema were two lists). Settings keep
     // the presenter's own choices (text size, voice, speech style), as
-    // before; the seed's own keys are overwritten below (D214).
+    // before; the seed's own keys are overwritten below.
     for (const table of into.tables) if (table.name !== 'settings') await table.clear();
     for (const [name, rows] of Object.entries(seed.tables)) await into.table(name).bulkPut(rows);
     await settings.bulkPut(seed.settings);

@@ -37,7 +37,7 @@ function wrap(date: string, overall: Overall, helped: string[], hard: string[]):
 // Twelve of the 21 past days: the days with box breathing (the v1 seed has
 // five; four ended okay or good) and six without (one did), so
 // `wrapHelped:c-box` shows. Adding box-breathing uses to reach the spec's
-// six would change the v1 patterns, so the seed keeps v1's five (D112).
+// six would change the v1 patterns, so the seed keeps v1's five.
 export function demoDayWraps(strategyUses: StrategyUse[]): DayWrap[] {
   const boxDays = new Set(strategyUses.filter((u) => u.strategyId === 'c-box').map((u) => toISODate(u.ts)));
   const past = Array.from({ length: 21 }, (_, i) => toISODate(DEMO_START - (21 - i) * DAY));

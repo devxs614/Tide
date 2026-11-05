@@ -1,6 +1,6 @@
 // The words for the calendar (v2.1 F-10): the month and day views and
 // repeating events. The calendar loads on its own route, so these stay
-// out of Today's first load (D144). Same rules as en.ts.
+// out of Today's first load. Same rules as en.ts.
 export const calendarCopy = {
   title: 'Calendar',
   today: 'Today',

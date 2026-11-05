@@ -1,5 +1,5 @@
 // The v1 regression suite (`npm run test:v1`): exactly the test files that
-// existed at the v1-baseline tag, listed in docs/V1_INVENTORY.md. It has to
+// existed at the v1-baseline tag, listed below. It has to
 // stay green at the end of every v2 phase, so a v2 change that breaks a v1
 // behavior shows up on its own, not buried among the new tests.
 import { defineConfig, mergeConfig } from "vitest/config";
