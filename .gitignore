@@ -22,6 +22,7 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -44,8 +45,11 @@ yarn-error.log*
 /test-results/
 /playwright-report/
 
-# local Claude Code settings
-.claude/settings.local.json
+# Local files of coding tools and editors: never part of the project.
+# (next dev writes AGENTS.md by itself.)
+.claude/
+CLAUDE.md
+AGENTS.md
 
 # typescript
 *.tsbuildinfo
@@ -58,9 +62,10 @@ next-env.d.ts
 # Generated voice clips (npm run voice:clips). Remove this line to commit them.
 public/voice/
 
-# Layout audit screenshots and Playwright output (v2.1)
-e2e/__audit__/
-# Visual baseline screenshots (v2.2 sweep); their hashes are in e2e/visual-*-manifest.json
-e2e/__visual__/
+# Output of the audit, visual comparison and demo snapshot scripts:
+# screenshots, manifests and reports are made on demand, not committed.
+e2e/__*__/
+e2e/visual-*.json
+docs/audits/
 test-results/
 playwright-report/
