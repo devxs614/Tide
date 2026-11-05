@@ -20,6 +20,7 @@ import type { Script } from './types';
 import { freshProgress, runStep, type StepProgress } from './runStep';
 import { setFieldValue } from './actions';
 import { demoCopy } from '@/copy/demoCopy';
+import { barBottom } from './placement';
 
 export type DirectorMode = 'full' | 'pitch' | 'presenter';
 export type DirectorStatus = 'idle' | 'starting' | 'running' | 'paused' | 'finished' | 'exiting';
@@ -57,6 +58,15 @@ export interface EngineState extends DirectorState {
   needsTap: boolean;
   // A one-time line in the bar (no voice on this device).
   notice: string | null;
+  // The bar's distance from the bottom for this step: above the tab bar
+  // and the check-in button, fixed for the whole step (D-3).
+  hudBottom: number | null;
+  // The demo pointer: shown only while it glides to a tap and for the
+  // tap's ripple (D-3).
+  cursor: { el: HTMLElement; tap: boolean; ms: number } | null;
+  // Page-level companion bubbles and the caption bar stay out of a step
+  // that isn't about the companion; its lines still reach "last line".
+  companionQuiet: boolean;
 }
 
 export interface DirectorDeps {
@@ -78,7 +88,7 @@ export interface DirectorDeps {
 const INITIAL: EngineState = {
   status: 'idle', script: null, mode: 'full', presenter: false, running: false, paused: false, done: false, index: 0,
   speed: 1, captions: true, narration: false, caption: '', chapterTitle: '', target: null, hudTop: false, log: [],
-  needsTap: false, notice: null,
+  needsTap: false, notice: null, hudBottom: null, cursor: null, companionQuiet: false,
 };
 
 // Which way the state may move. Anything else is ignored (and noted in the
@@ -190,7 +200,7 @@ async function loop(mine: number) {
     const script = state.script!;
     if (state.index >= script.steps.length) {
       move('finished', 'last step');
-      set({ target: null, caption: '' });
+      set({ target: null, cursor: null, caption: '', companionQuiet: false });
       return;
     }
     const index = state.index;
@@ -212,6 +222,8 @@ async function loop(mine: number) {
     }
     if (controller.signal.aborted || mine !== run) continue;
     step = null;
+    // Whatever the step left running (a voice after a failed tap) stops.
+    controller.abort();
     const stop = stopAfterStep || (state.presenter && !!current.presenterPause);
     stopAfterStep = false;
     set({ log: [...state.log, { id: current.id, ok }], index: index + 1 });
@@ -299,7 +311,7 @@ export const director = {
     if (state.status !== 'idle') move('exiting', 'restart');
     state = { ...INITIAL };
     move('starting', 'start');
-    set({ script, mode, presenter: mode === 'presenter', captions: opts.captions ?? true, narration: opts.narration ?? false, speed: opts.speed ?? 1 });
+    set({ script, mode, presenter: mode === 'presenter', captions: opts.captions ?? true, narration: opts.narration ?? false, speed: opts.speed ?? 1, hudBottom: barBottom() });
     // With narration on and no tap on this page yet, the tour waits for
     // play: that tap is what lets the browser speak (D-2).
     if (opts.waitForTap && state.narration) set({ needsTap: true, caption: demoCopy.tapToStart });

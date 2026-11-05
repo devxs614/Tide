@@ -4273,3 +4273,36 @@ A testing note for whoever repeats this: Playwright's locators and
 `evaluate` run with a user gesture, so polling the page before the tour
 decides counts as the tap and the gate never shows. The check waits five
 seconds before touching the page.
+
+### D-3: overlaps and steps that went too fast
+**What I found.** The pitch cut capped every hold at 0.9 s and the old
+rule divided reading time by the speed, so captions could go by in under
+two seconds. The spotlight was placed 250 ms after its target appeared and
+then eased 300 ms behind it, so it framed where a sliding button had been.
+The pointer stayed on screen through typing and holds. The bar sat over
+the floating check-in button, and toasts appeared under the bar. While a
+celebration played, the caption stayed up.
+
+**Fix.** The pacing and the step order in D219: `pacing.ts`, `stable.ts`,
+a rewritten step runner, a spotlight that follows its target every frame
+and is clipped to the phone frame, a pointer shown only for the glide and
+the tap's ripple, the bar placed once per step above the bottom bars and
+reserving its space, one toast at a time above it, companion bubbles kept
+to the companion's steps, and no caption over a celebration.
+
+**What broke on the way, and how I found it.** Two things, both in the
+browser and not in the tests. The CSS rules didn't reach the build at
+first: Turbopack's build cache served an older `globals.css`, so the
+rebuild now clears `.next/cache/turbopack` first. And the full tour
+skipped `focus.nudgeYes`: with the longer caption, the focus block at 60×
+ended before the nudge was answered, so that fast-forward is 20× now.
+
+**Checked.** Ten new tests (the reading-time formula and speeds, the
+caption and its hold only after the target stops moving, never two
+spotlights and a gap between them, the spotlight ending on its target,
+the bar's place fixed for the step, its space reserved and the toast
+rules present, no caption during a celebration, companion steps, motion
+Off with no pointer and full holds). On the build, sampling every 150 ms:
+full tour 68 of 68 in 254 s, pitch cut 28 of 28 in 113 s, the bar never
+moving within a step, never two spotlights, no toast under the bar, no
+caption during a celebration, no page errors. 648 tests and v1's 164.

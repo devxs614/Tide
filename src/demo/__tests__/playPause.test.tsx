@@ -134,8 +134,8 @@ describe('pausing the full tour', () => {
     await vi.advanceTimersByTimeAsync(30_000);
     expect(field.value.length).toBe(typed);
     director.play();
-    // The spotlight's 250 ms settle runs again, then typing goes on.
-    await vi.advanceTimersByTimeAsync(300);
+    // The target settles again, then typing goes on from the next character.
+    for (let t = 0; t < 2000 && field.value.length === typed; t += 10) await vi.advanceTimersByTimeAsync(10);
     expect(field.value.length).toBe(typed + 1);
     expect(text.startsWith(field.value)).toBe(true);
     await vi.advanceTimersByTimeAsync(10_000);

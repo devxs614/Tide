@@ -107,6 +107,25 @@ export default function DemoRuntime() {
 
   useAutoPause(state.running);
 
+  // Marks the page while a tour runs (D-3), for the rules in globals.css:
+  // one toast at a time, above the bar; the page's end clear of the bar;
+  // and, in a step that isn't about the companion, its page bubbles and
+  // caption bar out of the way (its lines still go to "last line").
+  useEffect(() => {
+    const root = document.documentElement;
+    if (state.running && !state.done) root.dataset.demoRunning = '';
+    else delete root.dataset.demoRunning;
+    if (state.running && !state.done && state.companionQuiet) root.dataset.demoQuiet = '';
+    else delete root.dataset.demoQuiet;
+  }, [state.running, state.done, state.companionQuiet]);
+  useEffect(
+    () => () => {
+      delete document.documentElement.dataset.demoRunning;
+      delete document.documentElement.dataset.demoQuiet;
+    },
+    [],
+  );
+
   if (seedFailed)
     return (
       <section role="status" data-overlay="demo" className="card fixed inset-x-4 bottom-24 z-[calc(var(--z-demo)+2)] mx-auto flex max-w-[400px] flex-col gap-2 p-3">
@@ -120,7 +139,7 @@ export default function DemoRuntime() {
   return (
     <>
       <Spotlight target={state.target} />
-      <DemoCursor target={state.target} />
+      <DemoCursor cursor={state.cursor} />
       {state.done ? (
         <EndScreen onExplore={director.exit} onPitch={() => void start(state.presenter ? 'presenter' : 'pitch', PITCH)} />
       ) : (

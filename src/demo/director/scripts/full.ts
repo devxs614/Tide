@@ -5,6 +5,8 @@
 // and deleting a task, sounds and one check-in during focus, the shore's
 // time of day, and trying a look. The pitch cut reuses the shared step
 // lists below, which stay as they were.
+// Demo fix pack: `companion: true` marks the five steps about Lolo, the
+// only ones where the companion's bubbles may show (D-3).
 import { DEMO_CHECKIN_TEXT } from '@/data/demo/cachedResponses';
 import { DEMO_JUMP_TIME } from '@/lib/repo/demo';
 import { DEMO_START } from '@/lib/clock';
@@ -43,7 +45,7 @@ export const CHECKIN_STEPS: Step[] = [
   { id: 'checkin.frustrated', chapter: 'name', target: 'checkin-candidate-frustrated', action: { kind: 'click' } },
   { id: 'checkin.next2', chapter: 'name', target: 'checkin-next', action: { kind: 'click' } },
   { id: 'checkin.skip', chapter: 'name', target: 'checkin-skip', action: { kind: 'click' } },
-  { id: 'checkin.adjust', chapter: 'name', target: 'need-adjust', action: { kind: 'click' }, caption: 'Low energy and unpleasant: Ebb. Lolo stays close.', holdMs: 1200, presenterPause: true },
+  { id: 'checkin.adjust', companion: true, chapter: 'name', target: 'need-adjust', action: { kind: 'click' }, caption: 'Low energy and unpleasant: Ebb. Lolo stays close.', holdMs: 1200, presenterPause: true },
 ];
 
 export const LIGHTER_STEPS: Step[] = [
@@ -54,7 +56,7 @@ export const LIGHTER_STEPS: Step[] = [
 export const UNSTICK_STEPS: Step[] = [
   { id: 'unstick.setup', chapter: 'unstick', action: { kind: 'custom', name: 'stuckTask', args: { title: 'Chemistry lab report' } }, caption: 'Stuck is information, not failure.', holdMs: 900, presenterPause: true },
   { id: 'unstick.reason', chapter: 'unstick', target: 'unstick-reason-dont_know_start', action: { kind: 'click' }, caption: 'Same task, different state, different first step.', holdMs: 2000 },
-  { id: 'unstick.start', chapter: 'unstick', target: 'unstick-start', action: { kind: 'click' }, caption: 'Lolo works next to her, like a study buddy.', narrate: true },
+  { id: 'unstick.start', companion: true, chapter: 'unstick', target: 'unstick-start', action: { kind: 'click' }, caption: 'Lolo works next to her, like a study buddy.', narrate: true },
   { id: 'focus.start', chapter: 'unstick', target: 'focus-start', action: { kind: 'click' }, holdMs: 600 },
   // Fast-forward through the focus block. The pitch cut holds this for 4
   // seconds, so 400× covers blocks up to 26 minutes (the longest is 25);
@@ -103,12 +105,16 @@ const TASK_EDIT_STEPS: Step[] = [
 ];
 
 // Right after the block starts: the sounds panel (shown, not played), then
-// one "Earth to Maya!" card at 60×, answered "Yes, still on it". The end
+// one "Earth to Maya!" card at 20×, answered "Yes, still on it". The end
 // alert's glow comes by itself when the block ends.
 const FOCUS_EXTRA_STEPS: Step[] = [
   { id: 'focus.sounds', chapter: 'unstick', target: 'focus-sounds', action: { kind: 'click' }, caption: 'Background sounds, made right in the app.', holdMs: 1200 },
   { id: 'focus.soundsClose', chapter: 'unstick', target: 'sheet-close', action: { kind: 'click' }, holdMs: 300 },
-  { id: 'focus.nudgeSpeed', chapter: 'unstick', action: { kind: 'setSpeed', multiplier: 60 }, holdMs: 300 },
+  // 20×, not 60× (demo fix pack): the nudge's caption now stays up for its
+  // reading time, about 4.4 s instead of 1.5 s, and at 60× the focus block
+  // ended before "Yes, still on it" could be pressed. 20× passes the same
+  // minute and a half of the block as before.
+  { id: 'focus.nudgeSpeed', chapter: 'unstick', action: { kind: 'setSpeed', multiplier: 20 }, holdMs: 300 },
   { id: 'focus.nudge', chapter: 'unstick', action: { kind: 'custom', name: 'triggerNudge' }, caption: 'Optional, gentle check-ins if attention drifts.', holdMs: 1500, hud: 'top' },
   { id: 'focus.nudgeYes', chapter: 'unstick', target: 'nudge-yes', action: { kind: 'click' }, holdMs: 500 },
 ];
@@ -133,8 +139,8 @@ export const FULL: Script = {
     setup('hello', '/', DEMO_START - 2 * 60_000),
     { id: 'hello.say', chapter: 'hello', action: { kind: 'say' }, caption: 'This is Tide: a calm place to plan around how you actually feel.', narrate: true, holdMs: 2500 },
     setup('yours', '/companion', DEMO_START - 2 * 60_000),
-    { id: 'yours.species', chapter: 'yours', target: 'companion-hero', action: { kind: 'custom', name: 'cycleSpecies' }, caption: 'Everyone picks a companion, or none at all.', holdMs: 300 },
-    { id: 'yours.tap', chapter: 'yours', target: 'companion-hero', action: { kind: 'click' }, caption: 'Lolo is an axolotl, from the canals of Xochimilco.', holdMs: 1500 },
+    { id: 'yours.species', companion: true, chapter: 'yours', target: 'companion-hero', action: { kind: 'custom', name: 'cycleSpecies' }, caption: 'Everyone picks a companion, or none at all.', holdMs: 300 },
+    { id: 'yours.tap', companion: true, chapter: 'yours', target: 'companion-hero', action: { kind: 'click' }, caption: 'Lolo is an axolotl, from the canals of Xochimilco.', holdMs: 1500 },
     { id: 'yours.themes', chapter: 'yours', action: { kind: 'navigate', path: '/settings/appearance' } },
     { id: 'yours.cycle', chapter: 'yours', target: 'theme-grid', action: { kind: 'custom', name: 'cycleThemes' }, caption: 'Fifteen themes, every one checked for readable contrast.', holdMs: 800 },
     ...CHECKIN_STEPS,
@@ -146,7 +152,7 @@ export const FULL: Script = {
     ...PATTERN_STEPS,
     ...after(SHORE_STEPS, 'shore.scene', SHORE_TIME_STEPS),
     setup('wrap', '/wrap', EVENING),
-    { id: 'wrap.start', chapter: 'wrap', target: 'wrap-start', action: { kind: 'click' }, caption: 'In the evening, Lolo helps her close the day.', holdMs: 1200 },
+    { id: 'wrap.start', companion: true, chapter: 'wrap', target: 'wrap-start', action: { kind: 'click' }, caption: 'In the evening, Lolo helps her close the day.', holdMs: 1200 },
     { id: 'wrap.skip1', chapter: 'wrap', target: 'wrap-skip', action: { kind: 'click' }, holdMs: 400 },
     { id: 'wrap.tide', chapter: 'wrap', target: 'wrap-skip', action: { kind: 'waitFor' }, caption: 'Her day as a tide: heavy at first, calmer by night.', holdMs: 2500, presenterPause: true },
     setup('comfort', '/settings', EVENING + 5 * 60_000),

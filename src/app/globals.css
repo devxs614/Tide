@@ -732,3 +732,29 @@ html[data-motion="calm"] .count-in {
 @keyframes count-flip {
   from { opacity: 0; transform: rotateX(80deg); }
 }
+
+/* The guided demo, while a tour runs (demo fix pack, D-3). The tour sets
+   data-demo-running on <html>, and its bar writes --demo-hud-clear (how much
+   of the bottom it covers) while it sits at the bottom. Outside a tour
+   neither exists, so none of this applies.
+   - One toast at a time (the newest), lifted above the bar. Sonner sets
+     its offset inline; a custom property with !important wins over that.
+   - The end of the page scrolls clear of the bar as well as the tab bar.
+   - In a step that isn't about the companion (data-demo-quiet), its page
+     bubbles and the caption bar stay hidden; its lines are still recorded
+     for "What did {name} say?". In-page lines (the Focus slot) stay. */
+html[data-demo-running] [data-sonner-toast][data-front='false'] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+html[data-demo-running] [data-sonner-toaster] {
+  --offset-bottom: max(168px, var(--demo-hud-clear, 0px)) !important;
+  --mobile-offset-bottom: max(10rem, var(--demo-hud-clear, 0px)) !important;
+}
+html[data-demo-running] main#main {
+  padding-bottom: max(12rem, calc(var(--bottom-insets, 0px) + 1rem), var(--demo-hud-clear, 0px));
+}
+html[data-demo-quiet] [data-overlay='bubble'],
+html[data-demo-quiet] [data-companion-caption] {
+  display: none;
+}

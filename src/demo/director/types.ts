@@ -30,6 +30,12 @@ export interface Step {
   hud?: 'top';
   // Spotlight the target if it's on screen, but carry on without it.
   optionalTarget?: boolean;
+  // The step is about the companion, so its bubbles may show (demo fix
+  // pack, D-3); in every other step they stay out of the way.
+  companion?: boolean;
+  // The caption's reading time and narration run while the action does,
+  // not after it (D-4: the three themes share one caption).
+  holdDuringAction?: boolean;
 }
 
 export interface Script {

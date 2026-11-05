@@ -27,7 +27,9 @@ export interface ScriptSnapshot {
   steps: StepSnapshot[];
 }
 
-const TIMING_KEYS = ['ms', 'cps', 'timeoutMs'];
+// How long or how fast: a wait, typing speed, a search timeout, and the
+// demo clock's speed during a fast-forward.
+const TIMING_KEYS = ['ms', 'cps', 'timeoutMs', 'multiplier'];
 
 function stepSnapshot(step: Step): StepSnapshot {
   const { kind, ...rest } = step.action as { kind: string } & Record<string, unknown>;
@@ -39,7 +41,7 @@ function stepSnapshot(step: Step): StepSnapshot {
   }
   if (step.holdMs !== undefined) timing.holdMs = step.holdMs;
   const meta: Record<string, unknown> = {};
-  for (const key of ['narrate', 'presenterPause', 'hud', 'optionalTarget', 'stable'] as const) {
+  for (const key of ['narrate', 'presenterPause', 'hud', 'optionalTarget', 'companion', 'holdDuringAction'] as const) {
     if (step[key as keyof Step] !== undefined) meta[key] = step[key as keyof Step];
   }
   return { chapter: step.chapter, id: step.id, caption: step.caption ?? null, action: kind, target: step.target ?? null, details, timing, meta };

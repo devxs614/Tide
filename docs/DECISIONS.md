@@ -1652,3 +1652,30 @@ itself as before. I could only test Chrome (headless, which has voices);
 Edge and Safari are on the rehearsal list. Rejected: avoiding the reload
 (the database is chosen at load), and speaking the first caption as the
 primer (it would be read before the tour starts).
+
+**D219 — 2026-11-05 — Pacing: reading time from a settled screen; one thing at a time.**
+Demo fix pack D-3. Every caption stays up at least
+`clamp(1800 + 55 × characters, 2500, 9000)` ms (reading divided by at most
+1.25 at faster speeds; looking time by the full speed), counted from the
+moment the screen has settled; silent steps keep their hold with a 600 ms
+floor; typing never goes past 18 characters a second at 1×.
+`waitForStable` waits for the target's box to hold still for three frames,
+its animations to finish and any theme crossfade to fade, up to 2.5 s.
+Within a step: the last spotlight and pointer go, the target is found and
+settles, the bar takes its place for the whole step, the caption and the
+spotlight appear together, the pointer glides and taps (it's hidden while
+typing and holding), the result settles, a celebration plays out with the
+caption hidden, and then the hold starts. A step with nothing to point at
+acts first and shows its caption on the page it leads to. The bar sits
+above the bottom bars (measured, not read from `--bottom-insets`, which
+was sometimes unset) and goes to the top when its target would be under
+it. While a tour runs, CSS keyed on `html[data-demo-running]` keeps one
+toast at a time above the bar and pads the page's end clear of it, and
+`html[data-demo-quiet]` hides the companion's page bubbles and caption bar
+in steps that aren't about the companion (five steps are marked), without
+touching its settings. All of this is CSS or lives in the demo's own
+chunk, because `/` is 0.1 KB under its 300 KB budget. One timing value
+changed in the script: the nudge's fast-forward runs at 20× instead of
+60×, since the nudge's caption now stays up 4.4 s instead of 1.5 s and at
+60× the focus block ended before "Yes, still on it" was pressed.
+Rejected: changing the focus block's length or the step order.
