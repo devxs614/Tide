@@ -13,5 +13,7 @@ export function bottomBarsHeight(): number {
 }
 
 export function barBottom(): number {
-  return Math.max(96, Math.round(bottomBarsHeight() + 8));
+  // 16 px clear, so the check-in button can grow back from its smaller
+  // size without touching the bar.
+  return Math.max(96, Math.round(bottomBarsHeight() + 16));
 }

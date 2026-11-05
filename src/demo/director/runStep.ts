@@ -170,17 +170,22 @@ export async function runStep(step: Step, p: StepProgress, signal: AbortSignal, 
     }
   }
   throwIfAborted(signal);
+  ctx.note(`${step.id}: ${target ? 'target found' : 'no target'}`);
   if (target && !p.actionDone) target.scrollIntoView({ block: 'center', behavior: motionOff() ? 'auto' : 'smooth' });
   if (target) await settle(target, signal, ctx, `${step.id} target`);
 
   let placed = false;
   const show = () => {
+    const place = placed ? { hudTop: get().hudTop, hudBottom: get().hudBottom } : placeBar(step, target);
     set({
-      ...(placed ? {} : placeBar(step, target)),
+      ...place,
       chapterTitle: chapter?.title ?? '',
       caption: step.caption ?? get().caption,
       target,
-      companionQuiet: !step.companion,
+      // The companion's page bubbles and caption bar show only in a step
+      // about the companion, and not while the bar sits at the top, where
+      // they live too.
+      companionQuiet: !step.companion || place.hudTop,
     });
     placed = true;
   };
@@ -204,9 +209,11 @@ export async function runStep(step: Step, p: StepProgress, signal: AbortSignal, 
   if (!p.actionDone) {
     await act(step, target, p, signal, ctx);
     p.actionDone = true;
+    ctx.note(`${step.id}: acted`);
     if (a.kind !== 'waitFor' && a.kind !== 'say') await settle(whatChanged(target), signal, ctx, `${step.id} result`);
     await afterCelebration(signal, ctx);
   }
+  ctx.note(`${step.id}: holding`);
   if (!target && !step.holdDuringAction) show();
   await (during ?? holdAndNarrate(step, p, signal, ctx));
 }

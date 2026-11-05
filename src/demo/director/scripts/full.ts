@@ -85,10 +85,13 @@ export const SHORE_STEPS: Step[] = [
 ];
 
 // v2.1, full tour only. After the gentle plan: the month, then a day ahead.
+// At 130% text and up the month is a list without day cells, so the day
+// and its Back button are optional there (demo fix pack): the tour moves on
+// instead of searching four seconds for each and showing "…".
 const CALENDAR_STEPS: Step[] = [
   { id: 'calendar.open', chapter: 'lighter', target: 'today-calendar', action: { kind: 'click' }, caption: "A month view for what's coming. The day view is still the heart.", holdMs: 1200 },
-  { id: 'calendar.day', chapter: 'lighter', target: 'calendar-day-2026-11-12', action: { kind: 'click' }, holdMs: 2500 },
-  { id: 'calendar.back', chapter: 'lighter', target: 'calendar-back', action: { kind: 'click' }, holdMs: 800, presenterPause: true },
+  { id: 'calendar.day', chapter: 'lighter', target: 'calendar-day-2026-11-12', optionalTarget: true, action: { kind: 'click' }, holdMs: 2500 },
+  { id: 'calendar.back', chapter: 'lighter', target: 'calendar-back', optionalTarget: true, action: { kind: 'click' }, holdMs: 800, presenterPause: true },
 ];
 
 // Before Stuck: rename one task, delete another (history kept), and the

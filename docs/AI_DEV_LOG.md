@@ -4328,3 +4328,51 @@ any that timed out, narration (voices found, speaking, retries, skips,
 stops) and theme changes, with "Copy log" to paste it into a message.
 The engine keeps the log from the tour's first moment. One new test;
 654 tests and v1's 164; the pitch cut 28 of 28 with the new panel.
+
+## After demo fixes
+2026-11-05
+
+**The script.** `docs/audits/demo-script-after.json` against the "before"
+file: the same 11 chapters, the same 68 and 28 steps in the same order,
+every caption word for word, the same actions and targets. What changed
+is playback only: five steps marked as about the companion, the theme
+step's shared caption, the two calendar steps optional (at 130% text the
+month is a list with no day cells, so they used to search for 4 s each
+and show "…"), and the nudge's fast-forward at 20×. A test now holds the
+scripts to that, from a copy of the "before" file next to it.
+
+**The runs, on the production build in headless Chrome:**
+- Autoplay, narration off, twice each: pitch cut 28/28 in 114 and 111 s
+  at 1×, 88 and 85 s at 2×; full tour 68/68 in 250 and 245 s at 1×, 191
+  and 187 s at 2×. No AI requests.
+- Narration on: pitch cut 111 s twice and 87 s at 2×, all 15 captions
+  spoken start to end; full tour 249 and 248 s, all 29 captions.
+- Presenter mode, pressing → at each stop: 68/68, 20 stops, 269 and 270 s.
+- Overlap sampling: at 130% text, with each speech style, and with the
+  check-in button in the tab bar or hidden: the bar never moved within a
+  step and no toast went under it. Three findings, fixed: the check-in
+  button could touch the bar's bottom edge as it grew back (the bar now
+  keeps 16 px clear), a companion bubble could show next to the bar when
+  the bar was at the top (bubbles now stay out whenever it is), and the
+  calendar steps above.
+- The main database: a task in it, a whole tour in the demo workspace,
+  "Leave demo": every table's count unchanged. Leaving with Esc and with
+  the X while paused both end the tour cleanly.
+
+**The durations.** Against v2.3: the full tour went from 180 s to about
+250 s at 1× (+38%), the pitch cut from 80 s to about 113 s (+41%). At 2×
+they grew more (95 → 189 s, 42 → 87 s), because reading time only speeds
+up to 1.25×. The pitch cut is now longer than the 100 seconds of the
+live pitch, so for the pitch itself presenter mode is the better choice.
+
+**Not resolved.** Twice during the battery, a run took far longer than
+it should: the full tour at 130% stopped making progress at the Day Mode
+step for minutes, and one pitch run took 436 s instead of 113 s. Neither
+came back in three more runs (the full tour at 130% finished in 258 s
+each time), and the debug log had no step that was waiting. I added a
+note for each phase of a step (target found, acted, holding) to the
+rehearsal log, so if it happens on the team's laptop, "Copy log" shows
+where. It's in the rehearsal checklist.
+
+Totals: 659 tests in 112 files, v1's 164 in 33, lint and typecheck
+clean, `/` at 299.9 KB.

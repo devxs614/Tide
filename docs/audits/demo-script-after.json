@@ -1,0 +1,1443 @@
+{
+  "full": {
+    "id": "full",
+    "chapters": [
+      {
+        "id": "hello",
+        "title": "Hello"
+      },
+      {
+        "id": "yours",
+        "title": "Make it yours"
+      },
+      {
+        "id": "name",
+        "title": "Name it"
+      },
+      {
+        "id": "lighter",
+        "title": "A lighter day"
+      },
+      {
+        "id": "unstick",
+        "title": "Unstick and focus"
+      },
+      {
+        "id": "switch",
+        "title": "The switch"
+      },
+      {
+        "id": "patterns",
+        "title": "What works for her"
+      },
+      {
+        "id": "shore",
+        "title": "Your Shore"
+      },
+      {
+        "id": "wrap",
+        "title": "Close the day"
+      },
+      {
+        "id": "comfort",
+        "title": "Comfortable for every brain"
+      },
+      {
+        "id": "safety",
+        "title": "Safety"
+      }
+    ],
+    "steps": [
+      {
+        "chapter": "hello",
+        "id": "hello.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/",
+            "ts": 1793914680000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "hello",
+        "id": "hello.say",
+        "caption": "This is Tide: a calm place to plan around how you actually feel.",
+        "action": "say",
+        "target": null,
+        "details": {},
+        "timing": {
+          "holdMs": 2500
+        },
+        "meta": {
+          "narrate": true
+        }
+      },
+      {
+        "chapter": "yours",
+        "id": "yours.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/companion",
+            "ts": 1793914680000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "yours",
+        "id": "yours.species",
+        "caption": "Everyone picks a companion, or none at all.",
+        "action": "custom",
+        "target": "companion-hero",
+        "details": {
+          "name": "cycleSpecies"
+        },
+        "timing": {
+          "holdMs": 300
+        },
+        "meta": {
+          "companion": true
+        }
+      },
+      {
+        "chapter": "yours",
+        "id": "yours.tap",
+        "caption": "Lolo is an axolotl, from the canals of Xochimilco.",
+        "action": "click",
+        "target": "companion-hero",
+        "details": {},
+        "timing": {
+          "holdMs": 1500
+        },
+        "meta": {
+          "companion": true
+        }
+      },
+      {
+        "chapter": "yours",
+        "id": "yours.themes",
+        "caption": null,
+        "action": "navigate",
+        "target": null,
+        "details": {
+          "path": "/settings/appearance"
+        },
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "yours",
+        "id": "yours.cycle",
+        "caption": "Fifteen themes, every one checked for readable contrast.",
+        "action": "custom",
+        "target": "theme-grid",
+        "details": {
+          "name": "cycleThemes"
+        },
+        "timing": {
+          "holdMs": 800
+        },
+        "meta": {
+          "holdDuringAction": true
+        }
+      },
+      {
+        "chapter": "name",
+        "id": "name.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/",
+            "ts": 1793914680000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.open",
+        "caption": "Maya checks in in her own words.",
+        "action": "custom",
+        "target": "fab-checkin",
+        "details": {
+          "name": "openCheckIn"
+        },
+        "timing": {},
+        "meta": {
+          "narrate": true,
+          "optionalTarget": true
+        }
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.type",
+        "caption": null,
+        "action": "type",
+        "target": "checkin-text",
+        "details": {
+          "text": "Lab report due tomorrow. I keep opening it and closing it. Heavy. Annoyed at myself."
+        },
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.next",
+        "caption": "Tide suggests words. It never decides for her.",
+        "action": "click",
+        "target": "checkin-next",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.drained",
+        "caption": "She picks what fits and places it on the map.",
+        "action": "click",
+        "target": "checkin-candidate-drained",
+        "details": {},
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.frustrated",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-candidate-frustrated",
+        "details": {},
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.next2",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-next",
+        "details": {},
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.skip",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-skip",
+        "details": {},
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.adjust",
+        "caption": "Low energy and unpleasant: Ebb. Lolo stays close.",
+        "action": "click",
+        "target": "need-adjust",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {
+          "presenterPause": true,
+          "companion": true
+        }
+      },
+      {
+        "chapter": "lighter",
+        "id": "daymode.gentle",
+        "caption": "Her plan shrinks to fit her energy, but only with her yes.",
+        "action": "click",
+        "target": "daymode-gentle",
+        "details": {},
+        "timing": {
+          "holdMs": 1500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "lighter",
+        "id": "daymode.apply",
+        "caption": null,
+        "action": "click",
+        "target": "daymode-apply",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "lighter",
+        "id": "calendar.open",
+        "caption": "A month view for what's coming. The day view is still the heart.",
+        "action": "click",
+        "target": "today-calendar",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "lighter",
+        "id": "calendar.day",
+        "caption": null,
+        "action": "click",
+        "target": "calendar-day-2026-11-12",
+        "details": {},
+        "timing": {
+          "holdMs": 2500
+        },
+        "meta": {
+          "optionalTarget": true
+        }
+      },
+      {
+        "chapter": "lighter",
+        "id": "calendar.back",
+        "caption": null,
+        "action": "click",
+        "target": "calendar-back",
+        "details": {},
+        "timing": {
+          "holdMs": 800
+        },
+        "meta": {
+          "presenterPause": true,
+          "optionalTarget": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.board",
+        "caption": "Tasks can be edited or deleted anytime, with an undo.",
+        "action": "click",
+        "target": "tab-tasks",
+        "details": {},
+        "timing": {
+          "holdMs": 600
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.open",
+        "caption": null,
+        "action": "click",
+        "target": "task-open-demo-group-chat",
+        "details": {},
+        "timing": {
+          "holdMs": 500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.edit",
+        "caption": null,
+        "action": "click",
+        "target": "task-detail-edit",
+        "details": {},
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.title",
+        "caption": null,
+        "action": "type",
+        "target": "task-title",
+        "details": {
+          "text": "Reply to group chat about slides"
+        },
+        "timing": {
+          "cps": 30,
+          "holdMs": 300
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.save",
+        "caption": null,
+        "action": "click",
+        "target": "task-edit-save",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.laundry",
+        "caption": null,
+        "action": "click",
+        "target": "task-open-demo-laundry",
+        "details": {},
+        "timing": {
+          "holdMs": 500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.delete",
+        "caption": null,
+        "action": "click",
+        "target": "task-detail-delete",
+        "details": {},
+        "timing": {
+          "holdMs": 500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "tasks.confirm",
+        "caption": null,
+        "action": "click",
+        "target": "task-delete-confirm",
+        "details": {},
+        "timing": {
+          "holdMs": 2000
+        },
+        "meta": {
+          "presenterPause": true,
+          "hud": "top"
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.setup",
+        "caption": "Stuck is information, not failure.",
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "stuckTask",
+          "args": {
+            "title": "Chemistry lab report"
+          }
+        },
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.reason",
+        "caption": "Same task, different state, different first step.",
+        "action": "click",
+        "target": "unstick-reason-dont_know_start",
+        "details": {},
+        "timing": {
+          "holdMs": 2000
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.start",
+        "caption": "Lolo works next to her, like a study buddy.",
+        "action": "click",
+        "target": "unstick-start",
+        "details": {},
+        "timing": {},
+        "meta": {
+          "narrate": true,
+          "companion": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.start",
+        "caption": null,
+        "action": "click",
+        "target": "focus-start",
+        "details": {},
+        "timing": {
+          "holdMs": 600
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.sounds",
+        "caption": "Background sounds, made right in the app.",
+        "action": "click",
+        "target": "focus-sounds",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.soundsClose",
+        "caption": null,
+        "action": "click",
+        "target": "sheet-close",
+        "details": {},
+        "timing": {
+          "holdMs": 300
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.nudgeSpeed",
+        "caption": null,
+        "action": "setSpeed",
+        "target": null,
+        "details": {},
+        "timing": {
+          "multiplier": 20,
+          "holdMs": 300
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.nudge",
+        "caption": "Optional, gentle check-ins if attention drifts.",
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "triggerNudge"
+        },
+        "timing": {
+          "holdMs": 1500
+        },
+        "meta": {
+          "hud": "top"
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.nudgeYes",
+        "caption": null,
+        "action": "click",
+        "target": "nudge-yes",
+        "details": {},
+        "timing": {
+          "holdMs": 500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.fast",
+        "caption": null,
+        "action": "setSpeed",
+        "target": null,
+        "details": {},
+        "timing": {
+          "multiplier": 400,
+          "holdMs": 5000
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.normal",
+        "caption": null,
+        "action": "setSpeed",
+        "target": null,
+        "details": {},
+        "timing": {
+          "multiplier": 1
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.outcome",
+        "caption": "Celebrations match how she feels. No confetti on a low day.",
+        "action": "click",
+        "target": "focus-outcome-got_going",
+        "details": {},
+        "timing": {
+          "holdMs": 2000
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "switch",
+        "id": "switch.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/",
+            "ts": 1793918460000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.ready",
+        "caption": "Ten minutes before class, Tide helps her switch.",
+        "action": "click",
+        "target": "bridge-get-ready",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.park",
+        "caption": "She parks where she left off, so coming back is easy.",
+        "action": "type",
+        "target": "bridge-parking",
+        "details": {
+          "text": "methods, paragraph 2"
+        },
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.done",
+        "caption": null,
+        "action": "click",
+        "target": "bridge-done",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "patterns",
+        "id": "patterns.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/patterns",
+            "ts": 1793919060000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "patterns",
+        "id": "patterns.card",
+        "caption": "Over time, Tide learns what actually works for her.",
+        "action": "waitFor",
+        "target": "pattern-card",
+        "details": {},
+        "timing": {
+          "timeoutMs": 6000,
+          "holdMs": 2500
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/shore",
+            "ts": 1793919360000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.scene",
+        "caption": "Every win washes up on her shore. Nothing is ever lost.",
+        "action": "waitFor",
+        "target": "shore-scene",
+        "details": {},
+        "timing": {
+          "holdMs": 3500
+        },
+        "meta": {
+          "narrate": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.time",
+        "caption": null,
+        "action": "click",
+        "target": "shore-time",
+        "details": {},
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.sunset",
+        "caption": "Choose the light that feels right.",
+        "action": "click",
+        "target": "shore-time-sunset",
+        "details": {},
+        "timing": {
+          "holdMs": 2000
+        },
+        "meta": {
+          "hud": "top"
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.time2",
+        "caption": null,
+        "action": "click",
+        "target": "shore-time",
+        "details": {},
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.auto",
+        "caption": null,
+        "action": "click",
+        "target": "shore-time-auto",
+        "details": {},
+        "timing": {
+          "holdMs": 600
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.collection",
+        "caption": "A collection, not a score. No streaks. No points.",
+        "action": "waitFor",
+        "target": "shore-collection",
+        "details": {},
+        "timing": {
+          "holdMs": 2000
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "wrap",
+        "id": "wrap.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/wrap",
+            "ts": 1793932500000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "wrap",
+        "id": "wrap.start",
+        "caption": "In the evening, Lolo helps her close the day.",
+        "action": "click",
+        "target": "wrap-start",
+        "details": {},
+        "timing": {
+          "holdMs": 1200
+        },
+        "meta": {
+          "companion": true
+        }
+      },
+      {
+        "chapter": "wrap",
+        "id": "wrap.skip1",
+        "caption": null,
+        "action": "click",
+        "target": "wrap-skip",
+        "details": {},
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "wrap",
+        "id": "wrap.tide",
+        "caption": "Her day as a tide: heavy at first, calmer by night.",
+        "action": "waitFor",
+        "target": "wrap-skip",
+        "details": {},
+        "timing": {
+          "holdMs": 2500
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/settings",
+            "ts": 1793932800000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.low",
+        "caption": "One tap for a low-sensory version of the whole app.",
+        "action": "click",
+        "target": "settings-preset-lowSensory",
+        "details": {},
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.apply",
+        "caption": null,
+        "action": "click",
+        "target": "settings-preset-apply",
+        "details": {},
+        "timing": {
+          "holdMs": 2200
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.restore",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "restoreCalm"
+        },
+        "timing": {
+          "holdMs": 600
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.looks",
+        "caption": null,
+        "action": "navigate",
+        "target": null,
+        "details": {
+          "path": "/settings/appearance"
+        },
+        "timing": {},
+        "meta": {}
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.try",
+        "caption": "Try a look for a moment, then go back to exactly yours.",
+        "action": "click",
+        "target": "look-sunset_lively",
+        "details": {},
+        "timing": {
+          "holdMs": 1500
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "comfort",
+        "id": "comfort.back",
+        "caption": null,
+        "action": "click",
+        "target": "look-back",
+        "details": {},
+        "timing": {
+          "holdMs": 800
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "safety",
+        "id": "safety.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/support?crisis=1&preview=1",
+            "ts": 1793932860000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "safety",
+        "id": "safety.say",
+        "caption": "If someone writes about being in danger, coaching stops and real help comes first.",
+        "action": "say",
+        "target": null,
+        "details": {},
+        "timing": {
+          "holdMs": 3000
+        },
+        "meta": {
+          "narrate": true
+        }
+      },
+      {
+        "chapter": "safety",
+        "id": "end.home",
+        "caption": "Tide plans for the brain you have right now.",
+        "action": "navigate",
+        "target": null,
+        "details": {
+          "path": "/"
+        },
+        "timing": {
+          "holdMs": 1500
+        },
+        "meta": {
+          "narrate": true
+        }
+      }
+    ]
+  },
+  "pitch": {
+    "id": "pitch",
+    "chapters": [
+      {
+        "id": "name",
+        "title": "Name it"
+      },
+      {
+        "id": "lighter",
+        "title": "A lighter day"
+      },
+      {
+        "id": "unstick",
+        "title": "Unstick and focus"
+      },
+      {
+        "id": "switch",
+        "title": "The switch"
+      },
+      {
+        "id": "patterns",
+        "title": "What works for her"
+      },
+      {
+        "id": "shore",
+        "title": "Your Shore"
+      }
+    ],
+    "steps": [
+      {
+        "chapter": "name",
+        "id": "name.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/",
+            "ts": 1793914680000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.open",
+        "caption": "Maya checks in in her own words.",
+        "action": "custom",
+        "target": "fab-checkin",
+        "details": {
+          "name": "openCheckIn"
+        },
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {
+          "narrate": true,
+          "optionalTarget": true
+        }
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.type",
+        "caption": null,
+        "action": "type",
+        "target": "checkin-text",
+        "details": {
+          "text": "Lab report due tomorrow. I keep opening it and closing it. Heavy. Annoyed at myself."
+        },
+        "timing": {
+          "cps": 35,
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.next",
+        "caption": "Tide suggests words. It never decides for her.",
+        "action": "click",
+        "target": "checkin-next",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.drained",
+        "caption": "She picks what fits and places it on the map.",
+        "action": "click",
+        "target": "checkin-candidate-drained",
+        "details": {},
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.frustrated",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-candidate-frustrated",
+        "details": {},
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.next2",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-next",
+        "details": {},
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.skip",
+        "caption": null,
+        "action": "click",
+        "target": "checkin-skip",
+        "details": {},
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "name",
+        "id": "checkin.adjust",
+        "caption": "Low energy and unpleasant: Ebb. Lolo stays close.",
+        "action": "click",
+        "target": "need-adjust",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true,
+          "companion": true
+        }
+      },
+      {
+        "chapter": "lighter",
+        "id": "daymode.gentle",
+        "caption": "Her plan shrinks to fit her energy, but only with her yes.",
+        "action": "click",
+        "target": "daymode-gentle",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "lighter",
+        "id": "daymode.apply",
+        "caption": null,
+        "action": "click",
+        "target": "daymode-apply",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.setup",
+        "caption": "Stuck is information, not failure.",
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "stuckTask",
+          "args": {
+            "title": "Chemistry lab report"
+          }
+        },
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.reason",
+        "caption": "Same task, different state, different first step.",
+        "action": "click",
+        "target": "unstick-reason-dont_know_start",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "unstick.start",
+        "caption": "Lolo works next to her, like a study buddy.",
+        "action": "click",
+        "target": "unstick-start",
+        "details": {},
+        "timing": {
+          "holdMs": 700
+        },
+        "meta": {
+          "narrate": true,
+          "companion": true
+        }
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.start",
+        "caption": null,
+        "action": "click",
+        "target": "focus-start",
+        "details": {},
+        "timing": {
+          "holdMs": 600
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.fast",
+        "caption": null,
+        "action": "setSpeed",
+        "target": null,
+        "details": {},
+        "timing": {
+          "multiplier": 400,
+          "holdMs": 4000
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.normal",
+        "caption": null,
+        "action": "setSpeed",
+        "target": null,
+        "details": {},
+        "timing": {
+          "multiplier": 1,
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "unstick",
+        "id": "focus.outcome",
+        "caption": "Celebrations match how she feels. No confetti on a low day.",
+        "action": "click",
+        "target": "focus-outcome-got_going",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "switch",
+        "id": "switch.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/",
+            "ts": 1793918460000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.ready",
+        "caption": "Ten minutes before class, Tide helps her switch.",
+        "action": "click",
+        "target": "bridge-get-ready",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.park",
+        "caption": "She parks where she left off, so coming back is easy.",
+        "action": "type",
+        "target": "bridge-parking",
+        "details": {
+          "text": "methods, paragraph 2"
+        },
+        "timing": {
+          "cps": 35,
+          "holdMs": 700
+        },
+        "meta": {}
+      },
+      {
+        "chapter": "switch",
+        "id": "bridge.done",
+        "caption": null,
+        "action": "click",
+        "target": "bridge-done",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "patterns",
+        "id": "patterns.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/patterns",
+            "ts": 1793919060000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "patterns",
+        "id": "patterns.card",
+        "caption": "Over time, Tide learns what actually works for her.",
+        "action": "waitFor",
+        "target": "pattern-card",
+        "details": {},
+        "timing": {
+          "timeoutMs": 6000,
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.setup",
+        "caption": null,
+        "action": "custom",
+        "target": null,
+        "details": {
+          "name": "setupChapter",
+          "args": {
+            "path": "/shore",
+            "ts": 1793919360000
+          }
+        },
+        "timing": {
+          "holdMs": 400
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.scene",
+        "caption": "Every win washes up on her shore. Nothing is ever lost.",
+        "action": "waitFor",
+        "target": "shore-scene",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "narrate": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "shore.collection",
+        "caption": "A collection, not a score. No streaks. No points.",
+        "action": "waitFor",
+        "target": "shore-collection",
+        "details": {},
+        "timing": {
+          "holdMs": 900
+        },
+        "meta": {
+          "presenterPause": true
+        }
+      },
+      {
+        "chapter": "shore",
+        "id": "pitch.close",
+        "caption": "Tide plans for the brain you have right now.",
+        "action": "say",
+        "target": null,
+        "details": {},
+        "timing": {
+          "holdMs": 2500
+        },
+        "meta": {
+          "narrate": true
+        }
+      }
+    ]
+  }
+}
