@@ -87,12 +87,12 @@ Inside the product, Tide calls Anthropic's Claude API for feeling words, first s
 
 ## Team
 
-- <Team member 1 — role>
-- <Team member 2 — role>
-- <Team member 3 — role>
+- Danny Alejandro Barahona Reyes
+- Dorian Daniela González Méndez
+- Axel Alexander Cortes Romero
+- Kena Sofía Lira Olivares
 
-<University.> <How we split the work and collaborated, in a few honest sentences.>
-
+Tec de Monterrey, Campus MTY
 ## Credits and licenses
 
 Libraries and their licenses are listed in [docs/AI_USE.md](docs/AI_USE.md). Fonts: Atkinson Hyperlegible (Braille Institute), Nunito and Lexend, under the SIL Open Font License. The four-state mood map is inspired by the circumplex model of emotion and Yale's RULER framework; Tide is not affiliated with Yale. The companions are original drawings made in code. Tide is released under the MIT license ([LICENSE](LICENSE)).
